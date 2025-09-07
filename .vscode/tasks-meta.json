@@ -1,0 +1,37 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "REMOVER Todos os Meta Files",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-Command",
+                "Get-ChildItem -Path '${workspaceFolder}/src' -Recurse -Filter 'init.meta.json' | ForEach-Object { Write-Host \"Removendo: $($_.FullName)\"; Remove-Item $_.FullName -Force }; Write-Host \"Todos removidos!\" -ForegroundColor Green"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "CRIAR Meta Apenas em Pastas Sem Init",
+            "type": "shell", 
+            "command": "powershell",
+            "args": [
+                "-Command",
+                "$folders = Get-ChildItem -Path '${workspaceFolder}/src' -Directory -Recurse; $created = 0; foreach($f in $folders) { $hasInit = (Test-Path \"$($f.FullName)/init.luau\") -or (Test-Path \"$($f.FullName)/init.client.luau\") -or (Test-Path \"$($f.FullName)/init.server.luau\"); if(-not $hasInit) { '{\"ignoreUnknownInstances\": true}' | Out-File \"$($f.FullName)/init.meta.json\" -Encoding UTF8; Write-Host \"Criado: $($f.Name)\" -ForegroundColor Green; $created++ } else { Write-Host \"Pulado: $($f.Name) (tem init)\" -ForegroundColor Yellow } }; Write-Host \"Total criados: $created\" -ForegroundColor Cyan"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always", 
+                "focus": false,
+                "panel": "shared"
+            }
+        }
+    ]
+}

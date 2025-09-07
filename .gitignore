@@ -1,6 +1,13 @@
-# Project place file
-/2.rbxlx
+# Project place files
+/*.rbxlx
+/*.rbxl
 
 # Roblox Studio lock files
 /*.rbxlx.lock
 /*.rbxl.lock
+
+# Rokit binaries
+/.rokit/
+
+# Internal tools
+/rbxclone.lua
