@@ -5,6 +5,7 @@ local tweenService = game:GetService("TweenService")
 local itemsDirectory = require(replicatedStorage.Directory.Items)
 
 local lib = require(replicatedStorage:WaitForChild("lib"))
+local t = lib.FunctionUtils.t
 local clientModules = replicatedStorage.Modules.Client
 local sharedModules = replicatedStorage.Modules.Shared
 local sharedClasses = sharedModules.Classes
@@ -31,16 +32,13 @@ export type ClassType = typeof(setmetatable(
 		animType: "KeyDown" | nil,
 	},
 	module
-)) & lib.ReplicableInstance & itemsDirectory.Type
+)) & itemSharedClass.ClassType
 
 function module.new(UID: string)
-	local self: ClassType = setmetatable(replicableInstance.new(UID) :: lib.ReplicableInstance, module)
+	local self: ClassType = replicableInstance.newLinkedToAClass(module, itemSharedClass, UID) :: ClassType
+	self._Type = "Item"
 
 	return self
-end
-
-function module.AttachItem(self: ClassType, itemId: number)
-	--SHARED
 end
 
 function module.Materialize(self: ClassType)
@@ -50,7 +48,7 @@ end
 
 function module.CreateDisplay(self: ClassType)
 	if self.Display then
-		return
+		return self
 	end
 	self.Display = itemsDirectory:getItemDisplay(self.Id):Clone()
 	self.Display.Name = self.UID
@@ -79,16 +77,12 @@ function module.CreateDisplay(self: ClassType)
 end
 
 function module.AddToInventory(self: ClassType, inv: { any }?, slot: number?)
-	inv = inv or inventoryUtil.getPlayerInventory(self.InstantiatedTo)
-	if inventoryUtil.canAddItem(inv, self.UID) then
-		print(self.InstantiatedTo)
-		self:InstantiateTo(localPlayer)
-		print(self.InstantiatedTo)
-		local slot = slot or inventoryUtil.getNextSlotForANewItem(inv)
-
-		inventoryUtil.addItemToInventory(self.UID, inv, slot)
-		inventoryUtilClient.putItemOnInventorySlot(self.UID, slot)
+	local playerInventory = inv or inventoryUtil.getPlayerInventory(self.InstantiatedTo)
+	if not playerInventory then
+		return self
 	end
+	slot = slot or inventoryUtil.getItemSlot(playerInventory, self.UID) or inventoryUtil.getNextSlotForANewItem(playerInventory)
+	inventoryUtilClient.putItemOnInventorySlot(self.UID, slot)
 
 	return self
 end
@@ -96,9 +90,6 @@ end
 function module.AddToChest(self: ClassType, chestUID: string?, contentTabName: string?)
 	self:CreateDisplay()
 	self:AnimKeyDown()
-
-	self:InstantiateTo(chestUID, contentTabName)
-
 	return self
 end
 
@@ -126,21 +117,15 @@ function module.AnimKeyDown(self: ClassType)
 			if inp.KeyCode == Enum.KeyCode.E then
 				print(self.InstantiatedTo)
 				if type(self.InstantiatedTo) == "string" then
-					if self.InstantiatedTo == "" then
-					else
-						self:AddToInventory()
-						self.Remote:Fire(self.UID, "TryToInstantiateTo", { self.InstantiatedTo })
-					end
-				elseif typeof(self.InstantiatedTo) == "Instance" and self.InstantiatedTo:IsA("Player") then
+					
+					self:tryToInstantiateTo(localPlayer)
+				elseif t.Player(self.InstantiatedTo) then
 					local chestOpen = localPlayer:GetAttribute("ChestOpen")
 					if chestOpen then
 						local chest = instancesManager.getObj(chestOpen)
 						print(chest)
 						print(chestOpen)
-						if chest and chest._Type == "Chest" then
-							self:AddToChest(chestOpen, "DeskContents")
-						end
-						self.Remote:Fire(self.UID, "TryToInstantiateTo", { self.InstantiatedTo })
+						self:TryToInstantiateTo(chestOpen, "DeskContents")
 					end
 				end
 			end
@@ -159,12 +144,18 @@ function module.AnimKeyDown(self: ClassType)
 end
 
 function module.Drop(self: ClassType)
-	self.Model:PivotTo(self.Model:GetPivot() * CFrame.new(0, 4, 0))
+	self.Model:PivotTo(self.CFrame)
+	self.Model.Parent = workspace
 
 	return self
 end
 
 function module.InstantiateTo(self: ClassType, any: string | Player, chestStorage: string?)
+	self.Remote:Fire(self.UID, "TryToInstantiateTo", { any, chestStorage })
+	return self
+end
+
+function module.TryToInstantiateTo(self: ClassType, any: string | Player, chestStorage: string?)
 	if self.InstantiatedTo == any then
 		return self
 	end
@@ -184,11 +175,11 @@ function module.InstantiateTo(self: ClassType, any: string | Player, chestStorag
 		end
 	end
 
-	self.InstantiatedTo = any
+	self:InstantiateTo(any, chestStorage)
 	if isGround then
 		self:Drop()
 	elseif isChest then
-		local chest = instancesManager.getObj(any)
+		local chest = instancesManager.getObj(any :: string)
 		if chest and chest._Type == "Chest" then
 			self:AddToChest()
 			chest:AddItem(self.UID, chestStorage)
@@ -201,12 +192,7 @@ function module.InstantiateTo(self: ClassType, any: string | Player, chestStorag
 end
 
 function module.RemoveFromChest(self: ClassType)
-	local chest = instancesManager.getObj(self.InstantiatedTo)
-	if chest then
-		chest:RemoveItem(self.UID)
-	end
-
-	itemHover.removeItem(self)
+	itemHover.removeItem(self.UID)
 	return self
 end
 
