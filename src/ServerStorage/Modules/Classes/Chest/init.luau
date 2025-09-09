@@ -259,10 +259,7 @@ function module.playerEndedHoldingProximityPrompt(self: ClassType, plr: Player)
 	return self
 end
 
-function module.Materialize(self: ClassType, CF: CFrame)
-	if not t.CFrame(CF) then
-		return self
-	end
+function module.Materialize(self: ClassType, _CF: CFrame)
 	self.Remote:Fire(self.UID, "Materialize", { self.CFrame })
 	return self
 end
