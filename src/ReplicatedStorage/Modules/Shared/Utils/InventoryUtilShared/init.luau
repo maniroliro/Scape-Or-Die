@@ -26,7 +26,7 @@ local function getPlayer(plr: Player?)
 	end
 end
 
-function module.getPlayerInventory(plr:Player?)
+function module.getPlayerInventory(plr:Player?) : {any}
 	plr = getPlayer(plr)
 	if not plr then return end
 	if runService:IsServer() then
@@ -179,6 +179,19 @@ function module.removeItem(inv: {any}, itemUID: string)
 			return
 		end
 	end
+end
+
+function module.getItemSlot(inv: {any}, itemUID: string)
+	if not itemUID or not inv then return end
+	if type(inv) ~= 'table' then return end
+	
+	for i, UID in inv do
+		if UID == itemUID then
+			return i
+		end
+	end
+
+	return nil
 end
 
 
