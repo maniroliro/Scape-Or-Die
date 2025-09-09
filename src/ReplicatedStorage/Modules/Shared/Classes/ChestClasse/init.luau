@@ -1,5 +1,4 @@
 local replicatedStorage = game:GetService("ReplicatedStorage")
-local _runService = game:GetService("RunService") -- unused currently
 
 local sharedModules = replicatedStorage.Modules.Shared
 
@@ -7,7 +6,6 @@ local lib = require(replicatedStorage.lib)
 local t = lib.FunctionUtils.t
 local replicableInstance = require(sharedModules.Classes.ReplicableInstance)
 local instancesManager = require(sharedModules.Managers.InstancesManager)
-local _charUtils = lib.FunctionUtils.Character -- unused currently
 
 local directoryFolder = replicatedStorage.Directory
 
@@ -35,8 +33,8 @@ export type ChestItems = {
 
 export type ClassType = typeof(setmetatable(
 	{} :: {
-		CFrame: CFrame,
 		PlayerOwner: Player?,
+		CFrame: CFrame,
 		ItemsInside: ChestItems,
 	},
 	{ __index = module }
@@ -53,16 +51,6 @@ function module.new(id: string | number?): ClassType
 	if id then
 		self:AttachId(id)
 	end
-	return self
-end
-
-function module.Materialize(self: ClassType, CF: CFrame)
-	if not t.CFrame(CF) then
-		return self
-	end
-	CF = lib.Utils.GetLegalCFrame(CF)
-	self.CFrame = CF
-
 	return self
 end
 

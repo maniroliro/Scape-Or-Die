@@ -2,12 +2,15 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Iniciar Auto Meta Watcher",
+            "label": "🔧 Auto Meta Watcher",
             "type": "shell",
             "command": "powershell.exe",
             "args": [
-                "-ExecutionPolicy", "Bypass",
-                "-File", "${workspaceFolder}/auto-meta-watcher-fixed.ps1"
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/.vscode/auto-meta-watcher.ps1"
             ],
             "group": "build",
             "presentation": {
@@ -19,27 +22,80 @@
                 "clear": true
             },
             "isBackground": true,
-            "problemMatcher": [],
-            "runOptions": {
-                "instanceLimit": 1
-            }
+            "problemMatcher": []
         },
         {
-            "label": "Criar Meta em Pastas Sem Init",
+            "label": "🛠️ Fix Meta Files",
             "type": "shell",
             "command": "powershell.exe",
             "args": [
-                "-ExecutionPolicy", "Bypass",
-                "-File", "${workspaceFolder}/fix-meta.ps1"
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/.vscode/fix-meta.ps1"
             ],
             "group": "build",
             "presentation": {
                 "echo": true,
                 "reveal": "always",
                 "focus": false,
-                "panel": "shared",
-                "showReuseMessage": false
+                "panel": "shared"
             }
+        },
+        {
+            "label": "🗑️ Remove All Meta Files",
+            "type": "shell",
+            "command": "powershell.exe",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-Command",
+                "$srcPath = '${workspaceFolder}/src'; if (Test-Path $srcPath) { Get-ChildItem -Path $srcPath -Recurse -Filter 'init.meta.json' | ForEach-Object { Write-Host ('Removendo: ' + $_.FullName) -ForegroundColor Yellow; Remove-Item $_.FullName -Force -ErrorAction SilentlyContinue }; Write-Host 'Todos removidos!' -ForegroundColor Green } else { Write-Host 'Pasta src nao encontrada!' -ForegroundColor Red }"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "🚀 Rojo: Build",
+            "type": "shell",
+            "command": "rojo",
+            "args": [
+                "build",
+                "--output",
+                "game.rbxl"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "🚀 Rojo: Serve",
+            "type": "shell",
+            "command": "rojo",
+            "args": [
+                "serve"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "new"
+            },
+            "isBackground": true,
+            "problemMatcher": []
         }
     ]
 }
