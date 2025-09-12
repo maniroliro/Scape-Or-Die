@@ -40,31 +40,31 @@ function module.newLinkedToAClass<T, T2>(
 ): ClassType
 	local self = setmetatable(sharedClassModule.new(UID), {
 		__index = function(_, k)
-			local func2 = rawget(realClassModule, k)
-			if typeof(func2) == "function" then
-				return function(...)
-					local func1 = sharedClassModule[k]
-					if func1 then
-						func1(...)
-					end
+			local func1 = rawget(realClassModule, k)
 
-					func2(...)
-				end
-			else
+			if typeof(func1) == "function" then
+				return func1
+			end
+
+			local func2 = sharedClassModule[k]
+			if typeof(func2) == "function" then
 				return func2
 			end
+
+			return func2
 		end,
 	})
 
 	return self
 end
 
-function module.Replicate<T>(self: T & ClassType, replicate: boolean?)
-	self:Replicate(replicate)
-	return self
-end
+-- function module.Replicate<T>(self: T & ClassType, replicate: boolean?)
+-- 	self:Replicate(replicate)
+-- 	return self
+-- end
 
 function module.AttachId<T>(self: T & ClassType, id: number)
+	print(self, id, self.Id)
 	local directory = require(replicatedStorage.Directory[self._Type .. "s"])
 	local info = directory:getItemInfo(id)
 
@@ -85,7 +85,7 @@ function module.Materialize<T>(self: T & ClassType, CF: CFrame?)
 	end
 	if self.Model then
 		self.CFrame = lib.Utils.GetLegalCFrame(CF)
-		self.Model.CFrame = self.CFrame
+		self.Model:PivotTo(self.CFrame)
 	end
 
 	return self

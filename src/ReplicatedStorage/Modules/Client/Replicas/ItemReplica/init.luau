@@ -50,7 +50,13 @@ function module.CreateDisplay(self: ClassType)
 	if self.Display then
 		return self
 	end
+
 	self.Display = itemsDirectory:getItemDisplay(self.Id):Clone()
+
+	if not self.Display then
+		return self
+	end
+
 	self.Display.Name = self.UID
 	local twI1 = TweenInfo.new(0.1, Enum.EasingStyle.Sine)
 	local originalSize = self.Display.Size
@@ -77,17 +83,29 @@ function module.CreateDisplay(self: ClassType)
 end
 
 function module.AddToInventory(self: ClassType, inv: { any }?, slot: number?)
+	local success = itemSharedClass.AddToInventory(self, inv, slot)
+	if not success then
+		return self
+	end
+
+	-- Lógica específica do cliente
 	local playerInventory = inv or inventoryUtil.getPlayerInventory(self.InstantiatedTo)
 	if not playerInventory then
 		return self
 	end
-	slot = slot or inventoryUtil.getItemSlot(playerInventory, self.UID) or inventoryUtil.getNextSlotForANewItem(playerInventory)
+	slot = slot
+		or inventoryUtil.getItemSlot(playerInventory, self.UID)
+		or inventoryUtil.getNextSlotForANewItem(playerInventory)
 	inventoryUtilClient.putItemOnInventorySlot(self.UID, slot)
 
 	return self
 end
 
 function module.AddToChest(self: ClassType, chestUID: string?, contentTabName: string?)
+	local sucess = itemSharedClass.AddToChest(self, chestUID, contentTabName)
+	if not sucess then
+		return self
+	end
 	self:CreateDisplay()
 	self:AnimKeyDown()
 	return self
@@ -102,9 +120,6 @@ function module.AnimKeyDown(self: ClassType)
 		self:CreateDisplay()
 	end
 
-	local conHoverStarted
-	local conHoverEnded
-
 	itemHover.addItem(self)
 
 	local listening = false
@@ -117,8 +132,8 @@ function module.AnimKeyDown(self: ClassType)
 			if inp.KeyCode == Enum.KeyCode.E then
 				print(self.InstantiatedTo)
 				if type(self.InstantiatedTo) == "string" then
-					
-					self:tryToInstantiateTo(localPlayer)
+					print(instancesManager.getObj(self.InstantiatedTo).ItemsInside)
+					self:TryToInstantiateTo(localPlayer)
 				elseif t.Player(self.InstantiatedTo) then
 					local chestOpen = localPlayer:GetAttribute("ChestOpen")
 					if chestOpen then
@@ -150,49 +165,40 @@ function module.Drop(self: ClassType)
 	return self
 end
 
-function module.InstantiateTo(self: ClassType, any: string | Player, chestStorage: string?)
+-- function module.InstantiateTo(self: ClassType, any: string | Player, chestStorage: string?)
+-- 	return self
+-- end
+
+function module.TryToInstantiateTo(self: ClassType, any: string | Player, chestStorage: string?)
+	local success = itemSharedClass.TryToInstantiateTo(self, any, chestStorage)
+	if not success then
+		return self
+	end
+
+	print(any, chestStorage)
 	self.Remote:Fire(self.UID, "TryToInstantiateTo", { any, chestStorage })
 	return self
 end
 
-function module.TryToInstantiateTo(self: ClassType, any: string | Player, chestStorage: string?)
-	if self.InstantiatedTo == any then
+function module.RemoveFromChest(self: ClassType, chestUID: string?)
+	print(self.UID, chestUID)
+	local success = itemSharedClass.RemoveFromChest(self, chestUID)
+	if not success then
 		return self
 	end
 
-	local isPlayer = (typeof(any) == "Instance" and any:IsA("Player"))
-	local isChest = (type(any) == "string" and any ~= "")
-	local isGround = (type(any) == "string" and any == "")
-
-	if not (isPlayer or isChest or isGround) then
-		return self
-	end
-
-	if type(self.InstantiatedTo) == "string" and self.InstantiatedTo ~= "" then
-		local chestNow = instancesManager.getObj(self.InstantiatedTo)
-		if chestNow then
-			chestNow:RemoveItem(self.UID)
-		end
-	end
-
-	self:InstantiateTo(any, chestStorage)
-	if isGround then
-		self:Drop()
-	elseif isChest then
-		local chest = instancesManager.getObj(any :: string)
-		if chest and chest._Type == "Chest" then
-			self:AddToChest()
-			chest:AddItem(self.UID, chestStorage)
-		end
-	elseif isPlayer then
-		self:AddToInventory()
-	end
-
+	-- Lógica específica do cliente
+	--itemHover.removeItem(self.UID)
 	return self
 end
 
-function module.RemoveFromChest(self: ClassType)
-	itemHover.removeItem(self.UID)
+function module.RemoveFromInventory(self: ClassType, inv: { any })
+	local success = itemSharedClass.RemoveFromInventory(self, inv)
+	if not success then
+		return self
+	end
+
+	inventoryUtilClient.removeItemFromInventorySlot(self.UID)
 	return self
 end
 
@@ -229,6 +235,8 @@ function module.UnequipItem(self: ClassType)
 	return self
 end
 
-function module.ToggleEquip(self: ClassType) end
+function module.ToggleEquip(self: ClassType)
+	_ = self -- TODO: implementar
+end
 
 return module

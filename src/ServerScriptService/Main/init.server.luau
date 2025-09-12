@@ -45,13 +45,14 @@ chest1:Materialize(workspace.bau1.CFrame)
 
 for _ = 1, math.random(3, 12) do
 	local newItem = itemClasse.new()
-	newItem:AttachItem(itemDirectory:getRandomItemId())
+	newItem:AttachId(itemDirectory:getRandomItemId())
 
 	chest1:AddItem(newItem.UID)
+	print(chest1, chest1.UID, chest1.ItemsInside, newItem.UID)
 end
 for _ = 1, math.random(2, 6) do
 	local newItem = itemClasse.new()
-	newItem:AttachItem(itemDirectory:getRandomItemId())
+	newItem:AttachId(itemDirectory:getRandomItemId())
 
 	chest1:AddItem(newItem.UID, "HiddenContents")
 end
@@ -61,13 +62,14 @@ chest2:Materialize(workspace.bau2.CFrame)
 
 for _ = 1, math.random(3, 12) do
 	local newItem = itemClasse.new()
-	newItem:AttachItem(itemDirectory:getRandomItemId())
+	newItem:AttachId(itemDirectory:getRandomItemId())
 
 	chest2:AddItem(newItem.UID)
+	print(chest2, chest2.UID, chest2.ItemsInside, newItem.UID)
 end
 for _ = 1, math.random(2, 6) do
 	local newItem = itemClasse.new()
-	newItem:AttachItem(itemDirectory:getRandomItemId())
+	newItem:AttachId(itemDirectory:getRandomItemId())
 
 	chest2:AddItem(newItem.UID, "HiddenContents")
 end
@@ -77,26 +79,27 @@ chest3:Materialize(workspace.bau3.CFrame)
 
 for _ = 1, math.random(3, 12) do
 	local newItem = itemClasse.new()
-	newItem:AttachItem(itemDirectory:getRandomItemId())
+	newItem:AttachId(itemDirectory:getRandomItemId())
 
 	chest3:AddItem(newItem.UID)
+	print(chest3, chest3.UID, chest3.ItemsInside, newItem.UID)
 end
 for _ = 1, math.random(2, 6) do
 	local newItem = itemClasse.new()
-	newItem:AttachItem(itemDirectory:getRandomItemId())
+	newItem:AttachId(itemDirectory:getRandomItemId())
 
 	chest3:AddItem(newItem.UID, "HiddenContents")
 end
 
 local itemDetector1 = ilegalItemDetectorClass.new()
 itemDetector1:Replicate(true)
-itemDetector1:AttachIlegalItemDetector(1)
+itemDetector1:AttachId(1)
 itemDetector1:Materialize(workspace.md1.CFrame)
 itemDetector1:Active()
 
 local itemDetector2 = ilegalItemDetectorClass.new()
 itemDetector2:Replicate(true)
-itemDetector2:AttachIlegalItemDetector(1)
+itemDetector2:AttachId(1)
 itemDetector2:Materialize(workspace.md2.CFrame)
 itemDetector2:Active()
 

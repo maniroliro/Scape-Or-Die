@@ -1,4 +1,0 @@
-return {
-	TimeForPrisonerBeForgotten = 30,
-	
-}

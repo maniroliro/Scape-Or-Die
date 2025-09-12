@@ -10,7 +10,6 @@
 /.rokit/
 
 # Personal configuration backups
-CONFIGURACOES-PESSOAIS-BACKUP.json
 
 # Internal tools
 # /rbxclone.lua

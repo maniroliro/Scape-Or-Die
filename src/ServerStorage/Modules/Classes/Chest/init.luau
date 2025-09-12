@@ -41,36 +41,19 @@ function module.new(id: string | number?): ClassType
 	local self = replicableInstance.newLinkedToAClass(module, chestSharedClass) :: ClassType
 	self.PlayersSearching = {}
 
+	print(id)
 	if id then
 		self:AttachId(id)
 	end
 	return self
 end
 
-function module.AttachId(self: ClassType, _id: string | number)
-	self.Remote:Fire(self.UID, "AttachChest", { self.Id })
-	return self
-end
+function module.AttachId(self: ClassType, id: string | number)
+	-- Chama o método shared do ReplicableInstance primeiro
+	replicableInstance.AttachId(self, id)
 
-function module.getNextFreeSlot(self: ClassType, contentName: Storages)
-	if not contentName then
-		return
-	end
-	local itemsInside = self.ItemsInside
-	local chestStorage = itemsInside[contentName]
-	local maxNOfItems = Storages[contentName].MaxAmountOfItems
-	if maxNOfItems <= #chestStorage then
-		return self
-	end
-
-	print(#chestStorage)
-	for i = 1, maxNOfItems do
-		local uid = chestStorage[i]
-		if not uid then
-			return i
-		end
-	end
-
+	-- Lógica específica do servidor
+	self.Remote:Fire(self.UID, "AttachId", { self.Id })
 	return self
 end
 
@@ -83,7 +66,7 @@ function module.UpdatePlayerItemsInside(self: ClassType, plr: Player, nothing: b
 		local itemsInside = self.ItemsInside
 		for contentName, contentTab in itemsInside do
 			local owner = self.PlayerOwner
-			if owner and owner ~= plr and contentName == "HiddenContents" then
+			if owner ~= plr and contentName == "HiddenContents" then
 				continue
 			end
 			tabToSend[contentName] = {}
@@ -95,6 +78,7 @@ function module.UpdatePlayerItemsInside(self: ClassType, plr: Player, nothing: b
 				end
 			end
 		end
+		print(self)
 		print(tabToSend)
 		self.Remote:FireClient(plr, self.UID, "UpdateItemsInside", { tabToSend })
 	end
@@ -113,26 +97,10 @@ function module.UpdatePlayerSearchingItemsInside(self: ClassType)
 	return self
 end
 
-function module.AddItem(self: ClassType, itemUID: string, contentName: Storages)
-	if not itemUID then
+function module.AddItem(self: ClassType, itemUID: string, contentName: Storages, pos: number?)
+	local success = chestSharedClass.AddItem(self, itemUID, contentName, pos)
+	if not success then
 		return self
-	end
-	local item = instancesManager.getObj(itemUID)
-	if not item then
-		return self
-	end
-	contentName = contentName or "DeskContents"
-
-	local itemsInside = self.ItemsInside
-	local contentTab = itemsInside[contentName]
-	if table.find(contentTab, itemUID) then
-		return self
-	end
-
-	local pos = self:getNextFreeSlot(contentName)
-	if pos then
-		contentTab[pos] = itemUID
-		item:InstantiateTo(self.UID, contentName)
 	end
 
 	self:UpdatePlayerSearchingItemsInside()
@@ -140,32 +108,14 @@ function module.AddItem(self: ClassType, itemUID: string, contentName: Storages)
 end
 
 function module.RemoveItem(self: ClassType, itemUID: string, contentName: Storages?)
-	print("REMOVE")
-	print(itemUID)
-	print(self.ItemsInside)
-	if contentName then
-		local itemsInside = self.ItemsInside
-		local chestStorage = itemsInside[contentName]
-		local pos = table.find(chestStorage, itemUID)
-		if pos then
-			chestStorage[pos] = nil
-		end
-	else
-		print()
-		local itemsInside = self.ItemsInside
-		for _, storage in itemsInside do
-			local pos = table.find(storage, itemUID)
-			print(storage)
-			print(pos)
-			if pos then
-				print(storage[pos])
-				storage[pos] = nil
-				return self
-			end
-		end
+	print(self.UID)
+	local success = chestSharedClass.RemoveItem(self, itemUID, contentName)
+	print(itemUID, contentName, success)
+	if not success then
+		return self
 	end
-	print(self.ItemsInside)
 
+	-- Lógica específica do servidor
 	self:UpdatePlayerSearchingItemsInside()
 	return self
 end
@@ -222,6 +172,7 @@ function module.playerBeganHoldingProximityPrompt(self: ClassType, plr: Player)
 		end
 
 		plr:SetAttribute("ChestOpen", self.UID)
+		print("CHEST OPEN")
 		self:UpdatePlayerItemsInside(plr, false)
 	end)
 
@@ -241,15 +192,20 @@ function module.playerBeganHoldingProximityPrompt(self: ClassType, plr: Player)
 end
 
 function module.SetOwner(self: ClassType, plr: Player?)
-	if not t.Player(plr) then
+	local success = chestSharedClass.SetOwner(self, plr)
+	if not success then
 		return self
 	end
+
+	-- Lógica específica do servidor
 	self.Remote:Fire(self.UID, "SetOwner", { self.PlayerOwner })
 	return self
 end
 
 function module.playerEndedHoldingProximityPrompt(self: ClassType, plr: Player)
+	print(plr)
 	if self.SendPlayerItemsInsideThread then
+		print(self.SendPlayerItemsInsideThread)
 		task.cancel(self.SendPlayerItemsInsideThread)
 		self.SendPlayerItemsInsideThread = nil
 		plr:SetAttribute("ChestOpen", nil)
@@ -259,23 +215,26 @@ function module.playerEndedHoldingProximityPrompt(self: ClassType, plr: Player)
 	return self
 end
 
-function module.Materialize(self: ClassType, _CF: CFrame)
+function module.Materialize(self: ClassType, CF: CFrame)
+	-- Chama o método shared do ReplicableInstance primeiro
+	replicableInstance.Materialize(self, CF)
+
+	-- Lógica específica do servidor
 	self.Remote:Fire(self.UID, "Materialize", { self.CFrame })
 	return self
 end
 
 function module.ReplicateTo(self: ClassType, client: Player?)
 	local newchest = lib.Remotes.instanceCreated.Chest
-
+	print(self)
 	if client then
 		newchest:FireClient(client, self.UID)
 
-		self.Remote:FireClient(client, self.UID, "AttachChest", { self.Id })
+		self.Remote:FireClient(client, self.UID, "AttachId", { self.Id })
 		self.Remote:FireClient(client, self.UID, "Materialize", { self.CFrame })
 	else
 		newchest:Fire(self.UID)
-
-		self.Remote:Fire(self.UID, "AttachChest", { self.Id })
+		self.Remote:Fire(self.UID, "AttachId", { self.Id })
 		self.Remote:Fire(self.UID, "Materialize", { self.CFrame })
 	end
 

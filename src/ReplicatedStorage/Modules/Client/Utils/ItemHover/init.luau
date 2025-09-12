@@ -129,7 +129,7 @@ local function ItemInfoOrganizer(item)
 	end
 
 	itemInfoOverlay.UIStroke.Color = item.Legal and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(255, 0, 4)
-	itemInfoOverlay.Info.ItemName.Text = item.Name
+	itemInfoOverlay.Info.ItemName.Text = item.UID
 
 	local infoinfo = itemInfoOverlay.Info.Info
 	infoinfo.Speed.Text = "Speed: " .. item.AttackInfos.Speed.Name
@@ -163,9 +163,10 @@ module.trove:Add(RunService.PreRender:Connect(function()
 end))
 
 function module.addItem(item)
-	if not item.Display or not item.Display:IsA("Frame") then
+	if not item.Display or not item.Display:IsA("Frame") and not module.itemsBeingObserved[item.UID] then
 		return
 	end
+	module.itemsBeingObserved[item.UID] = {}
 
 	local con
 	local con2
@@ -194,7 +195,7 @@ function module.removeItem(itemUID: string)
 
 	for k, v in module.itemsBeingObserved[itemUID] do
 		v:Disconnect()
-		k[v] = nil
+		module.itemsBeingObserved[itemUID][k] = nil
 	end
 
 	module.itemsBeingObserved[itemUID] = nil

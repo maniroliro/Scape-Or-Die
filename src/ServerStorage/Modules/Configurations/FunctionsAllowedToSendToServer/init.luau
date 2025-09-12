@@ -1,11 +1,11 @@
 return {
 	Chest = {
-		playerBeganHoldingProximityPrompt = 'playerBeganHoldingProximityPrompt',
-		playerEndedHoldingProximityPrompt = 'playerEndedHoldingProximityPrompt'
+		playerBeganHoldingProximityPrompt = "playerBeganHoldingProximityPrompt",
+		playerEndedHoldingProximityPrompt = "playerEndedHoldingProximityPrompt",
 	},
 	Item = {
-		TryToInstantiateTo = 'TryToInstantiateTo',
-		TryToEquip = 'TryToEquip',
-		TryToUnequip = 'TryToUnequip',
-	} 
+		TryToInstantiateTo = "TryToInstantiateTo",
+		TryToEquip = "TryToEquip",
+		TryToUnequip = "TryToUnequip",
+	},
 }
