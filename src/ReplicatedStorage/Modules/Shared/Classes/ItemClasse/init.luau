@@ -105,14 +105,14 @@ function module.canDrop(self: ClassType)
 end
 
 function module.InstantiateTo(self: ClassType, newInstantiate: string | Player, chestStorage)
-	print(self.UID)
-	local last = self.InstantiatedTo
-	print(last, newInstantiate)
+    print("[DBG][Item.InstantiateTo]", self.UID)
+    local last = self.InstantiatedTo
+    print("[DBG][Item.InstantiateTo] from->to:", last, "->", newInstantiate)
 	if last == newInstantiate then
 		print("same as the last one")
 		return false
 	end
-	print("instantiating.....")
+    print("[DBG][Item.InstantiateTo] instantiating.....")
 
 	local newInstantiateIsPlayer = t.Player(newInstantiate)
 	local newInstantiateIsGround = newInstantiate == ""
@@ -134,33 +134,35 @@ function module.InstantiateTo(self: ClassType, newInstantiate: string | Player, 
 		end
 	end
 
-	self.InstantiatedTo = newInstantiate
-	if newInstantiateIsGround then
-		print("Dropping item...")
-		self:Drop()
-	elseif newInstantiateIsChest then
-		print("Adding to chest...")
-		if oldInstantiateIsPlayer then
-			local inv = inventorySharedUtil.getPlayerInventory(last :: Player)
-			print(inv)
-			self:RemoveFromInventory(inv)
-		end
-		self:AddToChest(newInstantiate :: string, chestStorage)
-		print()
-	elseif newInstantiateIsPlayer then
-		print("Adding to inventory...")
+    self.InstantiatedTo = newInstantiate
+    print("[DBG][Item.InstantiateTo] set InstantiatedTo:", self.InstantiatedTo)
+    if newInstantiateIsGround then
+        print("[DBG][Item.InstantiateTo] Dropping item...")
+        self:Drop()
+    elseif newInstantiateIsChest then
+        print("[DBG][Item.InstantiateTo] Adding to chest...", newInstantiate, chestStorage)
+        if oldInstantiateIsPlayer then
+            local inv = inventorySharedUtil.getPlayerInventory(last :: Player)
+            print("[DBG][Item.InstantiateTo] removing from inventory...", inv)
+            self:RemoveFromInventory(inv)
+        end
+        self:AddToChest(newInstantiate :: string, chestStorage)
+        print("[DBG][Item.InstantiateTo] added to chest")
+    elseif newInstantiateIsPlayer then
+        print("[DBG][Item.InstantiateTo] Adding to inventory...", newInstantiate)
 
 		if oldInstantiateIsPlayer then
 			self:RemoveFromInventory(inventorySharedUtil.getPlayerInventory(last :: Player))
 		elseif oldInstantiateIsChest then
-			print(last)
-			self:RemoveFromChest(last)
+            print("[DBG][Item.InstantiateTo] removing from chest:", last)
+            self:RemoveFromChest(last)
 			--elseif oldInstantiateIsGround then
 			-- nothing to remove
 		end
 
-		self:AddToInventory()
-	end
+        self:AddToInventory()
+        print("[DBG][Item.InstantiateTo] added to inventory")
+    end
 
 	return self
 end

@@ -14,6 +14,7 @@ local funcAllowedToCall = runService:IsServer()
 	or nil
 
 local module = {}
+local pendingCalls = {} :: { [string]: { { string } } }
 
 function module.Init()
 	module.Remote = remotesList.UpdateObj
@@ -55,6 +56,18 @@ function module.Start()
 					return
 				end
 				modules[name].new(UID, ...)
+				-- Flush any pending update calls that arrived before creation
+				local obj = instancesManager.getObj(UID)
+				local queue = pendingCalls[UID]
+				if obj and queue then
+					for _, call in queue do
+						local funcName, args = call[1], call[2]
+						if obj[funcName] then
+							obj[funcName](obj, table.unpack(args or {}))
+						end
+					end
+					pendingCalls[UID] = nil
+				end
 				--return true
 			end)
 		end
@@ -62,6 +75,13 @@ function module.Start()
 		module.Trove:Add(module.Remote.OnClientEvent:Connect(function(uid, funcName, args: { any })
 			local obj = instancesManager.getObj(uid)
 			if not obj then
+				-- Buffer update until instanceCreated arrives
+				local q = pendingCalls[uid]
+				if not q then
+					q = {}
+					pendingCalls[uid] = q
+				end
+				table.insert(q, { funcName, args or {} })
 				return
 			end
 			print(obj, obj._Type, obj.UID)

@@ -19,7 +19,7 @@ local module = setmetatable({}, ilegalItemDetectorSharedClasse)
 
 export type ClassType = typeof(setmetatable(
 	{} :: {
-		Model: typeof(ilegalItemsDetectorDirectory.directoryFolder["00 | Template"].Model),
+		Model: typeof(ilegalItemsDetectorDirectory.directoryFolder["00 _ Template"].Model),
 		AlertLights: { Part },
 
 		AlertLevel: number, -- 0..3
@@ -126,6 +126,7 @@ function module.SetLevel(self: ClassType, newLevel: number)
 	self:ChangeLightsColor(self.AlertLevel)
 
 	if self.AlertLevel == 0 then
+		self.PlayerAlerting = nil -- reset debounce when alert ends
 		return self
 	end
 
