@@ -137,24 +137,28 @@ function module.Materialize(self: ClassType, CF: CFrame)
 	return self
 end
 
-function module.AddItem(self: ClassType, itemUID: string, contentTabName: string?)
-	local pos = chestSharedClass.AddItem(self, itemUID, contentTabName)
-	if not pos then
+function module.AddItem(self: ClassType, itemUID: string, contentTabName: string?, pos: number?)
+	contentTabName = contentTabName or "DeskContents"
+	local items = self.ItemsInside
+	local contentTab = items[contentTabName]
+	if not contentTab then
 		return self
 	end
 
+	pos = pos or self:getNextFreeSlot(contentTabName)
+
+	contentTab[pos] = itemUID
+
 	local item = instancesManager.getObj(itemUID)
 	if item then
-		contentTabName = contentTabName or "DeskContents"
-
+		if not item.Display then
+			item:CreateDisplay()
+		end
 		local container = self.Display.Frame:FindFirstChild(contentTabName).Items
-		if container then
-			if not item.Display then
-				item:CreateDisplay()
-			end
-
-			if item.Display then
-				item.Display.Parent = container:FindFirstChild("PlaceHolder" .. pos)
+		if container and item.Display then
+			local placeholder = container:FindFirstChild("PlaceHolder" .. pos)
+			if placeholder then
+				item.Display.Parent = placeholder
 			end
 		end
 	end
@@ -163,15 +167,31 @@ function module.AddItem(self: ClassType, itemUID: string, contentTabName: string
 end
 
 function module.RemoveItem(self: ClassType, itemUID: string, contentTabName: string?)
-	local success = chestSharedClass.RemoveItem(self, itemUID, contentTabName)
-	if not success then
+	if not itemUID then
 		return self
+	end
+
+	if contentTabName then
+		local tab = self.ItemsInside[contentTabName]
+		if tab then
+			local pos = table.find(tab, itemUID)
+			if pos then
+				tab[pos] = nil
+			end
+		end
+	else
+		for _, tab in self.ItemsInside do
+			local pos = table.find(tab, itemUID)
+			if pos then
+				tab[pos] = nil
+				break
+			end
+		end
 	end
 
 	local item = instancesManager.getObj(itemUID)
 	if item and item.Display and item.Display.Parent then
 		item.Display.Parent = nil
-
 		itemHover.removeItem(itemUID)
 	end
 
@@ -183,6 +203,21 @@ function module.UpdateItemsInside(self: ClassType, itemsUIDTab: { [string]: { st
 	for contentName, contentTab in itemsUIDTab do
 		itemsInside[contentName] = {}
 		print(contentTab)
+
+		-- Clear UI placeholders before repopulating
+		local section = self.Display
+			and self.Display:FindFirstChild("Frame")
+			and self.Display.Frame:FindFirstChild(contentName)
+		local container = section and section:FindFirstChild("Items")
+		if container then
+			for _, placeholder in container:GetChildren() do
+				if typeof(placeholder) == "Instance" and placeholder.Name:match("^PlaceHolder") then
+					for _, child in placeholder:GetChildren() do
+						child.Parent = nil
+					end
+				end
+			end
+		end
 		for i, uid in contentTab do
 			local _item = (instancesManager.getObj(uid) or itemsReplica.new(uid)) :: itemsReplica.ClassType
 			print(i)

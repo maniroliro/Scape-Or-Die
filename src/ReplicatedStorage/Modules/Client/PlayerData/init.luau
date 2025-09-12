@@ -8,16 +8,15 @@ module.NewDataReceived = Signal.new()
 module.DataUpdated = Signal.new()
 
 function module.GetData()
-	local data = module.Data
-	if data then
-		return data
-	end
+    if module.Data then
+        return module.Data
+    end
 
-	while not data do
-		task.wait(0.5)
-	end
+    while not module.Data do
+        task.wait(0.05)
+    end
 
-	return data
+    return module.Data
 end
 
 return module

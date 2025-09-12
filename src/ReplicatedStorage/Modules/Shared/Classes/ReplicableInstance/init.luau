@@ -91,4 +91,27 @@ function module.Materialize<T>(self: T & ClassType, CF: CFrame?)
 	return self
 end
 
+-- function module.Destroy<T>(self: T & ClassType)
+-- 	local ok
+-- 	if self.Trove and (self.Trove :: any).Clean then
+-- 		ok = pcall(function()
+-- 			(self.Trove :: any):Clean()
+-- 		end)
+-- 	end
+
+-- 	local m = (self :: any).Model
+-- 	if typeof(m) == "Instance" then
+-- 		m:Destroy()
+-- 		(self :: any).Model = nil
+-- 	end
+
+-- 	local da = (self :: any).DetectionArea
+-- 	if typeof(da) == "Instance" then
+-- 		da:Destroy()
+-- 		(self :: any).DetectionArea = nil
+-- 	end
+
+-- 		return ok
+-- 	end
+
 return module

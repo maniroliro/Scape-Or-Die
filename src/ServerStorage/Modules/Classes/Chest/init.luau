@@ -98,26 +98,45 @@ function module.UpdatePlayerSearchingItemsInside(self: ClassType)
 end
 
 function module.AddItem(self: ClassType, itemUID: string, contentName: Storages, pos: number?)
-	local success = chestSharedClass.AddItem(self, itemUID, contentName, pos)
-	if not success then
-		return self
-	end
+    local success = chestSharedClass.AddItem(self, itemUID, contentName, pos)
+    if not success then
+        return self
+    end
 
-	self:UpdatePlayerSearchingItemsInside()
-	return self
+    do
+        local count = 0
+        local contentTab = self.ItemsInside[contentName or "DeskContents"]
+        if contentTab then
+            for _, v in contentTab do if v then count += 1 end end
+        end
+        print("[DBG][Chest.AddItem]", self.UID, contentName, "count:", count)
+    end
+
+    self:UpdatePlayerSearchingItemsInside()
+    return self
 end
 
 function module.RemoveItem(self: ClassType, itemUID: string, contentName: Storages?)
-	print(self.UID)
-	local success = chestSharedClass.RemoveItem(self, itemUID, contentName)
-	print(itemUID, contentName, success)
-	if not success then
-		return self
-	end
+    print(self.UID)
+    local success = chestSharedClass.RemoveItem(self, itemUID, contentName)
+    print(itemUID, contentName, success)
+    if not success then
+        return self
+    end
 
-	-- Lógica específica do servidor
-	self:UpdatePlayerSearchingItemsInside()
-	return self
+    -- Lógica específica do servidor
+    self:UpdatePlayerSearchingItemsInside()
+    do
+        local function countTab(tab)
+            local c = 0
+            for _, v in tab do if v then c += 1 end end
+            return c
+        end
+        print("[DBG][Chest.RemoveItem]", self.UID,
+            "Desk:", countTab(self.ItemsInside.DeskContents),
+            "Hidden:", countTab(self.ItemsInside.HiddenContents))
+    end
+    return self
 end
 
 function module.UpdatePlayerSearching(self: ClassType, plr: Player)

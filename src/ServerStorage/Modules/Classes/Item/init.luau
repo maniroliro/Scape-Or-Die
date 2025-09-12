@@ -87,20 +87,24 @@ function module.RemoveFromInventory(self: ClassType, inv: { any })
 end
 
 function module.TryToInstantiateTo(self: ClassType, plr: Player?, any: string | Player?, chestStorage: string?)
-	print(self.Id, plr, any, chestStorage)
-	if not t.Player(plr) or not any then
-		chestStorage = any :: string
-		any = plr
-		plr = nil
-	end
-	print(self.Id, plr, any, chestStorage)
-	local success = itemSharedClass.TryToInstantiateTo(self, any, chestStorage)
-	if not success then
-		return self
-	end
+    print("[DBG][ItemServer.TryToInstantiateTo]", self.UID, self.Id, plr, any, chestStorage)
+    if not t.Player(plr) or not any then
+        chestStorage = any :: string
+        any = plr
+        plr = nil
+    end
+    print("[DBG][ItemServer.TryToInstantiateTo] args:", self.Id, plr, any, chestStorage)
+    local success = itemSharedClass.TryToInstantiateTo(self, any, chestStorage)
+    if not success then
+        print("[DBG][ItemServer.TryToInstantiateTo] shared denied")
+        return self
+    end
 
-	--dataStoreManager.updateClient(plr)
-	return self
+    -- Apply the authoritative state change and replicate to clients
+    self:InstantiateTo(any :: any, chestStorage)
+    print("[DBG][ItemServer.TryToInstantiateTo] applied on server. New InstantiatedTo:", self.InstantiatedTo)
+    --dataStoreManager.updateClient(plr)
+    return self
 end
 
 function module.ReplicateTo(self: ClassType, client: Player?)

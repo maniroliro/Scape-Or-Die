@@ -5,8 +5,8 @@ export type genericObjType = {
 
 local module = {}
 module.objsCreated = {
-	ToReplicate = {} :: { [string]: { genericObjType } },
-	NotToReplicate = {} :: { [string]: { genericObjType } },
+	ToReplicate = {} :: { [string]: genericObjType },
+	NotToReplicate = {} :: { [string]: genericObjType },
 }
 
 function module.Replicate(self: genericObjType, replicate: boolean?)
@@ -32,10 +32,16 @@ end
 
 function module.removeObj(UID: string)
 	local obj = module.getObj(UID)
-	if obj then
-		obj:Destroy()
-		module.objsCreated[UID] = nil
+	if not obj then
+		return
 	end
+
+	if (obj :: any).Destroy then
+		(obj :: any):Destroy()
+	end
+
+	module.objsCreated.ToReplicate[UID] = nil
+	module.objsCreated.NotToReplicate[UID] = nil
 end
 
 function module.getObj(UID: string)

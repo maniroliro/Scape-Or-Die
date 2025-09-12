@@ -172,7 +172,7 @@ function module.isThereAnIlegalItemOnInventory(inv: { any })
 			continue
 		end
 		if item._Type ~= "Item" then
-			return
+			continue
 		end
 		if not item.Legal then
 			return true
@@ -185,19 +185,30 @@ function module.toggleEquip(inv: { any }, pos1: number, pos2: number)
 	if not pos1 then
 		return
 	end
-	if not pos2 then
-		pos2 = 1
-	end
+	pos2 = pos2 or 1
 
-	inv[pos2], inv[pos1] = inv[pos1], inv[pos2]
+	local uid1 = inv[pos1]
+	local uid2 = inv[pos2]
 
-	if inv[1] == inv[pos1] then
-		inv[pos2].UnequipItem()
-		inv[pos1].EquipItem()
-	end
-	if inv[1] == inv[pos2] then
-		inv[pos1].UnequipItem()
-		inv[pos2].EquipItem()
+	inv[pos2], inv[pos1] = uid1, uid2
+
+	local obj1 = uid1 and instancesManager.getObj(uid1) or nil
+	local obj2 = uid2 and instancesManager.getObj(uid2) or nil
+
+	if inv[1] == uid1 then
+		if obj2 and (obj2 :: any).UnequipItem then
+			(obj2 :: any):UnequipItem()
+		end
+		if obj1 and (obj1 :: any).EquipItem then
+			(obj1 :: any):EquipItem()
+		end
+	elseif inv[1] == uid2 then
+		if obj1 and (obj1 :: any).UnequipItem then
+			(obj1 :: any):UnequipItem()
+		end
+		if obj2 and (obj2 :: any).EquipItem then
+			(obj2 :: any):EquipItem()
+		end
 	end
 end
 
