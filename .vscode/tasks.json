@@ -10,7 +10,9 @@
                 "-ExecutionPolicy",
                 "Bypass",
                 "-File",
-                "${workspaceFolder}/.vscode/auto-meta-watcher.ps1"
+                "${workspaceFolder}/.vscode/scripts/auto-meta-watcher.ps1",
+                "-WorkspaceFolder",
+                "${workspaceFolder}"
             ],
             "group": "build",
             "presentation": {
@@ -33,7 +35,9 @@
                 "-ExecutionPolicy",
                 "Bypass",
                 "-File",
-                "${workspaceFolder}/.vscode/fix-meta.ps1"
+                "${workspaceFolder}/.vscode/scripts/fix-meta.ps1",
+                "-WorkspaceFolder",
+                "${workspaceFolder}"
             ],
             "group": "build",
             "presentation": {

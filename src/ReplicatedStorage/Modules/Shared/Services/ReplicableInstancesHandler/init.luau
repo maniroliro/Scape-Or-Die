@@ -1,13 +1,17 @@
-local replicatedStorage = game:GetService('ReplicatedStorage')
-local runService = game:GetService('RunService')
-local ReplicasFolder = replicatedStorage:WaitForChild('Modules'):WaitForChild('Client'):WaitForChild('Replicas')
+local replicatedStorage = game:GetService("ReplicatedStorage")
+local runService = game:GetService("RunService")
+local ReplicasFolder = replicatedStorage:WaitForChild("Modules"):WaitForChild("Client"):WaitForChild("Replicas")
 
-local lib = require(replicatedStorage:WaitForChild('lib'))
+local lib = require(replicatedStorage:WaitForChild("lib"))
 local trove = lib.ModuleUtils.Trove
 local remotesList = lib.Remotes
 local instancesManager = require(replicatedStorage.Modules.Shared.Managers.InstancesManager)
 
 local instanceCreatedEventList = remotesList.instanceCreated
+
+local funcAllowedToCall = runService:IsServer()
+		and require(game:GetService("ServerStorage").Modules.Configurations.FunctionsAllowedToSendToServer)
+	or nil
 
 local module = {}
 
@@ -18,18 +22,20 @@ end
 
 function module.Start()
 	local modules = {}
-	
+
 	if runService:IsServer() then
-		local funcAllowedToCall = require(game:GetService('ServerStorage').Modules.Configurations.FunctionsAllowedToSendToServer)
-		module.Remote.OnServerEvent:Connect(function(plr, uid, funcName, args: {any})
+		module.Remote.OnServerEvent:Connect(function(plr, uid, funcName, args: { any })
 			local obj = instancesManager.getObj(uid)
-			if not obj then return end
+			if not obj then
+				return
+			end
 			if funcAllowedToCall[obj._Type][funcName] then
-				if not obj then return end
+				print(obj, obj._Type, obj.UID, funcName)
+				print(plr, table.unpack(args or {}))
 				obj[funcName](obj, plr, table.unpack(args or {}))
 			end
 		end)
-		
+
 		module.Trove:Add(remotesList.PlayerLoaded.OnServerEvent:Connect(function(plr)
 			for _, obj in instancesManager.objsCreated.ToReplicate do
 				task.spawn(obj.ReplicateTo, obj, plr)
@@ -37,23 +43,30 @@ function module.Start()
 		end))
 	else
 		for name, remote in instanceCreatedEventList do
-			local moduleName = name .. 'Replica'
+			local moduleName = name .. "Replica"
 			local moduleScript = ReplicasFolder:FindFirstChild(moduleName)
 			if moduleScript then
 				modules[name] = require(moduleScript)
 			end
-			
+
 			remote.OnClientEvent:Connect(function(UID: string, ...)
 				print(name)
-				if instancesManager.getObj(UID) then return end
+				if instancesManager.getObj(UID) then
+					return
+				end
 				modules[name].new(UID, ...)
 				--return true
 			end)
 		end
-		
-		module.Trove:Add(module.Remote.OnClientEvent:Connect(function(uid, funcName, args: {any})
+
+		module.Trove:Add(module.Remote.OnClientEvent:Connect(function(uid, funcName, args: { any })
 			local obj = instancesManager.getObj(uid)
-			if not obj then return end
+			if not obj then
+				return
+			end
+			print(obj, obj._Type, obj.UID)
+			print(funcName)
+			print(args)
 			obj[funcName](obj, table.unpack(args or {}))
 		end))
 	end

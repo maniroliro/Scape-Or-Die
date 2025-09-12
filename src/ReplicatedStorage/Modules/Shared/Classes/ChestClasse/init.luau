@@ -40,23 +40,32 @@ export type ClassType = typeof(setmetatable(
 	{ __index = module }
 )) & replicableInstance.ClassType & chestDirectory.Type
 
-function module.new(id: string | number?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, replicableInstance) :: ClassType
+function module.new(UID: string | number?): ClassType
+	local self = replicableInstance.newLinkedToAClass(module, replicableInstance, UID) :: ClassType
 	self._Type = "Chest"
 	self.ItemsInside = {
 		DeskContents = {},
 		HiddenContents = {},
 	}
 
-	if id then
-		self:AttachId(id)
-	end
 	return self
+end
+
+function module.isPosAFreeSlot(self: ClassType, contentName: Storages, pos: number)
+	if not contentName or type(pos) ~= "number" then
+		return false
+	end
+	local items: ChestItems = self.ItemsInside
+	local chestStorage = items[contentName]
+	if chestStorage[pos] then
+		return false
+	end
+	return pos
 end
 
 function module.getNextFreeSlot(self: ClassType, contentName: Storages)
 	if not contentName then
-		return
+		return self
 	end
 	local items: ChestItems = self.ItemsInside
 	local chestStorage = items[contentName]
@@ -64,10 +73,11 @@ function module.getNextFreeSlot(self: ClassType, contentName: Storages)
 	if maxNOfItems <= #chestStorage then
 		return self
 	end
-
+	print(self)
 	print(#chestStorage)
 	for i = 1, maxNOfItems do
 		local uid = chestStorage[i]
+		print(i, uid)
 		if not uid then
 			return i
 		end
@@ -76,35 +86,89 @@ function module.getNextFreeSlot(self: ClassType, contentName: Storages)
 	return self
 end
 
-function module.AddItem(self: ClassType, itemUID: string, contentName: Storages)
-	if not itemUID then
-		return self
+function module.canRemoveItem(self: ClassType, itemUID: string)
+	print(itemUID)
+	if not itemUID or type(itemUID) ~= "string" then
+		return false
 	end
+
+	local items: ChestItems = self.ItemsInside
+	print(items)
+	for _, storage in items do
+		print(storage)
+		for _, uid in storage do
+			if uid == itemUID then
+				return true
+			end
+		end
+	end
+	print()
+	return false
+end
+
+function module.canAddItem(self: ClassType, itemUID: string, contentName: Storages)
+	if not itemUID or type(itemUID) ~= "string" then
+		return false
+	end
+
 	local item = instancesManager.getObj(itemUID)
 	if not item then
-		return self
+		return false
 	end
+
 	contentName = contentName or "DeskContents"
 
 	local items: ChestItems = self.ItemsInside
 	local contentTab = items[contentName]
-	if table.find(contentTab, itemUID) then
-		return self
+	for _, uid in contentTab do
+		if uid == itemUID then
+			return false -- Item já está no chest
+		end
 	end
-
 	local pos = self:getNextFreeSlot(contentName)
-	if pos then
-		contentTab[pos] = itemUID
-		item:InstantiateTo(self.UID, contentName)
+	if type(pos) ~= "number" then
+		return false
 	end
 
-	return self
+	return pos
+end
+
+function module.AddItem(self: ClassType, itemUID: string, contentName: Storages, pos: number?)
+	if not itemUID or type(itemUID) ~= "string" then
+		return false
+	end
+
+	local item = instancesManager.getObj(itemUID)
+	if not item then
+		return false
+	end
+
+	local maybepos = self:canAddItem(itemUID, contentName)
+	if not maybepos then
+		return false
+	end
+	print(pos)
+	pos = pos and self:isPosAFreeSlot(contentName, pos) or maybepos
+	print(pos)
+	if not pos then
+		return false -- Não pode adicionar
+	end
+
+	contentName = contentName or "DeskContents"
+	local items: ChestItems = self.ItemsInside
+	local contentTab = items[contentName]
+
+	contentTab[pos] = itemUID
+	item:InstantiateTo(self.UID, contentName)
+	print()
+	return pos
 end
 
 function module.RemoveItem(self: ClassType, itemUID: string, contentName: Storages?)
-	print("REMOVE")
-	print(itemUID)
-	print(self.ItemsInside)
+	-- Validação de parâmetros
+	if not itemUID or type(itemUID) ~= "string" then
+		return false
+	end
 
 	if contentName then
 		local items: ChestItems = self.ItemsInside
@@ -112,7 +176,9 @@ function module.RemoveItem(self: ClassType, itemUID: string, contentName: Storag
 		local pos = table.find(chestStorage, itemUID)
 		if pos then
 			chestStorage[pos] = nil
+			return true
 		end
+		return false -- Item não encontrado no storage especificado
 	else
 		print()
 		local items: ChestItems = self.ItemsInside
@@ -120,6 +186,7 @@ function module.RemoveItem(self: ClassType, itemUID: string, contentName: Storag
 			local pos = table.find(storage, itemUID)
 			print(storage)
 			print(pos)
+
 			if pos then
 				print(storage[pos])
 				storage[pos] = nil
@@ -129,41 +196,18 @@ function module.RemoveItem(self: ClassType, itemUID: string, contentName: Storag
 	end
 	print(self.ItemsInside)
 
+	return false
+end
+
+function module.UpdatePlayerSearching(self: ClassType, plr: Player)
+	--SERVER ONLY
+
 	return self
 end
 
-function module.UpdatePlayerSearching(_self: ClassType, _plr: Player)
+function module.playerBeganHoldingProximityPrompt(self: ClassType, plr: Player)
 	--SERVER ONLY
-end
 
-function module.playerBeganHoldingProximityPrompt(_self: ClassType, _plr: Player)
-	--SERVER ONLY
-end
-
-function module.updatePlayerItensInside(self: ClassType, plr: Player, nothing: boolean?)
-	if nothing then
-		self.Remote:FireClient(plr, self.UID, "UpdateItemsInside", { { DeskContents = {}, HiddenContents = {} } })
-	else
-		print(self.PlayerOwner)
-		local tabToSend = {}
-		local items: ChestItems = self.ItemsInside
-		for contentName, contentTab in items do
-			local owner = self.PlayerOwner :: Player?
-			if owner and owner ~= plr and contentName == "HiddenContents" then
-				continue
-			end
-			tabToSend[contentName] = {}
-			for _, itemUID in contentTab do
-				table.insert(tabToSend[contentName], itemUID)
-				local item = instancesManager.getObj(itemUID)
-				if item then
-					item:Replicate(true)
-				end
-			end
-		end
-		print(tabToSend)
-		self.Remote:FireClient(plr, self.UID, "UpdateItemsInside", { tabToSend })
-	end
 	return self
 end
 

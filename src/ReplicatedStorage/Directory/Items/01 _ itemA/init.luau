@@ -1,26 +1,25 @@
 local module = {
-	
-	Name = script.Name:match("| (.*)"), 
-	Id = tonumber(script.Name:match("^(.-) |")),
+
+	Name = script.Name:match("_ (.*)"),
+	Id = tonumber(script.Name:match("^(.-) _")),
 	Legal = false,
 	MetalDetectorCanDetect = true,
 	CanSpawnInChests = true,
-	
+
 	AttackInfos = {
 		Speed = {
 			Value = 1,
-			Name = 'Low'
+			Name = "Low",
 		},
 		Damage = {
 			Value = 2,
-			Name = 'Medium'
+			Name = "Medium",
 		},
 		Range = {
 			Value = 3,
-			Name = 'High'
-		}
-	}
-	
+			Name = "High",
+		},
+	},
 }
 
 return module

@@ -1,3 +1,4 @@
+local RunService = game:GetService("RunService")
 local replicatedStorage = game:GetService("ReplicatedStorage")
 
 local lib = require(replicatedStorage.lib)
@@ -27,37 +28,230 @@ export type ClassType = typeof(setmetatable(
 	{ __index = module }
 )) & itemsDirectory.Type & replicableInstance.ClassType
 
-function module.new(id: string | number?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, replicableInstance) :: ClassType
+function module.new(UID: string | number?): ClassType
+	local self = replicableInstance.newLinkedToAClass(module, replicableInstance, UID) :: ClassType
 	self._Type = "Item"
 	self.equipped = false
 
-	if id then
-		self:AttachId(id)
-	end
 	return self
 end
 
 function module.Materialize(self: ClassType, CF: CFrame)
 	if not t.CFrame(CF) then
-		return self
+		return false
 	end
 
 	self.CFrame = lib.Utils.GetLegalCFrame(CF)
 	return self
 end
 
-function module.InstantiateTo(self: ClassType, any: string | Player, ...)
-	if self.InstantiatedTo == any then
-		return self
+function module.canAddToInventory(self: ClassType, inv: { any })
+	if not inventorySharedUtil.canAddItem(inv, self.UID) then
+		return false
 	end
-	self.InstantiatedTo = any
+
+	return true
+end
+
+function module.canAddToChest(self: ClassType, chestUID: string, contentName: string?)
+	if not t.Player(self.InstantiatedTo) then
+		return false
+	end
+
+	local chest = instancesManager.getObj(chestUID)
+	if not chest or chest._Type ~= "Chest" then
+		return false
+	end
+
+	if not chest:canAddItem(self.UID, contentName) then
+		return false
+	end
+
+	return true
+end
+
+function module.canRemoveFromInventory(self: ClassType, inv: { any })
+	if not inventorySharedUtil.checks.findItemInInventory(inv, self.UID) then
+		return false
+	end
+
+	return true
+end
+
+function module.canRemoveFromChest(self: ClassType, chestUID: string)
+	print(chestUID)
+	if type(self.InstantiatedTo) ~= "string" or self.InstantiatedTo == "" then
+		return false -- Isn't in a chest
+	end
+	print()
+	local chest = instancesManager.getObj(chestUID)
+	if not chest or chest._Type ~= "Chest" then
+		return false
+	end
+	print()
+	if not chest:canRemoveItem(self.UID) then
+		return false
+	end
+	print()
+	return true
+end
+
+function module.canDrop(self: ClassType)
+	if self.InstantiatedTo == "" then
+		return false
+	end
+
+	return true
+end
+
+function module.InstantiateTo(self: ClassType, newInstantiate: string | Player, chestStorage)
+	print(self.UID)
+	local last = self.InstantiatedTo
+	print(last, newInstantiate)
+	if last == newInstantiate then
+		print("same as the last one")
+		return false
+	end
+	print("instantiating.....")
+
+	local newInstantiateIsPlayer = t.Player(newInstantiate)
+	local newInstantiateIsGround = newInstantiate == ""
+	local newInstantiateIsChest = type(newInstantiate) == "string" and newInstantiate ~= ""
+	do
+		if newInstantiateIsChest then
+			local newObj = instancesManager.getObj(newInstantiate :: string)
+			newInstantiateIsChest = newObj and newObj._Type == "Chest" and true or false
+		end
+	end
+
+	local oldInstantiateIsPlayer = t.Player(last)
+	local oldInstantiateIsGround = last == ""
+	local oldInstantiateIsChest = type(last) == "string" and last ~= ""
+	do
+		if oldInstantiateIsChest then
+			local lastobj = instancesManager.getObj(last :: string)
+			oldInstantiateIsChest = lastobj and lastobj._Type == "Chest" and true or false
+		end
+	end
+
+	self.InstantiatedTo = newInstantiate
+	if newInstantiateIsGround then
+		print("Dropping item...")
+		self:Drop()
+	elseif newInstantiateIsChest then
+		print("Adding to chest...")
+		if oldInstantiateIsPlayer then
+			local inv = inventorySharedUtil.getPlayerInventory(last :: Player)
+			print(inv)
+			self:RemoveFromInventory(inv)
+		end
+		self:AddToChest(newInstantiate :: string, chestStorage)
+		print()
+	elseif newInstantiateIsPlayer then
+		print("Adding to inventory...")
+
+		if oldInstantiateIsPlayer then
+			self:RemoveFromInventory(inventorySharedUtil.getPlayerInventory(last :: Player))
+		elseif oldInstantiateIsChest then
+			print(last)
+			self:RemoveFromChest(last)
+			--elseif oldInstantiateIsGround then
+			-- nothing to remove
+		end
+
+		self:AddToInventory()
+	end
 
 	return self
 end
 
+function module.TryToInstantiateTo(self: ClassType, newInstantiate: string | Player, chestStorage: string?)
+	print(newInstantiate, chestStorage)
+
+	print(self.UID)
+	local last = self.InstantiatedTo
+	print(last, newInstantiate)
+	if last == newInstantiate then
+		print("same as the last one")
+		return false
+	end
+	print("tying to instantiating.....")
+
+	local newInstantiateIsPlayer = t.Player(newInstantiate)
+	local newInstantiateIsGround = newInstantiate == ""
+	local newInstantiateIsChest = type(newInstantiate) == "string" and newInstantiate ~= ""
+	do
+		if newInstantiateIsChest then
+			local newObj = instancesManager.getObj(newInstantiate :: string)
+			newInstantiateIsChest = newObj and newObj._Type == "Chest" and true or false
+		end
+	end
+
+	local oldInstantiateIsPlayer = t.Player(last)
+	local oldInstantiateIsGround = last == ""
+	local oldInstantiateIsChest = type(last) == "string" and last ~= ""
+	do
+		if oldInstantiateIsChest then
+			local lastobj = instancesManager.getObj(last :: string)
+			oldInstantiateIsChest = lastobj and lastobj._Type == "Chest" and true or false
+		end
+	end
+
+	if newInstantiateIsGround then
+		print("trying to Drop item...")
+		if not self:canDrop() then
+			return false
+		end
+		print()
+	elseif newInstantiateIsChest then
+		print("trying to Add to chest...")
+		if not oldInstantiateIsPlayer then
+			return false
+		end
+		print()
+
+		if not self:canAddToChest(newInstantiate :: string, chestStorage) then
+			return false
+		end
+		print()
+
+		if not self:canRemoveFromInventory(inventorySharedUtil.getPlayerInventory(self.InstantiatedTo :: Player)) then
+			return false
+		end
+		print()
+	elseif newInstantiateIsPlayer then
+		print("trying to Add to inventory...")
+		local inv = inventorySharedUtil.getPlayerInventory(newInstantiate :: Player)
+		if not self:canAddToInventory(inv) then
+			return false
+		end
+		print()
+		if oldInstantiateIsChest then
+			if not self:canRemoveFromChest(last) then
+				return false
+			end
+			print()
+		elseif oldInstantiateIsPlayer then
+			if not self:canRemoveFromInventory(inventorySharedUtil.getPlayerInventory(last :: Player)) then
+				return false
+			end
+			print()
+		elseif oldInstantiateIsGround then
+			print("old Instantiate Is Ground")
+		else
+			return false
+		end
+		print()
+	end
+	print("instantiating...")
+
+	self:InstantiateTo(newInstantiate, chestStorage)
+	return self
+end
+
 function module.Drop(self: ClassType)
-	local cf = t.Player(self.InstantiatedTo) and charUtil.getAlivePlayerRootPart(self.InstantiatedTo).CFrame or self.InstantiatedTo.CFrame
+	local cf = t.Player(self.InstantiatedTo) and charUtil.getAlivePlayerRootPart(self.InstantiatedTo).CFrame
+		or self.InstantiatedTo.CFrame
 	self.CFrame = cf * CFrame.new(0, -3, 0)
 	self:InstantiateTo("")
 
@@ -65,90 +259,70 @@ function module.Drop(self: ClassType)
 end
 
 function module.SetOwner(self: ClassType, plr: Player?)
-	if not t.Player(plr) then
-		return self
-	end
-
 	self.PlayerOwner = plr
 	return self
 end
 
 function module.AddToInventory(self: ClassType, inv: { any }?, slot: number?)
 	local plr = self.InstantiatedTo
+	print(plr)
 	if not t.Player(plr) then
-		return self
+		return false
 	end
+
 	local inventory = inv or inventorySharedUtil.getPlayerInventory(plr)
 	if not inventory then
-		return self
+		return false
 	end
+	print(inventory)
 	if inventorySharedUtil.canAddItem(inventory, self.UID) then
 		print(self.InstantiatedTo)
-		self:TryToInstantiateTo(plr)
+		print(plr)
+		self:TryToInstantiateTo(self.InstantiatedTo)
 		print(self.InstantiatedTo)
 		slot = slot or inventorySharedUtil.getNextSlotForANewItem(inventory)
-
 		inventorySharedUtil.addItemToInventory(self.UID, inventory, slot)
+		return self
 	end
 
-	return self
+	return false -- Não pode adicionar ao inventário
 end
 
 function module.AddToChest(self: ClassType, chestUID: string, contentTabName: string?)
-	self:TryToInstantiateTo(chestUID, contentTabName)
+	if not chestUID or type(chestUID) ~= "string" then
+		return false
+	end
+
 	local chest = instancesManager.getObj(chestUID)
-	if chest and chest._Type == "Chest" then
-		chest:AddItem(self.UID, contentTabName)
+	if not chest or chest._Type ~= "Chest" then
+		return false
 	end
+
+	self:InstantiateTo(chestUID, contentTabName)
+	chest:AddItem(self.UID, contentTabName)
 	return self
 end
 
-function module.RemoveFromChest(self: ClassType)
-	local chest = instancesManager.getObj(self.InstantiatedTo)
-	if chest and chest._Type == "Chest" then
-		chest:RemoveItem(self.UID)
+function module.RemoveFromChest(self: ClassType, chestUID: string)
+	print(self.UID, chestUID)
+	local chest = instancesManager.getObj(chestUID)
+	if not chest or chest._Type ~= "Chest" then
+		return false
 	end
-	return self
+
+	chest:RemoveItem(self.UID)
+	return true
 end
 
-function module.TryToInstantiateTo(self: ClassType, any: string | Player, chestStorage: string?)
-	if self.InstantiatedTo == any then
-		return self
+function module.RemoveFromInventory(self: ClassType, inv: { any })
+	print(inv)
+	if not inv then
+		return false
 	end
 
-	local isPlayer = (typeof(any) == "Instance" and any:IsA("Player"))
-	local isChest = (type(any) == "string" and any ~= "")
-	local isGround = (type(any) == "string" and any == "")
-
-	if not (isPlayer or isChest or isGround) then
-		return self
-	end
-
-	if type(self.InstantiatedTo) == "string" and self.InstantiatedTo ~= "" then
-		local chestNow = instancesManager.getObj(self.InstantiatedTo)
-		if chestNow then
-			chestNow:RemoveItem(self.UID)
-		end
-	end
-
-	local last = self.InstantiatedTo
-	self:InstantiateTo(any)
-	if isGround then
-		self:Drop()
-	elseif isChest then
-		local chest = instancesManager.getObj(any :: string)
-		if chest and chest._Type == "Chest" then
-			self:AddToChest(any :: string, chestStorage)
-		end
-	elseif isPlayer then
-		self:AddToInventory()
-		local chest = instancesManager.getObj(last)
-		if chest then
-			self:RemoveFromChest()
-		end
-	end
-	
-	return self
+	-- Remove o item do inventário
+	inventorySharedUtil.removeItem(inv, self.UID)
+	return true
 end
 
 return module
