@@ -9,7 +9,7 @@ local t = lib.FunctionUtils.t
 
 local sharedModules = replicatedStorage.Modules.Shared
 local sharedClasses = sharedModules.Classes
-local ilegalItemDetectorSharedClass = require(sharedClasses.IlegalItemDetectorClasse)
+local ilegalItemDetectorSharedClass = require(sharedClasses.IlegalItemDetectorClass)
 
 local replicableInstance = require(sharedClasses.ReplicableInstance)
 local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
@@ -24,6 +24,15 @@ function module.new(id: string | number?): ClassType
 	if id then
 		self:AttachId(id)
 	end
+	return self
+end
+
+function module.AttachId(self: ClassType, id: string | number)
+	-- Chama o método shared do ReplicableInstance primeiro
+	replicableInstance.AttachId(self, id)
+
+	-- Lógica específica do servidor
+	self.Remote:Fire(self.UID, "AttachId", { self.Id })
 	return self
 end
 

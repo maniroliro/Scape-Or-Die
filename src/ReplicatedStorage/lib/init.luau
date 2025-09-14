@@ -139,8 +139,6 @@ export type DynamicOctree = lib.DynamicOctree
 
 -------------Game Utils-------------------
 
-export type ReplicableInstance = utils.ReplicableInstance
-
 -------------Game Types-------------------
 
 local module = {

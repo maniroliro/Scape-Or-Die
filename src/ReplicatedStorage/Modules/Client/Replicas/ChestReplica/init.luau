@@ -13,7 +13,7 @@ local spring = lib.ModuleUtils.Spring
 local charUtils = lib.FunctionUtils.Character
 
 local chestDirectory = require(replicatedStorage.Directory.Chests)
-local chestSharedClass = require(sharedModules.Classes.ChestClasse)
+local chestSharedClass = require(sharedModules.Classes.ChestClass)
 
 local itemsReplica = require(clientModules.Replicas.ItemReplica)
 local itemHover = require(clientModules.Utils.ItemHover)

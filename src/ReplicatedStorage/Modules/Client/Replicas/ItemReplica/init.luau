@@ -9,7 +9,7 @@ local t = lib.FunctionUtils.t
 local clientModules = replicatedStorage.Modules.Client
 local sharedModules = replicatedStorage.Modules.Shared
 local sharedClasses = sharedModules.Classes
-local itemSharedClass = require(sharedClasses.ItemClasse)
+local itemSharedClass = require(sharedClasses.ItemClass)
 
 local replicableInstance = require(sharedClasses.ReplicableInstance)
 local instancesManager = require(sharedModules.Managers.InstancesManager)

@@ -1,21 +1,16 @@
 local replicatedStorage = game:GetService("ReplicatedStorage")
 local serverStorage = game:GetService("ServerStorage")
-local itemsDirectory = require(replicatedStorage.Directory.Items)
 
 local lib = require(replicatedStorage.lib)
 local t = lib.FunctionUtils.t
 
 local sharedModules = replicatedStorage.Modules.Shared
 local sharedClasses = sharedModules.Classes
-local itemSharedClass = require(sharedClasses.ItemClasse)
+local itemSharedClass = require(sharedClasses.ItemClass)
 
 local replicableInstance = require(sharedClasses.ReplicableInstance)
-local instancesManager = require(sharedModules.Managers.InstancesManager)
 
 local inventoryServerUtil = require(serverStorage.Modules.Utils.InventoryUtilServer)
-local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
-
-local dataStoreManager = require(serverStorage.Modules.Managers.PlayerDataManager)
 
 local module = setmetatable({}, { __index = itemSharedClass })
 module.__index = module
@@ -87,24 +82,24 @@ function module.RemoveFromInventory(self: ClassType, inv: { any })
 end
 
 function module.TryToInstantiateTo(self: ClassType, plr: Player?, any: string | Player?, chestStorage: string?)
-    print("[DBG][ItemServer.TryToInstantiateTo]", self.UID, self.Id, plr, any, chestStorage)
-    if not t.Player(plr) or not any then
-        chestStorage = any :: string
-        any = plr
-        plr = nil
-    end
-    print("[DBG][ItemServer.TryToInstantiateTo] args:", self.Id, plr, any, chestStorage)
-    local success = itemSharedClass.TryToInstantiateTo(self, any, chestStorage)
-    if not success then
-        print("[DBG][ItemServer.TryToInstantiateTo] shared denied")
-        return self
-    end
+	print("[DBG][ItemServer.TryToInstantiateTo]", self.UID, self.Id, plr, any, chestStorage)
+	if not t.Player(plr) or not any then
+		chestStorage = any :: string
+		any = plr
+		plr = nil
+	end
+	print("[DBG][ItemServer.TryToInstantiateTo] args:", self.Id, plr, any, chestStorage)
+	local success = itemSharedClass.TryToInstantiateTo(self, any, chestStorage)
+	if not success then
+		print("[DBG][ItemServer.TryToInstantiateTo] shared denied")
+		return self
+	end
 
-    -- Apply the authoritative state change and replicate to clients
-    self:InstantiateTo(any :: any, chestStorage)
-    print("[DBG][ItemServer.TryToInstantiateTo] applied on server. New InstantiatedTo:", self.InstantiatedTo)
-    --dataStoreManager.updateClient(plr)
-    return self
+	-- Apply the authoritative state change and replicate to clients
+	self:InstantiateTo(any :: any, chestStorage)
+	print("[DBG][ItemServer.TryToInstantiateTo] applied on server. New InstantiatedTo:", self.InstantiatedTo)
+	--dataStoreManager.updateClient(plr)
+	return self
 end
 
 function module.ReplicateTo(self: ClassType, client: Player?)

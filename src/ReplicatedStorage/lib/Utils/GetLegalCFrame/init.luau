@@ -1,5 +1,8 @@
 --!strict
 return function(cf: CFrame): CFrame
+	if typeof(cf) ~= "CFrame" then
+		return nil
+	end
 	local p = cf.Position
 	local x = math.floor(p.X / 4) * 4 + 2
 	local y = math.round(p.Y / 2) * 2
