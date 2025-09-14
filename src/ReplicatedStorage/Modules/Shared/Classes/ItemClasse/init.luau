@@ -17,6 +17,7 @@ local directoryFolder = replicatedStorage.Directory
 local itemsDirectory = require(directoryFolder.Items)
 
 local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
+module._Type = "Item"
 
 export type ClassType = typeof(setmetatable(
 	{} :: {
@@ -30,7 +31,6 @@ export type ClassType = typeof(setmetatable(
 
 function module.new(UID: string | number?): ClassType
 	local self = replicableInstance.newLinkedToAClass(module, replicableInstance, UID) :: ClassType
-	self._Type = "Item"
 	self.equipped = false
 
 	return self
@@ -105,14 +105,14 @@ function module.canDrop(self: ClassType)
 end
 
 function module.InstantiateTo(self: ClassType, newInstantiate: string | Player, chestStorage)
-    print("[DBG][Item.InstantiateTo]", self.UID)
-    local last = self.InstantiatedTo
-    print("[DBG][Item.InstantiateTo] from->to:", last, "->", newInstantiate)
+	print("[DBG][Item.InstantiateTo]", self.UID)
+	local last = self.InstantiatedTo
+	print("[DBG][Item.InstantiateTo] from->to:", last, "->", newInstantiate)
 	if last == newInstantiate then
 		print("same as the last one")
 		return false
 	end
-    print("[DBG][Item.InstantiateTo] instantiating.....")
+	print("[DBG][Item.InstantiateTo] instantiating.....")
 
 	local newInstantiateIsPlayer = t.Player(newInstantiate)
 	local newInstantiateIsGround = newInstantiate == ""
@@ -134,35 +134,35 @@ function module.InstantiateTo(self: ClassType, newInstantiate: string | Player, 
 		end
 	end
 
-    self.InstantiatedTo = newInstantiate
-    print("[DBG][Item.InstantiateTo] set InstantiatedTo:", self.InstantiatedTo)
-    if newInstantiateIsGround then
-        print("[DBG][Item.InstantiateTo] Dropping item...")
-        self:Drop()
-    elseif newInstantiateIsChest then
-        print("[DBG][Item.InstantiateTo] Adding to chest...", newInstantiate, chestStorage)
-        if oldInstantiateIsPlayer then
-            local inv = inventorySharedUtil.getPlayerInventory(last :: Player)
-            print("[DBG][Item.InstantiateTo] removing from inventory...", inv)
-            self:RemoveFromInventory(inv)
-        end
-        self:AddToChest(newInstantiate :: string, chestStorage)
-        print("[DBG][Item.InstantiateTo] added to chest")
-    elseif newInstantiateIsPlayer then
-        print("[DBG][Item.InstantiateTo] Adding to inventory...", newInstantiate)
+	self.InstantiatedTo = newInstantiate
+	print("[DBG][Item.InstantiateTo] set InstantiatedTo:", self.InstantiatedTo)
+	if newInstantiateIsGround then
+		print("[DBG][Item.InstantiateTo] Dropping item...")
+		self:Drop()
+	elseif newInstantiateIsChest then
+		print("[DBG][Item.InstantiateTo] Adding to chest...", newInstantiate, chestStorage)
+		if oldInstantiateIsPlayer then
+			local inv = inventorySharedUtil.getPlayerInventory(last :: Player)
+			print("[DBG][Item.InstantiateTo] removing from inventory...", inv)
+			self:RemoveFromInventory(inv)
+		end
+		self:AddToChest(newInstantiate :: string, chestStorage)
+		print("[DBG][Item.InstantiateTo] added to chest")
+	elseif newInstantiateIsPlayer then
+		print("[DBG][Item.InstantiateTo] Adding to inventory...", newInstantiate)
 
 		if oldInstantiateIsPlayer then
 			self:RemoveFromInventory(inventorySharedUtil.getPlayerInventory(last :: Player))
 		elseif oldInstantiateIsChest then
-            print("[DBG][Item.InstantiateTo] removing from chest:", last)
-            self:RemoveFromChest(last)
+			print("[DBG][Item.InstantiateTo] removing from chest:", last)
+			self:RemoveFromChest(last)
 			--elseif oldInstantiateIsGround then
 			-- nothing to remove
 		end
 
-        self:AddToInventory()
-        print("[DBG][Item.InstantiateTo] added to inventory")
-    end
+		self:AddToInventory()
+		print("[DBG][Item.InstantiateTo] added to inventory")
+	end
 
 	return self
 end

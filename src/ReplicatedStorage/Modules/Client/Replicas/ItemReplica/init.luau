@@ -89,6 +89,9 @@ function module.AddToInventory(self: ClassType, inv: { any }?, slot: number?)
 	end
 
 	-- Lógica específica do cliente
+	if self.InstantiatedTo ~= localPlayer then
+		return self
+	end
 	local playerInventory = inv or inventoryUtil.getPlayerInventory(self.InstantiatedTo)
 	if not playerInventory then
 		return self

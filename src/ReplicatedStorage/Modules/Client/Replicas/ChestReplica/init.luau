@@ -156,7 +156,7 @@ function module.AddItem(self: ClassType, itemUID: string, contentTabName: string
 		end
 		local container = self.Display.Frame:FindFirstChild(contentTabName).Items
 		if container and item.Display then
-			local placeholder = container:FindFirstChild("PlaceHolder" .. pos)
+			local placeholder = container:FindFirstChild("PlaceHolder" .. (pos :: number))
 			if placeholder then
 				item.Display.Parent = placeholder
 			end
@@ -170,23 +170,9 @@ function module.RemoveItem(self: ClassType, itemUID: string, contentTabName: str
 	if not itemUID then
 		return self
 	end
-
-	if contentTabName then
-		local tab = self.ItemsInside[contentTabName]
-		if tab then
-			local pos = table.find(tab, itemUID)
-			if pos then
-				tab[pos] = nil
-			end
-		end
-	else
-		for _, tab in self.ItemsInside do
-			local pos = table.find(tab, itemUID)
-			if pos then
-				tab[pos] = nil
-				break
-			end
-		end
+	local success = chestSharedClass.RemoveItem(self, itemUID, contentTabName)
+	if not success then
+		return self
 	end
 
 	local item = instancesManager.getObj(itemUID)

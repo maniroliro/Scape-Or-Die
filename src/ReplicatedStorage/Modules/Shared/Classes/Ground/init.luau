@@ -1,0 +1,3 @@
+-- TODO: Implement Ground class
+-- use octrees + player lookvector to find nearby ground items for pickup
+-- use octrees + player lookvector to find nearby location to drop items on the ground

@@ -12,6 +12,7 @@ local directoryFolder = replicatedStorage.Directory
 local chestDirectory = require(directoryFolder.Chests)
 
 local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
+module._Type = "Chest"
 
 local Storages = {
 	DeskContents = {
@@ -42,7 +43,6 @@ export type ClassType = typeof(setmetatable(
 
 function module.new(UID: string | number?): ClassType
 	local self = replicableInstance.newLinkedToAClass(module, replicableInstance, UID) :: ClassType
-	self._Type = "Chest"
 	self.ItemsInside = {
 		DeskContents = {},
 		HiddenContents = {},
@@ -70,11 +70,16 @@ function module.getNextFreeSlot(self: ClassType, contentName: Storages)
 	local items: ChestItems = self.ItemsInside
 	local chestStorage = items[contentName]
 	local maxNOfItems = Storages[contentName].MaxAmountOfItems
-	if maxNOfItems <= #chestStorage then
-		return self
+	-- count non-nil entries to handle sparse arrays
+	local count = 0
+	for _, uid in chestStorage do
+		if uid then
+			count += 1
+		end
 	end
-	print(self)
-	print(#chestStorage)
+	if count >= maxNOfItems then
+		return nil
+	end
 	for i = 1, maxNOfItems do
 		local uid = chestStorage[i]
 		print(i, uid)
@@ -83,7 +88,7 @@ function module.getNextFreeSlot(self: ClassType, contentName: Storages)
 		end
 	end
 
-	return self
+	return nil
 end
 
 function module.canRemoveItem(self: ClassType, itemUID: string)
@@ -164,41 +169,6 @@ function module.AddItem(self: ClassType, itemUID: string, contentName: Storages,
 	return pos
 end
 
-function module.RemoveItem(self: ClassType, itemUID: string, contentName: Storages?)
-	-- Validação de parâmetros
-	if not itemUID or type(itemUID) ~= "string" then
-		return false
-	end
-
-	if contentName then
-		local items: ChestItems = self.ItemsInside
-		local chestStorage = items[contentName]
-		local pos = table.find(chestStorage, itemUID)
-		if pos then
-			chestStorage[pos] = nil
-			return true
-		end
-		return false -- Item não encontrado no storage especificado
-	else
-		print()
-		local items: ChestItems = self.ItemsInside
-		for _, storage in items do
-			local pos = table.find(storage, itemUID)
-			print(storage)
-			print(pos)
-
-			if pos then
-				print(storage[pos])
-				storage[pos] = nil
-				return self
-			end
-		end
-	end
-	print(self.ItemsInside)
-
-	return false
-end
-
 function module.UpdatePlayerSearching(self: ClassType, plr: Player)
 	--SERVER ONLY
 
@@ -218,6 +188,39 @@ function module.SetOwner(self: ClassType, plr: Player?)
 
 	self.PlayerOwner = plr
 	return self
+end
+
+-- Safer RemoveItem that handles sparse arrays (override)
+function module.RemoveItem(self: ClassType, itemUID: string, contentName: Storages?)
+	if not itemUID or type(itemUID) ~= "string" then
+		return false
+	end
+
+	local items: ChestItems = self.ItemsInside
+	if contentName then
+		local storage = items[contentName]
+		if not storage then
+			return false
+		end
+		for i, uid in storage do
+			if uid == itemUID then
+				storage[i] = nil
+				return true
+			end
+		end
+		return false
+	end
+
+	for _, storage in items do
+		for i, uid in storage do
+			if uid == itemUID then
+				storage[i] = nil
+				return true
+			end
+		end
+	end
+
+	return false
 end
 
 return module

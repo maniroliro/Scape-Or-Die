@@ -14,6 +14,7 @@ local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
 local ilegalItemDetectorDirectory = require(directoryFolder.IlegalItemDetectors)
 
 local module = setmetatable({}, { __index = replicableInstance })
+module._Type = "IlegalItemDetector"
 
 local function clampLevel(n: number): number
 	return math.clamp(n, 0, 3)
@@ -55,7 +56,6 @@ export type ClassType = typeof(setmetatable(
 
 function module.new(UID: string | number?): ClassType
 	local self = replicableInstance.newLinkedToAClass(module, replicableInstance, UID) :: ClassType
-	self._Type = "IlegalItemDetector"
 	self.AlertLevel = 0
 	self.PlayersAlerting = {}
 	self.isActivated = false
@@ -73,6 +73,9 @@ function module.Materialize(self: ClassType, CF: CFrame)
 end
 
 function module.SetLevel(self: ClassType, newLevel: number)
+	if not t.number(newLevel) then
+		return false
+	end
 	newLevel = clampLevel(newLevel)
 	if newLevel == self.AlertLevel then
 		return false
@@ -84,9 +87,7 @@ end
 
 function module.Alert(self: ClassType, level: number?)
 	level = level or self.AlertLevel
-	if not self:SetLevel(level) then
-		return false
-	end
+	self:SetLevel(level)
 
 	if self.AlertClientThread and self.AlertClientThread ~= coroutine.running() then
 		task.cancel(self.AlertClientThread)
@@ -112,8 +113,7 @@ function module.PlayerTriggered(self: ClassType, player: Player)
 		table.insert(self.PlayersAlerting, player)
 	end
 
-	self:SetLevel(#self.PlayersAlerting)
-	self:Alert()
+	self:Alert(#self.PlayersAlerting)
 
 	return self
 end
@@ -131,7 +131,9 @@ function module.Active(self: ClassType, active: boolean?)
 			print(plr)
 			if plr then
 				local inv = inventorySharedUtil.getPlayerInventory(plr)
+				print(inv)
 				if inventorySharedUtil.isThereAnIlegalItemOnInventory(inv) then
+					print("player triggered")
 					self:PlayerTriggered(plr) -- cliente anima e debouncia localmente
 				end
 			end
