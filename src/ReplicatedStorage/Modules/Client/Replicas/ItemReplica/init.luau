@@ -9,7 +9,7 @@ local t = lib.FunctionUtils.t
 local clientModules = replicatedStorage.Modules.Client
 local sharedModules = replicatedStorage.Modules.Shared
 local sharedClasses = sharedModules.Classes
-local itemSharedClass = require(sharedClasses.ItemClasse)
+local itemSharedClass = require(sharedClasses.ItemClass)
 
 local replicableInstance = require(sharedClasses.ReplicableInstance)
 local instancesManager = require(sharedModules.Managers.InstancesManager)
@@ -24,15 +24,17 @@ local localPlayer = game.Players.LocalPlayer
 local module = setmetatable({}, { __index = itemSharedClass })
 module.__index = module
 
-export type ClassType = typeof(setmetatable(
-	{} :: {
-		Model: typeof(itemsDirectory.directoryFolder["00 _ Template"].Model),
-		Display: Frame,
+export type ClassType =
+	typeof(setmetatable(
+		{} :: {
+			Model: typeof(itemsDirectory.directoryFolder["00 _ Template"].Model),
+			Display: Frame,
 
-		animType: "KeyDown" | nil,
-	},
-	module
-)) & itemSharedClass.ClassType
+			animType: "KeyDown" | nil,
+		},
+		module
+	))
+	& itemSharedClass.ClassType
 
 function module.new(UID: string)
 	local self: ClassType = replicableInstance.newLinkedToAClass(module, itemSharedClass, UID) :: ClassType
@@ -133,16 +135,12 @@ function module.AnimKeyDown(self: ClassType)
 		listening = true
 		local conKey = userInputService.InputBegan:Connect(function(inp)
 			if inp.KeyCode == Enum.KeyCode.E then
-				print(self.InstantiatedTo)
 				if type(self.InstantiatedTo) == "string" then
-					print(instancesManager.getObj(self.InstantiatedTo).ItemsInside)
 					self:TryToInstantiateTo(localPlayer)
 				elseif t.Player(self.InstantiatedTo) then
 					local chestOpen = localPlayer:GetAttribute("ChestOpen")
 					if chestOpen then
 						local chest = instancesManager.getObj(chestOpen)
-						print(chest)
-						print(chestOpen)
 						self:TryToInstantiateTo(chestOpen, "DeskContents")
 					end
 				end
@@ -178,13 +176,11 @@ function module.TryToInstantiateTo(self: ClassType, any: string | Player, chestS
 		return self
 	end
 
-	print(any, chestStorage)
 	self.Remote:Fire(self.UID, "TryToInstantiateTo", { any, chestStorage })
 	return self
 end
 
 function module.RemoveFromChest(self: ClassType, chestUID: string?)
-	print(self.UID, chestUID)
 	local success = itemSharedClass.RemoveFromChest(self, chestUID)
 	if not success then
 		return self

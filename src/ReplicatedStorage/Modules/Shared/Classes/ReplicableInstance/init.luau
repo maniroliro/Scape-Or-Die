@@ -14,13 +14,15 @@ local module = setmetatable({}, { __index = instancesManager })
 
 export type genericObjType = instancesManager.genericObjType
 
-export type ClassType = typeof(setmetatable(
-	{} :: {
-		Remote: typeof(packet("")),
-		Trove: typeof(trove.new()),
-	},
-	{ __index = module }
-)) & genericObjType
+export type ClassType =
+	typeof(setmetatable(
+		{} :: {
+			Remote: typeof(packet("")),
+			Trove: typeof(trove.new()),
+		},
+		{ __index = module }
+	))
+	& genericObjType
 
 function module.new(UID: string?): ClassType
 	local self = setmetatable({
@@ -80,11 +82,11 @@ function module.Materialize<T>(self: T & ClassType, CF: CFrame?)
 
 	self.Model = model
 
-	if not CF or not t.CFrame(CF) then
+	if not t.CFrame(CF) then
 		return self
 	end
 	if self.Model then
-		self.CFrame = lib.Utils.GetLegalCFrame(CF)
+		self.CFrame = lib.Utils.GetLegalCFrame(CF :: CFrame)
 		self.Model:PivotTo(self.CFrame)
 	end
 

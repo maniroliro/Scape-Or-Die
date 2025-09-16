@@ -5,7 +5,7 @@ export type Type = {
 }
 
 local template = script:FindFirstChild("00 _ Template")
-local templateInfo = require(template)
+--local templateInfo = require(template)
 
 --export type Type = typeof(templateInfo)
 

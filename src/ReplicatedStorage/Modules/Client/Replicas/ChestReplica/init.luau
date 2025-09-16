@@ -13,25 +13,28 @@ local spring = lib.ModuleUtils.Spring
 local charUtils = lib.FunctionUtils.Character
 
 local chestDirectory = require(replicatedStorage.Directory.Chests)
-local chestSharedClass = require(sharedModules.Classes.ChestClasse)
+local chestSharedClass = require(sharedModules.Classes.ChestClass)
 
 local itemsReplica = require(clientModules.Replicas.ItemReplica)
 local itemHover = require(clientModules.Utils.ItemHover)
+local highlightSelectionUtil = require(clientModules.Utils.HighlightSelection)
 
 local localplayer = PlayersService.LocalPlayer
 
 local module = setmetatable({}, { __index = chestSharedClass })
 
-export type ClassType = typeof(setmetatable(
-	{} :: {
-		Model: typeof(chestDirectory.directoryFolder["00 _ Template"].Model),
-		Display: typeof(chestDirectory.directoryFolder["00 _ Template"].Display),
-		DrawerSpring: typeof(spring.new()),
-		DrawerPivotPosition: Vector3,
-		ProximityPrompt: ProximityPrompt,
-	},
-	{ __index = module }
-)) & chestSharedClass.ClassType
+export type ClassType =
+	typeof(setmetatable(
+		{} :: {
+			Model: typeof(chestDirectory.directoryFolder["00 _ Template"].Model),
+			Display: typeof(chestDirectory.directoryFolder["00 _ Template"].Display),
+			DrawerSpring: typeof(spring.new()),
+			DrawerPivotPosition: Vector3,
+			ProximityPrompt: ProximityPrompt,
+		},
+		{ __index = module }
+	))
+	& chestSharedClass.ClassType
 
 function module.new(UID: string)
 	local self: ClassType = replicableInstance.newLinkedToAClass(module, chestSharedClass, UID) :: ClassType
@@ -129,6 +132,8 @@ function module.Materialize(self: ClassType, CF: CFrame)
 		end
 	end))
 
+	highlightSelectionUtil.addSelection(self.Model)
+
 	self.Display = chestDirectory:getItemDisplay(self.Id):Clone()
 	self.Display.Name = self.UID
 	self.Display.Visible = false
@@ -188,7 +193,6 @@ function module.UpdateItemsInside(self: ClassType, itemsUIDTab: { [string]: { st
 	local itemsInside = self.ItemsInside
 	for contentName, contentTab in itemsUIDTab do
 		itemsInside[contentName] = {}
-		print(contentTab)
 
 		-- Clear UI placeholders before repopulating
 		local section = self.Display
@@ -206,7 +210,6 @@ function module.UpdateItemsInside(self: ClassType, itemsUIDTab: { [string]: { st
 		end
 		for i, uid in contentTab do
 			local _item = (instancesManager.getObj(uid) or itemsReplica.new(uid)) :: itemsReplica.ClassType
-			print(i)
 			self:AddItem(uid, contentName, i)
 		end
 	end

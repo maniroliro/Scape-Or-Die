@@ -10,7 +10,7 @@ local replicableInstance = require(sharedModules.Classes.ReplicableInstance)
 local instancesManager = require(sharedModules.Managers.InstancesManager)
 local charUtils = lib.FunctionUtils.Character
 
-local chestSharedClass = require(sharedModules.Classes.ChestClasse)
+local chestSharedClass = require(sharedModules.Classes.ChestClass)
 
 local module = setmetatable({}, { __index = chestSharedClass })
 

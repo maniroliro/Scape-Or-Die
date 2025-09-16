@@ -1,51 +1,45 @@
-local serverStorage = game:GetService("ServerStorage")
 local replicatedStorage = game:GetService("ReplicatedStorage")
-local httpService = game:GetService("HttpService")
-local gameSettings = require(replicatedStorage.Modules.Shared.GameSettings)
+
 local lib = require(replicatedStorage.lib)
-local directory = replicatedStorage.Directory
-local securityCameraDirectory = require(directory.SecurityCameras)
-local trove = lib.ModuleUtils.Trove
-local signal = lib.ModuleUtils.Signal
+local t = lib.FunctionUtils.t
 local zonePlus = lib.ModuleUtils.ZonePlus
 
-local dataStoreManager = require(serverStorage.Modules.Managers.PlayerDataManager)
+local sharedModules = replicatedStorage.Modules.Shared
+local replicableInstance = require(sharedModules.Classes.ReplicableInstance)
+local securityCameraSharedClass = require(sharedModules.Classes.SecurityCameraClass)
 
-export type securityCameraSettingsType = securityCameraType.Type
+local directory = replicatedStorage.Directory
+local securityCameraDirectory = require(directory.SecurityCameras)
 
-local module = {}
+local module = setmetatable({}, { __index = securityCameraSharedClass })
 module.__index = module
 
 export type ClassType = typeof(setmetatable(
 	{} :: {
-		_type: "SecurityCamera",
-		_started: boolean,
-		UID: string,
-		Trove: lib.TroveType,
-		CameraArea: BasePart | Model,
-		CameraZone: { [any]: any },
+		--CameraArea: BasePart | Model, -- SERVER ONLY
+		--CameraZone: { [any]: any }, -- SERVER ONLY
 		Model: Model & BasePart,
 		Support: typeof(module.Model.Support) & BasePart,
-
-		PlayerEnteredCameraZone: lib.SignalType,
 	},
 	module
-)) & securityCameraSettingsType
+)) & securityCameraSharedClass.ClassType
 
-function module.new(): ClassType
-	local self = {
-		_type = "SecurityCamera",
-		_started = false,
-		UID = lib.Utils.GetLegalUID(),
-		Trove = trove.new(),
-		Model = nil,
-	}
+function module.new(id: string?): ClassType
+	local self: ClassType = replicableInstance.newLinkedToAClass(module, securityCameraSharedClass) :: ClassType
+	self._Type = "Item"
 
-	setmetatable(self, module)
+	if id then
+		self:AttachId(id)
+	end
 	return self
 end
 
-function module.AttachCamera(self: ClassType, target: Model | Attachment, cameraModel: Model?)
+function module.Materialize(self: ClassType, CF: CFrame)
+	local success = securityCameraSharedClass.Materialize(self, CF)
+	if not success then
+		return self
+	end
+
 	self.Model = target:IsA("PVInstance") and target
 		or target:IsA("Attachment") and cameraModel
 		or securityCameraDirectory:getItemModel(01)

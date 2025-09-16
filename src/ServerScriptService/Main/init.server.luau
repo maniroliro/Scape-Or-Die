@@ -4,9 +4,9 @@ local replicatedStoragemodules = replicatedStorage.Modules
 local serverStoragemodules = serverStorage.Modules
 
 local Classes = serverStoragemodules.Classes
-local secCamClasse = require(Classes.SecurityCamera)
-local chestClasse = require(Classes.Chest)
-local itemClasse = require(Classes.Item)
+local secCamClass = require(Classes.SecurityCamera)
+local chestClass = require(Classes.Chest)
+local itemClass = require(Classes.Item)
 local ilegalItemDetectorClass = require(Classes.IlegalItemDetector)
 
 local serverServicesFolder = serverStoragemodules.Services
@@ -32,10 +32,10 @@ characterBehaviorService.Init()
 characterBehaviorService.Start()
 
 local plr
-local cam = secCamClasse.new()
-local chest1 = chestClasse.new(01)
-local chest2 = chestClasse.new(01)
-local chest3 = chestClasse.new(01)
+local cam = secCamClass.new()
+local chest1 = chestClass.new(01)
+local chest2 = chestClass.new(01)
+local chest3 = chestClass.new(01)
 
 cam:AttachCameraArea(workspace.Area1)
 cam:start()
@@ -44,14 +44,14 @@ chest1:Replicate()
 chest1:Materialize(workspace.bau1.CFrame)
 
 for _ = 1, math.random(3, 12) do
-	local newItem = itemClasse.new()
+	local newItem = itemClass.new()
 	newItem:AttachId(itemDirectory:getRandomItemId())
 
 	chest1:AddItem(newItem.UID)
 	print(chest1, chest1.UID, chest1.ItemsInside, newItem.UID)
 end
 for _ = 1, math.random(2, 6) do
-	local newItem = itemClasse.new()
+	local newItem = itemClass.new()
 	newItem:AttachId(itemDirectory:getRandomItemId())
 
 	chest1:AddItem(newItem.UID, "HiddenContents")
@@ -61,14 +61,14 @@ chest2:Replicate()
 chest2:Materialize(workspace.bau2.CFrame)
 
 for _ = 1, math.random(3, 12) do
-	local newItem = itemClasse.new()
+	local newItem = itemClass.new()
 	newItem:AttachId(itemDirectory:getRandomItemId())
 
 	chest2:AddItem(newItem.UID)
 	print(chest2, chest2.UID, chest2.ItemsInside, newItem.UID)
 end
 for _ = 1, math.random(2, 6) do
-	local newItem = itemClasse.new()
+	local newItem = itemClass.new()
 	newItem:AttachId(itemDirectory:getRandomItemId())
 
 	chest2:AddItem(newItem.UID, "HiddenContents")
@@ -78,14 +78,14 @@ chest3:Replicate()
 chest3:Materialize(workspace.bau3.CFrame)
 
 for _ = 1, math.random(3, 12) do
-	local newItem = itemClasse.new()
+	local newItem = itemClass.new()
 	newItem:AttachId(itemDirectory:getRandomItemId())
 
 	chest3:AddItem(newItem.UID)
 	print(chest3, chest3.UID, chest3.ItemsInside, newItem.UID)
 end
 for _ = 1, math.random(2, 6) do
-	local newItem = itemClasse.new()
+	local newItem = itemClass.new()
 	newItem:AttachId(itemDirectory:getRandomItemId())
 
 	chest3:AddItem(newItem.UID, "HiddenContents")

@@ -24,5 +24,6 @@
 	"luau-lsp.sourcemap.enabled": true,
 	"luau-lsp.plugin.enabled": true,
 	"luau-lsp.plugin.port": 3667,
-	"chatgpt.openOnStartup": true
+	"chatgpt.openOnStartup": true,
+	"stylua.targetReleaseVersion": "latest"
 }
