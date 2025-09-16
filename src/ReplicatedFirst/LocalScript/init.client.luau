@@ -11,17 +11,21 @@ local remotes = lib.Remotes
 local sharedServices = modules.Shared.Services
 local instanceHandler = require(sharedServices.ReplicableInstancesHandler)
 
-local playerData = require(script.PlayerDataController)
-local inventoryS = require(script.InventoryController)
+local playerDataController = require(script.PlayerDataController)
+local inventoryController = require(script.InventoryController)
+local playerInteractionsController = require(script.PlayerInteractionsController)
 
-playerData.Start()
-playerData.Init()
+playerDataController.Start()
+playerDataController.Init()
 
 instanceHandler.Init()
 instanceHandler.Start()
 
-inventoryS.Init()
-inventoryS.Start()
+inventoryController.Init()
+inventoryController.Start()
+
+playerInteractionsController.Init()
+playerInteractionsController.Start()
 
 --local replicableInstance = require(replicatedStorage.Modules.Shared.Classes.ReplicableInstance)
 --replicableInstance.Init()

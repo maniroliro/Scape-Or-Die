@@ -34,7 +34,12 @@ function module.new(id: string?): ClassType
 	return self
 end
 
-function module.AttachCamera(self: ClassType, target: Model | Attachment, cameraModel: Model?)
+function module.Materialize(self: ClassType, CF: CFrame)
+	local success = securityCameraSharedClass.Materialize(self, CF)
+	if not success then
+		return self
+	end
+
 	self.Model = target:IsA("PVInstance") and target
 		or target:IsA("Attachment") and cameraModel
 		or securityCameraDirectory:getItemModel(01)

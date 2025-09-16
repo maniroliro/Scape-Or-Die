@@ -21,7 +21,6 @@ export type ClassType = typeof(setmetatable(
 		CameraArea: BasePart | Model,
 		CameraZone: { [any]: any },
 		Support: typeof(module.Model.Support) & BasePart,
-
 		EnteredAreaEvent: lib.Signal<nil, Player>?,
 		ExitedAreaEvent: lib.Signal<nil, Player>?,
 	},
@@ -32,6 +31,24 @@ function module.new(UID: string | number?): ClassType
 	local self = replicableInstance.newLinkedToAClass(module, replicableInstance, UID) :: ClassType
 	self.items = {}
 
+	return self
+end
+
+function module.Materialize(self: ClassType, CF: CFrame)
+	local success = replicableInstance.Materialize(self, CF)
+	if not success then
+		return self
+	end
+
+	self.Model = securityCamerasDirectory:getItemModel(01)
+	self.Support = self.Model:FindFirstChild("Support") :: BasePart
+	self.Support.CFrame = CF
+
+	for k, v in securityCamerasDirectory:getItemModule(1) do
+		self[k] = v
+	end
+
+	self.isActivated = false
 	return self
 end
 

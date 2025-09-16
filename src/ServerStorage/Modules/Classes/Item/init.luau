@@ -36,8 +36,8 @@ function module.AttachId(self: ClassType, itemId: number)
 	return self
 end
 
-function module.Materialize(self: ClassType, _CF: CFrame)
-	local success = itemSharedClass.Materialize(self, _CF)
+function module.Materialize(self: ClassType, CF: CFrame)
+	local success = itemSharedClass.Materialize(self, CF)
 	if not success then
 		return self
 	end
