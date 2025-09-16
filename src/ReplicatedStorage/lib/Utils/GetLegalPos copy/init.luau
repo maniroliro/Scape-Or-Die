@@ -1,26 +1,25 @@
 --!strict
 local RoundXRotation = require(script.Parent.GetLegalRotation)
 
-return function(cf: CFrame | Vector3, strType: string): CFrame
-	if typeof(cf) ~= "CFrame" and typeof(cf) ~= "Vector3" then
-		return (nil :: any) :: CFrame
+return function(p: Vector3, strType: string): Vector3
+	if typeof(p) ~= "Vector3" then
+		return (nil :: any) :: Vector3
 	end
 
 	if strType == "x" then
-		return CFrame.new(math.floor(cf.X / 4) * 4 + 2, cf.Y, cf.Z)
+		return Vector3.new(math.floor(p.X / 4) * 4 + 2, p.Y, p.Z)
 	elseif strType == "y" then
-		return CFrame.new(cf.X, math.round(cf.Y / 2) * 2, cf.Z)
+		return Vector3.new(p.X, math.round(p.Y / 2) * 2, p.Z)
 	elseif strType == "z" then
-		return CFrame.new(cf.X, cf.Y, math.floor(cf.Z / 4) * 4 + 2)
-	elseif strType == "xyz" then
-		local p = cf.Position
+		return Vector3.new(p.X, p.Y, math.floor(p.Z / 4) * 4 + 2)
+	elseif strType == "xyz" or not strType then
 		local x = math.floor(p.X / 4) * 4 + 2
 		local y = math.round(p.Y / 2) * 2
 		local z = math.floor(p.Z / 4) * 4 + 2
 		-- Se quiser manter a rotação original, troque para: cf.Rotation * CFrame.new(x, y, z)
-		local newPos = CFrame.new(x, y, z)
-		return newPos * RoundXRotation(cf.Rotation)
+		local newPos = Vector3.new(x, y, z)
+		return newPos
 	end
 
-	return CFrame.new(cf)
+	return p
 end
