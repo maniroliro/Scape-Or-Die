@@ -1,5 +1,6 @@
 local replicatedStorage = game:GetService("ReplicatedStorage")
 local PlayersService = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local runService = game:GetService("RunService")
 
 local lib = require(replicatedStorage:WaitForChild("lib"))
@@ -26,8 +27,7 @@ local module = setmetatable({}, { __index = chestSharedClass })
 export type ClassType =
 	typeof(setmetatable(
 		{} :: {
-			Model: typeof(chestDirectory.directoryFolder["00 _ Template"].Model),
-			Display: typeof(chestDirectory.directoryFolder["00 _ Template"].Display),
+			Display: Frame, -- typeof(chestDirectory.directoryFolder["00 _ Template"].Display),
 			DrawerSpring: typeof(spring.new()),
 			DrawerPivotPosition: Vector3,
 			ProximityPrompt: ProximityPrompt,
@@ -55,8 +55,8 @@ function module.Materialize(self: ClassType, CF: CFrame)
 
 	self.ProximityPrompt = self.Model.Chest.ProximityPrompt
 
-	self.Model:PivotTo(self.CFrame)
-	self.Model.Parent = workspace
+	-- self.Model:PivotTo(self.CFrame)
+	-- self.Model.Parent = workspace
 	self.DrawerPivotPosition = self.Model.Drawer:GetPivot().Position
 
 	self.DrawerSpring = spring.new(0)
@@ -151,7 +151,9 @@ function module.AddItem(self: ClassType, itemUID: string, contentTabName: string
 	end
 
 	pos = pos or self:getNextFreeSlot(contentTabName)
-
+	if not pos then
+		return false
+	end
 	contentTab[pos] = itemUID
 
 	local item = instancesManager.getObj(itemUID)

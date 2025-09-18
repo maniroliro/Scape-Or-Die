@@ -9,7 +9,7 @@ module.objsCreated = {
 	NotToReplicate = {} :: { [string]: genericObjType },
 }
 
-function module.Replicate(self: genericObjType, replicate: boolean?)
+function module.Replicate<T>(self: T & genericObjType, replicate: boolean?)
 	local UID = self.UID
 	local notToReplicateTab = module.objsCreated.NotToReplicate
 	local toReplicateTab = module.objsCreated.ToReplicate

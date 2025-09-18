@@ -41,18 +41,22 @@ local alertingSettings = {
 	},
 }
 
-export type ClassType = typeof(setmetatable(
-	{} :: {
-		isActivated: boolean,
-		DetectionArea: Part,
-		CFrame: CFrame,
-		AlertLevel: number,
-		PlayersAlerting: { Player },
-		AlertClientThread: thread?,
-		DetectionAreaEvent: RBXScriptConnection?,
-	},
-	{ __index = module }
-)) & replicableInstance.ClassType & ilegalItemDetectorDirectory.Type
+export type ClassType =
+	typeof(setmetatable(
+		{} :: {
+			isActivated: boolean,
+			DetectionArea: Part,
+			CFrame: CFrame,
+			Model: Model, -- typeof(replicatedStorage.Assets.IlegalItemsDetectors["00 _ Template"].Model),
+			AlertLevel: number,
+			PlayersAlerting: { Player },
+			AlertClientThread: thread?,
+			DetectionAreaEvent: RBXScriptConnection?,
+		},
+		{ __index = module }
+	))
+	& replicableInstance.ClassType
+	& ilegalItemDetectorDirectory.Type
 
 function module.new(UID: string | number?): ClassType
 	local self = replicableInstance.newLinkedToAClass(module, replicableInstance, UID) :: ClassType
@@ -64,11 +68,11 @@ function module.new(UID: string | number?): ClassType
 end
 
 function module.Materialize(self: ClassType, CF: CFrame)
-	if not t.CFrame(CF) then
+	local success = replicableInstance.Materialize(self, CF)
+	if not success then
 		return false
 	end
 
-	self.CFrame = lib.Utils.GetLegalCFrame(CF)
 	return self
 end
 

@@ -1,6 +1,7 @@
 local replicatedStorage = game:GetService("ReplicatedStorage")
 local runService = game:GetService("RunService")
 local tweenService = game:GetService("TweenService")
+local userInputService = game:GetService("UserInputService")
 local player = game.Players.LocalPlayer
 local mouse = player:GetMouse()
 
@@ -37,7 +38,7 @@ function module.Start()
 				end
 				if target and partInfo then
 					if not partInfo.hovering then
-						mouse.Icon = "rbxasset://SystemCursors/PointingHand"
+						userInputService.MouseIcon = "rbxasset://SystemCursors/PointingHand"
 						partInfo.hovering = true
 						if not partInfo.highlight then
 							partInfo.highlight = highlightSelectionUtil.highlight:Clone()
@@ -54,7 +55,7 @@ function module.Start()
 							:Play()
 					end
 				else
-					mouse.Icon = "rbxasset://SystemCursors/Arrow"
+					userInputService.MouseIcon = "rbxasset://SystemCursors/Arrow"
 				end
 				for _, v in highlightSelectionUtil.selections do
 					if v == partInfo then
@@ -80,7 +81,7 @@ function module.Start()
 		elseif total <= 0 and module.checkConnection then
 			module.checkConnection:Disconnect()
 			module.checkConnection = nil
-			player:GetMouse().Icon = "rbxasset://SystemCursors/Arrow"
+			userInputService.MouseIcon = "rbxasset://SystemCursors/Arrow"
 		end
 	end)
 end

@@ -29,7 +29,7 @@ end
 
 function module.AttachId(self: ClassType, itemId: number)
 	-- Chama o método shared do ReplicableInstance primeiro
-	replicableInstance.AttachId(self, itemId)
+	itemSharedClass.AttachId(self, itemId)
 
 	-- Lógica específica do servidor
 	self.Remote:Fire(self.UID, "AttachId", { itemId })
@@ -48,14 +48,10 @@ function module.Materialize(self: ClassType, CF: CFrame)
 end
 
 function module.InstantiateTo(self: ClassType, any: string | Player, ...)
-	print(any, ...)
-	print("INSTANTIATING TO....", any, ...)
 	local success = itemSharedClass.InstantiateTo(self, any, ...)
-	print(success)
 	if not success then
 		return self
 	end
-	print("FIRING INSTANTIATED TO....", any, ...)
 	-- Lógica específica do servidor
 	self.Remote:Fire(self.UID, "InstantiateTo", { any, ... })
 	return self
@@ -82,22 +78,18 @@ function module.RemoveFromInventory(self: ClassType, inv: { any })
 end
 
 function module.TryToInstantiateTo(self: ClassType, plr: Player?, any: string | Player?, chestStorage: string?)
-	print("[DBG][ItemServer.TryToInstantiateTo]", self.UID, self.Id, plr, any, chestStorage)
 	if not t.Player(plr) or not any then
 		chestStorage = any :: string
 		any = plr
 		plr = nil
 	end
-	print("[DBG][ItemServer.TryToInstantiateTo] args:", self.Id, plr, any, chestStorage)
 	local success = itemSharedClass.TryToInstantiateTo(self, any, chestStorage)
 	if not success then
-		print("[DBG][ItemServer.TryToInstantiateTo] shared denied")
 		return self
 	end
 
 	-- Apply the authoritative state change and replicate to clients
 	self:InstantiateTo(any :: any, chestStorage)
-	print("[DBG][ItemServer.TryToInstantiateTo] applied on server. New InstantiatedTo:", self.InstantiatedTo)
 	--dataStoreManager.updateClient(plr)
 	return self
 end

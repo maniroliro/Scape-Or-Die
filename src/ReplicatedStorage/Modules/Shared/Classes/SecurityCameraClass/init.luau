@@ -1,4 +1,5 @@
 local replicatedStorage = game:GetService("ReplicatedStorage")
+local collectionService = game:GetService("CollectionService")
 
 local lib = require(replicatedStorage.lib)
 local t = lib.FunctionUtils.t
@@ -15,17 +16,20 @@ local securityCamerasDirectory = require(directoryFolder.SecurityCameras)
 local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
 module._Type = "SecurityCamera"
 
-export type ClassType = typeof(setmetatable(
-	{} :: {
-		isActivated: boolean,
-		CameraArea: BasePart | Model,
-		CameraZone: { [any]: any },
-		Support: typeof(module.Model.Support) & BasePart,
-		EnteredAreaEvent: lib.Signal<nil, Player>?,
-		ExitedAreaEvent: lib.Signal<nil, Player>?,
-	},
-	{ __index = module }
-)) & replicableInstance.ClassType & securityCamerasDirectory.Type
+export type ClassType =
+	typeof(setmetatable(
+		{} :: {
+			isActivated: boolean,
+
+			AttachedToWall: BasePart,
+			CFrame: CFrame,
+			Model: Model,
+			CameraModel: Model,
+		},
+		{ __index = module }
+	))
+	& replicableInstance.ClassType
+	& securityCamerasDirectory.Type
 
 function module.new(UID: string | number?): ClassType
 	local self = replicableInstance.newLinkedToAClass(module, replicableInstance, UID) :: ClassType
@@ -34,29 +38,40 @@ function module.new(UID: string | number?): ClassType
 	return self
 end
 
-function module.Materialize(self: ClassType, CF: CFrame)
-	local success = replicableInstance.Materialize(self, CF)
+function module.Materialize(self: ClassType, wallUID: string)
+	local success = replicableInstance.Materialize(self, wallUID)
+	print(success)
 	if not success then
-		return self
+		return false
+	end
+	print(wallUID)
+	local wall = wallUID and workspace:FindFirstAncestor(wallUID)
+	print(wall)
+	if not wall then
+		for _, instance in collectionService:GetTagged("Wall") do
+			if instance:GetAttribute("UID") == wallUID then
+				wall = instance
+				break
+			end
+		end
 	end
 
-	self.Model = securityCamerasDirectory:getItemModel(01)
-	self.Support = self.Model:FindFirstChild("Support") :: BasePart
-	self.Support.CFrame = CF
-
-	for k, v in securityCamerasDirectory:getItemModule(1) do
-		self[k] = v
+	print(wall)
+	if not wall or not wall.Parent or not wall:HasTag("Wall") then
+		return false
 	end
-
-	self.isActivated = false
+	print("s")
+	self.CameraModel = self.Model:FindFirstChild("Camera") :: Model
+	self.AttachedToWall = wall
+	self.CFrame = wall.CFrame * CFrame.new(0, 3, -wall.Size.Z / 2 + self.Model.PrimaryPart.Size.Z / 4)
 	return self
 end
 
-function module.StartWatching(self: ClassType, plr)
-	if not self.CameraArea then
-		return
-	end
-end
+-- function module.StartWatching(self: ClassType, plr)
+-- 	if not self.CameraArea then
+-- 		return
+-- 	end
+-- end
 
 function module.FinishWatching(self: ClassType) end
 
@@ -68,37 +83,6 @@ function module.Active(self: ClassType, active: boolean?)
 		return false
 	end
 	self.isActivated = active :: boolean
-
-	if self.isActivated then
-		if self.CameraZone then
-			self:StartWatching()
-			self.EnteredAreaEvent = self.Trove:Connect(self.CameraZone.playerEntered, function(plr)
-				print(plr)
-				local inv = inventorySharedUtil.getPlayerInventory(plr)
-				print(inv)
-				if inventorySharedUtil.isThereAnIlegalItemOnInventory(inv) then
-					print("player triggered")
-					self:AlertPolices(plr)
-				end
-			end)
-
-			self.ExitedAreaEvent = self.Trove:Connect(self.CameraZone.playerExited, function(plr)
-				print(plr)
-
-				self:FinishWatching()
-			end)
-		end
-	else
-		if self.EnteredAreaEvent then
-			self.EnteredAreaEvent:Disconnect()
-			self.EnteredAreaEvent = nil
-		end
-		if self.ExitedAreaEvent then
-			self.ExitedAreaEvent:Disconnect()
-			self.ExitedAreaEvent = nil
-		end
-	end
-
 	return self
 end
 

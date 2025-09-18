@@ -13,16 +13,18 @@ local getLegalRotation = utils.GetLegalRotation
 local deb = 0.2
 local ok = true
 local function cut(partPassed: Part)
-	partPassed.Touched:Connect(function(who)
-		if not ok then
-			return
-		end
-		ok = false
-
+	local con
+	con = partPassed.Touched:Connect(function(who)
 		local char = charUtil.getCharacterFromDescendant(who)
 
 		if char then
-			local charPos = char.PrimaryPart.Position
+			if not ok then
+				return
+			end
+			ok = false
+
+			con:Disconnect()
+			local charCF = char.PrimaryPart.CFrame
 			local part = Instance.new("Part")
 			part.Size = Vector3.new(4, 8, 2)
 			part.Anchored = true
@@ -30,15 +32,10 @@ local function cut(partPassed: Part)
 			part.CanCollide = false
 			part.CanTouch = false
 
-			local diff = (charPos - wallPos)
-
-			local cf = getLegalRotation(char.PrimaryPart.CFrame.Rotation)
-			cf = cf + char.PrimaryPart.Position + char.PrimaryPart.CFrame.LookVector.Unit * 1
+			local cf = getLegalRotation(charCF.Rotation)
+			cf = cf + charCF.Position + charCF.LookVector.Unit * 1
 
 			part.CFrame = cf
-			--part.Parent = workspace
-
-			--print(part)
 
 			local newP = partPassed:SubtractAsync({ part })
 			newP.Parent = workspace

@@ -1,4 +1,5 @@
 local replicatedStorage = game:GetService("ReplicatedStorage")
+local collectionService = game:GetService("CollectionService")
 
 local lib = require(replicatedStorage.lib)
 local packet = lib.ModuleUtils.Packet
@@ -66,7 +67,6 @@ end
 -- end
 
 function module.AttachId<T>(self: T & ClassType, id: number)
-	print(self, id, self.Id)
 	local directory = require(replicatedStorage.Directory[self._Type .. "s"])
 	local info = directory:getItemInfo(id)
 
@@ -77,18 +77,31 @@ function module.AttachId<T>(self: T & ClassType, id: number)
 end
 
 function module.Materialize<T>(self: T & ClassType, CF: CFrame?)
-	local directory = require(replicatedStorage.Directory[self._Type .. "s"])
-	local model = directory:getItemModel(self.Id):Clone()
+	local model = workspace:FindFirstAncestor(self.UID)
 
+	if not model then
+		for _, part in collectionService:GetTagged(self._Type) do
+			if part:GetAttribute("UID") == self.UID then
+				model = part
+				break
+			end
+		end
+	end
+	model = model or require(replicatedStorage.Directory[self._Type .. "s"]):getItemModel(self.Id):Clone()
 	self.Model = model
+	if not model then
+		return false
+	end
+
+	model:AddTag(self._Type)
+	model:SetAttribute("UID", self.UID)
 
 	if not t.CFrame(CF) then
 		return self
 	end
-	if self.Model then
-		self.CFrame = lib.Utils.GetLegalCFrame(CF :: CFrame)
-		self.Model:PivotTo(self.CFrame)
-	end
+
+	self.CFrame = lib.Utils.GetLegalCFrame(CF :: CFrame)
+	model:PivotTo(self.CFrame)
 
 	return self
 end

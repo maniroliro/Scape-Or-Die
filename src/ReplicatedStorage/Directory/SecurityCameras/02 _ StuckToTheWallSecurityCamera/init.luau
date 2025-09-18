@@ -4,6 +4,7 @@ return {
 	Id = tonumber(script.Name:match("^(.-) _")),
 	RotationDelay = 2,
 	RotationAngle = 15,
-	Fov = 60,
-	MaxDistance = 40,
+	RotationToEachSide = 2,
+	FOV = 140,
+	ViewMaxDistance = 30,
 }

@@ -5,6 +5,6 @@ return {
 	RotationDelay = 2,
 	RotationAngle = 15,
 	RotationToEachSide = 2,
-	FOV = 140,
-	ViewMaxDistance = 30,
+	FOV = 130,
+	ViewMaxDistance = 40,
 }
