@@ -29,7 +29,7 @@ end
 
 function module.AttachId(self: ClassType, id: string | number)
 	-- Chama o método shared do ReplicableInstance primeiro
-	replicableInstance.AttachId(self, id)
+	ilegalItemDetectorSharedClass.AttachId(self, id)
 
 	-- Lógica específica do servidor
 	self.Remote:Fire(self.UID, "AttachId", { self.Id })
@@ -41,6 +41,10 @@ function module.Materialize(self: ClassType, CF: CFrame)
 	if not success then
 		return self
 	end
+
+	self.Model:PivotTo(self.CFrame)
+	self.Model.Name = self.UID
+	self.Model.Parent = workspace
 
 	self.DetectionArea = ilegalItemsDetectorDirectory:getItemModel(self.Id):Clone().DetectionArea
 	self.DetectionArea.CFrame = self.CFrame
@@ -88,18 +92,14 @@ function module.ReplicateTo(self: ClassType, client: Player?)
 		self.Remote:FireClient(client, self.UID, "AttachId", { self.Id })
 		self.Remote:FireClient(client, self.UID, "Materialize", { self.CFrame })
 
-		if self.isActivated then
-			self.Remote:FireClient(client, self.UID, "Active", {})
-		end
+		self.Remote:FireClient(client, self.UID, "Active", { self.isActivated })
 	else
 		newIlegalItemDetector:Fire(self.UID)
 
 		self.Remote:Fire(self.UID, "AttachId", { self.Id })
 		self.Remote:Fire(self.UID, "Materialize", { self.CFrame })
 
-		if self.isActivated then
-			self.Remote:Fire(self.UID, "Active", {})
-		end
+		self.Remote:Fire(self.UID, "Active", { self.isActivated })
 	end
 
 	return self

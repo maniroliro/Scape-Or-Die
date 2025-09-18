@@ -130,30 +130,24 @@ function module.canAddItem(inv: { any }, itemUID: string)
 	if not itemUID then
 		return
 	end
-	print()
 	if not inv or type(inv) ~= "table" then
 		return
 	end
-	print()
 	if not module.getNextSlotForANewItem(inv) then
 		return
 	end
-	print()
 
 	local item = instancesManager.getObj(itemUID)
 	if not item then
 		return
 	end
-	print()
 
 	-- if not t.Player(item.InstantiatedTo) then
 	-- 	return
 	-- end
-	print()
 	if module.checks.findItemInInventory(inv, itemUID) then
 		return
 	end
-	print("can add item")
 
 	return true
 end
@@ -225,16 +219,13 @@ function module.addItemToInventory(itemUID: string, inv: { any }, pos: number?)
 	if not pos then
 		return
 	end
-	print("add", inv, pos, itemUID)
 	inv[pos] = itemUID
 end
 
 function module.removeItem(inv: { any }, itemUID: string)
-	print(inv, itemUID)
 	if not itemUID or not inv then
 		return
 	end
-	print()
 
 	local pos = module.checks.findItemInInventory(inv, itemUID)
 	if not pos then

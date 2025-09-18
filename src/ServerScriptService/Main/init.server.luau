@@ -4,7 +4,7 @@ local replicatedStoragemodules = replicatedStorage.Modules
 local serverStoragemodules = serverStorage.Modules
 
 local Classes = serverStoragemodules.Classes
-local secCamClass = require(Classes.SecurityCamera)
+local securityCameraClass = require(Classes.SecurityCamera)
 local chestClass = require(Classes.Chest)
 local itemClass = require(Classes.Item)
 local ilegalItemDetectorClass = require(Classes.IlegalItemDetector)
@@ -32,13 +32,9 @@ characterBehaviorService.Init()
 characterBehaviorService.Start()
 
 local plr
-local cam = secCamClass.new()
 local chest1 = chestClass.new(01)
 local chest2 = chestClass.new(01)
 local chest3 = chestClass.new(01)
-
-cam:AttachCameraArea(workspace.Area1)
-cam:start()
 
 chest1:Replicate()
 chest1:Materialize(workspace.bau1.CFrame)
@@ -48,7 +44,6 @@ for _ = 1, math.random(3, 12) do
 	newItem:AttachId(itemDirectory:getRandomItemId())
 
 	chest1:AddItem(newItem.UID)
-	print(chest1, chest1.UID, chest1.ItemsInside, newItem.UID)
 end
 for _ = 1, math.random(2, 6) do
 	local newItem = itemClass.new()
@@ -65,7 +60,6 @@ for _ = 1, math.random(3, 12) do
 	newItem:AttachId(itemDirectory:getRandomItemId())
 
 	chest2:AddItem(newItem.UID)
-	print(chest2, chest2.UID, chest2.ItemsInside, newItem.UID)
 end
 for _ = 1, math.random(2, 6) do
 	local newItem = itemClass.new()
@@ -82,7 +76,6 @@ for _ = 1, math.random(3, 12) do
 	newItem:AttachId(itemDirectory:getRandomItemId())
 
 	chest3:AddItem(newItem.UID)
-	print(chest3, chest3.UID, chest3.ItemsInside, newItem.UID)
 end
 for _ = 1, math.random(2, 6) do
 	local newItem = itemClass.new()
@@ -90,6 +83,8 @@ for _ = 1, math.random(2, 6) do
 
 	chest3:AddItem(newItem.UID, "HiddenContents")
 end
+
+-- ItemDetector
 
 local itemDetector1 = ilegalItemDetectorClass.new()
 itemDetector1:Replicate(true)
@@ -105,6 +100,15 @@ itemDetector2:Active()
 
 plr = game.Players.PlayerAdded:Wait()
 chest1:SetOwner(plr)
+
+-- SecurityCamera
+
+local cam = securityCameraClass.new()
+cam:Replicate(true)
+cam:AttachId(01)
+cam:Materialize(workspace.WallToCam)
+cam:AttachCameraZone(workspace.AreaToAttach)
+cam:Active(true)
 
 --table.insert(instances, cam)
 --table.insert(instances, chest)

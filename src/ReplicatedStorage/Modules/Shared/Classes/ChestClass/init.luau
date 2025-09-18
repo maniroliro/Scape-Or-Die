@@ -32,14 +32,18 @@ export type ChestItems = {
 	HiddenContents: { string },
 }
 
-export type ClassType = typeof(setmetatable(
-	{} :: {
-		PlayerOwner: Player?,
-		CFrame: CFrame,
-		ItemsInside: ChestItems,
-	},
-	{ __index = module }
-)) & replicableInstance.ClassType & chestDirectory.Type
+export type ClassType =
+	typeof(setmetatable(
+		{} :: {
+			PlayerOwner: Player?,
+			CFrame: CFrame,
+			Model: Model, -- typeof(replicatedStorage.Assets.Directory.Chests["00 _ Template"].Model),
+			ItemsInside: ChestItems,
+		},
+		{ __index = module }
+	))
+	& replicableInstance.ClassType
+	& chestDirectory.Type
 
 function module.new(UID: string | number?): ClassType
 	local self = replicableInstance.newLinkedToAClass(module, replicableInstance, UID) :: ClassType
@@ -82,7 +86,6 @@ function module.getNextFreeSlot(self: ClassType, contentName: Storages)
 	end
 	for i = 1, maxNOfItems do
 		local uid = chestStorage[i]
-		print(i, uid)
 		if not uid then
 			return i
 		end
@@ -92,22 +95,18 @@ function module.getNextFreeSlot(self: ClassType, contentName: Storages)
 end
 
 function module.canRemoveItem(self: ClassType, itemUID: string)
-	print(itemUID)
 	if not itemUID or type(itemUID) ~= "string" then
 		return false
 	end
 
 	local items: ChestItems = self.ItemsInside
-	print(items)
 	for _, storage in items do
-		print(storage)
 		for _, uid in storage do
 			if uid == itemUID then
 				return true
 			end
 		end
 	end
-	print()
 	return false
 end
 
@@ -152,9 +151,7 @@ function module.AddItem(self: ClassType, itemUID: string, contentName: Storages,
 	if not maybepos then
 		return false
 	end
-	print(pos)
 	pos = pos and self:isPosAFreeSlot(contentName, pos) or maybepos
-	print(pos)
 	if not pos then
 		return false -- Não pode adicionar
 	end
@@ -165,20 +162,7 @@ function module.AddItem(self: ClassType, itemUID: string, contentName: Storages,
 
 	contentTab[pos] = itemUID
 	item:InstantiateTo(self.UID, contentName)
-	print()
 	return pos
-end
-
-function module.UpdatePlayerSearching(self: ClassType, plr: Player)
-	--SERVER ONLY
-
-	return self
-end
-
-function module.playerBeganHoldingProximityPrompt(self: ClassType, plr: Player)
-	--SERVER ONLY
-
-	return self
 end
 
 function module.SetOwner(self: ClassType, plr: Player?)
@@ -224,4 +208,3 @@ function module.RemoveItem(self: ClassType, itemUID: string, contentName: Storag
 end
 
 return module
-

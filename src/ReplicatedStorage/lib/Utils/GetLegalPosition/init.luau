@@ -1,7 +1,5 @@
 --!strict
-local RoundXRotation = require(script.Parent.GetLegalRotation)
-
-return function(p: Vector3, strType: string): Vector3
+return function(p: Vector3, strType: string?): Vector3
 	if typeof(p) ~= "Vector3" then
 		return (nil :: any) :: Vector3
 	end
@@ -16,9 +14,8 @@ return function(p: Vector3, strType: string): Vector3
 		local x = math.floor(p.X / 4) * 4 + 2
 		local y = math.round(p.Y / 2) * 2
 		local z = math.floor(p.Z / 4) * 4 + 2
-		-- Se quiser manter a rotação original, troque para: cf.Rotation * CFrame.new(x, y, z)
-		local newPos = Vector3.new(x, y, z)
-		return newPos
+
+		return Vector3.new(x, y, z)
 	end
 
 	return p

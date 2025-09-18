@@ -17,18 +17,19 @@ local inventorySharedUtil = require(replicatedStorage.Modules.Shared.Utils.Inven
 
 local module = setmetatable({}, ilegalItemDetectorSharedClass)
 
-export type ClassType = typeof(setmetatable(
-	{} :: {
-		Model: typeof(ilegalItemsDetectorDirectory.directoryFolder["00 _ Template"].Model),
-		AlertLights: { Part },
+export type ClassType =
+	typeof(setmetatable(
+		{} :: {
+			AlertLights: { Part },
 
-		AlertLevel: number, -- 0..3
-		AlertClientThread: thread?,
+			AlertLevel: number, -- 0..3
+			AlertClientThread: thread?,
 
-		LastBlinkedLight: number,
-	},
-	{ index = module }
-)) & ilegalItemDetectorSharedClass.ClassType
+			LastBlinkedLight: number,
+		},
+		{ index = module }
+	))
+	& ilegalItemDetectorSharedClass.ClassType
 
 local alertingSettings = {
 	[0] = {
@@ -52,21 +53,21 @@ local alertingSettings = {
 }
 
 function module.new(UID: string): ClassType
-    local self: ClassType =
-        replicableInstance.newLinkedToAClass(module, ilegalItemDetectorSharedClass, UID) :: ClassType
+	local self: ClassType =
+		replicableInstance.newLinkedToAClass(module, ilegalItemDetectorSharedClass, UID) :: ClassType
 	self.AlertLights = {}
 	self.LastBlinkedLight = 1
 	return self
 end
 
 function module.Materialize(self: ClassType, CF: CFrame)
-    local canMaterialize = ilegalItemDetectorSharedClass.Materialize(self, CF)
+	local canMaterialize = ilegalItemDetectorSharedClass.Materialize(self, CF)
 	if not canMaterialize then
 		return self
 	end
 
 	-- Client-specific logic
-	self.Model = ilegalItemsDetectorDirectory:getItemModel(self.Id):Clone()
+	--self.Model = ilegalItemsDetectorDirectory:getItemModel(self.Id):Clone()
 	self.Model:PivotTo(self.CFrame)
 	self.Model.Name = self.UID
 	self.Model.Parent = workspace
@@ -117,7 +118,7 @@ end
 -- aplica nível e controla o loop de pisca
 function module.SetLevel(self: ClassType, newLevel: number)
 	-- Chama a classe compartilhada primeiro para validação
-    local canSetLevel = ilegalItemDetectorSharedClass.SetLevel(self, newLevel)
+	local canSetLevel = ilegalItemDetectorSharedClass.SetLevel(self, newLevel)
 	if not canSetLevel then
 		return self
 	end
@@ -142,7 +143,7 @@ end
 
 -- entrada local (quando o próprio jogador toca e tem item ilegal)
 function module.Alert(self: ClassType, level: number?)
-    local canAlert = ilegalItemDetectorSharedClass.Alert(self, level)
+	local canAlert = ilegalItemDetectorSharedClass.Alert(self, level)
 	if not canAlert then
 		return self
 	end
@@ -163,7 +164,7 @@ function module.PlayerTriggered(self: ClassType)
 end
 
 function module.Active(self: ClassType, active: boolean?)
-    local canActivate = ilegalItemDetectorSharedClass.Active(self, active)
+	local canActivate = ilegalItemDetectorSharedClass.Active(self, active)
 	if not canActivate then
 		return self
 	end

@@ -44,7 +44,6 @@ local function fireTotalSelected(plusOrMinus: string)
 end
 
 function module.addSelection(part: PVInstance)
-	print(part)
 	if module.selections[part] then
 		return nil
 	end
