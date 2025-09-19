@@ -42,8 +42,6 @@ function module.Materialize(self: ClassType, CF: CFrame)
 		return self
 	end
 
-	self.Model:PivotTo(self.CFrame)
-	self.Model.Name = self.UID
 	self.Model.Parent = workspace
 
 	self.DetectionArea = ilegalItemsDetectorDirectory:getItemModel(self.Id):Clone().DetectionArea

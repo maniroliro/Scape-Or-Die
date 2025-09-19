@@ -110,6 +110,13 @@ cam:Materialize(workspace.WallToCam)
 cam:AttachCameraZone(workspace.AreaToAttach)
 cam:Active(true)
 
+local cam2 = securityCameraClass.new()
+cam2:Replicate(true)
+cam2:AttachId(02)
+cam2:Materialize(workspace.WallToCam2)
+cam2:AttachCameraZone(workspace.AreaToAttach2)
+cam2:Active(true)
+
 --table.insert(instances, cam)
 --table.insert(instances, chest)
 

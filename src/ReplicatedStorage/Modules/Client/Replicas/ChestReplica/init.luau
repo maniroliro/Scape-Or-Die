@@ -38,7 +38,6 @@ export type ClassType =
 
 function module.new(UID: string)
 	local self: ClassType = replicableInstance.newLinkedToAClass(module, chestSharedClass, UID) :: ClassType
-	self._Type = "Chest"
 	self.ItemsInside = {
 		DeskContents = {},
 		HiddenContents = {},

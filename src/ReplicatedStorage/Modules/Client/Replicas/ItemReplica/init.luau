@@ -12,7 +12,6 @@ local sharedClasses = sharedModules.Classes
 local itemSharedClass = require(sharedClasses.ItemClass)
 
 local replicableInstance = require(sharedClasses.ReplicableInstance)
-local instancesManager = require(sharedModules.Managers.InstancesManager)
 
 local inventoryUtil = require(sharedModules.Utils.InventoryUtilShared)
 local inventoryUtilClient = require(clientModules.Utils.InventoryUtilClient)
@@ -140,7 +139,6 @@ function module.AnimKeyDown(self: ClassType)
 				elseif t.Player(self.InstantiatedTo) then
 					local chestOpen = localPlayer:GetAttribute("ChestOpen")
 					if chestOpen then
-						local chest = instancesManager.getObj(chestOpen)
 						self:TryToInstantiateTo(chestOpen, "DeskContents")
 					end
 				end
