@@ -8,10 +8,18 @@ local getLegalUID = lib.Utils.GetLegalUID
 local t = lib.FunctionUtils.t
 local remotes = lib.Remotes
 
+local dirFolder: Folder = replicatedStorage.Directory
+
 local sharedModules = replicatedStorage.Modules.Shared
 local instancesManager = require(sharedModules.Managers.InstancesManager)
 
 local module = setmetatable({}, { __index = instancesManager })
+
+local directories = {}
+
+for _, dirType in dirFolder:GetChildren() do
+	directories[dirType.Name:sub(1, #dirType.Name - 1)] = require(dirType)
+end
 
 export type genericObjType = instancesManager.genericObjType
 
@@ -42,19 +50,15 @@ function module.newLinkedToAClass<T, T2>(
 	UID: string?
 ): ClassType
 	local self = setmetatable(sharedClassModule.new(UID), {
-		__index = function(_, k)
-			local func1 = rawget(realClassModule, k)
+		__index = function(self, k)
+			local value1 = rawget(realClassModule, k) or directories[self._Type]:getItemInfo(id)[k]
 
-			if typeof(func1) == "function" then
-				return func1
+			if value1 then
+				return value1
 			end
 
-			local func2 = sharedClassModule[k]
-			if typeof(func2) == "function" then
-				return func2
-			end
-
-			return func2
+			local value2 = sharedClassModule[k]
+			return value2
 		end,
 	})
 
@@ -67,7 +71,7 @@ end
 -- end
 
 function module.AttachId<T>(self: T & ClassType, id: number)
-	local directory = require(replicatedStorage.Directory[self._Type .. "s"])
+	local directory = directories[self._Type]
 	local info = directory:getItemInfo(id)
 
 	for k, v in info do
@@ -87,12 +91,15 @@ function module.Materialize<T>(self: T & ClassType, CF: CFrame?)
 			end
 		end
 	end
+
 	model = model or require(replicatedStorage.Directory[self._Type .. "s"]):getItemModel(self.Id):Clone()
-	self.Model = model
-	self.Model.Name = self._Type .. " _ " .. self.UID
+
 	if not model then
 		return false
 	end
+
+	self.Model = model
+	self.Model.Name = self._Type .. " _ " .. self.UID
 
 	model:AddTag(self._Type)
 	model:SetAttribute("UID", self.UID)
