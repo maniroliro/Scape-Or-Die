@@ -5,9 +5,7 @@ A open souce game project
 ## TODO: 
 ### Classes:
 [ ] JailComponent - Jail physical parts that can be interact
-
     CanBeBroken - alert polices if it is broken
-
     CanGoInto - alert polices if prisoner is into it
 
 
