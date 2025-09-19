@@ -129,7 +129,7 @@ local function ItemInfoOrganizer(item)
 	end
 
 	itemInfoOverlay.UIStroke.Color = item.Legal and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(255, 0, 4)
-	itemInfoOverlay.Info.ItemName.Text = item.UID
+	itemInfoOverlay.Info.ItemName.Text = item.Id .. " _ " .. item.Name -- or "Unknown Item"
 
 	local infoinfo = itemInfoOverlay.Info.Info
 	infoinfo.Speed.Text = "Speed: " .. item.AttackInfos.Speed.Name

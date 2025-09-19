@@ -89,6 +89,7 @@ function module.Materialize<T>(self: T & ClassType, CF: CFrame?)
 	end
 	model = model or require(replicatedStorage.Directory[self._Type .. "s"]):getItemModel(self.Id):Clone()
 	self.Model = model
+	self.Model.Name = self._Type .. " _ " .. self.UID
 	if not model then
 		return false
 	end

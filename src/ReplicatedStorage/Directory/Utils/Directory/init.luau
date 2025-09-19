@@ -77,7 +77,10 @@ end
 
 function MT.getRandomItemModule<ModuleScriptDirectory>(self: ClassType<ModuleScriptDirectory>): ModuleScript
 	local items = self.directoryFolder:GetChildren()
-	local randomItem = items[math.random(1, #items)]
+	table.sort(items, function(a, b)
+		return a.Name < b.Name -- ordem alfabética
+	end)
+	local randomItem = items[math.random(2, #items)]
 	return randomItem
 end
 

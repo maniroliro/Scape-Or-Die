@@ -1,5 +1,6 @@
 local runService = game:GetService("RunService")
 local replicatedStorage = game:GetService("ReplicatedStorage")
+local playersService = game:GetService("Players")
 
 local lib = require(replicatedStorage.lib)
 local t = lib.FunctionUtils.t
@@ -11,19 +12,15 @@ local replicableInstance = require(sharedModules.Classes.ReplicableInstance)
 local securityCameraSharedClass = require(sharedModules.Classes.SecurityCameraClass)
 local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
 
-local directoryFolder = replicatedStorage.Directory
-
-local securityCamerasDirectory = require(directoryFolder.SecurityCameras)
-
 local module = setmetatable({}, { __index = securityCameraSharedClass })
 
 export type ClassType =
 	typeof(setmetatable(
 		{} :: {
-			CameraZone: BasePart,
+			CameraZone: BasePart?,
 			PlayersInTheArea: { Player },
-			EnteredAreaEvent: lib.Signal<nil, Player>?,
-			ExitedAreaEvent: lib.Signal<nil, Player>?,
+			StartWatchingPlayer: lib.Signal<nil, Player>?,
+			FinishWatchingPlayer: lib.Signal<nil, Player>?,
 			CheckingPlayersInTheArea: RBXScriptConnection?,
 			RotationConnection: RBXScriptConnection?,
 
@@ -167,6 +164,7 @@ function module.StartWatching(self: ClassType, plr: Player?)
 				print("Player in sight", player)
 				local inv = inventorySharedUtil.getPlayerInventory(player)
 				if inventorySharedUtil.isThereAnIlegalItemOnInventory(inv) then
+					part.Color = Color3.new(0, 1, 0)
 					print("player triggered")
 					self:AlertPolices(player)
 				end
@@ -189,6 +187,19 @@ end
 
 function module.AlertPolices(self: ClassType) end
 
+function module.StopWatchingPlayer(self: ClassType, plr: Player)
+	local find = table.find(self.PlayersInTheArea, plr)
+	if find then
+		table.remove(self.PlayersInTheArea, find)
+	end
+
+	if #self.PlayersInTheArea == 0 then
+		self:FinishWatching()
+	end
+
+	return self
+end
+
 function module.Active(self: ClassType, active: boolean?)
 	print()
 	local sucess = securityCameraSharedClass.Active(self, active)
@@ -200,23 +211,30 @@ function module.Active(self: ClassType, active: boolean?)
 	if self.isActivated then
 		print(self.CameraZone)
 		if self.CameraZone then
-			print()
-			self.EnteredAreaEvent = self.Trove:Connect(self.CameraZone.playerEntered, function(plr)
-				print()
+			print(self.CameraZone)
+			self.StartWatchingPlayer = self.Trove:Connect(self.CameraZone.playerEntered, function(plr)
+				print(plr)
 				self:StartWatching(plr)
 			end)
 
-			self.ExitedAreaEvent = self.Trove:Connect(self.CameraZone.playerExited, function(plr)
+			self.FinishWatchingPlayer = self.Trove:Connect(self.CameraZone.playerExited, function(plr)
 				print(plr)
-				local find = table.find(self.PlayersInTheArea, plr)
-				if find then
-					table.remove(self.PlayersInTheArea, find)
-				end
+				self:StopWatchingPlayer(plr)
+			end)
+		else
+			print(playersService:GetPlayers())
 
-				if #self.PlayersInTheArea == 0 then
-					self:FinishWatching()
-					return
-				end
+			for _, plr in playersService:GetPlayers() do
+				self:StartWatching(plr)
+			end
+
+			self.StartWatchingPlayer = playersService.PlayerAdded:Connect(function(plr)
+				print(plr)
+				self:StartWatching(plr)
+			end)
+			self.FinishWatchingPlayer = playersService.PlayerRemoving:Connect(function(plr)
+				print(plr)
+				self:StopWatchingPlayer(plr)
 			end)
 		end
 
@@ -234,7 +252,7 @@ function module.Active(self: ClassType, active: boolean?)
 					self.CameraModel:GetPivot()
 						* CFrame.Angles(0, math.rad(self.RotationAngle) * self.RotationMultiplier, 0)
 				)
-				if self.AlreadyRotatedToOneSide >= self.RotationToEachSide then
+				if (self.AlreadyRotatedToOneSide :: number) >= (self.RotationToEachSide :: number) then
 					self.RotationMultiplier = self.RotationMultiplier * -1
 					self.AlreadyRotatedToOneSide = -2
 				end
@@ -242,13 +260,13 @@ function module.Active(self: ClassType, active: boolean?)
 		end)
 	else
 		print()
-		if self.EnteredAreaEvent then
-			self.EnteredAreaEvent:Disconnect()
-			self.EnteredAreaEvent = nil
+		if self.StartWatchingPlayer then
+			self.StartWatchingPlayer:Disconnect()
+			self.StartWatchingPlayer = nil
 		end
-		if self.ExitedAreaEvent then
-			self.ExitedAreaEvent:Disconnect()
-			self.ExitedAreaEvent = nil
+		if self.FinishWatchingPlayer then
+			self.FinishWatchingPlayer:Disconnect()
+			self.FinishWatchingPlayer = nil
 		end
 		if self.RotationConnection then
 			self.RotationConnection:Disconnect()

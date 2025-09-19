@@ -1,13 +1,8 @@
 local replicatedStorage = game:GetService("ReplicatedStorage")
 local collectionService = game:GetService("CollectionService")
 
-local lib = require(replicatedStorage.lib)
-local t = lib.FunctionUtils.t
-local charUtil = lib.FunctionUtils.Character
-
 local sharedModules = replicatedStorage.Modules.Shared
 local replicableInstance = require(sharedModules.Classes.ReplicableInstance)
-local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
 
 local directoryFolder = replicatedStorage.Directory
 
@@ -33,7 +28,6 @@ export type ClassType =
 
 function module.new(UID: string | number?): ClassType
 	local self = replicableInstance.newLinkedToAClass(module, replicableInstance, UID) :: ClassType
-	self.items = {}
 
 	return self
 end
@@ -61,7 +55,7 @@ function module.Materialize(self: ClassType, wallUID: string)
 		return false
 	end
 	print("s")
-	self.CameraModel = self.Model:FindFirstChild("Camera") :: Model
+	self.CameraModel = self.Model:FindFirstChild("FunctionalCamera") :: Model
 	self.AttachedToWall = wall
 	self.CFrame = wall.CFrame * CFrame.new(0, 3, -wall.Size.Z / 2 + self.Model.PrimaryPart.Size.Z / 4)
 	return self
