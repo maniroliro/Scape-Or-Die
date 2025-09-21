@@ -98,6 +98,208 @@
 				</CFrame>
 			</OptionalCoordinateFrame>
 		</Properties>
+		<Item class="Part" referent="RBX57CE840897D046B3BEAEF5F65D900EA0">
+			<Properties>
+				<bool name="Anchored">true</bool>
+				<BinaryString name="AttributesSerialize">AQAAAAMAAABVSUQCDAAAADc4Njg2Nzg3dWl5dA==</BinaryString>
+				<bool name="AudioCanCollide">true</bool>
+				<float name="BackParamA">-0.5</float>
+				<float name="BackParamB">0.5</float>
+				<token name="BackSurface">0</token>
+				<token name="BackSurfaceInput">0</token>
+				<float name="BottomParamA">-0.5</float>
+				<float name="BottomParamB">0.5</float>
+				<token name="BottomSurface">0</token>
+				<token name="BottomSurfaceInput">0</token>
+				<CoordinateFrame name="CFrame">
+					<X>-1.99999619</X>
+					<Y>5</Y>
+					<Z>-54</Z>
+					<R00>-1</R00>
+					<R01>0</R01>
+					<R02>0</R02>
+					<R10>0</R10>
+					<R11>1</R11>
+					<R12>0</R12>
+					<R20>0</R20>
+					<R21>0</R21>
+					<R22>-1</R22>
+				</CoordinateFrame>
+				<bool name="CanCollide">true</bool>
+				<bool name="CanQuery">true</bool>
+				<bool name="CanTouch">true</bool>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="CastShadow">true</bool>
+				<string name="CollisionGroup">Default</string>
+				<int name="CollisionGroupId">0</int>
+				<Color3uint8 name="Color3uint8">4283584851</Color3uint8>
+				<PhysicalProperties name="CustomPhysicalProperties">
+					<CustomPhysics>false</CustomPhysics>
+				</PhysicalProperties>
+				<bool name="DefinesCapabilities">false</bool>
+				<bool name="EnableFluidForces">true</bool>
+				<float name="FrontParamA">-0.5</float>
+				<float name="FrontParamB">0.5</float>
+				<token name="FrontSurface">0</token>
+				<token name="FrontSurfaceInput">0</token>
+				<UniqueId name="HistoryId">71a063858dcc7d6108d9a507000060b3</UniqueId>
+				<float name="LeftParamA">-0.5</float>
+				<float name="LeftParamB">0.5</float>
+				<token name="LeftSurface">0</token>
+				<token name="LeftSurfaceInput">0</token>
+				<bool name="Locked">false</bool>
+				<bool name="Massless">false</bool>
+				<token name="Material">256</token>
+				<string name="MaterialVariantSerialized"></string>
+				<string name="Name">WallToCam2</string>
+				<CoordinateFrame name="PivotOffset">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+					<R00>1</R00>
+					<R01>0</R01>
+					<R02>0</R02>
+					<R10>0</R10>
+					<R11>1</R11>
+					<R12>0</R12>
+					<R20>0</R20>
+					<R21>0</R21>
+					<R22>1</R22>
+				</CoordinateFrame>
+				<float name="Reflectance">0</float>
+				<float name="RightParamA">-0.5</float>
+				<float name="RightParamB">0.5</float>
+				<token name="RightSurface">0</token>
+				<token name="RightSurfaceInput">0</token>
+				<int name="RootPriority">0</int>
+				<Vector3 name="RotVelocity">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+				</Vector3>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags">V2FsbA==</BinaryString>
+				<float name="TopParamA">-0.5</float>
+				<float name="TopParamB">0.5</float>
+				<token name="TopSurface">0</token>
+				<token name="TopSurfaceInput">0</token>
+				<float name="Transparency">0</float>
+				<UniqueId name="UniqueId">00ad88059fa4b3fc08db54e700023686</UniqueId>
+				<Vector3 name="Velocity">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+				</Vector3>
+				<token name="formFactorRaw">1</token>
+				<token name="shape">1</token>
+				<Vector3 name="size">
+					<X>4</X>
+					<Y>10</Y>
+					<Z>4</Z>
+				</Vector3>
+			</Properties>
+		</Item>
+		<Item class="Part" referent="RBXC41D9190D8834498A885CC873F9E61AE">
+			<Properties>
+				<bool name="Anchored">true</bool>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<bool name="AudioCanCollide">true</bool>
+				<float name="BackParamA">-0.5</float>
+				<float name="BackParamB">0.5</float>
+				<token name="BackSurface">0</token>
+				<token name="BackSurfaceInput">0</token>
+				<float name="BottomParamA">-0.5</float>
+				<float name="BottomParamB">0.5</float>
+				<token name="BottomSurface">0</token>
+				<token name="BottomSurfaceInput">0</token>
+				<CoordinateFrame name="CFrame">
+					<X>-1.7610321</X>
+					<Y>8.15754604</Y>
+					<Z>-34.2630768</Z>
+					<R00>0</R00>
+					<R01>0</R01>
+					<R02>1</R02>
+					<R10>0</R10>
+					<R11>1</R11>
+					<R12>0</R12>
+					<R20>-1</R20>
+					<R21>0</R21>
+					<R22>0</R22>
+				</CoordinateFrame>
+				<bool name="CanCollide">false</bool>
+				<bool name="CanQuery">true</bool>
+				<bool name="CanTouch">true</bool>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="CastShadow">true</bool>
+				<string name="CollisionGroup">Default</string>
+				<int name="CollisionGroupId">0</int>
+				<Color3uint8 name="Color3uint8">4288914085</Color3uint8>
+				<PhysicalProperties name="CustomPhysicalProperties">
+					<CustomPhysics>false</CustomPhysics>
+				</PhysicalProperties>
+				<bool name="DefinesCapabilities">false</bool>
+				<bool name="EnableFluidForces">true</bool>
+				<float name="FrontParamA">-0.5</float>
+				<float name="FrontParamB">0.5</float>
+				<token name="FrontSurface">0</token>
+				<token name="FrontSurfaceInput">0</token>
+				<UniqueId name="HistoryId">1e81e3ab4178f7f508957bec00000de2</UniqueId>
+				<float name="LeftParamA">-0.5</float>
+				<float name="LeftParamB">0.5</float>
+				<token name="LeftSurface">0</token>
+				<token name="LeftSurfaceInput">0</token>
+				<bool name="Locked">false</bool>
+				<bool name="Massless">false</bool>
+				<token name="Material">256</token>
+				<string name="MaterialVariantSerialized"></string>
+				<string name="Name">AreaToAttach2</string>
+				<CoordinateFrame name="PivotOffset">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+					<R00>1</R00>
+					<R01>0</R01>
+					<R02>0</R02>
+					<R10>0</R10>
+					<R11>1</R11>
+					<R12>0</R12>
+					<R20>0</R20>
+					<R21>0</R21>
+					<R22>1</R22>
+				</CoordinateFrame>
+				<float name="Reflectance">0</float>
+				<float name="RightParamA">-0.5</float>
+				<float name="RightParamB">0.5</float>
+				<token name="RightSurface">0</token>
+				<token name="RightSurfaceInput">0</token>
+				<int name="RootPriority">0</int>
+				<Vector3 name="RotVelocity">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+				</Vector3>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+				<float name="TopParamA">-0.5</float>
+				<float name="TopParamB">0.5</float>
+				<token name="TopSurface">0</token>
+				<token name="TopSurfaceInput">0</token>
+				<float name="Transparency">1</float>
+				<UniqueId name="UniqueId">00ad88059fa4b3fc08db54e700023e66</UniqueId>
+				<Vector3 name="Velocity">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+				</Vector3>
+				<token name="formFactorRaw">1</token>
+				<token name="shape">1</token>
+				<Vector3 name="size">
+					<X>39.4738464</X>
+					<Y>16.3150921</Y>
+					<Z>33.4485321</Z>
+				</Vector3>
+			</Properties>
+		</Item>
 		<Item class="Folder" referent="RBX536A7A86C59A49218D0144D1AEF5A3F5">
 			<Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
@@ -14154,7 +14356,7 @@
 				<token name="BottomSurfaceInput">0</token>
 				<CoordinateFrame name="CFrame">
 					<X>9.5</X>
-					<Y>2.5</Y>
+					<Y>4.5</Y>
 					<Z>-28.5</Z>
 					<R00>0</R00>
 					<R01>0</R01>
@@ -15899,18 +16101,18 @@
 			<Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
 				<CoordinateFrame name="CFrame">
-					<X>-18.8338909</X>
-					<Y>31.4934998</Y>
-					<Z>-32.5931473</Z>
-					<R00>0.996569276</R00>
-					<R01>0.0717075095</R01>
-					<R02>-0.0413246043</R02>
+					<X>-8.11547184</X>
+					<Y>24.4821262</Y>
+					<Z>29.2985134</Z>
+					<R00>-0.863552988</R00>
+					<R01>0.373258859</R01>
+					<R02>-0.339048982</R02>
 					<R10>-0</R10>
-					<R11>0.499313444</R11>
-					<R12>0.866421521</R12>
-					<R20>0.0827628449</R20>
-					<R21>-0.863449097</R21>
-					<R22>0.497600436</R22>
+					<R11>0.672371745</R11>
+					<R12>0.740213633</R12>
+					<R20>0.504258275</R20>
+					<R21>0.639213681</R21>
+					<R22>-0.580628574</R22>
 				</CoordinateFrame>
 				<Ref name="CameraSubject">null</Ref>
 				<token name="CameraType">0</token>
@@ -15919,9 +16121,9 @@
 				<float name="FieldOfView">90</float>
 				<token name="FieldOfViewMode">0</token>
 				<CoordinateFrame name="Focus">
-					<X>-18.7512417</X>
-					<Y>29.7606564</Y>
-					<Z>-33.5883484</Z>
+					<X>-7.43737411</X>
+					<Y>23.0016994</Y>
+					<Z>30.4597702</Z>
 					<R00>1</R00>
 					<R01>0</R01>
 					<R02>0</R02>
@@ -45290,9 +45492,9 @@ c25vZHJhdw==]]></BinaryString>
 				<token name="BottomSurface">0</token>
 				<token name="BottomSurfaceInput">0</token>
 				<CoordinateFrame name="CFrame">
-					<X>-35.2095413</X>
-					<Y>8.15754604</Y>
-					<Z>-43.7223282</Z>
+					<X>-35.2757339</X>
+					<Y>8.15753174</Y>
+					<Z>-48.2630997</Z>
 					<R00>0</R00>
 					<R01>0</R01>
 					<R02>1</R02>
@@ -45361,7 +45563,7 @@ c25vZHJhdw==]]></BinaryString>
 				<float name="TopParamB">0.5</float>
 				<token name="TopSurface">0</token>
 				<token name="TopSurfaceInput">0</token>
-				<float name="Transparency">0.850000024</float>
+				<float name="Transparency">1</float>
 				<UniqueId name="UniqueId">322c757c0ea8ec0d08d718dc0000265e</UniqueId>
 				<Vector3 name="Velocity">
 					<X>0</X>
@@ -51074,7 +51276,7 @@ c25vZHJhdw==]]></BinaryString>
 				<CoordinateFrame name="CFrame">
 					<X>22</X>
 					<Y>16.5</Y>
-					<Z>46.0000038</Z>
+					<Z>180</Z>
 					<R00>1</R00>
 					<R01>0</R01>
 					<R02>0</R02>
@@ -51159,10 +51361,10 @@ c25vZHJhdw==]]></BinaryString>
 				</Vector3>
 			</Properties>
 		</Item>
-		<Item class="Part" referent="RBX57CE840897D046B3BEAEF5F65D900EA0">
+		<Item class="Part" referent="RBX7719881759234C5FA41BB9C2E783D3D3">
 			<Properties>
 				<bool name="Anchored">true</bool>
-				<BinaryString name="AttributesSerialize">AQAAAAMAAABVSUQCEgAAAGRmamhnNmU3ZHRocjQ2N2l1Zg==</BinaryString>
+				<BinaryString name="AttributesSerialize">AQAAAAMAAABVSUQCCgAAADY0N3R5amdmaGo=</BinaryString>
 				<bool name="AudioCanCollide">true</bool>
 				<float name="BackParamA">-0.5</float>
 				<float name="BackParamB">0.5</float>
@@ -51173,18 +51375,18 @@ c25vZHJhdw==]]></BinaryString>
 				<token name="BottomSurface">0</token>
 				<token name="BottomSurfaceInput">0</token>
 				<CoordinateFrame name="CFrame">
-					<X>-1.99999619</X>
-					<Y>5</Y>
-					<Z>-54</Z>
-					<R00>-1</R00>
+					<X>-5.00136518</X>
+					<Y>5.00000048</Y>
+					<Z>51.6239853</Z>
+					<R00>0.0523360372</R00>
 					<R01>0</R01>
-					<R02>0</R02>
+					<R02>-0.99862963</R02>
 					<R10>0</R10>
-					<R11>1</R11>
+					<R11>0.99999994</R11>
 					<R12>0</R12>
-					<R20>0</R20>
+					<R20>0.99862963</R20>
 					<R21>0</R21>
-					<R22>-1</R22>
+					<R22>0.0523360372</R22>
 				</CoordinateFrame>
 				<bool name="CanCollide">true</bool>
 				<bool name="CanQuery">true</bool>
@@ -51193,7 +51395,7 @@ c25vZHJhdw==]]></BinaryString>
 				<bool name="CastShadow">true</bool>
 				<string name="CollisionGroup">Default</string>
 				<int name="CollisionGroupId">0</int>
-				<Color3uint8 name="Color3uint8">4283584851</Color3uint8>
+				<Color3uint8 name="Color3uint8">4288914085</Color3uint8>
 				<PhysicalProperties name="CustomPhysicalProperties">
 					<CustomPhysics>false</CustomPhysics>
 				</PhysicalProperties>
@@ -51203,7 +51405,7 @@ c25vZHJhdw==]]></BinaryString>
 				<float name="FrontParamB">0.5</float>
 				<token name="FrontSurface">0</token>
 				<token name="FrontSurfaceInput">0</token>
-				<UniqueId name="HistoryId">71a063858dcc7d6108d9a507000060b3</UniqueId>
+				<UniqueId name="HistoryId">74b91ffe987485c108e0be5100001b4e</UniqueId>
 				<float name="LeftParamA">-0.5</float>
 				<float name="LeftParamB">0.5</float>
 				<token name="LeftSurface">0</token>
@@ -51212,7 +51414,7 @@ c25vZHJhdw==]]></BinaryString>
 				<bool name="Massless">false</bool>
 				<token name="Material">256</token>
 				<string name="MaterialVariantSerialized"></string>
-				<string name="Name">WallToCam2</string>
+				<string name="Name">WallToCam3</string>
 				<CoordinateFrame name="PivotOffset">
 					<X>0</X>
 					<Y>0</Y>
@@ -51245,7 +51447,7 @@ c25vZHJhdw==]]></BinaryString>
 				<token name="TopSurface">0</token>
 				<token name="TopSurfaceInput">0</token>
 				<float name="Transparency">0</float>
-				<UniqueId name="UniqueId">00ad88059fa4b3fc08db54e700023686</UniqueId>
+				<UniqueId name="UniqueId">74b91ffe987485c108e0be5100002978</UniqueId>
 				<Vector3 name="Velocity">
 					<X>0</X>
 					<Y>0</Y>
@@ -51256,11 +51458,858 @@ c25vZHJhdw==]]></BinaryString>
 				<Vector3 name="size">
 					<X>4</X>
 					<Y>10</Y>
-					<Z>4</Z>
+					<Z>2</Z>
 				</Vector3>
 			</Properties>
+			<Item class="Model" referent="RBX4A6E092ABF424EEBB4CF3FF2541009AF">
+				<Properties>
+					<BinaryString name="AttributesSerialize"></BinaryString>
+					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+					<bool name="DefinesCapabilities">false</bool>
+					<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+					<token name="LevelOfDetail">0</token>
+					<CoordinateFrame name="ModelMeshCFrame">
+						<X>0</X>
+						<Y>0</Y>
+						<Z>0</Z>
+						<R00>1</R00>
+						<R01>0</R01>
+						<R02>0</R02>
+						<R10>0</R10>
+						<R11>1</R11>
+						<R12>0</R12>
+						<R20>0</R20>
+						<R21>0</R21>
+						<R22>1</R22>
+					</CoordinateFrame>
+					<SharedString name="ModelMeshData">yuZpQdnvvUBOTYh1jqZ2cA==</SharedString>
+					<Vector3 name="ModelMeshSize">
+						<X>0</X>
+						<Y>0</Y>
+						<Z>0</Z>
+					</Vector3>
+					<token name="ModelStreamingMode">0</token>
+					<string name="Name">light1</string>
+					<bool name="NeedsPivotMigration">false</bool>
+					<Ref name="PrimaryPart">null</Ref>
+					<float name="ScaleFactor">1</float>
+					<int64 name="SourceAssetId">4858075343</int64>
+					<BinaryString name="Tags"></BinaryString>
+					<UniqueId name="UniqueId">74b91ffe987485c108e0be5100002ba2</UniqueId>
+					<OptionalCoordinateFrame name="WorldPivotData">
+						<CFrame>
+							<X>34.0646858</X>
+							<Y>6.50000048</Y>
+							<Z>49.4524193</Z>
+							<R00>0.0523375943</R00>
+							<R01>0</R01>
+							<R02>-0.998668492</R02>
+							<R10>0</R10>
+							<R11>0.999985397</R11>
+							<R12>0</R12>
+							<R20>0.998668492</R20>
+							<R21>0</R21>
+							<R22>0.0523375943</R22>
+						</CFrame>
+					</OptionalCoordinateFrame>
+				</Properties>
+				<Item class="Part" referent="RBX3F00A824B31D47B4BB491F90E424A3BF">
+					<Properties>
+						<bool name="Anchored">true</bool>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<bool name="AudioCanCollide">true</bool>
+						<float name="BackParamA">-0.5</float>
+						<float name="BackParamB">0.5</float>
+						<token name="BackSurface">0</token>
+						<token name="BackSurfaceInput">0</token>
+						<float name="BottomParamA">-0.5</float>
+						<float name="BottomParamB">0.5</float>
+						<token name="BottomSurface">0</token>
+						<token name="BottomSurfaceInput">0</token>
+						<CoordinateFrame name="CFrame">
+							<X>-3.88496256</X>
+							<Y>6.50020647</Y>
+							<Z>51.4412384</Z>
+							<R00>0.0523359291</R00>
+							<R01>0</R01>
+							<R02>-0.998633206</R02>
+							<R10>0</R10>
+							<R11>0.999998212</R11>
+							<R12>0</R12>
+							<R20>0.998633206</R20>
+							<R21>0</R21>
+							<R22>0.0523359291</R22>
+						</CoordinateFrame>
+						<bool name="CanCollide">false</bool>
+						<bool name="CanQuery">true</bool>
+						<bool name="CanTouch">true</bool>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="CastShadow">true</bool>
+						<string name="CollisionGroup">Default</string>
+						<int name="CollisionGroupId">0</int>
+						<Color3uint8 name="Color3uint8">4288914085</Color3uint8>
+						<PhysicalProperties name="CustomPhysicalProperties">
+							<CustomPhysics>false</CustomPhysics>
+						</PhysicalProperties>
+						<bool name="DefinesCapabilities">false</bool>
+						<bool name="EnableFluidForces">true</bool>
+						<float name="FrontParamA">-0.5</float>
+						<float name="FrontParamB">0.5</float>
+						<token name="FrontSurface">0</token>
+						<token name="FrontSurfaceInput">0</token>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<float name="LeftParamA">-0.5</float>
+						<float name="LeftParamB">0.5</float>
+						<token name="LeftSurface">0</token>
+						<token name="LeftSurfaceInput">0</token>
+						<bool name="Locked">false</bool>
+						<bool name="Massless">false</bool>
+						<token name="Material">256</token>
+						<string name="MaterialVariantSerialized"></string>
+						<string name="Name">light1</string>
+						<CoordinateFrame name="PivotOffset">
+							<X>0</X>
+							<Y>0</Y>
+							<Z>0</Z>
+							<R00>1</R00>
+							<R01>0</R01>
+							<R02>0</R02>
+							<R10>0</R10>
+							<R11>1</R11>
+							<R12>0</R12>
+							<R20>0</R20>
+							<R21>0</R21>
+							<R22>1</R22>
+						</CoordinateFrame>
+						<float name="Reflectance">0</float>
+						<float name="RightParamA">-0.5</float>
+						<float name="RightParamB">0.5</float>
+						<token name="RightSurface">0</token>
+						<token name="RightSurfaceInput">0</token>
+						<int name="RootPriority">0</int>
+						<Vector3 name="RotVelocity">
+							<X>0</X>
+							<Y>0</Y>
+							<Z>0</Z>
+						</Vector3>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<float name="TopParamA">-0.5</float>
+						<float name="TopParamB">0.5</float>
+						<token name="TopSurface">0</token>
+						<token name="TopSurfaceInput">0</token>
+						<float name="Transparency">1</float>
+						<UniqueId name="UniqueId">74b91ffe987485c108e0be5100002ba3</UniqueId>
+						<Vector3 name="Velocity">
+							<X>0</X>
+							<Y>0</Y>
+							<Z>0</Z>
+						</Vector3>
+						<token name="formFactorRaw">1</token>
+						<token name="shape">1</token>
+						<Vector3 name="size">
+							<X>0.25</X>
+							<Y>0.25</Y>
+							<Z>0.25</Z>
+						</Vector3>
+					</Properties>
+					<Item class="Attachment" referent="RBX8FC9A5894A3846439B4C551EE5C1F7F6">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="CFrame">
+								<X>0.000122070312</X>
+								<Y>-0.000129699707</Y>
+								<Z>0</Z>
+								<R00>1</R00>
+								<R01>0</R01>
+								<R02>0</R02>
+								<R10>0</R10>
+								<R11>1</R11>
+								<R12>0</R12>
+								<R20>0</R20>
+								<R21>0</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">Attachment</string>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">74b91ffe987485c108e0be5100002ba4</UniqueId>
+							<bool name="Visible">false</bool>
+						</Properties>
+					</Item>
+					<Item class="Beam" referent="RBX28E7E530A6334DF2A9E653EDF46ADCF1">
+						<Properties>
+							<Ref name="Attachment0">RBX8FC9A5894A3846439B4C551EE5C1F7F6</Ref>
+							<Ref name="Attachment1">RBXA41369FE5FA7443C8E2B2F6E2B1E47A9</Ref>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<float name="Brightness">1</float>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<ColorSequence name="Color">0 0.14902 1 0.0901961 0 1 0.14902 1 0.0901961 0 </ColorSequence>
+							<float name="CurveSize0">0</float>
+							<float name="CurveSize1">0</float>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">false</bool>
+							<bool name="FaceCamera">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<float name="LightEmission">1</float>
+							<float name="LightInfluence">1</float>
+							<string name="Name">light</string>
+							<int name="Segments">100</int>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<Content name="Texture"><url>rbxassetid://901813002</url></Content>
+							<float name="TextureLength">60</float>
+							<token name="TextureMode">2</token>
+							<float name="TextureSpeed">0</float>
+							<NumberSequence name="Transparency">0 0.63125 0 0.199501 0.74375 0 0.796758 0.85 0 1 1 0 </NumberSequence>
+							<UniqueId name="UniqueId">74b91ffe987485c108e0be5100002ba5</UniqueId>
+							<float name="Width0">0.5</float>
+							<float name="Width1">60</float>
+							<float name="ZOffset">0</float>
+						</Properties>
+					</Item>
+					<Item class="WeldConstraint" referent="RBX19CF63DF51EF479C8E65BBAF74ED65EB">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="CFrame0">
+								<X>-0.000183105469</X>
+								<Y>-0.000411987305</Y>
+								<Z>-30.0000076</Z>
+								<R00>1</R00>
+								<R01>0</R01>
+								<R02>0</R02>
+								<R10>0</R10>
+								<R11>1</R11>
+								<R12>0</R12>
+								<R20>0</R20>
+								<R21>0</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">WeldConstraint</string>
+							<Ref name="Part0Internal">RBX3F00A824B31D47B4BB491F90E424A3BF</Ref>
+							<Ref name="Part1Internal">RBX747457795AA248C3A9266B00C293A670</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<int name="State">3</int>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">74b91ffe987485c108e0be5100002ba6</UniqueId>
+						</Properties>
+					</Item>
+				</Item>
+				<Item class="Part" referent="RBX747457795AA248C3A9266B00C293A670">
+					<Properties>
+						<bool name="Anchored">true</bool>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<bool name="AudioCanCollide">true</bool>
+						<float name="BackParamA">-0.5</float>
+						<float name="BackParamB">0.5</float>
+						<token name="BackSurface">0</token>
+						<token name="BackSurfaceInput">0</token>
+						<float name="BottomParamA">-0.5</float>
+						<float name="BottomParamB">0.5</float>
+						<token name="BottomSurface">0</token>
+						<token name="BottomSurfaceInput">0</token>
+						<CoordinateFrame name="CFrame">
+							<X>26.0750751</X>
+							<Y>6.49979448</Y>
+							<Z>49.8710442</Z>
+							<R00>0.0523359291</R00>
+							<R01>0</R01>
+							<R02>-0.998633206</R02>
+							<R10>0</R10>
+							<R11>0.999998212</R11>
+							<R12>0</R12>
+							<R20>0.998633206</R20>
+							<R21>0</R21>
+							<R22>0.0523359291</R22>
+						</CoordinateFrame>
+						<bool name="CanCollide">false</bool>
+						<bool name="CanQuery">true</bool>
+						<bool name="CanTouch">true</bool>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="CastShadow">true</bool>
+						<string name="CollisionGroup">Default</string>
+						<int name="CollisionGroupId">0</int>
+						<Color3uint8 name="Color3uint8">4288914085</Color3uint8>
+						<PhysicalProperties name="CustomPhysicalProperties">
+							<CustomPhysics>false</CustomPhysics>
+						</PhysicalProperties>
+						<bool name="DefinesCapabilities">false</bool>
+						<bool name="EnableFluidForces">true</bool>
+						<float name="FrontParamA">-0.5</float>
+						<float name="FrontParamB">0.5</float>
+						<token name="FrontSurface">0</token>
+						<token name="FrontSurfaceInput">0</token>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<float name="LeftParamA">-0.5</float>
+						<float name="LeftParamB">0.5</float>
+						<token name="LeftSurface">0</token>
+						<token name="LeftSurfaceInput">0</token>
+						<bool name="Locked">false</bool>
+						<bool name="Massless">false</bool>
+						<token name="Material">256</token>
+						<string name="MaterialVariantSerialized"></string>
+						<string name="Name">Part</string>
+						<CoordinateFrame name="PivotOffset">
+							<X>0</X>
+							<Y>0</Y>
+							<Z>0</Z>
+							<R00>1</R00>
+							<R01>0</R01>
+							<R02>0</R02>
+							<R10>0</R10>
+							<R11>1</R11>
+							<R12>0</R12>
+							<R20>0</R20>
+							<R21>0</R21>
+							<R22>1</R22>
+						</CoordinateFrame>
+						<float name="Reflectance">0</float>
+						<float name="RightParamA">-0.5</float>
+						<float name="RightParamB">0.5</float>
+						<token name="RightSurface">0</token>
+						<token name="RightSurfaceInput">0</token>
+						<int name="RootPriority">0</int>
+						<Vector3 name="RotVelocity">
+							<X>0</X>
+							<Y>0</Y>
+							<Z>0</Z>
+						</Vector3>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<float name="TopParamA">-0.5</float>
+						<float name="TopParamB">0.5</float>
+						<token name="TopSurface">0</token>
+						<token name="TopSurfaceInput">0</token>
+						<float name="Transparency">0.5</float>
+						<UniqueId name="UniqueId">74b91ffe987485c108e0be5100002ba7</UniqueId>
+						<Vector3 name="Velocity">
+							<X>0</X>
+							<Y>0</Y>
+							<Z>0</Z>
+						</Vector3>
+						<token name="formFactorRaw">1</token>
+						<token name="shape">1</token>
+						<Vector3 name="size">
+							<X>4.25</X>
+							<Y>4.25</Y>
+							<Z>0.25</Z>
+						</Vector3>
+					</Properties>
+					<Item class="Attachment" referent="RBXA41369FE5FA7443C8E2B2F6E2B1E47A9">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="CFrame">
+								<X>-0.00194549561</X>
+								<Y>0.00207519531</Y>
+								<Z>-1.52587891e-05</Z>
+								<R00>1</R00>
+								<R01>0</R01>
+								<R02>0</R02>
+								<R10>0</R10>
+								<R11>1</R11>
+								<R12>0</R12>
+								<R20>0</R20>
+								<R21>0</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">Attachment</string>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">74b91ffe987485c108e0be5100002ba8</UniqueId>
+							<bool name="Visible">false</bool>
+						</Properties>
+					</Item>
+					<Item class="Weld" referent="RBX1E2697944D954C78933C29DEB00AA69A">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>-256</X>
+								<Y>10</Y>
+								<Z>256</Z>
+								<R00>-1</R00>
+								<R01>0</R01>
+								<R02>0</R02>
+								<R10>0</R10>
+								<R11>0</R11>
+								<R12>1</R12>
+								<R20>0</R20>
+								<R21>1</R21>
+								<R22>-0</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>-243.2621</X>
+								<Y>-265.122772</Y>
+								<Z>-0.125005722</Z>
+								<R00>-1</R00>
+								<R01>0</R01>
+								<R02>0</R02>
+								<R10>0</R10>
+								<R11>-1</R11>
+								<R12>0</R12>
+								<R20>0</R20>
+								<R21>0</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<string name="Name">Weld</string>
+							<Ref name="Part0">null</Ref>
+							<Ref name="Part1">RBX747457795AA248C3A9266B00C293A670</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">74b91ffe987485c108e0be5100002ba9</UniqueId>
+						</Properties>
+					</Item>
+				</Item>
+			</Item>
+			<Item class="Model" referent="RBX1094A645D2A548828504A703AAB92125">
+				<Properties>
+					<BinaryString name="AttributesSerialize"></BinaryString>
+					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+					<bool name="DefinesCapabilities">false</bool>
+					<UniqueId name="HistoryId">74b91ffe987485c108e0be5100002ba2</UniqueId>
+					<token name="LevelOfDetail">0</token>
+					<CoordinateFrame name="ModelMeshCFrame">
+						<X>0</X>
+						<Y>0</Y>
+						<Z>0</Z>
+						<R00>1</R00>
+						<R01>0</R01>
+						<R02>0</R02>
+						<R10>0</R10>
+						<R11>1</R11>
+						<R12>0</R12>
+						<R20>0</R20>
+						<R21>0</R21>
+						<R22>1</R22>
+					</CoordinateFrame>
+					<SharedString name="ModelMeshData">yuZpQdnvvUBOTYh1jqZ2cA==</SharedString>
+					<Vector3 name="ModelMeshSize">
+						<X>0</X>
+						<Y>0</Y>
+						<Z>0</Z>
+					</Vector3>
+					<token name="ModelStreamingMode">0</token>
+					<string name="Name">light1</string>
+					<bool name="NeedsPivotMigration">false</bool>
+					<Ref name="PrimaryPart">null</Ref>
+					<float name="ScaleFactor">1</float>
+					<int64 name="SourceAssetId">4858075343</int64>
+					<BinaryString name="Tags"></BinaryString>
+					<UniqueId name="UniqueId">74b91ffe987485c108e0be51000073a0</UniqueId>
+					<OptionalCoordinateFrame name="WorldPivotData">
+						<CFrame>
+							<X>34.0646858</X>
+							<Y>0.0361814499</Y>
+							<Z>49.4524193</Z>
+							<R00>0.0523355529</R00>
+							<R01>0</R01>
+							<R02>-0.99862957</R02>
+							<R10>0</R10>
+							<R11>1</R11>
+							<R12>0</R12>
+							<R20>0.99862957</R20>
+							<R21>0</R21>
+							<R22>0.0523355529</R22>
+						</CFrame>
+					</OptionalCoordinateFrame>
+				</Properties>
+				<Item class="Part" referent="RBX41E01CB629934213BB43A06CAF632993">
+					<Properties>
+						<bool name="Anchored">true</bool>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<bool name="AudioCanCollide">true</bool>
+						<float name="BackParamA">-0.5</float>
+						<float name="BackParamB">0.5</float>
+						<token name="BackSurface">0</token>
+						<token name="BackSurfaceInput">0</token>
+						<float name="BottomParamA">-0.5</float>
+						<float name="BottomParamB">0.5</float>
+						<token name="BottomSurface">0</token>
+						<token name="BottomSurfaceInput">0</token>
+						<CoordinateFrame name="CFrame">
+							<X>-4.0111618</X>
+							<Y>0.0361814499</Y>
+							<Z>51.4478912</Z>
+							<R00>0.0523357354</R00>
+							<R01>0</R01>
+							<R02>-0.99862957</R02>
+							<R10>0</R10>
+							<R11>1</R11>
+							<R12>0</R12>
+							<R20>0.99862957</R20>
+							<R21>0</R21>
+							<R22>0.0523357354</R22>
+						</CoordinateFrame>
+						<bool name="CanCollide">false</bool>
+						<bool name="CanQuery">true</bool>
+						<bool name="CanTouch">true</bool>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="CastShadow">true</bool>
+						<string name="CollisionGroup">Default</string>
+						<int name="CollisionGroupId">0</int>
+						<Color3uint8 name="Color3uint8">4288914085</Color3uint8>
+						<PhysicalProperties name="CustomPhysicalProperties">
+							<CustomPhysics>false</CustomPhysics>
+						</PhysicalProperties>
+						<bool name="DefinesCapabilities">false</bool>
+						<bool name="EnableFluidForces">true</bool>
+						<float name="FrontParamA">-0.5</float>
+						<float name="FrontParamB">0.5</float>
+						<token name="FrontSurface">0</token>
+						<token name="FrontSurfaceInput">0</token>
+						<UniqueId name="HistoryId">74b91ffe987485c108e0be5100002ba3</UniqueId>
+						<float name="LeftParamA">-0.5</float>
+						<float name="LeftParamB">0.5</float>
+						<token name="LeftSurface">0</token>
+						<token name="LeftSurfaceInput">0</token>
+						<bool name="Locked">false</bool>
+						<bool name="Massless">false</bool>
+						<token name="Material">256</token>
+						<string name="MaterialVariantSerialized"></string>
+						<string name="Name">light1</string>
+						<CoordinateFrame name="PivotOffset">
+							<X>0</X>
+							<Y>0</Y>
+							<Z>0</Z>
+							<R00>1</R00>
+							<R01>0</R01>
+							<R02>0</R02>
+							<R10>0</R10>
+							<R11>1</R11>
+							<R12>0</R12>
+							<R20>0</R20>
+							<R21>0</R21>
+							<R22>1</R22>
+						</CoordinateFrame>
+						<float name="Reflectance">0</float>
+						<float name="RightParamA">-0.5</float>
+						<float name="RightParamB">0.5</float>
+						<token name="RightSurface">0</token>
+						<token name="RightSurfaceInput">0</token>
+						<int name="RootPriority">0</int>
+						<Vector3 name="RotVelocity">
+							<X>0</X>
+							<Y>0</Y>
+							<Z>0</Z>
+						</Vector3>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<float name="TopParamA">-0.5</float>
+						<float name="TopParamB">0.5</float>
+						<token name="TopSurface">0</token>
+						<token name="TopSurfaceInput">0</token>
+						<float name="Transparency">1</float>
+						<UniqueId name="UniqueId">74b91ffe987485c108e0be51000073a1</UniqueId>
+						<Vector3 name="Velocity">
+							<X>0</X>
+							<Y>0</Y>
+							<Z>0</Z>
+						</Vector3>
+						<token name="formFactorRaw">1</token>
+						<token name="shape">1</token>
+						<Vector3 name="size">
+							<X>0.25</X>
+							<Y>0.25</Y>
+							<Z>0.25</Z>
+						</Vector3>
+					</Properties>
+					<Item class="Attachment" referent="RBX75A99692640448CCB6595C3623C47D67">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="CFrame">
+								<X>-0.00190734863</X>
+								<Y>-0.000358581543</Y>
+								<Z>0</Z>
+								<R00>-4.37113883e-08</R00>
+								<R01>-1</R01>
+								<R02>0</R02>
+								<R10>1</R10>
+								<R11>-4.37113883e-08</R11>
+								<R12>0</R12>
+								<R20>0</R20>
+								<R21>0</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<UniqueId name="HistoryId">74b91ffe987485c108e0be5100002ba4</UniqueId>
+							<string name="Name">Attachment</string>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">74b91ffe987485c108e0be51000073a2</UniqueId>
+							<bool name="Visible">false</bool>
+						</Properties>
+					</Item>
+					<Item class="Beam" referent="RBX35AD2F0E1FA6445F9D57FD1292C9A34E">
+						<Properties>
+							<Ref name="Attachment0">RBX75A99692640448CCB6595C3623C47D67</Ref>
+							<Ref name="Attachment1">RBX3EAF13DAED214E479E85D644A21F918F</Ref>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<float name="Brightness">1</float>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<ColorSequence name="Color">0 0.14902 1 0.0901961 0 1 0.14902 1 0.0901961 0 </ColorSequence>
+							<float name="CurveSize0">0</float>
+							<float name="CurveSize1">0</float>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<bool name="FaceCamera">false</bool>
+							<UniqueId name="HistoryId">74b91ffe987485c108e0be5100002ba5</UniqueId>
+							<float name="LightEmission">1</float>
+							<float name="LightInfluence">0</float>
+							<string name="Name">light</string>
+							<int name="Segments">100</int>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<Content name="Texture"><url>rbxassetid://901813002</url></Content>
+							<float name="TextureLength">60</float>
+							<token name="TextureMode">2</token>
+							<float name="TextureSpeed">0</float>
+							<NumberSequence name="Transparency">0 1 0 0.198254 0.9 0 0.5 0.86875 0 0.800499 0.90625 0 1 1 0 </NumberSequence>
+							<UniqueId name="UniqueId">74b91ffe987485c108e0be51000073a3</UniqueId>
+							<float name="Width0">0.5</float>
+							<float name="Width1">103.919998</float>
+							<float name="ZOffset">0</float>
+						</Properties>
+					</Item>
+					<Item class="WeldConstraint" referent="RBX1DA22C63A5EA428B934F950960788FB2">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="CFrame0">
+								<X>0</X>
+								<Y>0</Y>
+								<Z>-30</Z>
+								<R00>1</R00>
+								<R01>0</R01>
+								<R02>0</R02>
+								<R10>0</R10>
+								<R11>1</R11>
+								<R12>0</R12>
+								<R20>0</R20>
+								<R21>0</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<UniqueId name="HistoryId">74b91ffe987485c108e0be5100002ba6</UniqueId>
+							<string name="Name">WeldConstraint</string>
+							<Ref name="Part0Internal">RBX41E01CB629934213BB43A06CAF632993</Ref>
+							<Ref name="Part1Internal">RBX3B79CF39C30340BDB19345116FDF89BA</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<int name="State">3</int>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">74b91ffe987485c108e0be51000073a4</UniqueId>
+						</Properties>
+					</Item>
+				</Item>
+				<Item class="Part" referent="RBX3B79CF39C30340BDB19345116FDF89BA">
+					<Properties>
+						<bool name="Anchored">true</bool>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<bool name="AudioCanCollide">true</bool>
+						<float name="BackParamA">-0.5</float>
+						<float name="BackParamB">0.5</float>
+						<token name="BackSurface">0</token>
+						<token name="BackSurfaceInput">0</token>
+						<float name="BottomParamA">-0.5</float>
+						<float name="BottomParamB">0.5</float>
+						<token name="BottomSurface">0</token>
+						<token name="BottomSurfaceInput">0</token>
+						<CoordinateFrame name="CFrame">
+							<X>25.9499626</X>
+							<Y>0.0361814499</Y>
+							<Z>49.8777466</Z>
+							<R00>0.0523357354</R00>
+							<R01>0</R01>
+							<R02>-0.99862957</R02>
+							<R10>0</R10>
+							<R11>1</R11>
+							<R12>0</R12>
+							<R20>0.99862957</R20>
+							<R21>0</R21>
+							<R22>0.0523357354</R22>
+						</CoordinateFrame>
+						<bool name="CanCollide">false</bool>
+						<bool name="CanQuery">true</bool>
+						<bool name="CanTouch">true</bool>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="CastShadow">true</bool>
+						<string name="CollisionGroup">Default</string>
+						<int name="CollisionGroupId">0</int>
+						<Color3uint8 name="Color3uint8">4288914085</Color3uint8>
+						<PhysicalProperties name="CustomPhysicalProperties">
+							<CustomPhysics>false</CustomPhysics>
+						</PhysicalProperties>
+						<bool name="DefinesCapabilities">false</bool>
+						<bool name="EnableFluidForces">true</bool>
+						<float name="FrontParamA">-0.5</float>
+						<float name="FrontParamB">0.5</float>
+						<token name="FrontSurface">0</token>
+						<token name="FrontSurfaceInput">0</token>
+						<UniqueId name="HistoryId">74b91ffe987485c108e0be5100002ba7</UniqueId>
+						<float name="LeftParamA">-0.5</float>
+						<float name="LeftParamB">0.5</float>
+						<token name="LeftSurface">0</token>
+						<token name="LeftSurfaceInput">0</token>
+						<bool name="Locked">false</bool>
+						<bool name="Massless">false</bool>
+						<token name="Material">256</token>
+						<string name="MaterialVariantSerialized"></string>
+						<string name="Name">Part</string>
+						<CoordinateFrame name="PivotOffset">
+							<X>0</X>
+							<Y>0</Y>
+							<Z>0</Z>
+							<R00>1</R00>
+							<R01>0</R01>
+							<R02>0</R02>
+							<R10>0</R10>
+							<R11>1</R11>
+							<R12>0</R12>
+							<R20>0</R20>
+							<R21>0</R21>
+							<R22>1</R22>
+						</CoordinateFrame>
+						<float name="Reflectance">0</float>
+						<float name="RightParamA">-0.5</float>
+						<float name="RightParamB">0.5</float>
+						<token name="RightSurface">0</token>
+						<token name="RightSurfaceInput">0</token>
+						<int name="RootPriority">0</int>
+						<Vector3 name="RotVelocity">
+							<X>0</X>
+							<Y>0</Y>
+							<Z>0</Z>
+						</Vector3>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<float name="TopParamA">-0.5</float>
+						<float name="TopParamB">0.5</float>
+						<token name="TopSurface">0</token>
+						<token name="TopSurfaceInput">0</token>
+						<float name="Transparency">0.5</float>
+						<UniqueId name="UniqueId">74b91ffe987485c108e0be51000073a5</UniqueId>
+						<Vector3 name="Velocity">
+							<X>0</X>
+							<Y>0</Y>
+							<Z>0</Z>
+						</Vector3>
+						<token name="formFactorRaw">1</token>
+						<token name="shape">1</token>
+						<Vector3 name="size">
+							<X>4.25</X>
+							<Y>4.25</Y>
+							<Z>0.25</Z>
+						</Vector3>
+					</Properties>
+					<Item class="Attachment" referent="RBX3EAF13DAED214E479E85D644A21F918F">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="CFrame">
+								<X>6.86645508e-05</X>
+								<Y>0.00230407715</Y>
+								<Z>-1.52587891e-05</Z>
+								<R00>-4.37113883e-08</R00>
+								<R01>-1</R01>
+								<R02>0</R02>
+								<R10>1</R10>
+								<R11>-4.37113883e-08</R11>
+								<R12>0</R12>
+								<R20>0</R20>
+								<R21>0</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<UniqueId name="HistoryId">74b91ffe987485c108e0be5100002ba8</UniqueId>
+							<string name="Name">Attachment</string>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">74b91ffe987485c108e0be51000073a6</UniqueId>
+							<bool name="Visible">false</bool>
+						</Properties>
+					</Item>
+					<Item class="Weld" referent="RBXD7A0D8A0EBA049F0A028B11A3403694B">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<CoordinateFrame name="C0">
+								<X>-256</X>
+								<Y>10</Y>
+								<Z>256</Z>
+								<R00>-1</R00>
+								<R01>0</R01>
+								<R02>0</R02>
+								<R10>0</R10>
+								<R11>0</R11>
+								<R12>1</R12>
+								<R20>0</R20>
+								<R21>1</R21>
+								<R22>-0</R22>
+							</CoordinateFrame>
+							<CoordinateFrame name="C1">
+								<X>-243.2621</X>
+								<Y>-265.122772</Y>
+								<Z>-0.125005722</Z>
+								<R00>-1</R00>
+								<R01>0</R01>
+								<R02>0</R02>
+								<R10>0</R10>
+								<R11>-1</R11>
+								<R12>0</R12>
+								<R20>0</R20>
+								<R21>0</R21>
+								<R22>1</R22>
+							</CoordinateFrame>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<bool name="Enabled">true</bool>
+							<UniqueId name="HistoryId">74b91ffe987485c108e0be5100002ba9</UniqueId>
+							<string name="Name">Weld</string>
+							<Ref name="Part0">null</Ref>
+							<Ref name="Part1">RBX3B79CF39C30340BDB19345116FDF89BA</Ref>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">74b91ffe987485c108e0be51000073a7</UniqueId>
+						</Properties>
+					</Item>
+				</Item>
+			</Item>
+			<Item class="SpotLight" referent="RBX3CC2DFDB2C3445B08D90615FEEBEE996">
+				<Properties>
+					<float name="Angle">120</float>
+					<BinaryString name="AttributesSerialize"></BinaryString>
+					<float name="Brightness">1</float>
+					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+					<Color3 name="Color">
+						<R>0.149019614</R>
+						<G>1</G>
+						<B>0.0901960805</B>
+					</Color3>
+					<bool name="DefinesCapabilities">false</bool>
+					<bool name="Enabled">false</bool>
+					<token name="Face">5</token>
+					<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+					<string name="Name">SpotLight</string>
+					<float name="Range">60</float>
+					<bool name="Shadows">false</bool>
+					<int64 name="SourceAssetId">-1</int64>
+					<BinaryString name="Tags"></BinaryString>
+					<UniqueId name="UniqueId">74b91ffe987485c108e0be510000a6bd</UniqueId>
+				</Properties>
+			</Item>
 		</Item>
-		<Item class="Part" referent="RBXC41D9190D8834498A885CC873F9E61AE">
+		<Item class="Part" referent="RBX53AF3729572C479F8498CDA8DB71DB1A">
 			<Properties>
 				<bool name="Anchored">true</bool>
 				<BinaryString name="AttributesSerialize"></BinaryString>
@@ -51274,27 +52323,27 @@ c25vZHJhdw==]]></BinaryString>
 				<token name="BottomSurface">0</token>
 				<token name="BottomSurfaceInput">0</token>
 				<CoordinateFrame name="CFrame">
-					<X>-1.7610321</X>
-					<Y>8.15754604</Y>
-					<Z>-34.2630768</Z>
-					<R00>0</R00>
+					<X>23.9790878</X>
+					<Y>22.5</Y>
+					<Z>20.5651646</Z>
+					<R00>0.0523360297</R00>
 					<R01>0</R01>
-					<R02>1</R02>
+					<R02>-0.99862951</R02>
 					<R10>0</R10>
 					<R11>1</R11>
 					<R12>0</R12>
-					<R20>-1</R20>
+					<R20>0.99862951</R20>
 					<R21>0</R21>
-					<R22>0</R22>
+					<R22>0.0523360297</R22>
 				</CoordinateFrame>
-				<bool name="CanCollide">false</bool>
+				<bool name="CanCollide">true</bool>
 				<bool name="CanQuery">true</bool>
 				<bool name="CanTouch">true</bool>
 				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 				<bool name="CastShadow">true</bool>
 				<string name="CollisionGroup">Default</string>
 				<int name="CollisionGroupId">0</int>
-				<Color3uint8 name="Color3uint8">4288914085</Color3uint8>
+				<Color3uint8 name="Color3uint8">4288672745</Color3uint8>
 				<PhysicalProperties name="CustomPhysicalProperties">
 					<CustomPhysics>false</CustomPhysics>
 				</PhysicalProperties>
@@ -51304,7 +52353,7 @@ c25vZHJhdw==]]></BinaryString>
 				<float name="FrontParamB">0.5</float>
 				<token name="FrontSurface">0</token>
 				<token name="FrontSurfaceInput">0</token>
-				<UniqueId name="HistoryId">1e81e3ab4178f7f508957bec00000de2</UniqueId>
+				<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
 				<float name="LeftParamA">-0.5</float>
 				<float name="LeftParamB">0.5</float>
 				<token name="LeftSurface">0</token>
@@ -51313,7 +52362,7 @@ c25vZHJhdw==]]></BinaryString>
 				<bool name="Massless">false</bool>
 				<token name="Material">256</token>
 				<string name="MaterialVariantSerialized"></string>
-				<string name="Name">AreaToAttach2</string>
+				<string name="Name">Part</string>
 				<CoordinateFrame name="PivotOffset">
 					<X>0</X>
 					<Y>0</Y>
@@ -51345,8 +52394,8 @@ c25vZHJhdw==]]></BinaryString>
 				<float name="TopParamB">0.5</float>
 				<token name="TopSurface">0</token>
 				<token name="TopSurfaceInput">0</token>
-				<float name="Transparency">0.850000024</float>
-				<UniqueId name="UniqueId">00ad88059fa4b3fc08db54e700023e66</UniqueId>
+				<float name="Transparency">0</float>
+				<UniqueId name="UniqueId">74b91ffe987485c108e0be5100004de8</UniqueId>
 				<Vector3 name="Velocity">
 					<X>0</X>
 					<Y>0</Y>
@@ -51355,9 +52404,333 @@ c25vZHJhdw==]]></BinaryString>
 				<token name="formFactorRaw">1</token>
 				<token name="shape">1</token>
 				<Vector3 name="size">
-					<X>39.4738464</X>
-					<Y>16.3150921</Y>
-					<Z>33.4485321</Z>
+					<X>4</X>
+					<Y>1</Y>
+					<Z>2</Z>
+				</Vector3>
+			</Properties>
+			<Item class="PointLight" referent="RBX9F3AA643A79C4D8CB8697227475D91AD">
+				<Properties>
+					<BinaryString name="AttributesSerialize"></BinaryString>
+					<float name="Brightness">1</float>
+					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+					<Color3 name="Color">
+						<R>1</R>
+						<G>1</G>
+						<B>1</B>
+					</Color3>
+					<bool name="DefinesCapabilities">false</bool>
+					<bool name="Enabled">true</bool>
+					<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+					<string name="Name">PointLight</string>
+					<float name="Range">8</float>
+					<bool name="Shadows">false</bool>
+					<int64 name="SourceAssetId">-1</int64>
+					<BinaryString name="Tags"></BinaryString>
+					<UniqueId name="UniqueId">74b91ffe987485c108e0be510000508e</UniqueId>
+				</Properties>
+			</Item>
+		</Item>
+		<Item class="Part" referent="RBX6F12EADED9D449B785F76E559E5AB6FF">
+			<Properties>
+				<bool name="Anchored">true</bool>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<bool name="AudioCanCollide">true</bool>
+				<float name="BackParamA">-0.5</float>
+				<float name="BackParamB">0.5</float>
+				<token name="BackSurface">0</token>
+				<token name="BackSurfaceInput">0</token>
+				<float name="BottomParamA">-0.5</float>
+				<float name="BottomParamB">0.5</float>
+				<token name="BottomSurface">0</token>
+				<token name="BottomSurfaceInput">0</token>
+				<CoordinateFrame name="CFrame">
+					<X>26.3172379</X>
+					<Y>5.87479353</Y>
+					<Z>75.998909</Z>
+					<R00>0.0523360297</R00>
+					<R01>0</R01>
+					<R02>-0.99862951</R02>
+					<R10>0</R10>
+					<R11>1</R11>
+					<R12>0</R12>
+					<R20>0.99862951</R20>
+					<R21>0</R21>
+					<R22>0.0523360297</R22>
+				</CoordinateFrame>
+				<bool name="CanCollide">true</bool>
+				<bool name="CanQuery">true</bool>
+				<bool name="CanTouch">true</bool>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="CastShadow">true</bool>
+				<string name="CollisionGroup">Default</string>
+				<int name="CollisionGroupId">0</int>
+				<Color3uint8 name="Color3uint8">4288914085</Color3uint8>
+				<PhysicalProperties name="CustomPhysicalProperties">
+					<CustomPhysics>false</CustomPhysics>
+				</PhysicalProperties>
+				<bool name="DefinesCapabilities">false</bool>
+				<bool name="EnableFluidForces">true</bool>
+				<float name="FrontParamA">-0.5</float>
+				<float name="FrontParamB">0.5</float>
+				<token name="FrontSurface">0</token>
+				<token name="FrontSurfaceInput">0</token>
+				<UniqueId name="HistoryId">74b91ffe987485c108e0be5100007184</UniqueId>
+				<float name="LeftParamA">-0.5</float>
+				<float name="LeftParamB">0.5</float>
+				<token name="LeftSurface">0</token>
+				<token name="LeftSurfaceInput">0</token>
+				<bool name="Locked">false</bool>
+				<bool name="Massless">false</bool>
+				<token name="Material">256</token>
+				<string name="MaterialVariantSerialized"></string>
+				<string name="Name">Part</string>
+				<CoordinateFrame name="PivotOffset">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+					<R00>1</R00>
+					<R01>0</R01>
+					<R02>0</R02>
+					<R10>0</R10>
+					<R11>1</R11>
+					<R12>0</R12>
+					<R20>0</R20>
+					<R21>0</R21>
+					<R22>1</R22>
+				</CoordinateFrame>
+				<float name="Reflectance">0</float>
+				<float name="RightParamA">-0.5</float>
+				<float name="RightParamB">0.5</float>
+				<token name="RightSurface">0</token>
+				<token name="RightSurfaceInput">0</token>
+				<int name="RootPriority">0</int>
+				<Vector3 name="RotVelocity">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+				</Vector3>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+				<float name="TopParamA">-0.5</float>
+				<float name="TopParamB">0.5</float>
+				<token name="TopSurface">0</token>
+				<token name="TopSurfaceInput">0</token>
+				<float name="Transparency">0</float>
+				<UniqueId name="UniqueId">74b91ffe987485c108e0be5100007293</UniqueId>
+				<Vector3 name="Velocity">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+				</Vector3>
+				<token name="formFactorRaw">1</token>
+				<token name="shape">1</token>
+				<Vector3 name="size">
+					<X>51.961525</X>
+					<Y>1</Y>
+					<Z>2</Z>
+				</Vector3>
+			</Properties>
+		</Item>
+		<Item class="Part" referent="RBX26F5AFFC6E134018A1E04BC1E5643C62">
+			<Properties>
+				<bool name="Anchored">true</bool>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<bool name="AudioCanCollide">true</bool>
+				<float name="BackParamA">-0.5</float>
+				<float name="BackParamB">0.5</float>
+				<token name="BackSurface">0</token>
+				<token name="BackSurfaceInput">0</token>
+				<float name="BottomParamA">-0.5</float>
+				<float name="BottomParamB">0.5</float>
+				<token name="BottomSurface">0</token>
+				<token name="BottomSurfaceInput">0</token>
+				<CoordinateFrame name="CFrame">
+					<X>23.5977859</X>
+					<Y>5.87479353</Y>
+					<Z>24.1085758</Z>
+					<R00>0.0523360297</R00>
+					<R01>0</R01>
+					<R02>-0.99862951</R02>
+					<R10>0</R10>
+					<R11>1</R11>
+					<R12>0</R12>
+					<R20>0.99862951</R20>
+					<R21>0</R21>
+					<R22>0.0523360297</R22>
+				</CoordinateFrame>
+				<bool name="CanCollide">true</bool>
+				<bool name="CanQuery">true</bool>
+				<bool name="CanTouch">true</bool>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="CastShadow">true</bool>
+				<string name="CollisionGroup">Default</string>
+				<int name="CollisionGroupId">0</int>
+				<Color3uint8 name="Color3uint8">4288914085</Color3uint8>
+				<PhysicalProperties name="CustomPhysicalProperties">
+					<CustomPhysics>false</CustomPhysics>
+				</PhysicalProperties>
+				<bool name="DefinesCapabilities">false</bool>
+				<bool name="EnableFluidForces">true</bool>
+				<float name="FrontParamA">-0.5</float>
+				<float name="FrontParamB">0.5</float>
+				<token name="FrontSurface">0</token>
+				<token name="FrontSurfaceInput">0</token>
+				<UniqueId name="HistoryId">74b91ffe987485c108e0be5100007184</UniqueId>
+				<float name="LeftParamA">-0.5</float>
+				<float name="LeftParamB">0.5</float>
+				<token name="LeftSurface">0</token>
+				<token name="LeftSurfaceInput">0</token>
+				<bool name="Locked">false</bool>
+				<bool name="Massless">false</bool>
+				<token name="Material">256</token>
+				<string name="MaterialVariantSerialized"></string>
+				<string name="Name">Part</string>
+				<CoordinateFrame name="PivotOffset">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+					<R00>1</R00>
+					<R01>0</R01>
+					<R02>0</R02>
+					<R10>0</R10>
+					<R11>1</R11>
+					<R12>0</R12>
+					<R20>0</R20>
+					<R21>0</R21>
+					<R22>1</R22>
+				</CoordinateFrame>
+				<float name="Reflectance">0</float>
+				<float name="RightParamA">-0.5</float>
+				<float name="RightParamB">0.5</float>
+				<token name="RightSurface">0</token>
+				<token name="RightSurfaceInput">0</token>
+				<int name="RootPriority">0</int>
+				<Vector3 name="RotVelocity">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+				</Vector3>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+				<float name="TopParamA">-0.5</float>
+				<float name="TopParamB">0.5</float>
+				<token name="TopSurface">0</token>
+				<token name="TopSurfaceInput">0</token>
+				<float name="Transparency">0</float>
+				<UniqueId name="UniqueId">74b91ffe987485c108e0be5100007a9d</UniqueId>
+				<Vector3 name="Velocity">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+				</Vector3>
+				<token name="formFactorRaw">1</token>
+				<token name="shape">1</token>
+				<Vector3 name="size">
+					<X>51.961525</X>
+					<Y>1</Y>
+					<Z>2</Z>
+				</Vector3>
+			</Properties>
+		</Item>
+		<Item class="Part" referent="RBX49E8DA98D1BD4756BA229AE30085B47E">
+			<Properties>
+				<bool name="Anchored">true</bool>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<bool name="AudioCanCollide">true</bool>
+				<float name="BackParamA">-0.5</float>
+				<float name="BackParamB">0.5</float>
+				<token name="BackSurface">0</token>
+				<token name="BackSurfaceInput">0</token>
+				<float name="BottomParamA">-0.5</float>
+				<float name="BottomParamB">0.5</float>
+				<token name="BottomSurface">0</token>
+				<token name="BottomSurfaceInput">0</token>
+				<CoordinateFrame name="CFrame">
+					<X>14.8043385</X>
+					<Y>14.0201788</Y>
+					<Z>45.7399979</Z>
+					<R00>1</R00>
+					<R01>0</R01>
+					<R02>0</R02>
+					<R10>0</R10>
+					<R11>1</R11>
+					<R12>0</R12>
+					<R20>0</R20>
+					<R21>0</R21>
+					<R22>1</R22>
+				</CoordinateFrame>
+				<bool name="CanCollide">false</bool>
+				<bool name="CanQuery">false</bool>
+				<bool name="CanTouch">false</bool>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="CastShadow">true</bool>
+				<string name="CollisionGroup">Default</string>
+				<int name="CollisionGroupId">0</int>
+				<Color3uint8 name="Color3uint8">4288914085</Color3uint8>
+				<PhysicalProperties name="CustomPhysicalProperties">
+					<CustomPhysics>false</CustomPhysics>
+				</PhysicalProperties>
+				<bool name="DefinesCapabilities">false</bool>
+				<bool name="EnableFluidForces">true</bool>
+				<float name="FrontParamA">-0.5</float>
+				<float name="FrontParamB">0.5</float>
+				<token name="FrontSurface">0</token>
+				<token name="FrontSurfaceInput">0</token>
+				<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+				<float name="LeftParamA">-0.5</float>
+				<float name="LeftParamB">0.5</float>
+				<token name="LeftSurface">0</token>
+				<token name="LeftSurfaceInput">0</token>
+				<bool name="Locked">false</bool>
+				<bool name="Massless">false</bool>
+				<token name="Material">256</token>
+				<string name="MaterialVariantSerialized"></string>
+				<string name="Name">ahaaa</string>
+				<CoordinateFrame name="PivotOffset">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+					<R00>1</R00>
+					<R01>0</R01>
+					<R02>0</R02>
+					<R10>0</R10>
+					<R11>1</R11>
+					<R12>0</R12>
+					<R20>0</R20>
+					<R21>0</R21>
+					<R22>1</R22>
+				</CoordinateFrame>
+				<float name="Reflectance">0</float>
+				<float name="RightParamA">-0.5</float>
+				<float name="RightParamB">0.5</float>
+				<token name="RightSurface">0</token>
+				<token name="RightSurfaceInput">0</token>
+				<int name="RootPriority">0</int>
+				<Vector3 name="RotVelocity">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+				</Vector3>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+				<float name="TopParamA">-0.5</float>
+				<float name="TopParamB">0.5</float>
+				<token name="TopSurface">0</token>
+				<token name="TopSurfaceInput">0</token>
+				<float name="Transparency">1</float>
+				<UniqueId name="UniqueId">74b91ffe987485c108e0be510000d10b</UniqueId>
+				<Vector3 name="Velocity">
+					<X>0</X>
+					<Y>0</Y>
+					<Z>0</Z>
+				</Vector3>
+				<token name="formFactorRaw">1</token>
+				<token name="shape">1</token>
+				<Vector3 name="size">
+					<X>42.2308846</X>
+					<Y>28.04035</Y>
+					<Z>72.094635</Z>
 				</Vector3>
 			</Properties>
 		</Item>
@@ -51376,6 +52749,7 @@ c25vZHJhdw==]]></BinaryString>
 	</Item>
 	<Item class="SoundService" referent="RBXF39790311EFE492AAC5A7C8C8BD4E712">
 		<Properties>
+			<bool name="AcousticSimulationEnabled">false</bool>
 			<token name="AmbientReverb">0</token>
 			<BinaryString name="AttributesSerialize"></BinaryString>
 			<token name="AudioApiByDefault">0</token>
@@ -51477,6 +52851,200 @@ c25vZHJhdw==]]></BinaryString>
 			<BinaryString name="Tags"></BinaryString>
 			<UniqueId name="UniqueId">759ee19baa6ba7f8088b6de60000033b</UniqueId>
 		</Properties>
+		<Item class="LocalScript" referent="RBXE36B77FAE76143B49926FD14CEE1833B">
+			<Properties>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="DefinesCapabilities">false</bool>
+				<bool name="Disabled">true</bool>
+				<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+				<Content name="LinkedSource"><null></null></Content>
+				<string name="Name">light</string>
+				<token name="RunContext">0</token>
+				<string name="ScriptGuid">{1EAE56BC-F029-4928-B705-DFDF1B44A31F}</string>
+				<ProtectedString name="Source"><![CDATA[game.Loaded:Wait()
+task.wait(2)
+local light = game:GetService('Lighting')
+local waitt = 2
+local d = 0
+local last = 1000
+
+game["Run Service"].RenderStepped:Connect(function(dt)
+	d += dt
+	if d < waitt/10 then
+		return
+	end
+	d = 0
+	light:SetMinutesAfterMidnight(last + waitt)
+	last += waitt
+	game.Players.LocalPlayer.PlayerGui.TESTE.Frame.TextLabel.Text = light.TimeOfDay
+end)
+
+]]></ProtectedString>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+				<UniqueId name="UniqueId">322c757c0ea8ec0d08d718dc0000222d</UniqueId>
+			</Properties>
+		</Item>
+		<Item class="LocalScript" referent="RBX20C207ADAB4C41D59433A0BD7A6AB17F">
+			<Properties>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="DefinesCapabilities">false</bool>
+				<bool name="Disabled">true</bool>
+				<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+				<Content name="LinkedSource"><null></null></Content>
+				<string name="Name">Selection</string>
+				<token name="RunContext">0</token>
+				<string name="ScriptGuid">{CF91D858-7F9E-49DE-8360-EA5FF8F0BF9A}</string>
+				<ProtectedString name="Source"><![CDATA[task.wait(6)
+local instanceHighlight = require(game.ReplicatedStorage.Modules.Client.Utils.HighlightSelection)
+
+for _, k in workspace:WaitForChild('maze path '):GetChildren() do
+	instanceHighlight.addSelection(k) 
+end]]></ProtectedString>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+				<UniqueId name="UniqueId">71a063858dcc7d6108d9a50700011dee</UniqueId>
+			</Properties>
+		</Item>
+		<Item class="LocalScript" referent="RBXC582C8666A8A4371BF1DF308517E6BDC">
+			<Properties>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="DefinesCapabilities">false</bool>
+				<bool name="Disabled">false</bool>
+				<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+				<Content name="LinkedSource"><null></null></Content>
+				<string name="Name">DivTest</string>
+				<token name="RunContext">0</token>
+				<string name="ScriptGuid">{D7A79D14-1562-4954-A394-727695CD6D7F}</string>
+				<ProtectedString name="Source"><![CDATA[local CollectionService = game:GetService('CollectionService')
+
+-- Constrói uma sequência de tamanhos que somam exatamente a 'total',
+-- usando "step" como tamanho padrão e reduzindo só o último bloco.
+local function buildSlices(total: number, step: number): {number}
+	assert(step > 0, 'step deve ser > 0')
+	local slices = {}
+	local remain = total
+	local EPS = 1e-6
+
+	while remain > EPS do
+		local chunk = math.min(step, remain)
+		table.insert(slices, chunk)
+		remain -= chunk
+	end
+
+	-- Normaliza resíduos numéricos (somatória = total exato)
+	-- (opcional: arredonda pra 1e-6 pra evitar “0.0000001”)
+	local sum = 0
+	for i = 1, #slices do
+		slices[i] = tonumber(string.format('%.6f', slices[i]))
+		sum += slices[i]
+	end
+	-- Ajuste final de precisão no último slice
+	local diff = total - sum
+	if math.abs(diff) > EPS and #slices > 0 then
+		slices[#slices] += diff
+	end
+
+	return slices
+end
+
+-- Divide 'part' em blocos (GRID_XZ x GRID_Y x GRID_XZ), sem nunca ultrapassar o tamanho da original.
+-- Bordas recebem blocos menores quando necessário (X/Z/Y).
+-- Copia Tags/Attributes e destrói a peça original.
+local function splitPartIntoGrid3D_Exact(part: BasePart, GRID_XZ: number?, GRID_Y: number?): ()
+	assert(part and part:IsA('BasePart'), 'Passe uma BasePart válida')
+
+	GRID_XZ = GRID_XZ or 4
+	GRID_Y  = GRID_Y  or 14
+
+	local cf     = part.CFrame
+	local size   = part.Size
+	local parent = part.Parent
+
+	-- Listas de tamanhos por eixo que somam exatamente o total
+	local sizesX = buildSlices(size.X, GRID_XZ)
+	local sizesZ = buildSlices(size.Z, GRID_XZ)
+	local sizesY = buildSlices(size.Y, GRID_Y)
+
+	-- Snapshots de Tags e Attributes
+	local tags  = CollectionService:GetTags(part)
+	local attrs = part:GetAttributes()
+
+	-- Ponto inicial (bordas) no espaço local
+	-- Vamos avançando e posicionando cada segmento pelo centro do bloco atual:
+	-- start = -total/2; center = start + chunk/2; start += chunk
+	local startX = -size.X * 0.5
+	for ix = 1, #sizesX do
+		local sx = sizesX[ix]
+		local cx = startX + sx * 0.5
+
+		local startY = -size.Y * 0.5
+		for iy = 1, #sizesY do
+			local sy = sizesY[iy]
+			local cy = startY + sy * 0.5
+
+			local startZ = -size.Z * 0.5
+			for iz = 1, #sizesZ do
+				local sz = sizesZ[iz]
+				local cz = startZ + sz * 0.5
+
+				local seg = Instance.new('Part')
+				seg.Size            = Vector3.new(sx, sy, sz)
+				seg.CFrame          = cf * CFrame.new(cx, cy, cz)
+				seg.Anchored        = part.Anchored
+				seg.Material        = part.Material
+				seg.Color           = part.Color
+				seg.MaterialVariant = part.MaterialVariant
+				seg.Transparency    = part.Transparency
+				seg.Reflectance     = part.Reflectance
+				seg.CanCollide      = part.CanCollide
+				seg.CastShadow      = part.CastShadow
+				seg.Name            = string.format('%s_seg_%d_%d_%d', part.Name, ix, iy, iz)
+
+				-- Física personalizada (se houver)
+				if part.CustomPhysicalProperties then
+					seg.CustomPhysicalProperties = part.CustomPhysicalProperties
+				end
+
+				-- CollisionGroup (se você usa)
+				pcall(function() seg.CollisionGroup = part.CollisionGroup end)
+
+				-- Copiar Attributes
+				for k, v in pairs(attrs) do
+					seg:SetAttribute(k, v)
+				end
+
+				-- Copiar Tags
+				for _, tag in ipairs(tags) do
+					CollectionService:AddTag(seg, tag)
+				end
+
+				seg.Parent = parent
+
+				startZ += sz
+			end
+
+			startY += sy
+		end
+
+		startX += sx
+	end
+
+	part:Destroy()
+end
+
+
+
+
+splitPartIntoGrid3D_Exact(workspace:WaitForChild('theWallTestSizeDiv'))]]></ProtectedString>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+				<UniqueId name="UniqueId">00ad88059fa4b3fc08db54e700020f31</UniqueId>
+			</Properties>
+		</Item>
 		<Item class="LocalScript" referent="RBXE925F8A74F2945F2B4FEE9B3C952C84F">
 			<Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
@@ -51740,200 +53308,6 @@ return module
 					<UniqueId name="UniqueId">71a063858dcc7d6108d9a50700011c30</UniqueId>
 				</Properties>
 			</Item>
-		</Item>
-		<Item class="LocalScript" referent="RBXE36B77FAE76143B49926FD14CEE1833B">
-			<Properties>
-				<BinaryString name="AttributesSerialize"></BinaryString>
-				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-				<bool name="DefinesCapabilities">false</bool>
-				<bool name="Disabled">true</bool>
-				<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-				<Content name="LinkedSource"><null></null></Content>
-				<string name="Name">light</string>
-				<token name="RunContext">0</token>
-				<string name="ScriptGuid">{1EAE56BC-F029-4928-B705-DFDF1B44A31F}</string>
-				<ProtectedString name="Source"><![CDATA[game.Loaded:Wait()
-task.wait(2)
-local light = game:GetService('Lighting')
-local waitt = 2
-local d = 0
-local last = 1000
-
-game["Run Service"].RenderStepped:Connect(function(dt)
-	d += dt
-	if d < waitt/10 then
-		return
-	end
-	d = 0
-	light:SetMinutesAfterMidnight(last + waitt)
-	last += waitt
-	game.Players.LocalPlayer.PlayerGui.TESTE.Frame.TextLabel.Text = light.TimeOfDay
-end)
-
-]]></ProtectedString>
-				<int64 name="SourceAssetId">-1</int64>
-				<BinaryString name="Tags"></BinaryString>
-				<UniqueId name="UniqueId">322c757c0ea8ec0d08d718dc0000222d</UniqueId>
-			</Properties>
-		</Item>
-		<Item class="LocalScript" referent="RBX20C207ADAB4C41D59433A0BD7A6AB17F">
-			<Properties>
-				<BinaryString name="AttributesSerialize"></BinaryString>
-				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-				<bool name="DefinesCapabilities">false</bool>
-				<bool name="Disabled">true</bool>
-				<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-				<Content name="LinkedSource"><null></null></Content>
-				<string name="Name">Selection</string>
-				<token name="RunContext">0</token>
-				<string name="ScriptGuid">{CF91D858-7F9E-49DE-8360-EA5FF8F0BF9A}</string>
-				<ProtectedString name="Source"><![CDATA[task.wait(6)
-local instanceHighlight = require(game.ReplicatedStorage.Modules.Client.Utils.HighlightSelection)
-
-for _, k in workspace:WaitForChild('maze path '):GetChildren() do
-	instanceHighlight.addSelection(k) 
-end]]></ProtectedString>
-				<int64 name="SourceAssetId">-1</int64>
-				<BinaryString name="Tags"></BinaryString>
-				<UniqueId name="UniqueId">71a063858dcc7d6108d9a50700011dee</UniqueId>
-			</Properties>
-		</Item>
-		<Item class="LocalScript" referent="RBXC582C8666A8A4371BF1DF308517E6BDC">
-			<Properties>
-				<BinaryString name="AttributesSerialize"></BinaryString>
-				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-				<bool name="DefinesCapabilities">false</bool>
-				<bool name="Disabled">false</bool>
-				<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-				<Content name="LinkedSource"><null></null></Content>
-				<string name="Name">DivTest</string>
-				<token name="RunContext">0</token>
-				<string name="ScriptGuid">{D7A79D14-1562-4954-A394-727695CD6D7F}</string>
-				<ProtectedString name="Source"><![CDATA[local CollectionService = game:GetService('CollectionService')
-
--- Constrói uma sequência de tamanhos que somam exatamente a 'total',
--- usando "step" como tamanho padrão e reduzindo só o último bloco.
-local function buildSlices(total: number, step: number): {number}
-	assert(step > 0, 'step deve ser > 0')
-	local slices = {}
-	local remain = total
-	local EPS = 1e-6
-
-	while remain > EPS do
-		local chunk = math.min(step, remain)
-		table.insert(slices, chunk)
-		remain -= chunk
-	end
-
-	-- Normaliza resíduos numéricos (somatória = total exato)
-	-- (opcional: arredonda pra 1e-6 pra evitar “0.0000001”)
-	local sum = 0
-	for i = 1, #slices do
-		slices[i] = tonumber(string.format('%.6f', slices[i]))
-		sum += slices[i]
-	end
-	-- Ajuste final de precisão no último slice
-	local diff = total - sum
-	if math.abs(diff) > EPS and #slices > 0 then
-		slices[#slices] += diff
-	end
-
-	return slices
-end
-
--- Divide 'part' em blocos (GRID_XZ x GRID_Y x GRID_XZ), sem nunca ultrapassar o tamanho da original.
--- Bordas recebem blocos menores quando necessário (X/Z/Y).
--- Copia Tags/Attributes e destrói a peça original.
-local function splitPartIntoGrid3D_Exact(part: BasePart, GRID_XZ: number?, GRID_Y: number?): ()
-	assert(part and part:IsA('BasePart'), 'Passe uma BasePart válida')
-
-	GRID_XZ = GRID_XZ or 4
-	GRID_Y  = GRID_Y  or 14
-
-	local cf     = part.CFrame
-	local size   = part.Size
-	local parent = part.Parent
-
-	-- Listas de tamanhos por eixo que somam exatamente o total
-	local sizesX = buildSlices(size.X, GRID_XZ)
-	local sizesZ = buildSlices(size.Z, GRID_XZ)
-	local sizesY = buildSlices(size.Y, GRID_Y)
-
-	-- Snapshots de Tags e Attributes
-	local tags  = CollectionService:GetTags(part)
-	local attrs = part:GetAttributes()
-
-	-- Ponto inicial (bordas) no espaço local
-	-- Vamos avançando e posicionando cada segmento pelo centro do bloco atual:
-	-- start = -total/2; center = start + chunk/2; start += chunk
-	local startX = -size.X * 0.5
-	for ix = 1, #sizesX do
-		local sx = sizesX[ix]
-		local cx = startX + sx * 0.5
-
-		local startY = -size.Y * 0.5
-		for iy = 1, #sizesY do
-			local sy = sizesY[iy]
-			local cy = startY + sy * 0.5
-
-			local startZ = -size.Z * 0.5
-			for iz = 1, #sizesZ do
-				local sz = sizesZ[iz]
-				local cz = startZ + sz * 0.5
-
-				local seg = Instance.new('Part')
-				seg.Size            = Vector3.new(sx, sy, sz)
-				seg.CFrame          = cf * CFrame.new(cx, cy, cz)
-				seg.Anchored        = part.Anchored
-				seg.Material        = part.Material
-				seg.Color           = part.Color
-				seg.MaterialVariant = part.MaterialVariant
-				seg.Transparency    = part.Transparency
-				seg.Reflectance     = part.Reflectance
-				seg.CanCollide      = part.CanCollide
-				seg.CastShadow      = part.CastShadow
-				seg.Name            = string.format('%s_seg_%d_%d_%d', part.Name, ix, iy, iz)
-
-				-- Física personalizada (se houver)
-				if part.CustomPhysicalProperties then
-					seg.CustomPhysicalProperties = part.CustomPhysicalProperties
-				end
-
-				-- CollisionGroup (se você usa)
-				pcall(function() seg.CollisionGroup = part.CollisionGroup end)
-
-				-- Copiar Attributes
-				for k, v in pairs(attrs) do
-					seg:SetAttribute(k, v)
-				end
-
-				-- Copiar Tags
-				for _, tag in ipairs(tags) do
-					CollectionService:AddTag(seg, tag)
-				end
-
-				seg.Parent = parent
-
-				startZ += sz
-			end
-
-			startY += sy
-		end
-
-		startX += sx
-	end
-
-	part:Destroy()
-end
-
-
-
-
-splitPartIntoGrid3D_Exact(workspace:WaitForChild('theWallTestSizeDiv'))]]></ProtectedString>
-				<int64 name="SourceAssetId">-1</int64>
-				<BinaryString name="Tags"></BinaryString>
-				<UniqueId name="UniqueId">00ad88059fa4b3fc08db54e700020f31</UniqueId>
-			</Properties>
 		</Item>
 	</Item>
 	<Item class="TweenService" referent="RBX37C56140DA554B9088A8CF1C777D6F1F">
@@ -65033,7 +66407,6 @@ local sharedClasses = sharedModules.Classes
 local itemSharedClass = require(sharedClasses.ItemClass)
 
 local replicableInstance = require(sharedClasses.ReplicableInstance)
-local instancesManager = require(sharedModules.Managers.InstancesManager)
 
 local inventoryUtil = require(sharedModules.Utils.InventoryUtilShared)
 local inventoryUtilClient = require(clientModules.Utils.InventoryUtilClient)
@@ -65123,6 +66496,7 @@ function module.AddToInventory(self: ClassType, inv: { any }?, slot: number?)
 		or inventoryUtil.getItemSlot(playerInventory, self.UID)
 		or inventoryUtil.getNextSlotForANewItem(playerInventory)
 	inventoryUtilClient.putItemOnInventorySlot(self.UID, slot)
+	itemHover.forceHide(self.UID)
 
 	return self
 end
@@ -65161,7 +66535,6 @@ function module.AnimKeyDown(self: ClassType)
 				elseif t.Player(self.InstantiatedTo) then
 					local chestOpen = localPlayer:GetAttribute("ChestOpen")
 					if chestOpen then
-						local chest = instancesManager.getObj(chestOpen)
 						self:TryToInstantiateTo(chestOpen, "DeskContents")
 					end
 				end
@@ -65299,7 +66672,7 @@ local highlightSelectionUtil = require(clientModules.Utils.HighlightSelection)
 
 local localplayer = PlayersService.LocalPlayer
 
-local module = setmetatable({}, { __index = chestSharedClass })
+local module = setmetatable({} :: {}, { __index = chestSharedClass })
 
 export type ClassType =
 	typeof(setmetatable(
@@ -65308,6 +66681,7 @@ export type ClassType =
 			DrawerSpring: typeof(spring.new()),
 			DrawerPivotPosition: Vector3,
 			ProximityPrompt: ProximityPrompt,
+			ChestOpenByLocalPlayer: boolean,
 		},
 		{ __index = module }
 	))
@@ -65315,11 +66689,11 @@ export type ClassType =
 
 function module.new(UID: string)
 	local self: ClassType = replicableInstance.newLinkedToAClass(module, chestSharedClass, UID) :: ClassType
-	self._Type = "Chest"
 	self.ItemsInside = {
 		DeskContents = {},
 		HiddenContents = {},
 	}
+	self.ChestOpenByLocalPlayer = false
 
 	return self
 end
@@ -65329,7 +66703,6 @@ function module.Materialize(self: ClassType, CF: CFrame)
 	if not success then
 		return self
 	end
-
 	self.ProximityPrompt = self.Model.Chest.ProximityPrompt
 
 	-- self.Model:PivotTo(self.CFrame)
@@ -65349,28 +66722,27 @@ function module.Materialize(self: ClassType, CF: CFrame)
 		self.Remote:Fire(self.UID, "playerEndedHoldingProximityPrompt", {})
 	end))
 	self.Trove:Add(self.ProximityPrompt.Triggered:Connect(function()
+		self.ChestOpenByLocalPlayer = true
 		localplayer:SetAttribute("ChestOpen", self.UID)
 		self.Display.Visible = true
 		self.ProximityPrompt.Enabled = false
 
-		local con
-		con = runService.Heartbeat:Connect(function()
-			local plrRootPart = charUtils.getAlivePlayerRootPart(localplayer)
-			if
-				not plrRootPart
-				or (plrRootPart.Position - self.CFrame.Position).Magnitude >= self.MaxDistanceToInteract
-			then
-				localplayer:SetAttribute("ChestOpen", nil)
-				self.Display.Visible = false
-				self.ProximityPrompt.Enabled = true
-				con:Disconnect()
-				con = nil
-				return
-			end
-		end)
-		self.Trove:Add(con)
+		-- local con
+		-- con = runService.Heartbeat:Connect(function()
+		-- 	local plrRootPart = charUtils.getAlivePlayerRootPart(localplayer)
+		-- 	if not plrRootPart or (plrRootPart.Position - self.CFrame.Position).Magnitude >= maxDistanceToInteract then
+		-- 		localplayer:SetAttribute("ChestOpen", nil)
+		-- 		self.Display.Visible = false
+		-- 		self.ProximityPrompt.Enabled = true
+		-- 		con:Disconnect()
+		-- 		con = nil
+		-- 		return
+		-- 	end
+		-- end)
+		-- self.Trove:Add(con)
 	end))
 
+	local maxDistanceToInteract = self.MaxDistanceToInteract or 8
 	self.Trove:Add(runService.RenderStepped:Connect(function()
 		local hrp = localplayer.Character.PrimaryPart
 		local sprPos = self.DrawerSpring.Position
@@ -65378,7 +66750,7 @@ function module.Materialize(self: ClassType, CF: CFrame)
 		if not hrp then
 			return
 		end
-		if (hrp.Position - self.Model.PrimaryPart.Position).Magnitude <= self.MaxDistanceToInteract then
+		if (hrp.Position - self.Model.PrimaryPart.Position).Magnitude <= maxDistanceToInteract then
 			self.DrawerSpring.Damping = 0.4
 			self.DrawerSpring.Target = 40
 			if self.DrawerSpring:IsAtRest() then
@@ -65393,6 +66765,16 @@ function module.Materialize(self: ClassType, CF: CFrame)
 				end)
 			end
 		else
+			if self.ChestOpenByLocalPlayer then
+				self.ChestOpenByLocalPlayer = false
+				localplayer:SetAttribute("ChestOpen", nil)
+				self.Display.Visible = false
+				self.ProximityPrompt.Enabled = true
+				--con:Disconnect()
+				--con = nil
+				return
+			end
+
 			self.DrawerSpring.Damping = 0.75
 			self.DrawerSpring.Target = 0
 			if self.DrawerSpring:IsAtRest() then
@@ -65575,6 +66957,53 @@ return module
 							<int64 name="SourceAssetId">-1</int64>
 							<BinaryString name="Tags"></BinaryString>
 							<UniqueId name="UniqueId">322c757c0ea8ec0d08d718dc0000344f</UniqueId>
+						</Properties>
+					</Item>
+					<Item class="ModuleScript" referent="RBXB95E81070E8D4F0187E578722CF210E8">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<Content name="LinkedSource"><null></null></Content>
+							<string name="Name">WallReplica</string>
+							<string name="ScriptGuid">{50D96262-B72B-45AA-8CD8-6E2A37C39963}</string>
+							<ProtectedString name="Source"><![CDATA[local replicatedStorage = game:GetService("ReplicatedStorage")
+local PlayersService = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local runService = game:GetService("RunService")
+
+local lib = require(replicatedStorage:WaitForChild("lib"))
+local clientModules = replicatedStorage.Modules.Client
+local sharedModules = replicatedStorage.Modules.Shared
+
+local replicableInstance = require(sharedModules.Classes.ReplicableInstance)
+local instancesManager = require(sharedModules.Managers.InstancesManager)
+
+local spring = lib.ModuleUtils.Spring
+local charUtils = lib.FunctionUtils.Character
+
+local wallSharedClass = require(sharedModules.Classes.WallClass)
+
+local localplayer = PlayersService.LocalPlayer
+
+local module = setmetatable({}, { __index = wallSharedClass })
+
+export type ClassType = typeof(setmetatable({} :: {}, { __index = module })) & wallSharedClass.ClassType
+
+function module.new(UID: string)
+	local self: ClassType = replicableInstance.newLinkedToAClass(module, wallSharedClass, UID) :: ClassType
+
+	return self
+end
+
+function module.Materialize(self: ClassType, CF: CFrame) end
+
+return module
+]]></ProtectedString>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">00ad88059fa4b3fc08db54e700024222</UniqueId>
 						</Properties>
 					</Item>
 				</Item>
@@ -65822,7 +67251,7 @@ local function ItemInfoOrganizer(item)
 	end
 
 	itemInfoOverlay.UIStroke.Color = item.Legal and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(255, 0, 4)
-	itemInfoOverlay.Info.ItemName.Text = item.UID
+	itemInfoOverlay.Info.ItemName.Text = item.Id .. " _ " .. item.Name -- or "Unknown Item"
 
 	local infoinfo = itemInfoOverlay.Info.Info
 	infoinfo.Speed.Text = "Speed: " .. item.AttackInfos.Speed.Name
@@ -65886,12 +67315,24 @@ function module.removeItem(itemUID: string)
 		return
 	end
 
+	module.forceHide(itemUID)
+
 	for k, v in module.itemsBeingObserved[itemUID] do
 		v:Disconnect()
 		module.itemsBeingObserved[itemUID][k] = nil
 	end
 
 	module.itemsBeingObserved[itemUID] = nil
+end
+
+function module.forceHide(itemUID: string?)
+	if itemUID and itemHovering ~= itemUID then
+		return
+	end
+
+	IsHovering = false
+	itemHovering = nil
+	itemInfoOverlay.Visible = false
 end
 
 return module
@@ -66185,153 +67626,6 @@ return module
 						<BinaryString name="Tags"></BinaryString>
 						<UniqueId name="UniqueId">3b4d352275f2c90608b5fa7900001190</UniqueId>
 					</Properties>
-					<Item class="ModuleScript" referent="RBX3D0C331FEBD9485181384A5169875D54">
-						<Properties>
-							<BinaryString name="AttributesSerialize"></BinaryString>
-							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-							<bool name="DefinesCapabilities">false</bool>
-							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-							<Content name="LinkedSource"><null></null></Content>
-							<string name="Name">ReplicableInstance</string>
-							<string name="ScriptGuid">{73B886BF-D2E5-462F-803C-93F9C938BA2B}</string>
-							<ProtectedString name="Source"><![CDATA[local replicatedStorage = game:GetService("ReplicatedStorage")
-local collectionService = game:GetService("CollectionService")
-
-local lib = require(replicatedStorage.lib)
-local packet = lib.ModuleUtils.Packet
-local trove = lib.ModuleUtils.Trove
-local getLegalUID = lib.Utils.GetLegalUID
-local t = lib.FunctionUtils.t
-local remotes = lib.Remotes
-
-local sharedModules = replicatedStorage.Modules.Shared
-local instancesManager = require(sharedModules.Managers.InstancesManager)
-
-local module = setmetatable({}, { __index = instancesManager })
-
-export type genericObjType = instancesManager.genericObjType
-
-export type ClassType =
-	typeof(setmetatable(
-		{} :: {
-			Remote: typeof(packet("")),
-			Trove: typeof(trove.new()),
-		},
-		{ __index = module }
-	))
-	& genericObjType
-
-function module.new(UID: string?): ClassType
-	local self = setmetatable({
-		UID = UID or getLegalUID(),
-		Trove = trove.new(),
-		Remote = remotes.UpdateObj,
-	}, { __index = module }) :: ClassType
-
-	instancesManager.addObj(self)
-	return self
-end
-
-function module.newLinkedToAClass<T, T2>(
-	realClassModule: { [string]: any },
-	sharedClassModule: { [string]: any },
-	UID: string?
-): ClassType
-	local self = setmetatable(sharedClassModule.new(UID), {
-		__index = function(_, k)
-			local func1 = rawget(realClassModule, k)
-
-			if typeof(func1) == "function" then
-				return func1
-			end
-
-			local func2 = sharedClassModule[k]
-			if typeof(func2) == "function" then
-				return func2
-			end
-
-			return func2
-		end,
-	})
-
-	return self
-end
-
--- function module.Replicate<T>(self: T & ClassType, replicate: boolean?)
--- 	self:Replicate(replicate)
--- 	return self
--- end
-
-function module.AttachId<T>(self: T & ClassType, id: number)
-	local directory = require(replicatedStorage.Directory[self._Type .. "s"])
-	local info = directory:getItemInfo(id)
-
-	for k, v in info do
-		(self :: any)[k] = v
-	end
-	return self
-end
-
-function module.Materialize<T>(self: T & ClassType, CF: CFrame?)
-	local model = workspace:FindFirstAncestor(self.UID)
-
-	if not model then
-		for _, part in collectionService:GetTagged(self._Type) do
-			if part:GetAttribute("UID") == self.UID then
-				model = part
-				break
-			end
-		end
-	end
-	model = model or require(replicatedStorage.Directory[self._Type .. "s"]):getItemModel(self.Id):Clone()
-	self.Model = model
-	if not model then
-		return false
-	end
-
-	model:AddTag(self._Type)
-	model:SetAttribute("UID", self.UID)
-
-	if not t.CFrame(CF) then
-		return self
-	end
-
-	self.CFrame = lib.Utils.GetLegalCFrame(CF :: CFrame)
-	model:PivotTo(self.CFrame)
-
-	return self
-end
-
--- function module.Destroy<T>(self: T & ClassType)
--- 	local ok
--- 	if self.Trove and (self.Trove :: any).Clean then
--- 		ok = pcall(function()
--- 			(self.Trove :: any):Clean()
--- 		end)
--- 	end
-
--- 	local m = (self :: any).Model
--- 	if typeof(m) == "Instance" then
--- 		m:Destroy()
--- 		(self :: any).Model = nil
--- 	end
-
--- 	local da = (self :: any).DetectionArea
--- 	if typeof(da) == "Instance" then
--- 		da:Destroy()
--- 		(self :: any).DetectionArea = nil
--- 	end
-
--- 		return ok
--- 	end
-
-return module
-]]></ProtectedString>
-							<int64 name="SourceAssetId">-1</int64>
-							<BinaryString name="Tags"></BinaryString>
-							<UniqueId name="UniqueId">74a76f371dcdf99b08a5134400000e1c</UniqueId>
-						</Properties>
-					</Item>
 					<Item class="ModuleScript" referent="RBX474E2A0E04D648FB834CAC80F9354DEF">
 						<Properties>
 							<BinaryString name="AttributesSerialize"></BinaryString>
@@ -67033,104 +68327,6 @@ return module
 							<UniqueId name="UniqueId">322c757c0ea8ec0d08d718dc000014d4</UniqueId>
 						</Properties>
 					</Item>
-					<Item class="ModuleScript" referent="RBXF3D8AB3527644B97BFAF5C9657064922">
-						<Properties>
-							<BinaryString name="AttributesSerialize"></BinaryString>
-							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-							<bool name="DefinesCapabilities">false</bool>
-							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-							<Content name="LinkedSource"><null></null></Content>
-							<string name="Name">SecurityCameraClass</string>
-							<string name="ScriptGuid">{D446E7FB-269A-4D9E-8E91-9CB268CC7643}</string>
-							<ProtectedString name="Source"><![CDATA[local replicatedStorage = game:GetService("ReplicatedStorage")
-local collectionService = game:GetService("CollectionService")
-
-local sharedModules = replicatedStorage.Modules.Shared
-local replicableInstance = require(sharedModules.Classes.ReplicableInstance)
-
-local directoryFolder = replicatedStorage.Directory
-
-local securityCamerasDirectory = require(directoryFolder.SecurityCameras)
-
-local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
-module._Type = "SecurityCamera"
-
-export type ClassType =
-	typeof(setmetatable(
-		{} :: {
-			isActivated: boolean,
-
-			AttachedToWall: BasePart,
-			CFrame: CFrame,
-			Model: Model,
-			CameraModel: Model,
-		},
-		{ __index = module }
-	))
-	& replicableInstance.ClassType
-	& securityCamerasDirectory.Type
-
-function module.new(UID: string | number?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, replicableInstance, UID) :: ClassType
-
-	return self
-end
-
-function module.Materialize(self: ClassType, wallUID: string)
-	local success = replicableInstance.Materialize(self, wallUID)
-	print(success)
-	if not success then
-		return false
-	end
-	print(wallUID)
-	local wall = wallUID and workspace:FindFirstAncestor(wallUID)
-	print(wall)
-	if not wall then
-		for _, instance in collectionService:GetTagged("Wall") do
-			if instance:GetAttribute("UID") == wallUID then
-				wall = instance
-				break
-			end
-		end
-	end
-
-	print(wall)
-	if not wall or not wall.Parent or not wall:HasTag("Wall") then
-		return false
-	end
-	print("s")
-	self.CameraModel = self.Model:FindFirstChild("FunctionalCamera") :: Model
-	self.AttachedToWall = wall
-	self.CFrame = wall.CFrame * CFrame.new(0, 3, -wall.Size.Z / 2 + self.Model.PrimaryPart.Size.Z / 4)
-	return self
-end
-
--- function module.StartWatching(self: ClassType, plr)
--- 	if not self.CameraArea then
--- 		return
--- 	end
--- end
-
-function module.FinishWatching(self: ClassType) end
-
-function module.AlertPolices(self: ClassType) end
-
-function module.Active(self: ClassType, active: boolean?)
-	active = active == nil and true or active
-	if self.isActivated == active then
-		return false
-	end
-	self.isActivated = active :: boolean
-	return self
-end
-
-return module
-]]></ProtectedString>
-							<int64 name="SourceAssetId">-1</int64>
-							<BinaryString name="Tags"></BinaryString>
-							<UniqueId name="UniqueId">322c757c0ea8ec0d08d718dc000016ce</UniqueId>
-						</Properties>
-					</Item>
 					<Item class="ModuleScript" referent="RBXAA05B5561CB748DC83F9E27A45D332E7">
 						<Properties>
 							<BinaryString name="AttributesSerialize"></BinaryString>
@@ -67237,6 +68433,10 @@ return module
 local sharedModules = replicatedStorage.Modules.Shared
 local replicableInstance = require(sharedModules.Classes.ReplicableInstance)
 
+local lib = require(replicatedStorage.lib)
+local t = lib.FunctionUtils.t
+local signal = lib.ModuleUtils.Signal
+
 local directoryFolder = replicatedStorage.Directory
 
 local wallsDirectory = require(directoryFolder.Walls)
@@ -67248,7 +68448,9 @@ export type ClassType =
 	typeof(setmetatable(
 		{} :: {
 			CFrame: CFrame,
-			Model: Model?,
+			Model: Model,
+
+			HealthChanged: lib.Signal<nil, number>,
 		},
 		{ __index = module }
 	))
@@ -67257,7 +68459,27 @@ export type ClassType =
 
 function module.new(UID: string | number?): ClassType
 	local self = replicableInstance.newLinkedToAClass(module, replicableInstance, UID) :: ClassType
+	self.HealthChanged = signal.new()
 
+	return self
+end
+
+function module._SetHealth(self: ClassType, health: number)
+	local maxHealth = self.MaxHealth
+
+	if health <= 0 then
+		self.Health = 0
+		self.HealthChanged:Fire(self.Health)
+		self:DestroyModel()
+		return self
+	end
+
+	if health > maxHealth then
+		health = maxHealth
+	end
+	self.Health = health
+
+	self.HealthChanged:Fire(self.Health)
 	return self
 end
 
@@ -67268,11 +68490,25 @@ function module.TakeDamage(self: ClassType, damage: number)
 	end
 
 	health -= damage
-	self.Health = health
-	if health <= 0 then
-		self.Health = 0
-		self:DestroyModel()
+	self:_SetHealth(health)
+
+	return self
+end
+
+function module.Repair(self: ClassType, amount: number)
+	local health = self.Health
+	local maxHealth = self.MaxHealth
+
+	amount = amount or maxHealth
+	-- if health <= 0 then
+	-- 	return false
+	-- end
+
+	health += amount
+	if health > maxHealth then
+		health = maxHealth
 	end
+	self:_SetHealth(health)
 
 	return self
 end
@@ -67282,9 +68518,31 @@ function module.DestroyModel(self: ClassType)
 		return false
 	end
 
-	self.Health = 0
-	self.Model:Destroy()
-	self.Model = nil
+	self:_SetHealth(0)
+
+	for _, part in self.Model:GetDescendants() do
+		if part:IsA("BasePart") then
+			if part.Transparency then
+				part.Transparency = 1
+			end
+		end
+	end
+
+	return self
+end
+
+function module.BuildModel(self: ClassType)
+	if 0 >= self.Health then
+		return false
+	end
+
+	for _, part in self.Model:GetDescendants() do
+		if part:IsA("BasePart") then
+			if part.Transparency then
+				part.Transparency = 0
+			end
+		end
+	end
 
 	return self
 end
@@ -67294,6 +68552,272 @@ return module
 							<int64 name="SourceAssetId">-1</int64>
 							<BinaryString name="Tags"></BinaryString>
 							<UniqueId name="UniqueId">00ad88059fa4b3fc08db54e70002262a</UniqueId>
+						</Properties>
+					</Item>
+					<Item class="ModuleScript" referent="RBXF3D8AB3527644B97BFAF5C9657064922">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<Content name="LinkedSource"><null></null></Content>
+							<string name="Name">SecurityCameraClass</string>
+							<string name="ScriptGuid">{D446E7FB-269A-4D9E-8E91-9CB268CC7643}</string>
+							<ProtectedString name="Source"><![CDATA[local replicatedStorage = game:GetService("ReplicatedStorage")
+local collectionService = game:GetService("CollectionService")
+
+local sharedModules = replicatedStorage.Modules.Shared
+local replicableInstance = require(sharedModules.Classes.ReplicableInstance)
+
+local directoryFolder = replicatedStorage.Directory
+
+local securityCamerasDirectory = require(directoryFolder.SecurityCameras)
+
+local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
+module._Type = "SecurityCamera"
+
+export type ClassType =
+	typeof(setmetatable(
+		{} :: {
+			isActivated: boolean,
+
+			AttachedToWall: BasePart,
+			CFrame: CFrame,
+			Model: Model,
+			CameraModel: Model,
+		},
+		{ __index = module }
+	))
+	& replicableInstance.ClassType
+	& securityCamerasDirectory.Type
+
+function module.new(UID: string | number?): ClassType
+	local self = replicableInstance.newLinkedToAClass(module, replicableInstance, UID) :: ClassType
+
+	return self
+end
+
+function module.Materialize(self: ClassType, wallUID: string)
+	local success = replicableInstance.Materialize(self, wallUID)
+	if not success then
+		return false
+	end
+	local wall = wallUID and workspace:FindFirstAncestor(wallUID)
+	if not wall then
+		for _, instance in collectionService:GetTagged("Wall") do
+			if instance:GetAttribute("UID") == wallUID then
+				wall = instance
+				break
+			end
+		end
+	end
+
+	if not wall or not wall.Parent or not wall:HasTag("Wall") then
+		return false
+	end
+	self.CameraModel = self.Model:FindFirstChild("FunctionalCamera") :: Model
+	self.AttachedToWall = wall
+	self.CFrame = wall.CFrame * CFrame.new(0, 3, -wall.Size.Z / 2 + self.Model.PrimaryPart.Size.Z / 4)
+	return self
+end
+
+-- function module.StartWatching(self: ClassType, plr)
+-- 	if not self.CameraArea then
+-- 		return
+-- 	end
+-- end
+
+function module.FinishWatching(self: ClassType) end
+
+function module.AlertPolices(self: ClassType) end
+
+function module.Active(self: ClassType, active: boolean?)
+	active = active == nil and true or active
+	if self.isActivated == active then
+		return false
+	end
+	self.isActivated = active :: boolean
+	return self
+end
+
+return module
+]]></ProtectedString>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">322c757c0ea8ec0d08d718dc000016ce</UniqueId>
+						</Properties>
+					</Item>
+					<Item class="ModuleScript" referent="RBX3D0C331FEBD9485181384A5169875D54">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+							<Content name="LinkedSource"><null></null></Content>
+							<string name="Name">ReplicableInstance</string>
+							<string name="ScriptGuid">{73B886BF-D2E5-462F-803C-93F9C938BA2B}</string>
+							<ProtectedString name="Source"><![CDATA[local replicatedStorage = game:GetService("ReplicatedStorage")
+local collectionService = game:GetService("CollectionService")
+
+local lib = require(replicatedStorage.lib)
+local packet = lib.ModuleUtils.Packet
+local trove = lib.ModuleUtils.Trove
+local getLegalUID = lib.Utils.GetLegalUID
+local t = lib.FunctionUtils.t
+local remotes = lib.Remotes
+
+local dirFolder: Folder = replicatedStorage.Directory
+
+local sharedModules = replicatedStorage.Modules.Shared
+local instancesManager = require(sharedModules.Managers.InstancesManager)
+
+local module = setmetatable({}, { __index = instancesManager })
+
+local directories = {}
+
+for _, dirType in dirFolder:GetChildren() do
+	if not dirType:IsA("ModuleScript") then
+		continue
+	end
+	local sub1 = dirType.Name:sub(#dirType.Name, #dirType.Name)
+	local name = sub1 == "s" and dirType.Name:sub(1, #dirType.Name - 1) or dirType.Name:sub(1, #dirType.Name)
+	directories[name] = require(dirType)
+end
+
+export type genericObjType = instancesManager.genericObjType
+
+export type ClassType =
+	typeof(setmetatable(
+		{} :: {
+			Remote: typeof(packet("")),
+			Trove: typeof(trove.new()),
+		},
+		{ __index = module }
+	))
+	& genericObjType
+
+function module.new(UID: string?): ClassType
+	local self = setmetatable({
+		UID = UID or getLegalUID(),
+		Trove = trove.new(),
+		Remote = remotes.UpdateObj,
+	}, { __index = module }) :: ClassType
+
+	instancesManager.addObj(self)
+	return self
+end
+
+function module.newLinkedToAClass<T, T2>(
+	realClassModule: { [string]: any },
+	sharedClassModule: { [string]: any },
+	UID: string?
+): ClassType
+	local self = setmetatable(sharedClassModule.new(UID), {
+		__index = function(self, k)
+			--print(self, k)
+			local value1 = rawget(realClassModule, k)
+			if value1 then
+				return value1
+			end
+
+			local value2 = sharedClassModule[k]
+			if value2 then
+				return value2
+			end
+
+			local value3 = directories[self._Type]:getItemInfo(self.Id)[k]
+			if value3 then
+				return value3
+			end
+
+			return nil
+		end,
+	})
+
+	return self
+end
+
+-- function module.Replicate<T>(self: T & ClassType, replicate: boolean?)
+-- 	self:Replicate(replicate)
+-- 	return self
+-- end
+
+function module.AttachId<T>(self: T & ClassType, id: number)
+	local directory = directories[self._Type]
+	local info = directory:getItemInfo(id)
+
+	-- for k, v in info do
+	-- 	(self :: any)[k] = v
+	-- end
+	--print(info)
+	if info then
+		self.Id = id
+	end
+	return self
+end
+
+function module.Materialize<T>(self: T & ClassType, CF: CFrame?)
+	local model = workspace:FindFirstAncestor(self.UID)
+
+	if not model then
+		for _, part in collectionService:GetTagged(self._Type) do
+			if part:GetAttribute("UID") == self.UID then
+				model = part
+				break
+			end
+		end
+	end
+
+	model = model or require(replicatedStorage.Directory[self._Type .. "s"]):getItemModel(self.Id):Clone()
+
+	if not model then
+		return false
+	end
+
+	self.Model = model
+	self.Model.Name = self._Type .. " _ " .. self.UID
+
+	model:AddTag(self._Type)
+	model:SetAttribute("UID", self.UID)
+
+	if not t.CFrame(CF) then
+		return self
+	end
+
+	self.CFrame = lib.Utils.GetLegalCFrame(CF :: CFrame)
+	model:PivotTo(self.CFrame)
+
+	return self
+end
+
+-- function module.Destroy<T>(self: T & ClassType)
+-- 	local ok
+-- 	if self.Trove and (self.Trove :: any).Clean then
+-- 		ok = pcall(function()
+-- 			(self.Trove :: any):Clean()
+-- 		end)
+-- 	end
+
+-- 	local m = (self :: any).Model
+-- 	if typeof(m) == "Instance" then
+-- 		m:Destroy()
+-- 		(self :: any).Model = nil
+-- 	end
+
+-- 	local da = (self :: any).DetectionArea
+-- 	if typeof(da) == "Instance" then
+-- 		da:Destroy()
+-- 		(self :: any).DetectionArea = nil
+-- 	end
+
+-- 		return ok
+-- 	end
+
+return module
+]]></ProtectedString>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">74a76f371dcdf99b08a5134400000e1c</UniqueId>
 						</Properties>
 					</Item>
 				</Item>
@@ -67868,7 +69392,7 @@ return DirUtil.newDirectory(script) :: DirUtil.ClassType<typeof(template)>
 	RotationDelay = 2,
 	RotationAngle = 15,
 	RotationToEachSide = 2,
-	FOV = 110,
+	FOV = 90,
 	ViewMaxDistance = 40,
 }
 ]]></ProtectedString>
@@ -67893,7 +69417,7 @@ return DirUtil.newDirectory(script) :: DirUtil.ClassType<typeof(template)>
 	RotationDelay = 2,
 	RotationAngle = 15,
 	RotationToEachSide = 2,
-	FOV = 120,
+	FOV = 100,
 	ViewMaxDistance = 30,
 }
 ]]></ProtectedString>
@@ -67929,46 +69453,6 @@ return DirUtil.newDirectory(script) :: DirUtil.ClassType<typeof(template)>
 					<BinaryString name="Tags"></BinaryString>
 					<UniqueId name="UniqueId">4312145b2bb60a89089d391400001bfd</UniqueId>
 				</Properties>
-				<Item class="ModuleScript" referent="RBXB63481C13C234A0AB50CAADE233F687F">
-					<Properties>
-						<BinaryString name="AttributesSerialize"></BinaryString>
-						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-						<bool name="DefinesCapabilities">false</bool>
-						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-						<Content name="LinkedSource"><null></null></Content>
-						<string name="Name">00 _ Template</string>
-						<string name="ScriptGuid">{3EA0E9CB-A3CA-4550-9328-FE4A187DAD7A}</string>
-						<ProtectedString name="Source"><![CDATA[local module = {
-
-	Name = script.Name:match("_ (.*)"),
-	Id = tonumber(script.Name:match("^(.-) _")),
-	Legal = true,
-	MetalDetectorCanDetect = true,
-	CanSpawnInChests = true,
-
-	AttackInfos = {
-		Speed = {
-			Value = 1,
-			Name = "Low",
-		},
-		Damage = {
-			Value = 2,
-			Name = "Medium",
-		},
-		Range = {
-			Value = 3,
-			Name = "High",
-		},
-	},
-}
-
-return module
-]]></ProtectedString>
-						<int64 name="SourceAssetId">-1</int64>
-						<BinaryString name="Tags"></BinaryString>
-						<UniqueId name="UniqueId">38e5043c158bb8f708cc740e00001b82</UniqueId>
-					</Properties>
-				</Item>
 				<Item class="ModuleScript" referent="RBX5661C16EE1664BF9A051B3BFC765F38B">
 					<Properties>
 						<BinaryString name="AttributesSerialize"></BinaryString>
@@ -68009,15 +69493,15 @@ return module
 						<UniqueId name="UniqueId">38e5043c158bb8f708cc740e00001b8f</UniqueId>
 					</Properties>
 				</Item>
-				<Item class="ModuleScript" referent="RBX626FA8522996411FBD6D515DF1AB55D6">
+				<Item class="ModuleScript" referent="RBX52135EC1BEA54248A92A56655211DF29">
 					<Properties>
 						<BinaryString name="AttributesSerialize"></BinaryString>
 						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 						<bool name="DefinesCapabilities">false</bool>
 						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
 						<Content name="LinkedSource"><null></null></Content>
-						<string name="Name">01 _ itemA</string>
-						<string name="ScriptGuid">{F3E9B21E-9DAF-405E-946B-CC0C555EA072}</string>
+						<string name="Name">01 _ Wood</string>
+						<string name="ScriptGuid">{87AAA962-C7B8-4824-AC5C-95C56E929F71}</string>
 						<ProtectedString name="Source"><![CDATA[local module = {
 
 	Name = script.Name:match("_ (.*)"),
@@ -68046,7 +69530,97 @@ return module
 ]]></ProtectedString>
 						<int64 name="SourceAssetId">-1</int64>
 						<BinaryString name="Tags"></BinaryString>
-						<UniqueId name="UniqueId">38e5043c158bb8f708cc740e00001b92</UniqueId>
+						<UniqueId name="UniqueId">00ad88059fa4b3fc08db54e700024ccc</UniqueId>
+					</Properties>
+				</Item>
+				<Item class="ModuleScript" referent="RBX58B908D1F10248E1B9A11C53D0CB86B8">
+					<Properties>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="DefinesCapabilities">false</bool>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">00 _ Template</string>
+						<string name="ScriptGuid">{00F412A2-8C18-42ED-8A9B-8ABA27AE1E02}</string>
+						<ProtectedString name="Source"><![CDATA[local module = {
+
+	Name = script.Name:match("_ (.*)"),
+	Id = tonumber(script.Name:match("^(.-) _")),
+	Legal = true,
+	MetalDetectorCanDetect = true,
+	CanSpawnInChests = true,
+
+	-- UseItem = function(self, ...)
+
+	-- 	return true
+	-- end,
+
+	AttackInfos = {
+		Speed = {
+			Value = 1,
+			Name = "Low",
+		},
+		Damage = {
+			Value = 2,
+			Name = "Medium",
+		},
+		Range = {
+			Value = 3,
+			Name = "High",
+		},
+	},
+}
+
+return module
+]]></ProtectedString>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<UniqueId name="UniqueId">00ad88059fa4b3fc08db54e700024d2b</UniqueId>
+					</Properties>
+				</Item>
+				<Item class="ModuleScript" referent="RBXBBDB5BBA1F59449784740F61E724C653">
+					<Properties>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="DefinesCapabilities">false</bool>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">03 _ Sandpaper</string>
+						<string name="ScriptGuid">{D4F11960-C0F1-4B3F-8436-12ED97D0D675}</string>
+						<ProtectedString name="Source"><![CDATA[local module = {
+
+	Name = script.Name:match("_ (.*)"),
+	Id = tonumber(script.Name:match("^(.-) _")),
+	Legal = true,
+	MetalDetectorCanDetect = true,
+	CanSpawnInChests = true,
+
+	-- UseItem = function(self, ...)
+
+	-- 	return true
+	-- end,
+
+	AttackInfos = {
+		Speed = {
+			Value = 1,
+			Name = "Low",
+		},
+		Damage = {
+			Value = 2,
+			Name = "Medium",
+		},
+		Range = {
+			Value = 3,
+			Name = "High",
+		},
+	},
+}
+
+return module
+]]></ProtectedString>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<UniqueId name="UniqueId">00ad88059fa4b3fc08db54e700024d2d</UniqueId>
 					</Properties>
 				</Item>
 			</Item>
@@ -68149,7 +69723,10 @@ end
 
 function MT.getRandomItemModule<ModuleScriptDirectory>(self: ClassType<ModuleScriptDirectory>): ModuleScript
 	local items = self.directoryFolder:GetChildren()
-	local randomItem = items[math.random(1, #items)]
+	table.sort(items, function(a, b)
+		return a.Name < b.Name -- ordem alfabética
+	end)
+	local randomItem = items[math.random(2, #items)]
 	return randomItem
 end
 
@@ -68448,6 +70025,7 @@ return DirUtil.newDirectory(script) :: DirUtil.ClassType<typeof(template)>
 	Id = tonumber(script.Name:match("^(.-) _")),
 	Material = Enum.Material.Concrete,
 	Health = 100,
+	MaxHealth = 100,
 }
 
 return module
@@ -68455,6 +70033,45 @@ return module
 						<int64 name="SourceAssetId">-1</int64>
 						<BinaryString name="Tags"></BinaryString>
 						<UniqueId name="UniqueId">00ad88059fa4b3fc08db54e70002363e</UniqueId>
+					</Properties>
+				</Item>
+			</Item>
+			<Item class="Folder" referent="RBXB7437333D4F14A678882C54F694853D0">
+				<Properties>
+					<BinaryString name="AttributesSerialize"></BinaryString>
+					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+					<bool name="DefinesCapabilities">false</bool>
+					<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+					<string name="Name">ItemsFunction</string>
+					<int64 name="SourceAssetId">-1</int64>
+					<BinaryString name="Tags"></BinaryString>
+					<UniqueId name="UniqueId">00ad88059fa4b3fc08db54e7000243d3</UniqueId>
+				</Properties>
+				<Item class="ModuleScript" referent="RBX499BAEA45E1249A8B296DE1E84A7FF7A">
+					<Properties>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="DefinesCapabilities">false</bool>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">Breaker</string>
+						<string name="ScriptGuid">{B031EF2B-07BB-4219-BA39-3F006BE848B8}</string>
+						<ProtectedString name="Source"><![CDATA[function CanUse(itemInfoTab: { [string]: any })
+	return true
+end
+
+function Use(itemInfoTab: { [string]: any }, ...)
+	return true
+end
+
+return {
+	CanUse = CanUse,
+	Use = Use,
+}
+]]></ProtectedString>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<UniqueId name="UniqueId">00ad88059fa4b3fc08db54e7000243d1</UniqueId>
 					</Properties>
 				</Item>
 			</Item>
@@ -154419,7 +156036,7 @@ end
 							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 							<bool name="DefinesCapabilities">false</bool>
 							<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-							<string name="Name">01 _ itemA</string>
+							<string name="Name">01 _ Wood</string>
 							<int64 name="SourceAssetId">-1</int64>
 							<BinaryString name="Tags"></BinaryString>
 							<UniqueId name="UniqueId">230dc70e0adcd2dc08d53bee00001268</UniqueId>
@@ -154967,6 +156584,322 @@ end
 									<Z>2</Z>
 								</Vector3>
 							</Properties>
+						</Item>
+					</Item>
+					<Item class="Folder" referent="RBXD6702C2534C048DFB6EC252CD99563D4">
+						<Properties>
+							<BinaryString name="AttributesSerialize"></BinaryString>
+							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+							<bool name="DefinesCapabilities">false</bool>
+							<UniqueId name="HistoryId">230dc70e0adcd2dc08d53bee00001263</UniqueId>
+							<string name="Name">03 _ Sandpaper</string>
+							<int64 name="SourceAssetId">-1</int64>
+							<BinaryString name="Tags"></BinaryString>
+							<UniqueId name="UniqueId">00ad88059fa4b3fc08db54e700024f21</UniqueId>
+						</Properties>
+						<Item class="Model" referent="RBX9C80CAF036D64F358D72FFBEDF241783">
+							<Properties>
+								<BinaryString name="AttributesSerialize"></BinaryString>
+								<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+								<bool name="DefinesCapabilities">false</bool>
+								<UniqueId name="HistoryId">230dc70e0adcd2dc08d53bee00001264</UniqueId>
+								<token name="LevelOfDetail">0</token>
+								<CoordinateFrame name="ModelMeshCFrame">
+									<X>0</X>
+									<Y>0</Y>
+									<Z>0</Z>
+									<R00>1</R00>
+									<R01>0</R01>
+									<R02>0</R02>
+									<R10>0</R10>
+									<R11>1</R11>
+									<R12>0</R12>
+									<R20>0</R20>
+									<R21>0</R21>
+									<R22>1</R22>
+								</CoordinateFrame>
+								<SharedString name="ModelMeshData">yuZpQdnvvUBOTYh1jqZ2cA==</SharedString>
+								<Vector3 name="ModelMeshSize">
+									<X>0</X>
+									<Y>0</Y>
+									<Z>0</Z>
+								</Vector3>
+								<token name="ModelStreamingMode">0</token>
+								<string name="Name">Model</string>
+								<bool name="NeedsPivotMigration">false</bool>
+								<Ref name="PrimaryPart">RBX89CCA71EDAD74817B14D929B6535D905</Ref>
+								<float name="ScaleFactor">1</float>
+								<int64 name="SourceAssetId">-1</int64>
+								<BinaryString name="Tags"></BinaryString>
+								<UniqueId name="UniqueId">00ad88059fa4b3fc08db54e700024f22</UniqueId>
+								<OptionalCoordinateFrame name="WorldPivotData"></OptionalCoordinateFrame>
+							</Properties>
+							<Item class="Part" referent="RBX89CCA71EDAD74817B14D929B6535D905">
+								<Properties>
+									<bool name="Anchored">false</bool>
+									<BinaryString name="AttributesSerialize"></BinaryString>
+									<bool name="AudioCanCollide">true</bool>
+									<float name="BackParamA">-0.5</float>
+									<float name="BackParamB">0.5</float>
+									<token name="BackSurface">0</token>
+									<token name="BackSurfaceInput">0</token>
+									<float name="BottomParamA">-0.5</float>
+									<float name="BottomParamB">0.5</float>
+									<token name="BottomSurface">0</token>
+									<token name="BottomSurfaceInput">0</token>
+									<CoordinateFrame name="CFrame">
+										<X>0</X>
+										<Y>0</Y>
+										<Z>0</Z>
+										<R00>1</R00>
+										<R01>0</R01>
+										<R02>0</R02>
+										<R10>0</R10>
+										<R11>1</R11>
+										<R12>0</R12>
+										<R20>0</R20>
+										<R21>0</R21>
+										<R22>1</R22>
+									</CoordinateFrame>
+									<bool name="CanCollide">true</bool>
+									<bool name="CanQuery">true</bool>
+									<bool name="CanTouch">true</bool>
+									<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+									<bool name="CastShadow">true</bool>
+									<string name="CollisionGroup">Default</string>
+									<int name="CollisionGroupId">0</int>
+									<Color3uint8 name="Color3uint8">4288914085</Color3uint8>
+									<PhysicalProperties name="CustomPhysicalProperties">
+										<CustomPhysics>false</CustomPhysics>
+									</PhysicalProperties>
+									<bool name="DefinesCapabilities">false</bool>
+									<bool name="EnableFluidForces">true</bool>
+									<float name="FrontParamA">-0.5</float>
+									<float name="FrontParamB">0.5</float>
+									<token name="FrontSurface">0</token>
+									<token name="FrontSurfaceInput">0</token>
+									<UniqueId name="HistoryId">230dc70e0adcd2dc08d53bee00001265</UniqueId>
+									<float name="LeftParamA">-0.5</float>
+									<float name="LeftParamB">0.5</float>
+									<token name="LeftSurface">0</token>
+									<token name="LeftSurfaceInput">0</token>
+									<bool name="Locked">false</bool>
+									<bool name="Massless">false</bool>
+									<token name="Material">256</token>
+									<string name="MaterialVariantSerialized"></string>
+									<string name="Name">Handle</string>
+									<CoordinateFrame name="PivotOffset">
+										<X>0</X>
+										<Y>0</Y>
+										<Z>0</Z>
+										<R00>1</R00>
+										<R01>0</R01>
+										<R02>0</R02>
+										<R10>0</R10>
+										<R11>1</R11>
+										<R12>0</R12>
+										<R20>0</R20>
+										<R21>0</R21>
+										<R22>1</R22>
+									</CoordinateFrame>
+									<float name="Reflectance">0</float>
+									<float name="RightParamA">-0.5</float>
+									<float name="RightParamB">0.5</float>
+									<token name="RightSurface">0</token>
+									<token name="RightSurfaceInput">0</token>
+									<int name="RootPriority">0</int>
+									<Vector3 name="RotVelocity">
+										<X>0</X>
+										<Y>0</Y>
+										<Z>0</Z>
+									</Vector3>
+									<int64 name="SourceAssetId">-1</int64>
+									<BinaryString name="Tags"></BinaryString>
+									<float name="TopParamA">-0.5</float>
+									<float name="TopParamB">0.5</float>
+									<token name="TopSurface">0</token>
+									<token name="TopSurfaceInput">0</token>
+									<float name="Transparency">0</float>
+									<UniqueId name="UniqueId">00ad88059fa4b3fc08db54e700024f23</UniqueId>
+									<Vector3 name="Velocity">
+										<X>0</X>
+										<Y>0</Y>
+										<Z>0</Z>
+									</Vector3>
+									<token name="formFactorRaw">1</token>
+									<token name="shape">1</token>
+									<Vector3 name="size">
+										<X>4</X>
+										<Y>1</Y>
+										<Z>2</Z>
+									</Vector3>
+								</Properties>
+							</Item>
+						</Item>
+						<Item class="Frame" referent="RBX799FA0F4B26E41E7B6496397F0CA8148">
+							<Properties>
+								<bool name="Active">false</bool>
+								<Vector2 name="AnchorPoint">
+									<X>0.5</X>
+									<Y>0.5</Y>
+								</Vector2>
+								<BinaryString name="AttributesSerialize"></BinaryString>
+								<bool name="AutoLocalize">true</bool>
+								<token name="AutomaticSize">0</token>
+								<Color3 name="BackgroundColor3">
+									<R>1</R>
+									<G>1</G>
+									<B>1</B>
+								</Color3>
+								<float name="BackgroundTransparency">1</float>
+								<Color3 name="BorderColor3">
+									<R>0</R>
+									<G>0</G>
+									<B>0</B>
+								</Color3>
+								<token name="BorderMode">0</token>
+								<int name="BorderSizePixel">0</int>
+								<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+								<bool name="ClipsDescendants">false</bool>
+								<bool name="DefinesCapabilities">false</bool>
+								<bool name="Draggable">false</bool>
+								<UniqueId name="HistoryId">230dc70e0adcd2dc08d53bee00001266</UniqueId>
+								<bool name="Interactable">true</bool>
+								<int name="LayoutOrder">0</int>
+								<string name="Name">Display</string>
+								<Ref name="NextSelectionDown">null</Ref>
+								<Ref name="NextSelectionLeft">null</Ref>
+								<Ref name="NextSelectionRight">null</Ref>
+								<Ref name="NextSelectionUp">null</Ref>
+								<UDim2 name="Position">
+									<XS>0.5</XS>
+									<XO>0</XO>
+									<YS>0.5</YS>
+									<YO>0</YO>
+								</UDim2>
+								<Ref name="RootLocalizationTable">null</Ref>
+								<float name="Rotation">0</float>
+								<bool name="Selectable">false</bool>
+								<token name="SelectionBehaviorDown">0</token>
+								<token name="SelectionBehaviorLeft">0</token>
+								<token name="SelectionBehaviorRight">0</token>
+								<token name="SelectionBehaviorUp">0</token>
+								<bool name="SelectionGroup">false</bool>
+								<Ref name="SelectionImageObject">null</Ref>
+								<int name="SelectionOrder">0</int>
+								<UDim2 name="Size">
+									<XS>1</XS>
+									<XO>0</XO>
+									<YS>1</YS>
+									<YO>0</YO>
+								</UDim2>
+								<token name="SizeConstraint">0</token>
+								<int64 name="SourceAssetId">-1</int64>
+								<token name="Style">0</token>
+								<BinaryString name="Tags"></BinaryString>
+								<UniqueId name="UniqueId">00ad88059fa4b3fc08db54e700024f24</UniqueId>
+								<bool name="Visible">true</bool>
+								<int name="ZIndex">1</int>
+							</Properties>
+							<Item class="ImageLabel" referent="RBXAAA04D2FCF634554A014FCE768DA548B">
+								<Properties>
+									<bool name="Active">false</bool>
+									<Vector2 name="AnchorPoint">
+										<X>0.5</X>
+										<Y>0.5</Y>
+									</Vector2>
+									<BinaryString name="AttributesSerialize"></BinaryString>
+									<bool name="AutoLocalize">true</bool>
+									<token name="AutomaticSize">0</token>
+									<Color3 name="BackgroundColor3">
+										<R>1</R>
+										<G>1</G>
+										<B>1</B>
+									</Color3>
+									<float name="BackgroundTransparency">1</float>
+									<Color3 name="BorderColor3">
+										<R>0</R>
+										<G>0</G>
+										<B>0</B>
+									</Color3>
+									<token name="BorderMode">0</token>
+									<int name="BorderSizePixel">0</int>
+									<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+									<bool name="ClipsDescendants">false</bool>
+									<bool name="DefinesCapabilities">false</bool>
+									<bool name="Draggable">false</bool>
+									<UniqueId name="HistoryId">230dc70e0adcd2dc08d53bee00001267</UniqueId>
+									<Content name="Image"><url>rbxassetid://85811991903702</url></Content>
+									<Color3 name="ImageColor3">
+										<R>1</R>
+										<G>1</G>
+										<B>1</B>
+									</Color3>
+									<Vector2 name="ImageRectOffset">
+										<X>0</X>
+										<Y>0</Y>
+									</Vector2>
+									<Vector2 name="ImageRectSize">
+										<X>0</X>
+										<Y>0</Y>
+									</Vector2>
+									<float name="ImageTransparency">0</float>
+									<bool name="Interactable">true</bool>
+									<int name="LayoutOrder">0</int>
+									<string name="Name">ImageLabel</string>
+									<Ref name="NextSelectionDown">null</Ref>
+									<Ref name="NextSelectionLeft">null</Ref>
+									<Ref name="NextSelectionRight">null</Ref>
+									<Ref name="NextSelectionUp">null</Ref>
+									<UDim2 name="Position">
+										<XS>0.5</XS>
+										<XO>0</XO>
+										<YS>0.5</YS>
+										<YO>0</YO>
+									</UDim2>
+									<token name="ResampleMode">0</token>
+									<Ref name="RootLocalizationTable">null</Ref>
+									<float name="Rotation">0</float>
+									<token name="ScaleType">0</token>
+									<bool name="Selectable">false</bool>
+									<token name="SelectionBehaviorDown">0</token>
+									<token name="SelectionBehaviorLeft">0</token>
+									<token name="SelectionBehaviorRight">0</token>
+									<token name="SelectionBehaviorUp">0</token>
+									<bool name="SelectionGroup">false</bool>
+									<Ref name="SelectionImageObject">null</Ref>
+									<int name="SelectionOrder">0</int>
+									<UDim2 name="Size">
+										<XS>1</XS>
+										<XO>0</XO>
+										<YS>1</YS>
+										<YO>0</YO>
+									</UDim2>
+									<token name="SizeConstraint">0</token>
+									<Rect2D name="SliceCenter">
+										<min>
+											<X>0</X>
+											<Y>0</Y>
+										</min>
+										<max>
+											<X>0</X>
+											<Y>0</Y>
+										</max>
+									</Rect2D>
+									<float name="SliceScale">1</float>
+									<int64 name="SourceAssetId">-1</int64>
+									<BinaryString name="Tags"></BinaryString>
+									<UDim2 name="TileSize">
+										<XS>1</XS>
+										<XO>0</XO>
+										<YS>1</YS>
+										<YO>0</YO>
+									</UDim2>
+									<UniqueId name="UniqueId">00ad88059fa4b3fc08db54e700024f25</UniqueId>
+									<bool name="Visible">true</bool>
+									<int name="ZIndex">1</int>
+								</Properties>
+							</Item>
 						</Item>
 					</Item>
 				</Item>
@@ -159772,6 +161705,29 @@ end
 											<Z>0.0540000014</Z>
 										</Vector3>
 									</Properties>
+									<Item class="SpotLight" referent="RBX26193F0B43694F35B4D1BB4D24C239EA">
+										<Properties>
+											<float name="Angle">120</float>
+											<BinaryString name="AttributesSerialize"></BinaryString>
+											<float name="Brightness">0.5</float>
+											<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+											<Color3 name="Color">
+												<R>0.149019614</R>
+												<G>1</G>
+												<B>0.0901960805</B>
+											</Color3>
+											<bool name="DefinesCapabilities">false</bool>
+											<bool name="Enabled">true</bool>
+											<token name="Face">5</token>
+											<UniqueId name="HistoryId">74b91ffe987485c108e0be510000a6bd</UniqueId>
+											<string name="Name">SpotLight</string>
+											<float name="Range">60</float>
+											<bool name="Shadows">false</bool>
+											<int64 name="SourceAssetId">-1</int64>
+											<BinaryString name="Tags"></BinaryString>
+											<UniqueId name="UniqueId">74b91ffe987485c108e0be510000cf2b</UniqueId>
+										</Properties>
+									</Item>
 								</Item>
 							</Item>
 						</Item>
@@ -162349,6 +164305,29 @@ end
 											<Z>0.200000003</Z>
 										</Vector3>
 									</Properties>
+									<Item class="SpotLight" referent="RBXADE778E0BF7445EB8163DF2E46F0D6E6">
+										<Properties>
+											<float name="Angle">120</float>
+											<BinaryString name="AttributesSerialize"></BinaryString>
+											<float name="Brightness">0.5</float>
+											<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+											<Color3 name="Color">
+												<R>0.149019614</R>
+												<G>1</G>
+												<B>0.0901960805</B>
+											</Color3>
+											<bool name="DefinesCapabilities">false</bool>
+											<bool name="Enabled">true</bool>
+											<token name="Face">5</token>
+											<UniqueId name="HistoryId">74b91ffe987485c108e0be510000a6bd</UniqueId>
+											<string name="Name">SpotLight</string>
+											<float name="Range">60</float>
+											<bool name="Shadows">false</bool>
+											<int64 name="SourceAssetId">-1</int64>
+											<BinaryString name="Tags"></BinaryString>
+											<UniqueId name="UniqueId">74b91ffe987485c108e0be510000c4cf</UniqueId>
+										</Properties>
+									</Item>
 								</Item>
 							</Item>
 						</Item>
@@ -162635,6 +164614,76 @@ end
 			<BinaryString name="Tags"></BinaryString>
 			<UniqueId name="UniqueId">759ee19baa6ba7f8088b6de600000373</UniqueId>
 		</Properties>
+		<Item class="Script" referent="RBX7E632FD6E3FD43CE9F24FCC18CA2A209">
+			<Properties>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="DefinesCapabilities">false</bool>
+				<bool name="Disabled">false</bool>
+				<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+				<Content name="LinkedSource"><null></null></Content>
+				<string name="Name">Script</string>
+				<token name="RunContext">0</token>
+				<string name="ScriptGuid">{040529AB-1E2E-412D-982E-C372E6E428EF}</string>
+				<ProtectedString name="Source"><![CDATA[local replicatedStorage = game:GetService("ReplicatedStorage")
+local wall = workspace.walltobreak
+local wallPos = wall.Position
+
+local lib = require(replicatedStorage.lib)
+local FunctionUtils = lib.FunctionUtils
+local utils = lib.Utils
+local charUtil = FunctionUtils.Character
+local getLegalRotation = utils.GetLegalRotation
+
+-- Snappa a rotação inteira (X, Y, Z) para múltiplos de 90°
+
+local deb = 0.2
+local ok = true
+local function cut(partPassed: Part)
+	local con
+	con = partPassed.Touched:Connect(function(who)
+		local char = charUtil.getCharacterFromDescendant(who)
+
+		if char then
+			if not ok then
+				return
+			end
+			ok = false
+
+			con:Disconnect()
+			local charCF = char.PrimaryPart.CFrame
+			local part = Instance.new("Part")
+			part.Size = Vector3.new(4, 8, 2)
+			part.Anchored = true
+			part.Transparency = 0.9
+			part.CanCollide = false
+			part.CanTouch = false
+
+			local cf = getLegalRotation(charCF.Rotation)
+			cf = cf + charCF.Position + charCF.LookVector.Unit * 1
+
+			part.CFrame = cf
+
+			local newP = partPassed:SubtractAsync({ part })
+			newP.Parent = workspace
+			partPassed.Parent = nil
+			partPassed:Destroy()
+			cut(newP)
+		end
+
+		task.delay(deb, function()
+			ok = true
+		end)
+	end)
+end
+
+cut(wall)
+]]></ProtectedString>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+				<UniqueId name="UniqueId">71a063858dcc7d6108d9a50700005751</UniqueId>
+			</Properties>
+		</Item>
 		<Item class="Script" referent="RBX22F485C802844EAB94C14A4AA992C3B5">
 			<Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
@@ -162735,35 +164784,42 @@ end
 -- ItemDetector
 
 local itemDetector1 = ilegalItemDetectorClass.new()
-itemDetector1:Replicate(true)
 itemDetector1:AttachId(1)
 itemDetector1:Materialize(workspace.md1.CFrame)
 itemDetector1:Active()
+itemDetector1:Replicate(true)
 
 local itemDetector2 = ilegalItemDetectorClass.new()
-itemDetector2:Replicate(true)
 itemDetector2:AttachId(1)
 itemDetector2:Materialize(workspace.md2.CFrame)
 itemDetector2:Active()
+itemDetector2:Replicate(true)
 
 plr = game.Players.PlayerAdded:Wait()
-chest1:SetOwner(plr)
+--chest1:SetOwner(plr)
 
 -- SecurityCamera
 
 local cam = securityCameraClass.new()
-cam:Replicate(true)
 cam:AttachId(01)
 cam:Materialize(workspace.WallToCam)
 cam:AttachCameraZone(workspace.AreaToAttach)
 cam:Active(true)
+cam:Replicate(true)
 
 local cam2 = securityCameraClass.new()
-cam2:Replicate(true)
 cam2:AttachId(02)
 cam2:Materialize(workspace.WallToCam2)
 cam2:AttachCameraZone(workspace.AreaToAttach2)
 cam2:Active(true)
+cam2:Replicate(true)
+
+local cam3 = securityCameraClass.new()
+cam3:AttachId(02)
+cam3:Materialize(workspace.WallToCam3)
+cam3:AttachCameraZone(workspace.ahaaa)
+cam3:Active(true)
+cam3:Replicate(true)
 
 --table.insert(instances, cam)
 --table.insert(instances, chest)
@@ -162775,76 +164831,6 @@ cam2:Active(true)
 				<int64 name="SourceAssetId">-1</int64>
 				<BinaryString name="Tags"></BinaryString>
 				<UniqueId name="UniqueId">7745f3117c4a251a089954ce00005205</UniqueId>
-			</Properties>
-		</Item>
-		<Item class="Script" referent="RBX7E632FD6E3FD43CE9F24FCC18CA2A209">
-			<Properties>
-				<BinaryString name="AttributesSerialize"></BinaryString>
-				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-				<bool name="DefinesCapabilities">false</bool>
-				<bool name="Disabled">false</bool>
-				<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-				<Content name="LinkedSource"><null></null></Content>
-				<string name="Name">Script</string>
-				<token name="RunContext">0</token>
-				<string name="ScriptGuid">{040529AB-1E2E-412D-982E-C372E6E428EF}</string>
-				<ProtectedString name="Source"><![CDATA[local replicatedStorage = game:GetService("ReplicatedStorage")
-local wall = workspace.walltobreak
-local wallPos = wall.Position
-
-local lib = require(replicatedStorage.lib)
-local FunctionUtils = lib.FunctionUtils
-local utils = lib.Utils
-local charUtil = FunctionUtils.Character
-local getLegalRotation = utils.GetLegalRotation
-
--- Snappa a rotação inteira (X, Y, Z) para múltiplos de 90°
-
-local deb = 0.2
-local ok = true
-local function cut(partPassed: Part)
-	local con
-	con = partPassed.Touched:Connect(function(who)
-		local char = charUtil.getCharacterFromDescendant(who)
-
-		if char then
-			if not ok then
-				return
-			end
-			ok = false
-
-			con:Disconnect()
-			local charCF = char.PrimaryPart.CFrame
-			local part = Instance.new("Part")
-			part.Size = Vector3.new(4, 8, 2)
-			part.Anchored = true
-			part.Transparency = 0.9
-			part.CanCollide = false
-			part.CanTouch = false
-
-			local cf = getLegalRotation(charCF.Rotation)
-			cf = cf + charCF.Position + charCF.LookVector.Unit * 1
-
-			part.CFrame = cf
-
-			local newP = partPassed:SubtractAsync({ part })
-			newP.Parent = workspace
-			partPassed.Parent = nil
-			partPassed:Destroy()
-			cut(newP)
-		end
-
-		task.delay(deb, function()
-			ok = true
-		end)
-	end)
-end
-
-cut(wall)
-]]></ProtectedString>
-				<int64 name="SourceAssetId">-1</int64>
-				<BinaryString name="Tags"></BinaryString>
-				<UniqueId name="UniqueId">71a063858dcc7d6108d9a50700005751</UniqueId>
 			</Properties>
 		</Item>
 	</Item>
@@ -162881,325 +164867,6 @@ cut(wall)
 					<BinaryString name="Tags"></BinaryString>
 					<UniqueId name="UniqueId">7745f3117c4a251a089954ce000051e4</UniqueId>
 				</Properties>
-				<Item class="ModuleScript" referent="RBX5DD44AB7D8624CE9B708C8C6E8858CC7">
-					<Properties>
-						<BinaryString name="AttributesSerialize"></BinaryString>
-						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-						<bool name="DefinesCapabilities">false</bool>
-						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-						<Content name="LinkedSource"><null></null></Content>
-						<string name="Name">SecurityCamera</string>
-						<string name="ScriptGuid">{1BE07E76-4B9E-44DD-834A-85CCDBFA1395}</string>
-						<ProtectedString name="Source"><![CDATA[local runService = game:GetService("RunService")
-local replicatedStorage = game:GetService("ReplicatedStorage")
-local playersService = game:GetService("Players")
-
-local lib = require(replicatedStorage.lib)
-local t = lib.FunctionUtils.t
-local charUtil = lib.FunctionUtils.Character
-local zonePlus = lib.ModuleUtils.ZonePlus
-
-local sharedModules = replicatedStorage.Modules.Shared
-local replicableInstance = require(sharedModules.Classes.ReplicableInstance)
-local securityCameraSharedClass = require(sharedModules.Classes.SecurityCameraClass)
-local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
-
-local module = setmetatable({}, { __index = securityCameraSharedClass })
-
-export type ClassType =
-	typeof(setmetatable(
-		{} :: {
-			CameraZone: BasePart?,
-			PlayersInTheArea: { Player },
-			StartWatchingPlayer: lib.Signal<nil, Player>?,
-			FinishWatchingPlayer: lib.Signal<nil, Player>?,
-			CheckingPlayersInTheArea: RBXScriptConnection?,
-			RotationConnection: RBXScriptConnection?,
-
-			AlreadyRotatedToOneSide: number,
-			RotationMultiplier: number,
-		},
-		{ __index = module }
-	))
-	& securityCameraSharedClass.ClassType
-
-function module.new(id: string | number?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, securityCameraSharedClass) :: ClassType
-	self.PlayersInTheArea = {}
-	self.AlreadyRotatedToOneSide = 0
-	self.RotationMultiplier = 1
-
-	if id then
-		self:AttachId(id)
-	end
-	return self
-end
-
-function module.AttachId(self: ClassType, itemId: number)
-	-- Chama o método shared do ReplicableInstance primeiro
-	securityCameraSharedClass.AttachId(self, itemId)
-
-	print(self)
-	-- Lógica específica do servidor
-	self.Remote:Fire(self.UID, "AttachId", { itemId })
-	return self
-end
-
-function module.AttachCameraZone(self: ClassType, area: Part)
-	if not t.instanceIsA("Part")(area) then
-		return self
-	end
-
-	self.CameraZone = zonePlus.new(area)
-	return self
-end
-
-function module.Materialize(self: ClassType, wall: BasePart)
-	local wallUID = wall:GetAttribute("UID")
-	if not wallUID then
-		return false
-	end
-	local success = securityCameraSharedClass.Materialize(self, wallUID)
-	if not success then
-		return false
-	end
-
-	self.Model:PivotTo(self.CFrame)
-	self.Model.Parent = self.AttachedToWall.Parent
-
-	local subPart = self.Model:FindFirstChild("NegativePart")
-	if subPart then
-		--local newWall = self.AttachedToWall:UnionAsync(subPart)
-
-		print(self.AttachedToWall)
-		print(subPart)
-		local newPart: Part = self.AttachedToWall:SubtractAsync({ subPart })
-		subPart:Destroy()
-		newPart.Name = self.AttachedToWall.Name
-		newPart.CFrame = self.AttachedToWall.CFrame
-		newPart.Parent = self.AttachedToWall.Parent
-		self.AttachedToWall:Destroy()
-		self.AttachedToWall = newPart
-		-- TODO: NEXT
-		-- SUBTRACT
-		-- THE CAM SUB PART
-		-- FROM THE WALL PART
-		-- MAKE SUB PART EQUAL TO NORMAL PART
-	end
-
-	self.Remote:Fire(self.UID, "Materialize", { wallUID })
-	return self
-end
-
-local part
-local function createDebugPart(fromVector: Vector3, toVector: Vector3)
-	if part then
-		part:Destroy()
-		part = nil
-	end
-	local cframe = CFrame.new(fromVector:Lerp(toVector, 0.5), toVector)
-	part = Instance.new("Part")
-	part.Shape = Enum.PartType.Block
-	part.Anchored = true
-	part.CanCollide = false
-	part.Size = Vector3.new(0.4, 0.4, (fromVector - toVector).Magnitude)
-	part.CFrame = cframe
-	part.Transparency = 0.5
-	part.Color = Color3.new(1, 0, 0)
-	part.Parent = workspace
-
-	return part
-end
-
-function module.StartWatching(self: ClassType, plr: Player?)
-	if plr then
-		local find = table.find(self.PlayersInTheArea, plr)
-		if not find then
-			table.insert(self.PlayersInTheArea, plr)
-		end
-	end
-	if self.CheckingPlayersInTheArea then
-		return self
-	end
-	local dbTime = 0
-	self.CheckingPlayersInTheArea = self.Trove:Connect(runService.Heartbeat, function(dt)
-		dbTime = dbTime + dt
-		if dbTime < 0.05 then
-			return
-		end
-		dbTime = 0
-
-		for _, player in self.PlayersInTheArea :: { Player } do
-			local char = charUtil.getAlivePlayerRootPart(player)
-			if not char then
-				continue
-			end
-
-			local camEye = self.CameraModel:FindFirstChild("Eye")
-			if not camEye then
-				return
-			end
-
-			local direction = (char.Position - camEye.Position)
-			local directionUnit = (direction).Unit
-			local distance = direction.Magnitude
-			local camEyeDirection = camEye.CFrame.LookVector.Unit -- * distance + camEye.Position).Unit
-
-			local dot = camEyeDirection:Dot(directionUnit)
-			local rad = math.acos(dot)
-			local angle = math.deg(rad)
-			print("------------------------")
-			print("angle: " .. angle)
-			print("distance: " .. distance)
-			if angle <= self.FOV / 2 and distance < self.ViewMaxDistance then
-				createDebugPart(camEye.Position, char.Position)
-				print("Player in sight", player)
-				local inv = inventorySharedUtil.getPlayerInventory(player)
-				if inventorySharedUtil.isThereAnIlegalItemOnInventory(inv) then
-					print("player triggered")
-					self:AlertPolices(player)
-				end
-				continue
-			end
-		end
-	end)
-
-	return self
-end
-
-function module.FinishWatching(self: ClassType)
-	if self.CheckingPlayersInTheArea then
-		self.CheckingPlayersInTheArea:Disconnect()
-		self.CheckingPlayersInTheArea = nil
-	end
-
-	return self
-end
-
-function module.AlertPolices(self: ClassType) end
-
-function module.StopWatchingPlayer(self: ClassType, plr: Player)
-	local find = table.find(self.PlayersInTheArea, plr)
-	if find then
-		table.remove(self.PlayersInTheArea, find)
-	end
-
-	if #self.PlayersInTheArea == 0 then
-		self:FinishWatching()
-	end
-
-	return self
-end
-
-function module.Active(self: ClassType, active: boolean?)
-	print()
-	local sucess = securityCameraSharedClass.Active(self, active)
-	print(sucess)
-	if not sucess then
-		return self
-	end
-	print(self.isActivated)
-	if self.isActivated then
-		print(self.CameraZone)
-		if self.CameraZone then
-			print(self.CameraZone)
-			self.StartWatchingPlayer = self.Trove:Connect(self.CameraZone.playerEntered, function(plr)
-				print(plr)
-				self:StartWatching(plr)
-			end)
-
-			self.FinishWatchingPlayer = self.Trove:Connect(self.CameraZone.playerExited, function(plr)
-				print(plr)
-				self:StopWatchingPlayer(plr)
-			end)
-		else
-			print(playersService:GetPlayers())
-
-			for _, plr in playersService:GetPlayers() do
-				self:StartWatching(plr)
-			end
-
-			self.StartWatchingPlayer = playersService.PlayerAdded:Connect(function(plr)
-				print(plr)
-				self:StartWatching(plr)
-			end)
-			self.FinishWatchingPlayer = playersService.PlayerRemoving:Connect(function(plr)
-				print(plr)
-				self:StopWatchingPlayer(plr)
-			end)
-		end
-
-		local db = 0
-		print("sssss", self.RotationDelay, self.RotationAngle)
-		self.RotationConnection = self.Trove:Connect(runService.Heartbeat, function(dt)
-			db = db + dt
-			if db < self.RotationDelay then
-				return
-			end
-			db = 0
-			if self.CameraModel and self.AttachedToWall then
-				self.AlreadyRotatedToOneSide = self.AlreadyRotatedToOneSide + 1
-				self.CameraModel:PivotTo(
-					self.CameraModel:GetPivot()
-						* CFrame.Angles(0, math.rad(self.RotationAngle) * self.RotationMultiplier, 0)
-				)
-				if (self.AlreadyRotatedToOneSide :: number) >= (self.RotationToEachSide :: number) then
-					self.RotationMultiplier = self.RotationMultiplier * -1
-					self.AlreadyRotatedToOneSide = -2
-				end
-			end
-		end)
-	else
-		print()
-		if self.StartWatchingPlayer then
-			self.StartWatchingPlayer:Disconnect()
-			self.StartWatchingPlayer = nil
-		end
-		if self.FinishWatchingPlayer then
-			self.FinishWatchingPlayer:Disconnect()
-			self.FinishWatchingPlayer = nil
-		end
-		if self.RotationConnection then
-			self.RotationConnection:Disconnect()
-			self.RotationConnection = nil
-		end
-	end
-
-	return self
-end
-
-function module.ReplicateTo(self: ClassType, client: Player?)
-	local newItem = lib.Remotes.instanceCreated.SecurityCamera
-
-	if client then
-		newItem:FireClient(client, self.UID)
-
-		self.Remote:FireClient(client, self.UID, "AttachId", { self.Id })
-		self.Remote:FireClient(
-			client,
-			self.UID,
-			"Materialize",
-			{ self.AttachedToWall and self.AttachedToWall:GetAttribute("UID") }
-		)
-		self.Remote:FireClient(client, self.UID, "Active", { self.isActivated })
-	else
-		newItem:Fire(self.UID)
-
-		self.Remote:Fire(self.UID, "AttachId", { self.Id })
-		self.Remote:Fire(self.UID, "Materialize", { self.AttachedToWall and self.AttachedToWall:GetAttribute("UID") })
-		self.Remote:Fire(self.UID, "Active", { self.isActivated })
-	end
-
-	return self
-end
-
-return module
-]]></ProtectedString>
-						<int64 name="SourceAssetId">-1</int64>
-						<BinaryString name="Tags"></BinaryString>
-						<UniqueId name="UniqueId">759ee19baa6ba7f8088b6de600006295</UniqueId>
-					</Properties>
-				</Item>
 				<Item class="ModuleScript" referent="RBX1B6F8F01A3D0493E9CFB3EA6C1EE89BB">
 					<Properties>
 						<BinaryString name="AttributesSerialize"></BinaryString>
@@ -163502,7 +165169,7 @@ function module.playerBeganHoldingProximityPrompt(self: ClassType, plr: Player)
 	local playerPing = plr:GetNetworkPing()
 
 	local con
-
+	local maxDistanceToInteract = self.MaxDistanceToInteract or 8
 	self.SendPlayerItemsInsideThread = task.delay(self.OpenTime - playerPing * 4 - 0.1, function()
 		self.SendPlayerItemsInsideThread = nil
 		con:Disconnect()
@@ -163510,10 +165177,7 @@ function module.playerBeganHoldingProximityPrompt(self: ClassType, plr: Player)
 		local con2
 		con2 = runService.Heartbeat:Connect(function()
 			local plrRootPart = charUtils.getAlivePlayerRootPart(plr)
-			if
-				not plrRootPart
-				or (plrRootPart.Position - self.CFrame.Position).Magnitude >= self.MaxDistanceToInteract
-			then
+			if not plrRootPart or (plrRootPart.Position - self.CFrame.Position).Magnitude >= maxDistanceToInteract then
 				con2:Disconnect()
 				con2 = nil
 				plr:SetAttribute("ChestOpen", nil)
@@ -163524,7 +165188,7 @@ function module.playerBeganHoldingProximityPrompt(self: ClassType, plr: Player)
 		self.Trove:Add(con2)
 
 		local plrRootPart = charUtils.getAlivePlayerRootPart(plr)
-		if not plrRootPart or (plrRootPart.Position - self.CFrame.Position).Magnitude >= self.MaxDistanceToInteract then
+		if not plrRootPart or (plrRootPart.Position - self.CFrame.Position).Magnitude >= maxDistanceToInteract then
 			return
 		end
 
@@ -163534,7 +165198,7 @@ function module.playerBeganHoldingProximityPrompt(self: ClassType, plr: Player)
 
 	con = runService.Heartbeat:Connect(function()
 		local plrRootPart = charUtils.getAlivePlayerRootPart(plr)
-		if not plrRootPart or (plrRootPart.Position - self.CFrame.Position).Magnitude >= self.MaxDistanceToInteract then
+		if not plrRootPart or (plrRootPart.Position - self.CFrame.Position).Magnitude >= maxDistanceToInteract then
 			con:Disconnect()
 			con = nil
 			self:playerEndedHoldingProximityPrompt(plr)
@@ -163634,6 +165298,7 @@ local replicableInstance = require(sharedClasses.ReplicableInstance)
 local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
 
 local module = setmetatable({}, { __index = ilegalItemDetectorSharedClass })
+module._Type = "IlegalItemDetector"
 
 export type ClassType = typeof(setmetatable({} :: {}, { __index = module })) & ilegalItemDetectorSharedClass.ClassType
 
@@ -163661,8 +165326,6 @@ function module.Materialize(self: ClassType, CF: CFrame)
 		return self
 	end
 
-	self.Model:PivotTo(self.CFrame)
-	self.Model.Name = self.UID
 	self.Model.Parent = workspace
 
 	self.DetectionArea = ilegalItemsDetectorDirectory:getItemModel(self.Id):Clone().DetectionArea
@@ -163729,6 +165392,323 @@ return module
 						<int64 name="SourceAssetId">-1</int64>
 						<BinaryString name="Tags"></BinaryString>
 						<UniqueId name="UniqueId">7a6ac03f87de28d608d448a700002d0c</UniqueId>
+					</Properties>
+				</Item>
+				<Item class="ModuleScript" referent="RBX5DD44AB7D8624CE9B708C8C6E8858CC7">
+					<Properties>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="DefinesCapabilities">false</bool>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">SecurityCamera</string>
+						<string name="ScriptGuid">{1BE07E76-4B9E-44DD-834A-85CCDBFA1395}</string>
+						<ProtectedString name="Source"><![CDATA[local runService = game:GetService("RunService")
+local replicatedStorage = game:GetService("ReplicatedStorage")
+local playersService = game:GetService("Players")
+
+local lib = require(replicatedStorage.lib)
+local t = lib.FunctionUtils.t
+local charUtil = lib.FunctionUtils.Character
+local zonePlus = lib.ModuleUtils.ZonePlus
+
+local sharedModules = replicatedStorage.Modules.Shared
+local replicableInstance = require(sharedModules.Classes.ReplicableInstance)
+local securityCameraSharedClass = require(sharedModules.Classes.SecurityCameraClass)
+local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
+
+local module = setmetatable({}, { __index = securityCameraSharedClass })
+
+export type ClassType =
+	typeof(setmetatable(
+		{} :: {
+			CameraZone: BasePart?,
+			PlayersInTheArea: { Player },
+			StartWatchingPlayer: lib.Signal<nil, Player>?,
+			FinishWatchingPlayer: lib.Signal<nil, Player>?,
+			CheckingPlayersInTheArea: RBXScriptConnection?,
+			RotationConnection: RBXScriptConnection?,
+
+			Light: SpotLight,
+			Eye: Part,
+
+			AlreadyRotatedToOneSide: number,
+			RotationMultiplier: number,
+		},
+		{ __index = module }
+	))
+	& securityCameraSharedClass.ClassType
+
+function module.new(id: string | number?): ClassType
+	local self = replicableInstance.newLinkedToAClass(module, securityCameraSharedClass) :: ClassType
+	self.PlayersInTheArea = {}
+	self.AlreadyRotatedToOneSide = 0
+	self.RotationMultiplier = 1
+
+	if id then
+		self:AttachId(id)
+	end
+	return self
+end
+
+function module.AttachId(self: ClassType, itemId: number)
+	securityCameraSharedClass.AttachId(self, itemId)
+
+	self.Remote:Fire(self.UID, "AttachId", { itemId })
+	return self
+end
+
+function module.AttachCameraZone(self: ClassType, area: Part)
+	if not t.instanceIsA("Part")(area) then
+		return self
+	end
+
+	self.CameraZone = zonePlus.new(area)
+	return self
+end
+
+function module.Materialize(self: ClassType, wall: BasePart)
+	local wallUID = wall:GetAttribute("UID")
+	if not wallUID then
+		return false
+	end
+	local success = securityCameraSharedClass.Materialize(self, wallUID)
+	if not success then
+		return false
+	end
+
+	self.Model:PivotTo(self.CFrame)
+	self.Model.Parent = self.AttachedToWall.Parent
+
+	self.Eye = self.CameraModel:FindFirstChild("Eye")
+	print(self.Eye)
+	self.Light = self.Eye:FindFirstChild("SpotLight") :: SpotLight
+	print(self.Light)
+
+	if self.Light then
+		self.Light.Range = self.ViewMaxDistance
+		self.Light.Angle = self.FOV
+	end
+
+	local subPart = self.Model:FindFirstChild("NegativePart")
+	if subPart then
+		local newPart: Part = self.AttachedToWall:SubtractAsync({ subPart })
+		subPart:Destroy()
+		newPart.Name = self.AttachedToWall.Name
+		newPart.CFrame = self.AttachedToWall.CFrame
+		newPart.Parent = self.AttachedToWall.Parent
+		self.AttachedToWall:Destroy()
+		self.AttachedToWall = newPart
+	end
+
+	self.Remote:Fire(self.UID, "Materialize", { wallUID })
+	return self
+end
+
+local part
+local function createDebugPart(fromVector: Vector3, toVector: Vector3)
+	if part then
+		part:Destroy()
+		part = nil
+	end
+	local cframe = CFrame.new(fromVector:Lerp(toVector, 0.5), toVector)
+	part = Instance.new("Part")
+	part.Shape = Enum.PartType.Block
+	part.Anchored = true
+	part.CanCollide = false
+	part.Size = Vector3.new(0.4, 0.4, (fromVector - toVector).Magnitude)
+	part.CFrame = cframe
+	part.Transparency = 0.5
+	part.Color = Color3.new(1, 0, 0)
+	part.Parent = workspace
+
+	return part
+end
+
+function module.StartWatching(self: ClassType, plr: Player?)
+	if plr then
+		local find = table.find(self.PlayersInTheArea, plr)
+		if not find then
+			table.insert(self.PlayersInTheArea, plr)
+		end
+	end
+	if self.CheckingPlayersInTheArea then
+		return self
+	end
+	local dbTime = 0
+	self.CheckingPlayersInTheArea = self.Trove:Connect(runService.Heartbeat, function(dt)
+		dbTime = dbTime + dt
+		if dbTime < 0.05 then
+			return
+		end
+		dbTime = 0
+
+		for _, player in self.PlayersInTheArea :: { Player } do
+			local char = charUtil.getAlivePlayerRootPart(player)
+			if not char then
+				continue
+			end
+
+			local camEye = self.Eye
+			if not camEye then
+				return
+			end
+
+			local direction = (char.Position - camEye.Position)
+			local directionUnit = (direction).Unit
+			local distance = direction.Magnitude
+			local camEyeDirection = camEye.CFrame.LookVector.Unit -- * distance + camEye.Position).Unit
+
+			local dot = camEyeDirection:Dot(directionUnit)
+			local rad = math.acos(dot)
+			local angle = math.deg(rad)
+			print("------------------------")
+			print("angle: " .. angle)
+			print("distance: " .. distance)
+			if angle <= self.FOV / 2 and distance < self.ViewMaxDistance then
+				createDebugPart(camEye.Position, char.Position)
+				print("Player in sight", player)
+				local inv = inventorySharedUtil.getPlayerInventory(player)
+				if inventorySharedUtil.isThereAnIlegalItemOnInventory(inv) then
+					part.Color = Color3.new(0, 1, 0)
+					print("player triggered")
+					self:AlertPolices(player)
+				end
+				continue
+			end
+		end
+	end)
+
+	return self
+end
+
+function module.FinishWatching(self: ClassType)
+	if self.CheckingPlayersInTheArea then
+		self.CheckingPlayersInTheArea:Disconnect()
+		self.CheckingPlayersInTheArea = nil
+	end
+
+	return self
+end
+
+function module.AlertPolices(self: ClassType) end
+
+function module.StopWatchingPlayer(self: ClassType, plr: Player)
+	local find = table.find(self.PlayersInTheArea, plr)
+	if find then
+		table.remove(self.PlayersInTheArea, find)
+	end
+
+	if #self.PlayersInTheArea == 0 then
+		self:FinishWatching()
+	end
+
+	return self
+end
+
+function module.Active(self: ClassType, active: boolean?)
+	local sucess = securityCameraSharedClass.Active(self, active)
+	if not sucess then
+		return self
+	end
+	if self.isActivated then
+		if self.CameraZone then
+			self.StartWatchingPlayer = self.Trove:Connect(self.CameraZone.playerEntered, function(plr)
+				print(plr)
+				self:StartWatching(plr)
+			end)
+
+			self.FinishWatchingPlayer = self.Trove:Connect(self.CameraZone.playerExited, function(plr)
+				print(plr)
+				self:StopWatchingPlayer(plr)
+			end)
+		else
+			for _, plr in playersService:GetPlayers() do
+				self:StartWatching(plr)
+			end
+
+			self.StartWatchingPlayer = playersService.PlayerAdded:Connect(function(plr)
+				print(plr)
+				self:StartWatching(plr)
+			end)
+			self.FinishWatchingPlayer = playersService.PlayerRemoving:Connect(function(plr)
+				print(plr)
+				self:StopWatchingPlayer(plr)
+			end)
+		end
+
+		local rotationToEachSide = self.RotationToEachSide or 2
+		local rotationAngle = self.RotationAngle or 5
+		if rotationToEachSide > 0 and rotationAngle > 0 then
+			local db = 0
+			local rotationDelay = self.RotationDelay or 0.5
+			self.RotationConnection = self.Trove:Connect(runService.Heartbeat, function(dt)
+				db = db + dt
+				if db < rotationDelay then
+					return
+				end
+				db = 0
+				if self.CameraModel and self.AttachedToWall then
+					self.AlreadyRotatedToOneSide = self.AlreadyRotatedToOneSide + 1
+					self.CameraModel:PivotTo(
+						self.CameraModel:GetPivot()
+							* CFrame.Angles(0, math.rad(rotationAngle) * self.RotationMultiplier, 0)
+					)
+					if (self.AlreadyRotatedToOneSide :: number) >= (rotationToEachSide :: number) then
+						self.RotationMultiplier = self.RotationMultiplier * -1
+						self.AlreadyRotatedToOneSide = -2
+					end
+				end
+			end)
+		end
+	else
+		if self.StartWatchingPlayer then
+			self.StartWatchingPlayer:Disconnect()
+			self.StartWatchingPlayer = nil
+		end
+		if self.FinishWatchingPlayer then
+			self.FinishWatchingPlayer:Disconnect()
+			self.FinishWatchingPlayer = nil
+		end
+		if self.RotationConnection then
+			self.RotationConnection:Disconnect()
+			self.RotationConnection = nil
+		end
+	end
+
+	return self
+end
+
+function module.ReplicateTo(self: ClassType, client: Player?)
+	local newItem = lib.Remotes.instanceCreated.SecurityCamera
+
+	if client then
+		newItem:FireClient(client, self.UID)
+
+		self.Remote:FireClient(client, self.UID, "AttachId", { self.Id })
+		self.Remote:FireClient(
+			client,
+			self.UID,
+			"Materialize",
+			{ self.AttachedToWall and self.AttachedToWall:GetAttribute("UID") }
+		)
+		self.Remote:FireClient(client, self.UID, "Active", { self.isActivated })
+	else
+		newItem:Fire(self.UID)
+
+		self.Remote:Fire(self.UID, "AttachId", { self.Id })
+		self.Remote:Fire(self.UID, "Materialize", { self.AttachedToWall and self.AttachedToWall:GetAttribute("UID") })
+		self.Remote:Fire(self.UID, "Active", { self.isActivated })
+	end
+
+	return self
+end
+
+return module
+]]></ProtectedString>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<UniqueId name="UniqueId">759ee19baa6ba7f8088b6de600006295</UniqueId>
 					</Properties>
 				</Item>
 			</Item>
@@ -163825,49 +165805,6 @@ return module
 						<int64 name="SourceAssetId">-1</int64>
 						<BinaryString name="Tags"></BinaryString>
 						<UniqueId name="UniqueId">202599fc2afe428b08a7768300001438</UniqueId>
-					</Properties>
-				</Item>
-				<Item class="ModuleScript" referent="RBXAAB2DA5D1EC64EF68084B46E57A51810">
-					<Properties>
-						<BinaryString name="AttributesSerialize"></BinaryString>
-						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-						<bool name="DefinesCapabilities">false</bool>
-						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-						<Content name="LinkedSource"><null></null></Content>
-						<string name="Name">CharacterBehaviorService</string>
-						<string name="ScriptGuid">{9EA6A629-36D9-464B-8C4C-62F8E33A61FA}</string>
-						<ProtectedString name="Source"><![CDATA[local replicatedStorage = game:GetService("ReplicatedStorage")
---local playersService = game:GetService("Players")
-
-local lib = require(replicatedStorage.lib)
-local remotes = lib.Remotes
-local playerLoaded = remotes.PlayerLoaded
-
-local Assets = replicatedStorage.Assets
-local rigsFolder = Assets.Rigs
-local prisionerRig = rigsFolder.Prisoner
-
-local changePlayerCharacter = require(game:GetService("ServerStorage").Modules.Utils.ChangePlayerCharacter)
-
-local module = {}
-
-function module.Init() end
-
-function module.Start()
-	playerLoaded.OnServerEvent:Connect(function(player: Player)
-		--playersService.PlayerAdded:Connect(function(player: Player)
-		changePlayerCharacter(player, prisionerRig)
-		player.CharacterAdded:Connect(function()
-			changePlayerCharacter(player, prisionerRig)
-		end)
-	end)
-end
-
-return module
-]]></ProtectedString>
-						<int64 name="SourceAssetId">-1</int64>
-						<BinaryString name="Tags"></BinaryString>
-						<UniqueId name="UniqueId">34a6b895f5c9e85208c1d2f4000042e0</UniqueId>
 					</Properties>
 				</Item>
 				<Item class="ModuleScript" referent="RBXF73AB59863D64254AAC2BA47AC873B6B">
@@ -166190,6 +168127,49 @@ return ProfileStore]]></ProtectedString>
 						</Properties>
 					</Item>
 				</Item>
+				<Item class="ModuleScript" referent="RBXAAB2DA5D1EC64EF68084B46E57A51810">
+					<Properties>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+						<bool name="DefinesCapabilities">false</bool>
+						<UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">CharacterBehaviorService</string>
+						<string name="ScriptGuid">{9EA6A629-36D9-464B-8C4C-62F8E33A61FA}</string>
+						<ProtectedString name="Source"><![CDATA[local replicatedStorage = game:GetService("ReplicatedStorage")
+--local playersService = game:GetService("Players")
+
+local lib = require(replicatedStorage.lib)
+local remotes = lib.Remotes
+local playerLoaded = remotes.PlayerLoaded
+
+local Assets = replicatedStorage.Assets
+local rigsFolder = Assets.Rigs
+local prisionerRig = rigsFolder.Prisoner
+
+local changePlayerCharacter = require(game:GetService("ServerStorage").Modules.Utils.ChangePlayerCharacter)
+
+local module = {}
+
+function module.Init() end
+
+function module.Start()
+	playerLoaded.OnServerEvent:Connect(function(player: Player)
+		--playersService.PlayerAdded:Connect(function(player: Player)
+		changePlayerCharacter(player, prisionerRig)
+		player.CharacterAdded:Connect(function()
+			changePlayerCharacter(player, prisionerRig)
+		end)
+	end)
+end
+
+return module
+]]></ProtectedString>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+						<UniqueId name="UniqueId">34a6b895f5c9e85208c1d2f4000042e0</UniqueId>
+					</Properties>
+				</Item>
 			</Item>
 			<Item class="Folder" referent="RBX3EF30CC0F8EB4474AFAA45AD73766ED6">
 				<Properties>
@@ -166897,7 +168877,7 @@ WF9PcmlnaW5hbFRlY2hub2xvZ3lPbkZpbGVMb2FkBAMAAAA=]]></BinaryString>
 			<int64 name="SourceAssetId">-1</int64>
 			<BinaryString name="Tags"></BinaryString>
 			<token name="Technology">3</token>
-			<string name="TimeOfDay">10:00:00</string>
+			<string name="TimeOfDay">00:00:00</string>
 			<UniqueId name="UniqueId">759ee19baa6ba7f8088b6de600000391</UniqueId>
 		</Properties>
 		<Item class="Sky" referent="RBX3E304D45B567429D9460E68BE4C3BC14">

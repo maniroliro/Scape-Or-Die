@@ -15,6 +15,7 @@ local replicableInstance = require(sharedClasses.ReplicableInstance)
 local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
 
 local module = setmetatable({}, { __index = ilegalItemDetectorSharedClass })
+module._Type = "IlegalItemDetector"
 
 export type ClassType = typeof(setmetatable({} :: {}, { __index = module })) & ilegalItemDetectorSharedClass.ClassType
 

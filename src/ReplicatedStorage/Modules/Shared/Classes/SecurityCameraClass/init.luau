@@ -34,13 +34,10 @@ end
 
 function module.Materialize(self: ClassType, wallUID: string)
 	local success = replicableInstance.Materialize(self, wallUID)
-	print(success)
 	if not success then
 		return false
 	end
-	print(wallUID)
 	local wall = wallUID and workspace:FindFirstAncestor(wallUID)
-	print(wall)
 	if not wall then
 		for _, instance in collectionService:GetTagged("Wall") do
 			if instance:GetAttribute("UID") == wallUID then
@@ -50,11 +47,9 @@ function module.Materialize(self: ClassType, wallUID: string)
 		end
 	end
 
-	print(wall)
 	if not wall or not wall.Parent or not wall:HasTag("Wall") then
 		return false
 	end
-	print("s")
 	self.CameraModel = self.Model:FindFirstChild("FunctionalCamera") :: Model
 	self.AttachedToWall = wall
 	self.CFrame = wall.CFrame * CFrame.new(0, 3, -wall.Size.Z / 2 + self.Model.PrimaryPart.Size.Z / 4)

@@ -159,7 +159,7 @@ function module.playerBeganHoldingProximityPrompt(self: ClassType, plr: Player)
 	local playerPing = plr:GetNetworkPing()
 
 	local con
-
+	local maxDistanceToInteract = self.MaxDistanceToInteract or 8
 	self.SendPlayerItemsInsideThread = task.delay(self.OpenTime - playerPing * 4 - 0.1, function()
 		self.SendPlayerItemsInsideThread = nil
 		con:Disconnect()
@@ -167,10 +167,7 @@ function module.playerBeganHoldingProximityPrompt(self: ClassType, plr: Player)
 		local con2
 		con2 = runService.Heartbeat:Connect(function()
 			local plrRootPart = charUtils.getAlivePlayerRootPart(plr)
-			if
-				not plrRootPart
-				or (plrRootPart.Position - self.CFrame.Position).Magnitude >= self.MaxDistanceToInteract
-			then
+			if not plrRootPart or (plrRootPart.Position - self.CFrame.Position).Magnitude >= maxDistanceToInteract then
 				con2:Disconnect()
 				con2 = nil
 				plr:SetAttribute("ChestOpen", nil)
@@ -181,7 +178,7 @@ function module.playerBeganHoldingProximityPrompt(self: ClassType, plr: Player)
 		self.Trove:Add(con2)
 
 		local plrRootPart = charUtils.getAlivePlayerRootPart(plr)
-		if not plrRootPart or (plrRootPart.Position - self.CFrame.Position).Magnitude >= self.MaxDistanceToInteract then
+		if not plrRootPart or (plrRootPart.Position - self.CFrame.Position).Magnitude >= maxDistanceToInteract then
 			return
 		end
 
@@ -191,7 +188,7 @@ function module.playerBeganHoldingProximityPrompt(self: ClassType, plr: Player)
 
 	con = runService.Heartbeat:Connect(function()
 		local plrRootPart = charUtils.getAlivePlayerRootPart(plr)
-		if not plrRootPart or (plrRootPart.Position - self.CFrame.Position).Magnitude >= self.MaxDistanceToInteract then
+		if not plrRootPart or (plrRootPart.Position - self.CFrame.Position).Magnitude >= maxDistanceToInteract then
 			con:Disconnect()
 			con = nil
 			self:playerEndedHoldingProximityPrompt(plr)

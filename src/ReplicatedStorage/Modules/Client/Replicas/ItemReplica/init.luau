@@ -101,6 +101,7 @@ function module.AddToInventory(self: ClassType, inv: { any }?, slot: number?)
 		or inventoryUtil.getItemSlot(playerInventory, self.UID)
 		or inventoryUtil.getNextSlotForANewItem(playerInventory)
 	inventoryUtilClient.putItemOnInventorySlot(self.UID, slot)
+	itemHover.forceHide(self.UID)
 
 	return self
 end

@@ -193,12 +193,24 @@ function module.removeItem(itemUID: string)
 		return
 	end
 
+	module.forceHide(itemUID)
+
 	for k, v in module.itemsBeingObserved[itemUID] do
 		v:Disconnect()
 		module.itemsBeingObserved[itemUID][k] = nil
 	end
 
 	module.itemsBeingObserved[itemUID] = nil
+end
+
+function module.forceHide(itemUID: string?)
+	if itemUID and itemHovering ~= itemUID then
+		return
+	end
+
+	IsHovering = false
+	itemHovering = nil
+	itemInfoOverlay.Visible = false
 end
 
 return module

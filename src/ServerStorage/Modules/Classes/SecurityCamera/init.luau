@@ -24,6 +24,9 @@ export type ClassType =
 			CheckingPlayersInTheArea: RBXScriptConnection?,
 			RotationConnection: RBXScriptConnection?,
 
+			Light: SpotLight,
+			Eye: Part,
+
 			AlreadyRotatedToOneSide: number,
 			RotationMultiplier: number,
 		},
@@ -44,11 +47,8 @@ function module.new(id: string | number?): ClassType
 end
 
 function module.AttachId(self: ClassType, itemId: number)
-	-- Chama o método shared do ReplicableInstance primeiro
 	securityCameraSharedClass.AttachId(self, itemId)
 
-	print(self)
-	-- Lógica específica do servidor
 	self.Remote:Fire(self.UID, "AttachId", { itemId })
 	return self
 end
@@ -75,12 +75,18 @@ function module.Materialize(self: ClassType, wall: BasePart)
 	self.Model:PivotTo(self.CFrame)
 	self.Model.Parent = self.AttachedToWall.Parent
 
+	self.Eye = self.CameraModel:FindFirstChild("Eye")
+	print(self.Eye)
+	self.Light = self.Eye:FindFirstChild("SpotLight") :: SpotLight
+	print(self.Light)
+
+	if self.Light then
+		self.Light.Range = self.ViewMaxDistance
+		self.Light.Angle = self.FOV
+	end
+
 	local subPart = self.Model:FindFirstChild("NegativePart")
 	if subPart then
-		--local newWall = self.AttachedToWall:UnionAsync(subPart)
-
-		print(self.AttachedToWall)
-		print(subPart)
 		local newPart: Part = self.AttachedToWall:SubtractAsync({ subPart })
 		subPart:Destroy()
 		newPart.Name = self.AttachedToWall.Name
@@ -88,11 +94,6 @@ function module.Materialize(self: ClassType, wall: BasePart)
 		newPart.Parent = self.AttachedToWall.Parent
 		self.AttachedToWall:Destroy()
 		self.AttachedToWall = newPart
-		-- TODO: NEXT
-		-- SUBTRACT
-		-- THE CAM SUB PART
-		-- FROM THE WALL PART
-		-- MAKE SUB PART EQUAL TO NORMAL PART
 	end
 
 	self.Remote:Fire(self.UID, "Materialize", { wallUID })
@@ -143,7 +144,7 @@ function module.StartWatching(self: ClassType, plr: Player?)
 				continue
 			end
 
-			local camEye = self.CameraModel:FindFirstChild("Eye")
+			local camEye = self.Eye
 			if not camEye then
 				return
 			end
@@ -201,17 +202,12 @@ function module.StopWatchingPlayer(self: ClassType, plr: Player)
 end
 
 function module.Active(self: ClassType, active: boolean?)
-	print()
 	local sucess = securityCameraSharedClass.Active(self, active)
-	print(sucess)
 	if not sucess then
 		return self
 	end
-	print(self.isActivated)
 	if self.isActivated then
-		print(self.CameraZone)
 		if self.CameraZone then
-			print(self.CameraZone)
 			self.StartWatchingPlayer = self.Trove:Connect(self.CameraZone.playerEntered, function(plr)
 				print(plr)
 				self:StartWatching(plr)
@@ -222,8 +218,6 @@ function module.Active(self: ClassType, active: boolean?)
 				self:StopWatchingPlayer(plr)
 			end)
 		else
-			print(playersService:GetPlayers())
-
 			for _, plr in playersService:GetPlayers() do
 				self:StartWatching(plr)
 			end
@@ -238,28 +232,31 @@ function module.Active(self: ClassType, active: boolean?)
 			end)
 		end
 
-		local db = 0
-		print("sssss", self.RotationDelay, self.RotationAngle)
-		self.RotationConnection = self.Trove:Connect(runService.Heartbeat, function(dt)
-			db = db + dt
-			if db < self.RotationDelay then
-				return
-			end
-			db = 0
-			if self.CameraModel and self.AttachedToWall then
-				self.AlreadyRotatedToOneSide = self.AlreadyRotatedToOneSide + 1
-				self.CameraModel:PivotTo(
-					self.CameraModel:GetPivot()
-						* CFrame.Angles(0, math.rad(self.RotationAngle) * self.RotationMultiplier, 0)
-				)
-				if (self.AlreadyRotatedToOneSide :: number) >= (self.RotationToEachSide :: number) then
-					self.RotationMultiplier = self.RotationMultiplier * -1
-					self.AlreadyRotatedToOneSide = -2
+		local rotationToEachSide = self.RotationToEachSide or 2
+		local rotationAngle = self.RotationAngle or 5
+		if rotationToEachSide > 0 and rotationAngle > 0 then
+			local db = 0
+			local rotationDelay = self.RotationDelay or 0.5
+			self.RotationConnection = self.Trove:Connect(runService.Heartbeat, function(dt)
+				db = db + dt
+				if db < rotationDelay then
+					return
 				end
-			end
-		end)
+				db = 0
+				if self.CameraModel and self.AttachedToWall then
+					self.AlreadyRotatedToOneSide = self.AlreadyRotatedToOneSide + 1
+					self.CameraModel:PivotTo(
+						self.CameraModel:GetPivot()
+							* CFrame.Angles(0, math.rad(rotationAngle) * self.RotationMultiplier, 0)
+					)
+					if (self.AlreadyRotatedToOneSide :: number) >= (rotationToEachSide :: number) then
+						self.RotationMultiplier = self.RotationMultiplier * -1
+						self.AlreadyRotatedToOneSide = -2
+					end
+				end
+			end)
+		end
 	else
-		print()
 		if self.StartWatchingPlayer then
 			self.StartWatchingPlayer:Disconnect()
 			self.StartWatchingPlayer = nil
