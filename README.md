@@ -4,20 +4,20 @@ A open souce game project
 
 ## TODO: 
 ### Classes:
-[ ] JailComponent - Jail physical parts that can be interact
+[] JailComponent - Jail physical parts that can be interact
     CanBeBroken - alert polices if it is broken
     CanGoInto - alert polices if prisoner is into it
 
 
-[ ] Wall - break, repair, place wall block
+[] Wall - break, repair, place wall block
 
-[ ] Prisoner - act like a prisoner
+[] Prisoner - act like a prisoner
 
-[ ] Polices - act like a police
+[] Polices - act like a police
 
-[ ] NPC (Prisoner and Polices) - be a prisoner ou a police
+[] NPC (Prisoner and Polices) - be a prisoner ou a police
 
-[ ] Vent - break, 
+[] Vent - break, 
 
 ### Managers:
-[ ] Alert 
+[] Alert 
