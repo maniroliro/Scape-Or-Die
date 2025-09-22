@@ -9,9 +9,9 @@ local t = lib.FunctionUtils.t
 
 local sharedModules = replicatedStorage.Modules.Shared
 local sharedClasses = sharedModules.Classes
-local ilegalItemDetectorSharedClass = require(sharedClasses.IlegalItemDetectorClass)
+local ilegalItemDetectorSharedClass = require(sharedClasses.DerivedClasses.IlegalItemDetectorClass)
 
-local replicableInstance = require(sharedClasses.ReplicableInstance)
+local replicableInstance = require(sharedClasses.BaseClasses.ReplicableInstance)
 local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
 
 local module = setmetatable({}, { __index = ilegalItemDetectorSharedClass })

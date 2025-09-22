@@ -7,14 +7,14 @@ local lib = require(replicatedStorage:WaitForChild("lib"))
 local clientModules = replicatedStorage.Modules.Client
 local sharedModules = replicatedStorage.Modules.Shared
 
-local replicableInstance = require(sharedModules.Classes.ReplicableInstance)
+local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
 local instancesManager = require(sharedModules.Managers.InstancesManager)
 
 local spring = lib.ModuleUtils.Spring
 local charUtils = lib.FunctionUtils.Character
 
 local chestDirectory = require(replicatedStorage.Directory.Chests)
-local chestSharedClass = require(sharedModules.Classes.ChestClass)
+local chestSharedClass = require(sharedModules.Classes.DerivedClasses.ChestClass)
 
 local itemsReplica = require(clientModules.Replicas.ItemReplica)
 local itemHover = require(clientModules.Utils.ItemHover)

@@ -3,11 +3,11 @@ A open souce game project
 
 
 ## TODO: 
+### Controllers
+- [ ] ViewModel
 ### Classes:
 - [ ] JailComponent - Jail physical parts that can be interact
-    CanBeBroken - alert polices if it is broken
-    CanGoInto - alert polices if prisoner is into it
-
+    - [ ] CanBeBroken - alert polices if it is broken
 
 - [ ] Wall - break, repair, place wall block
 
@@ -21,3 +21,9 @@ A open souce game project
 
 ### Managers:
 - [ ] Alert 
+- [ ] ViewModel
+
+
+
+##### TODO All
+###### Equip/Unequip item, make it physically

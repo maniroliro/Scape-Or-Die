@@ -1,35 +1,61 @@
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local replicatedStorage = game:GetService("ReplicatedStorage")
 
-local sharedModules = replicatedStorage.Modules.Shared
-local replicableInstance = require(sharedModules.Classes.ReplicableInstance)
-
+local FastCastTypes = require(ReplicatedStorage.lib.lib.ModuleUtils._FastCastRedux.FastCastTypes)
 local lib = require(replicatedStorage.lib)
 local t = lib.FunctionUtils.t
 local signal = lib.ModuleUtils.Signal
+local zone = lib.ModuleUtils.Zone
 
-local directoryFolder = replicatedStorage.Directory
-
-local wallsDirectory = require(directoryFolder.Walls)
+local sharedModules = replicatedStorage.Modules.Shared
+local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
 
 local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
-module._Type = "Wall"
+module._Type = "JailComponent"
 
 export type ClassType =
 	typeof(setmetatable(
 		{} :: {
-			CFrame: CFrame,
-			Model: Model,
+			--CanBeBroken: boolean,
+			CanBeFaked: boolean,
 
 			HealthChanged: lib.Signal<nil, number>,
+			Health: number,
+			MaxHealth: number,
+
+			CFrame: CFrame,
+			Model: Model,
 		},
 		{ __index = module }
 	))
 	& replicableInstance.ClassType
-	& wallsDirectory.Type
 
 function module.new(UID: string | number?): ClassType
 	local self = replicableInstance.newLinkedToAClass(module, replicableInstance, UID) :: ClassType
-	self.HealthChanged = signal.new()
+
+	return self
+end
+
+function module.AttachId(self: ClassType, id: string)
+	local sucess = replicableInstance.AttachId(self, id)
+	if not sucess then
+		return false
+	end
+
+	if self.Health and self.MaxHealth then
+		self.Health = self.Health
+		self.HealthChanged = signal.new()
+	end
+
+	self.Id = id
+	return self
+end
+
+function module.Materialize(self: ClassType, CF: CFrame)
+	local success = replicableInstance.Materialize(self, CF)
+	if not success then
+		return false
+	end
 
 	return self
 end

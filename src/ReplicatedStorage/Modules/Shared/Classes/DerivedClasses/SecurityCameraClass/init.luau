@@ -2,7 +2,7 @@ local replicatedStorage = game:GetService("ReplicatedStorage")
 local collectionService = game:GetService("CollectionService")
 
 local sharedModules = replicatedStorage.Modules.Shared
-local replicableInstance = require(sharedModules.Classes.ReplicableInstance)
+local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
 
 local directoryFolder = replicatedStorage.Directory
 

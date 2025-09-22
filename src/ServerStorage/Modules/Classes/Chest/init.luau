@@ -6,11 +6,11 @@ local sharedModules = replicatedStorage.Modules.Shared
 local lib = require(replicatedStorage.lib)
 local t = lib.FunctionUtils.t
 
-local replicableInstance = require(sharedModules.Classes.ReplicableInstance)
+local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
 local instancesManager = require(sharedModules.Managers.InstancesManager)
 local charUtils = lib.FunctionUtils.Character
 
-local chestSharedClass = require(sharedModules.Classes.ChestClass)
+local chestSharedClass = require(sharedModules.Classes.DerivedClasses.ChestClass)
 
 local module = setmetatable({}, { __index = chestSharedClass })
 

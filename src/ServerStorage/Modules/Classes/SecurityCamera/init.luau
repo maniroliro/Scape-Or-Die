@@ -8,8 +8,8 @@ local charUtil = lib.FunctionUtils.Character
 local zonePlus = lib.ModuleUtils.ZonePlus
 
 local sharedModules = replicatedStorage.Modules.Shared
-local replicableInstance = require(sharedModules.Classes.ReplicableInstance)
-local securityCameraSharedClass = require(sharedModules.Classes.SecurityCameraClass)
+local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
+local securityCameraSharedClass = require(sharedModules.Classes.DerivedClasses.SecurityCameraClass)
 local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
 
 local module = setmetatable({}, { __index = securityCameraSharedClass })
