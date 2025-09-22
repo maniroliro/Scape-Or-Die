@@ -6,6 +6,7 @@ local itemsDirectory = require(replicatedStorage.Directory.Items)
 
 local lib = require(replicatedStorage:WaitForChild("lib"))
 local t = lib.FunctionUtils.t
+local charUtil = lib.FunctionUtils.Character
 local clientModules = replicatedStorage.Modules.Client
 local sharedModules = replicatedStorage.Modules.Shared
 local sharedClasses = sharedModules.Classes
@@ -224,11 +225,11 @@ function module.EquipItem(self: ClassType)
 	if self.equipped then
 		return
 	end
-	if not (typeof(self.InstantiatedTo) == "Instance" and self.InstantiatedTo:IsA("Player")) then
+	if not t.Player(self.InstantiatedTo) then
 		return
 	end
 
-	local char = self.InstantiatedTo.Character
+	local char = charUtil.getAlivePlayerRootPart(player)
 	if char then
 		local hrp = char.PrimaryPart
 		if hrp then
