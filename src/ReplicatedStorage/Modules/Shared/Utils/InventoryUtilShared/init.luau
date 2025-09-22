@@ -152,6 +152,25 @@ function module.canAddItem(inv: { any }, itemUID: string)
 	return true
 end
 
+function module.canEquipItem(inv: { any }, itemUID: string)
+	if not t.table(inv) or not t.string(itemUID) then
+		return
+	end
+
+	local pos = module.checks.findItemInInventory(inv, itemUID)
+	if not pos then
+		return
+	end
+
+	if inv[1] == itemUID then
+		return
+	end
+
+	module.toggleEquip(inv, pos, 1)
+
+	return true
+end
+
 function module.equipItem(itemUID: string, plr: Player?) end
 
 function module.unequipItem(itemUID: string, plr: Player?) end
