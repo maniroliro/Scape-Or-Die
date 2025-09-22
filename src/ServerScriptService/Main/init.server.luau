@@ -87,35 +87,42 @@ end
 -- ItemDetector
 
 local itemDetector1 = ilegalItemDetectorClass.new()
-itemDetector1:Replicate(true)
 itemDetector1:AttachId(1)
 itemDetector1:Materialize(workspace.md1.CFrame)
 itemDetector1:Active()
+itemDetector1:Replicate(true)
 
 local itemDetector2 = ilegalItemDetectorClass.new()
-itemDetector2:Replicate(true)
 itemDetector2:AttachId(1)
 itemDetector2:Materialize(workspace.md2.CFrame)
 itemDetector2:Active()
+itemDetector2:Replicate(true)
 
 plr = game.Players.PlayerAdded:Wait()
-chest1:SetOwner(plr)
+--chest1:SetOwner(plr)
 
 -- SecurityCamera
 
 local cam = securityCameraClass.new()
-cam:Replicate(true)
 cam:AttachId(01)
 cam:Materialize(workspace.WallToCam)
 cam:AttachCameraZone(workspace.AreaToAttach)
 cam:Active(true)
+cam:Replicate(true)
 
 local cam2 = securityCameraClass.new()
-cam2:Replicate(true)
 cam2:AttachId(02)
 cam2:Materialize(workspace.WallToCam2)
 cam2:AttachCameraZone(workspace.AreaToAttach2)
 cam2:Active(true)
+cam2:Replicate(true)
+
+local cam3 = securityCameraClass.new()
+cam3:AttachId(02)
+cam3:Materialize(workspace.WallToCam3)
+cam3:AttachCameraZone(workspace.ahaaa)
+cam3:Active(true)
+cam3:Replicate(true)
 
 --table.insert(instances, cam)
 --table.insert(instances, chest)

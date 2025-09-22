@@ -7,14 +7,14 @@ local lib = require(replicatedStorage:WaitForChild("lib"))
 local clientModules = replicatedStorage.Modules.Client
 local sharedModules = replicatedStorage.Modules.Shared
 
-local replicableInstance = require(sharedModules.Classes.ReplicableInstance)
+local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
 local instancesManager = require(sharedModules.Managers.InstancesManager)
 
 local spring = lib.ModuleUtils.Spring
 local charUtils = lib.FunctionUtils.Character
 
 local chestDirectory = require(replicatedStorage.Directory.Chests)
-local chestSharedClass = require(sharedModules.Classes.ChestClass)
+local chestSharedClass = require(sharedModules.Classes.DerivedClasses.ChestClass)
 
 local itemsReplica = require(clientModules.Replicas.ItemReplica)
 local itemHover = require(clientModules.Utils.ItemHover)
@@ -22,7 +22,7 @@ local highlightSelectionUtil = require(clientModules.Utils.HighlightSelection)
 
 local localplayer = PlayersService.LocalPlayer
 
-local module = setmetatable({}, { __index = chestSharedClass })
+local module = setmetatable({} :: {}, { __index = chestSharedClass })
 
 export type ClassType =
 	typeof(setmetatable(
@@ -31,6 +31,7 @@ export type ClassType =
 			DrawerSpring: typeof(spring.new()),
 			DrawerPivotPosition: Vector3,
 			ProximityPrompt: ProximityPrompt,
+			ChestOpenByLocalPlayer: boolean,
 		},
 		{ __index = module }
 	))
@@ -42,6 +43,7 @@ function module.new(UID: string)
 		DeskContents = {},
 		HiddenContents = {},
 	}
+	self.ChestOpenByLocalPlayer = false
 
 	return self
 end
@@ -51,7 +53,6 @@ function module.Materialize(self: ClassType, CF: CFrame)
 	if not success then
 		return self
 	end
-
 	self.ProximityPrompt = self.Model.Chest.ProximityPrompt
 
 	-- self.Model:PivotTo(self.CFrame)
@@ -71,28 +72,27 @@ function module.Materialize(self: ClassType, CF: CFrame)
 		self.Remote:Fire(self.UID, "playerEndedHoldingProximityPrompt", {})
 	end))
 	self.Trove:Add(self.ProximityPrompt.Triggered:Connect(function()
+		self.ChestOpenByLocalPlayer = true
 		localplayer:SetAttribute("ChestOpen", self.UID)
 		self.Display.Visible = true
 		self.ProximityPrompt.Enabled = false
 
-		local con
-		con = runService.Heartbeat:Connect(function()
-			local plrRootPart = charUtils.getAlivePlayerRootPart(localplayer)
-			if
-				not plrRootPart
-				or (plrRootPart.Position - self.CFrame.Position).Magnitude >= self.MaxDistanceToInteract
-			then
-				localplayer:SetAttribute("ChestOpen", nil)
-				self.Display.Visible = false
-				self.ProximityPrompt.Enabled = true
-				con:Disconnect()
-				con = nil
-				return
-			end
-		end)
-		self.Trove:Add(con)
+		-- local con
+		-- con = runService.Heartbeat:Connect(function()
+		-- 	local plrRootPart = charUtils.getAlivePlayerRootPart(localplayer)
+		-- 	if not plrRootPart or (plrRootPart.Position - self.CFrame.Position).Magnitude >= maxDistanceToInteract then
+		-- 		localplayer:SetAttribute("ChestOpen", nil)
+		-- 		self.Display.Visible = false
+		-- 		self.ProximityPrompt.Enabled = true
+		-- 		con:Disconnect()
+		-- 		con = nil
+		-- 		return
+		-- 	end
+		-- end)
+		-- self.Trove:Add(con)
 	end))
 
+	local maxDistanceToInteract = self.MaxDistanceToInteract or 8
 	self.Trove:Add(runService.RenderStepped:Connect(function()
 		local hrp = localplayer.Character.PrimaryPart
 		local sprPos = self.DrawerSpring.Position
@@ -100,7 +100,7 @@ function module.Materialize(self: ClassType, CF: CFrame)
 		if not hrp then
 			return
 		end
-		if (hrp.Position - self.Model.PrimaryPart.Position).Magnitude <= self.MaxDistanceToInteract then
+		if (hrp.Position - self.Model.PrimaryPart.Position).Magnitude <= maxDistanceToInteract then
 			self.DrawerSpring.Damping = 0.4
 			self.DrawerSpring.Target = 40
 			if self.DrawerSpring:IsAtRest() then
@@ -115,6 +115,16 @@ function module.Materialize(self: ClassType, CF: CFrame)
 				end)
 			end
 		else
+			if self.ChestOpenByLocalPlayer then
+				self.ChestOpenByLocalPlayer = false
+				localplayer:SetAttribute("ChestOpen", nil)
+				self.Display.Visible = false
+				self.ProximityPrompt.Enabled = true
+				--con:Disconnect()
+				--con = nil
+				return
+			end
+
 			self.DrawerSpring.Damping = 0.75
 			self.DrawerSpring.Target = 0
 			if self.DrawerSpring:IsAtRest() then

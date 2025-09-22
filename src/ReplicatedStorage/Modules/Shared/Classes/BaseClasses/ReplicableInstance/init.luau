@@ -18,7 +18,12 @@ local module = setmetatable({}, { __index = instancesManager })
 local directories = {}
 
 for _, dirType in dirFolder:GetChildren() do
-	directories[dirType.Name:sub(1, #dirType.Name - 1)] = require(dirType)
+	if not dirType:IsA("ModuleScript") then
+		continue
+	end
+	local sub1 = dirType.Name:sub(#dirType.Name, #dirType.Name)
+	local name = sub1 == "s" and dirType.Name:sub(1, #dirType.Name - 1) or dirType.Name:sub(1, #dirType.Name)
+	directories[name] = require(dirType)
 end
 
 export type genericObjType = instancesManager.genericObjType
@@ -51,14 +56,23 @@ function module.newLinkedToAClass<T, T2>(
 ): ClassType
 	local self = setmetatable(sharedClassModule.new(UID), {
 		__index = function(self, k)
-			local value1 = rawget(realClassModule, k) or directories[self._Type]:getItemInfo(id)[k]
-
+			--print(self, k)
+			local value1 = rawget(realClassModule, k)
 			if value1 then
 				return value1
 			end
 
 			local value2 = sharedClassModule[k]
-			return value2
+			if value2 then
+				return value2
+			end
+
+			local value3 = directories[self._Type]:getItemInfo(self.Id)[k]
+			if value3 then
+				return value3
+			end
+
+			return nil
 		end,
 	})
 
@@ -74,8 +88,12 @@ function module.AttachId<T>(self: T & ClassType, id: number)
 	local directory = directories[self._Type]
 	local info = directory:getItemInfo(id)
 
-	for k, v in info do
-		(self :: any)[k] = v
+	-- for k, v in info do
+	-- 	(self :: any)[k] = v
+	-- end
+	--print(info)
+	if info then
+		self.Id = id
 	end
 	return self
 end

@@ -9,12 +9,13 @@ local t = lib.FunctionUtils.t
 local clientModules = replicatedStorage.Modules.Client
 local sharedModules = replicatedStorage.Modules.Shared
 local sharedClasses = sharedModules.Classes
-local itemSharedClass = require(sharedClasses.ItemClass)
+local itemSharedClass = require(sharedClasses.DerivedClasses.ItemClass)
 
-local replicableInstance = require(sharedClasses.ReplicableInstance)
+local replicableInstance = require(sharedClasses.BaseClasses.ReplicableInstance)
 
 local inventoryUtil = require(sharedModules.Utils.InventoryUtilShared)
 local inventoryUtilClient = require(clientModules.Utils.InventoryUtilClient)
+local viewModelManager = require(clientModules.Managers.ViewModelManager)
 
 local itemHover = require(clientModules.Utils.ItemHover)
 
@@ -42,8 +43,21 @@ function module.new(UID: string)
 	return self
 end
 
-function module.Materialize(self: ClassType)
-	-- ...
+function module.Materialize(self: ClassType, plrOrCF: Player | CFrame)
+	local success = itemSharedClass.Materialize(self, plrOrCF)
+	if not success then
+		return self
+	end
+
+	if t.Player(plrOrCF) then
+		if plrOrCF == localPlayer then
+			viewModelManager.AttachItem(self.Model)
+		end
+	elseif t.CFrame(plrOrCF) then
+		-- self.Model.Parent = workspace
+		-- self.Model:PivotTo(self.CFrame)
+	end
+
 	return self
 end
 
@@ -101,6 +115,7 @@ function module.AddToInventory(self: ClassType, inv: { any }?, slot: number?)
 		or inventoryUtil.getItemSlot(playerInventory, self.UID)
 		or inventoryUtil.getNextSlotForANewItem(playerInventory)
 	inventoryUtilClient.putItemOnInventorySlot(self.UID, slot)
+	itemHover.forceHide(self.UID)
 
 	return self
 end

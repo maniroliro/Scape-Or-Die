@@ -6,9 +6,9 @@ local t = lib.FunctionUtils.t
 
 local sharedModules = replicatedStorage.Modules.Shared
 local sharedClasses = sharedModules.Classes
-local itemSharedClass = require(sharedClasses.ItemClass)
+local itemSharedClass = require(sharedClasses.DerivedClasses.ItemClass)
 
-local replicableInstance = require(sharedClasses.ReplicableInstance)
+local replicableInstance = require(sharedClasses.BaseClasses.ReplicableInstance)
 
 local inventoryServerUtil = require(serverStorage.Modules.Utils.InventoryUtilServer)
 

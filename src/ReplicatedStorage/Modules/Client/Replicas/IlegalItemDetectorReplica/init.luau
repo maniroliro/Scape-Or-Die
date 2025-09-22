@@ -10,8 +10,8 @@ local lib = require(replicatedStorage:WaitForChild("lib"))
 local charUtil = lib.FunctionUtils.Character
 local t = lib.FunctionUtils.t
 
-local replicableInstance = require(replicatedStorage.Modules.Shared.Classes.ReplicableInstance)
-local ilegalItemDetectorSharedClass = require(replicatedStorage.Modules.Shared.Classes.IlegalItemDetectorClass)
+local replicableInstance = require(replicatedStorage.Modules.Shared.Classes.BaseClasses.ReplicableInstance)
+local ilegalItemDetectorSharedClass = require(replicatedStorage.Modules.Shared.Classes.DerivedClasses.IlegalItemDetectorClass)
 
 local inventorySharedUtil = require(replicatedStorage.Modules.Shared.Utils.InventoryUtilShared)
 

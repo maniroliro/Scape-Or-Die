@@ -6,7 +6,7 @@ local sharedModules = replicatedStorage.Modules.Shared
 local lib = require(replicatedStorage.lib)
 local charUtil = lib.FunctionUtils.Character
 local t = lib.FunctionUtils.t
-local replicableInstance = require(sharedModules.Classes.ReplicableInstance)
+local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
 
 local directoryFolder = replicatedStorage.Directory
 

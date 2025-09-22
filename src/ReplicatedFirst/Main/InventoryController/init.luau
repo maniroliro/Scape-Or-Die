@@ -4,7 +4,7 @@
 
 -- local lib = require(replicatedStorage:WaitForChild("lib"))
 -- local inventoryUtilShared = require(replicatedStorage.Modules.Shared.Utils.InventoryUtilShared)
--- local replicableInstance = require(replicatedStorage.Modules.Shared.Classes.ReplicableInstance)
+-- local replicableInstance = require(replicatedStorage.Modules.Shared.Classes.BaseClasses.ReplicableInstance)
 
 -- local playerData = require(replicatedStorage.Modules.Client.PlayerData)
 
