@@ -2,7 +2,11 @@ function CanUse(itemInfoTab: { [string]: any })
 	return true
 end
 
-function Use(itemInfoTab: { [string]: any }, ...)
+function Use(player, item, toBreake)
+	if not item or not toBreake then
+		return
+	end
+
 	return true
 end
 
