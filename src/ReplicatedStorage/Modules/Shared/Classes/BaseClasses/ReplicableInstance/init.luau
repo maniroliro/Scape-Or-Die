@@ -99,35 +99,36 @@ function module.AttachId<T>(self: T & ClassType, id: number)
 end
 
 function module.Materialize<T>(self: T & ClassType, CF: CFrame?)
-	local model = workspace:FindFirstAncestor(self.UID)
+	if not self.model then
+		local model = workspace:FindFirstAncestor(self._Type .. " _ " .. self.UID)
 
-	if not model then
-		for _, part in collectionService:GetTagged(self._Type) do
-			if part:GetAttribute("UID") == self.UID then
-				model = part
-				break
+		if not model then
+			for _, part in collectionService:GetTagged(self._Type) do
+				if part:GetAttribute("UID") == self.UID then
+					model = part
+					break
+				end
 			end
 		end
+
+		model = model or require(replicatedStorage.Directory[self._Type .. "s"]):getItemModel(self.Id):Clone()
+
+		if not model then
+			return false
+		end
+
+		self.Model = model
+		self.Model.Name = self._Type .. " _ " .. self.UID
+
+		self.Model:AddTag(self._Type)
+		self.Model:SetAttribute("UID", self.UID)
 	end
-
-	model = model or require(replicatedStorage.Directory[self._Type .. "s"]):getItemModel(self.Id):Clone()
-
-	if not model then
-		return false
-	end
-
-	self.Model = model
-	self.Model.Name = self._Type .. " _ " .. self.UID
-
-	model:AddTag(self._Type)
-	model:SetAttribute("UID", self.UID)
-
 	if not t.CFrame(CF) then
 		return self
 	end
 
 	self.CFrame = lib.Utils.GetLegalCFrame(CF :: CFrame)
-	model:PivotTo(self.CFrame)
+	self.Model:PivotTo(self.CFrame)
 
 	return self
 end

@@ -1,7 +1,7 @@
 local replicatedStorage = game:GetService("ReplicatedStorage")
 local PlayersService = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local runService = game:GetService("RunService")
+local userInputService = game:GetService("UserInputService")
 
 local lib = require(replicatedStorage:WaitForChild("lib"))
 local clientModules = replicatedStorage.Modules.Client
@@ -76,6 +76,7 @@ function module.Materialize(self: ClassType, CF: CFrame)
 		localplayer:SetAttribute("ChestOpen", self.UID)
 		self.Display.Visible = true
 		self.ProximityPrompt.Enabled = false
+		userInputService.MouseBehavior = Enum.MouseBehavior.Default
 
 		-- local con
 		-- con = runService.Heartbeat:Connect(function()
@@ -93,8 +94,9 @@ function module.Materialize(self: ClassType, CF: CFrame)
 	end))
 
 	local maxDistanceToInteract = self.MaxDistanceToInteract or 8
-	self.Trove:Add(runService.RenderStepped:Connect(function()
-		local hrp = localplayer.Character.PrimaryPart
+
+	local con = self.Trove:Add(runService.RenderStepped:Connect(function()
+		local hrp = charUtils.getAlivePlayerRootPart(localplayer)
 		local sprPos = self.DrawerSpring.Position
 
 		if not hrp then
@@ -118,6 +120,7 @@ function module.Materialize(self: ClassType, CF: CFrame)
 			if self.ChestOpenByLocalPlayer then
 				self.ChestOpenByLocalPlayer = false
 				localplayer:SetAttribute("ChestOpen", nil)
+				userInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
 				self.Display.Visible = false
 				self.ProximityPrompt.Enabled = true
 				--con:Disconnect()

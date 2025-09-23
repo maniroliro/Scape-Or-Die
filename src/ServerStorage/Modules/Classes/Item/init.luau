@@ -19,7 +19,6 @@ export type ClassType = typeof(setmetatable({} :: {}, module)) & itemSharedClass
 
 function module.new(id: string?): ClassType
 	local self: ClassType = replicableInstance.newLinkedToAClass(module, itemSharedClass) :: ClassType
-	self._Type = "Item"
 
 	if id then
 		self:AttachId(id)
@@ -43,7 +42,7 @@ function module.Materialize(self: ClassType, CF: CFrame)
 	end
 
 	-- Lógica específica do servidor
-	self.Remote:Fire(self.UID, "Materialize", { self.CFrame })
+	self.Remote:Fire(self.UID, "Materialize", {})
 	return self
 end
 

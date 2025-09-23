@@ -194,19 +194,26 @@ function module.isThereAnIlegalItemOnInventory(inv: { any })
 	return false
 end
 
-function module.toggleEquip(inv: { any }, pos1: number, pos2: number)
-	if not pos1 then
+function module.toggleEquip(inv: { any }, pos1: number, pos2: number?)
+	if not t.table(inv) or t.number(pos1) then
 		return
 	end
-	pos2 = pos2 or 1
+	pos2 = pos2 or (pos1 == 1 and module.getNextSlotForANewItem(inv) or 1)
+	if not t.number(pos2) then
+		return
+	end
+
+	if pos1 == pos2 then
+		return
+	end
 
 	local uid1 = inv[pos1]
-	local uid2 = inv[pos2]
+	local uid2 = inv[pos2 :: number]
 
-	inv[pos2], inv[pos1] = uid1, uid2
+	inv[pos2 :: number], inv[pos1] = uid1, uid2
 
-	local obj1 = uid1 and instancesManager.getObj(uid1) or nil
-	local obj2 = uid2 and instancesManager.getObj(uid2) or nil
+	local obj1 = uid1 and instancesManager.getObj(uid1)
+	local obj2 = uid2 and instancesManager.getObj(uid2)
 
 	if inv[1] == uid1 then
 		if obj2 and (obj2 :: any).UnequipItem then
