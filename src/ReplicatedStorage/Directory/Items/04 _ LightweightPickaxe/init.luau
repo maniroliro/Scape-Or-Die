@@ -6,6 +6,9 @@ local module = {
 	MetalDetectorCanDetect = true,
 	CanSpawnInChests = false,
 
+	Health = 100,
+	HealthDecreaseEachUse = 20,
+
 	-- UseItem = function(self, ...)
 
 	-- 	return true

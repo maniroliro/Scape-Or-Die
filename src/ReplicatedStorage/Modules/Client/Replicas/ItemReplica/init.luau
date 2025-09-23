@@ -220,6 +220,7 @@ function module.EquipItem(self: ClassType)
 		return
 	end
 	self.equipped = true
+
 	if not t.Player(self.InstantiatedTo) then
 		return
 	end
@@ -238,7 +239,7 @@ function module.UnequipItem(self: ClassType)
 	end
 	self.equipped = false
 
-	if not t.Player(self.InstantiatedTo) then
+	if t.Player(self.InstantiatedTo) then
 		return
 	end
 
