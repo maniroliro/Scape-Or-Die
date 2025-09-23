@@ -229,7 +229,7 @@ function module.EquipItem(self: ClassType)
 		return
 	end
 
-	local char = charUtil.getAlivePlayerRootPart(player)
+	local char = charUtil.getAlivePlayerRootPart(localPlayer)
 	if char then
 		local hrp = char.PrimaryPart
 		if hrp then

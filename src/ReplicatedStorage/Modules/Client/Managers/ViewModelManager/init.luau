@@ -10,14 +10,14 @@ module._lastItemParent = localPlayer
 function module.SetViewModel(model: Model)
 	module.ViewModel = model
 	module.Attachment = model:FindFirstChild("Attachment", true)
-	module.ViewModel:PivotTo(camera.CFrame)
+	--module.ViewModel:PivotTo(camera.CFrame)
 
 	if module.ItemAttached then
 		module._lastItemParent = localPlayer
 		module.UnattachItem()
 	end
 
-	module.ViewModel.Parent = camera
+	module.ViewModel.Parent = workspace
 end
 
 function module.AttachItem(item: Model)
