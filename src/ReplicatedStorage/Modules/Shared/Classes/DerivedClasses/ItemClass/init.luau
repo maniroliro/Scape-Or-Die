@@ -2,6 +2,7 @@ local replicatedStorage = game:GetService("ReplicatedStorage")
 
 local lib = require(replicatedStorage.lib)
 local t = lib.FunctionUtils.t
+local signal = lib.ModuleUtils.Signal
 local charUtil = lib.FunctionUtils.Character
 
 local sharedModules = replicatedStorage.Modules.Shared
@@ -21,10 +22,12 @@ module._Type = "Item"
 export type ClassType =
 	typeof(setmetatable(
 		{} :: {
+			Model: typeof(itemsDirectory.directoryFolder["00 _ Template"].Model),
 			PlayerOwner: Player?,
 			CFrame: CFrame?,
 			equipped: boolean,
 			InstantiatedTo: string | Player,
+			InstantiatedToChanged: lib.Signal<nil, string | Player>,
 		},
 		{ __index = module }
 	))
@@ -34,16 +37,17 @@ export type ClassType =
 function module.new(UID: string | number?): ClassType
 	local self = replicableInstance.newLinkedToAClass(module, replicableInstance, UID) :: ClassType
 	self.equipped = false
+	self.InstantiatedToChanged = self.Trove:Construct(signal)
 
 	return self
 end
 
 function module.Materialize(self: ClassType, CF: CFrame)
-	if not t.CFrame(CF) then
+	local success = replicableInstance.Materialize(self, CF)
+	if not success then
 		return false
 	end
 
-	self.CFrame = lib.Utils.GetLegalCFrame(CF)
 	return self
 end
 
@@ -129,6 +133,7 @@ function module.InstantiateTo(self: ClassType, newInstantiate: string | Player, 
 	end
 
 	self.InstantiatedTo = newInstantiate
+	self.InstantiatedToChanged:Fire(newInstantiate)
 	if newInstantiateIsGround then
 		self:Drop()
 	elseif newInstantiateIsChest then

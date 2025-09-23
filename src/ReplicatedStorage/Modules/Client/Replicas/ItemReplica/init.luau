@@ -28,7 +28,6 @@ module.__index = module
 export type ClassType =
 	typeof(setmetatable(
 		{} :: {
-			Model: typeof(itemsDirectory.directoryFolder["00 _ Template"].Model),
 			Display: Frame,
 
 			animType: "KeyDown" | nil,
@@ -39,24 +38,14 @@ export type ClassType =
 
 function module.new(UID: string)
 	local self: ClassType = replicableInstance.newLinkedToAClass(module, itemSharedClass, UID) :: ClassType
-	self._Type = "Item"
 
 	return self
 end
 
-function module.Materialize(self: ClassType, plrOrCF: Player | CFrame)
-	local success = itemSharedClass.Materialize(self, plrOrCF)
+function module.Materialize(self: ClassType, CF: Player | CFrame)
+	local success = itemSharedClass.Materialize(self, CF)
 	if not success then
 		return self
-	end
-
-	if t.Player(plrOrCF) then
-		if plrOrCF == localPlayer then
-			viewModelManager.AttachItem(self.Model)
-		end
-	elseif t.CFrame(plrOrCF) then
-		-- self.Model.Parent = workspace
-		-- self.Model:PivotTo(self.CFrame)
 	end
 
 	return self
@@ -180,9 +169,14 @@ function module.Drop(self: ClassType)
 	return self
 end
 
--- function module.InstantiateTo(self: ClassType, any: string | Player, chestStorage: string?)
--- 	return self
--- end
+function module.InstantiateTo(self: ClassType, ...)
+	local success = itemSharedClass.InstantiateTo(self, ...)
+	if not success then
+		return self
+	end
+
+	return self
+end
 
 function module.TryToInstantiateTo(self: ClassType, any: string | Player, chestStorage: string?)
 	local success = itemSharedClass.TryToInstantiateTo(self, any, chestStorage)
@@ -225,24 +219,33 @@ function module.EquipItem(self: ClassType)
 	if self.equipped then
 		return
 	end
+	self.equipped = true
 	if not t.Player(self.InstantiatedTo) then
 		return
 	end
 
-	local char = charUtil.getAlivePlayerRootPart(localPlayer)
-	if char then
-		local hrp = char.PrimaryPart
-		if hrp then
-			self.Model:PivotTo(hrp.CFrame * CFrame.new(0, 4, 0))
-		end
+	if self.InstantiatedTo == localPlayer then
+		viewModelManager.AttachItem(self.Model)
+		--else
+		--viewModelManager.UnattachItem()
 	end
-
 	return self
 end
 
 function module.UnequipItem(self: ClassType)
 	if not self.equipped then
 		return
+	end
+	self.equipped = false
+
+	if not t.Player(self.InstantiatedTo) then
+		return
+	end
+
+	if self.InstantiatedTo == localPlayer then
+		viewModelManager.UnattachItem()
+		--else
+		--viewModelManager.UnattachItem()
 	end
 
 	return self

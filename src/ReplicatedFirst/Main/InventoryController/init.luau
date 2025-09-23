@@ -1,50 +1,60 @@
--- local replicatedStorage = game:GetService("ReplicatedStorage")
--- local userInputService = game:GetService("UserInputService")
--- local player = game.Players.LocalPlayer
+local replicatedStorage = game:GetService("ReplicatedStorage")
+local userInputService = game:GetService("UserInputService")
+local localPlayer = game.Players.LocalPlayer
 
--- local lib = require(replicatedStorage:WaitForChild("lib"))
--- local inventoryUtilShared = require(replicatedStorage.Modules.Shared.Utils.InventoryUtilShared)
--- local replicableInstance = require(replicatedStorage.Modules.Shared.Classes.BaseClasses.ReplicableInstance)
+local sharedModules = replicatedStorage.Modules.Shared
 
--- local playerData = require(replicatedStorage.Modules.Client.PlayerData)
+local lib = require(replicatedStorage:WaitForChild("lib"))
+local inventoryUtilShared = require(sharedModules.Utils.InventoryUtilShared)
+local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
+local instanceManager = require(sharedModules.Managers.InstancesManager)
+
+local playerData = require(replicatedStorage.Modules.Client.PlayerData)
 
 local module = {}
 module.inventoryItems = {}
 module.equippeditem = nil
 
--- local acceptableInputs = {
--- 	One = 1,
--- 	Two = 2,
--- 	Three = 3,
--- 	Four = 4,
--- 	Five = 5,
--- 	Six = 6,
--- }
+local acceptableInputs = {
+	One = 1,
+	Two = 2,
+	Three = 3,
+	Four = 4,
+	Five = 5,
+	Six = 6,
+}
 
 function module.Init() end
 
 function module.Start()
-	-- 	--userInputService.InputBegan:Connect(function(inp)
-	-- 	--	local acceptableInp = acceptableInputs[inp.KeyCode.Name]
-	-- 	--	if acceptableInp then
-	-- 	--		inventoryUtilShared.toggleEquip(acceptableInp)
-	-- 	--	end
-	-- 	--end)
-	-- 	--playerData.NewDataReceived:Connect(function(data)
-	-- 	--	print('analize')
-	-- 	--	local oldData = playerData.Data
-	-- 	--	for i, currentItemUID in data.inventory do
-	-- 	--		local previousItemUID = oldData.inventory[i]
-	-- 	--		if previousItemUID == currentItemUID then continue end
-	-- 	--		local item = instancesManager.getObj(currentItemUID)
-	-- 	--		local pos = table.find(oldData, currentItemUID)
-	-- 	--		if pos then
-	-- 	--			inventoryUtilShared.toggleEquip(player, pos, i)
-	-- 	--		else
+	userInputService.InputBegan:Connect(function(inp)
+		local acceptableInp = acceptableInputs[inp.KeyCode.Name]
+		if acceptableInp then
+			local inventory = inventoryUtilShared.getPlayerInventory(localPlayer)
+			if not inventory then
+				return
+			end
+			local item = instanceManager.getObj(inventory[acceptableInp])
+			if item and item._Type == "Item" then
+				inventoryUtilShared.toggleEquip(inventory, acceptableInp)
+			end
+		end
+	end)
+	-- playerData.NewDataReceived:Connect(function(data)
+	-- 	print('analize')
+	-- 	local oldData = playerData.Data
+	-- 	for i, currentItemUID in data.inventory do
+	-- 		local previousItemUID = oldData.inventory[i]
+	-- 		if previousItemUID == currentItemUID then continue end
+	-- 		local item = instancesManager.getObj(currentItemUID)
+	-- 		local pos = table.find(oldData, currentItemUID)
+	-- 		if pos then
+	-- 			inventoryUtilShared.toggleEquip(player, pos, i)
+	-- 		else
 
-	-- 	--		end
-	-- 	--	end
-	-- 	--end)
+	-- 		end
+	-- 	end
+	-- end)
 end
 
 return module
