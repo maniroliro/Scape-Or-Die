@@ -26,6 +26,7 @@ function module.newDirectory<ModuleScriptDirectory>(directoryFolder: ModuleScrip
 end
 
 function MT:getItemInfo(itemId: anytype)
+	print(self.directoryFolder, itemId)
 	local itemType = typeof(itemId)
 	if itemType == "string" or itemType == "number" then
 		for _, mod in self.directoryFolder:GetChildren() do
@@ -82,6 +83,17 @@ function MT.getRandomItemModule<ModuleScriptDirectory>(self: ClassType<ModuleScr
 	end)
 	local randomItem = items[math.random(2, #items)]
 	return randomItem
+end
+
+function MT.getIdByName(self: ClassType, name: string): number?
+	for _, mod in self.directoryFolder:GetChildren() do
+		local modName = mod.Name:match(" _ (.+)$")
+		if modName == name then
+			local id = tonumber(mod.Name:match("^(%d+)%s*_"))
+			return id
+		end
+	end
+	return nil
 end
 
 function MT.getRandomItemId(self: ClassType): number

@@ -99,18 +99,6 @@ function module.AddItem(self: ClassType, itemUID: string, contentName: Storages,
 		return self
 	end
 
-	do
-		local count = 0
-		local contentTab = (self.ItemsInside :: {})[contentName or "DeskContents"]
-		if contentTab then
-			for _, v in contentTab do
-				if v then
-					count += 1
-				end
-			end
-		end
-	end
-
 	self:UpdatePlayerSearchingItemsInside()
 	return self
 end
@@ -230,8 +218,6 @@ function module.Materialize(self: ClassType, CF: CFrame)
 		return self
 	end
 
-	self.Model:PivotTo(self.CFrame)
-	self.Model.Name = self.UID
 	self.Model.Parent = workspace
 
 	-- Lógica específica do servidor

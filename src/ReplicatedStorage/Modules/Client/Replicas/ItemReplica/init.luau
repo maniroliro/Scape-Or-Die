@@ -3,6 +3,7 @@ local userInputService = game:GetService("UserInputService")
 local tweenService = game:GetService("TweenService")
 
 local itemsDirectory = require(replicatedStorage.Directory.Items)
+local itemsFunctionDirectory = require(replicatedStorage.Directory.ItemsFunction)
 
 local lib = require(replicatedStorage:WaitForChild("lib"))
 local t = lib.FunctionUtils.t
@@ -31,6 +32,7 @@ export type ClassType =
 			Display: Frame,
 
 			animType: "KeyDown" | nil,
+			useItemConnection: RBXScriptConnection?,
 		},
 		module
 	))
@@ -42,7 +44,25 @@ function module.new(UID: string)
 	return self
 end
 
-function module.Materialize(self: ClassType, CF: Player | CFrame)
+function module.Materialize(self: ClassType, CF: CFrame)
+	if self.Model then
+		local tool = localPlayer.Backpack:FindFirstChild(self.Model.Name)
+			or localPlayer.Character and localPlayer.Character:FindFirstChild(self.Model.Name)
+
+		if not tool then
+			return self
+		end
+		if tool:IsA("BasePart") then
+			tool.LocalTransparencyModifier = 1
+		end
+		for _, part in tool:GetDescendants() do
+			if part:IsA("BasePart") then
+				part.LocalTransparencyModifier = 1
+			end
+		end
+
+		return self
+	end
 	local success = itemSharedClass.Materialize(self, CF)
 	if not success then
 		return self
@@ -209,51 +229,87 @@ function module.RemoveFromInventory(self: ClassType, inv: { any })
 	return self
 end
 
-function module.Inventorize(self: ClassType)
-	self:RemoveFromChest()
+function module.UseItem(self: ClassType, funcN: number)
+	local success = itemSharedClass.UseItem(self, funcN)
+	print("client, ", success)
+	if not success then
+		return self
+	end
 
+	if self.InstantiatedTo == localPlayer then
+		self.Remote:Fire(self.UID, "TryToUseItem", { funcN })
+	else
+		print(self.InstantiatedTo, " is trying to use item ", self.UID)
+	end
 	return self
 end
 
 function module.EquipItem(self: ClassType)
-	if self.equipped then
-		return
-	end
-	self.equipped = true
-
-	if not t.Player(self.InstantiatedTo) then
-		return
+	local success = itemSharedClass.EquipItem(self)
+	if not success then
+		return self
 	end
 
 	if self.InstantiatedTo == localPlayer then
 		viewModelManager.AttachItem(self.Model)
-		--else
-		--viewModelManager.UnattachItem()
+		local itemsFunctionTable = self.ItemFunction
+		if itemsFunctionTable and #itemsFunctionTable >= 0 then
+			local func1 = itemsFunctionDirectory:getItemInfo(itemsFunctionTable[1])
+			local func2 = itemsFunctionDirectory:getItemInfo(itemsFunctionTable[2])
+			print(func1, func2)
+			if func1 or func2 then
+				self.useItemConnection = self.Trove:Add(userInputService.InputBegan:Connect(function(inp)
+					print(inp.UserInputType)
+					if inp.UserInputType == Enum.UserInputType.MouseButton1 then
+						if func1 then
+							self:UseItem(1)
+						end
+					elseif inp.UserInputType == Enum.UserInputType.MouseButton2 then
+						if func2 then
+							self:UseItem(2)
+						end
+					end
+				end))
+			end
+		end
+
+		self.Remote:Fire(self.UID, "TryToEquip", {})
+	else
+		print(self.InstantiatedTo, " is trying to equip item ", self.UID)
 	end
+
 	return self
 end
 
-function module.UnequipItem(self: ClassType)
-	if not self.equipped then
-		return
+function module.UnequipItem(self: ClassType, pos: number)
+	print("Unequipping item")
+	local success = itemSharedClass.UnequipItem(self)
+	if not success then
+		return self
 	end
-	self.equipped = false
-
-	if t.Player(self.InstantiatedTo) then
-		return
-	end
-
 	if self.InstantiatedTo == localPlayer then
 		viewModelManager.UnattachItem()
-		--else
-		--viewModelManager.UnattachItem()
+		if self.useItemConnection then
+			self.useItemConnection:Disconnect()
+			self.useItemConnection = nil
+		end
+		self.Model.Parent = nil
+
+		self.Remote:Fire(self.UID, "TryToUnequip", { pos })
+	else
+		print(self.InstantiatedTo, " is trying to unequip item ", self.UID)
 	end
 
 	return self
 end
 
 function module.ToggleEquip(self: ClassType)
-	_ = self -- TODO: implementar
+	local success = itemSharedClass.ToggleEquip(self)
+	if not success then
+		return self
+	end
+
+	return self
 end
 
 return module

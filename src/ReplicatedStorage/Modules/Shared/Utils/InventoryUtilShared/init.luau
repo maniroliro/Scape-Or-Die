@@ -46,7 +46,6 @@ function module.checks.findItemInInventory(inv: { any }, itemUID: string)
 	end
 
 	for k, v in inv do
-		print(k, v)
 		if v == itemUID then
 			return k
 		end
@@ -58,11 +57,11 @@ function module.checks.hasSpaceOnInventory(inv: { any })
 	if not inv or type(inv) ~= "table" then
 		return
 	end
-	local t = 0
+	local count = 0
 	for _ in inv do
-		t += 1
+		count += 1
 	end
-	return t < 6
+	return count < 6
 end
 
 function module.checks.isSlotFree(inv: { any }, slot: number)
@@ -125,8 +124,6 @@ function module.getNextSlotForANewItem(inv: { any })
 end
 
 function module.canAddItem(inv: { any }, itemUID: string)
-	print(debug.traceback())
-	print(inv, itemUID)
 	if not itemUID then
 		return
 	end
@@ -175,16 +172,35 @@ function module.equipItem(itemUID: string, plr: Player?) end
 
 function module.unequipItem(itemUID: string, plr: Player?) end
 
+function module.isFirstItemIlegal(inv: { any })
+	if type(inv) ~= "table" then
+		return
+	end
+	local firstItemUID = inv[1]
+	if not firstItemUID then
+		return
+	end
+	local item = instancesManager.getObj(firstItemUID)
+	if not item then
+		return
+	end
+	if not instancesManager.typeIs(item._Type, "Item") then
+		return
+	end
+
+	return not item.Legal
+end
+
 function module.isThereAnIlegalItemOnInventory(inv: { any })
 	if type(inv) ~= "table" then
 		return
 	end
-	for i, uid in inv do
+	for _, uid in inv do
 		local item = instancesManager.getObj(uid)
 		if not item then
 			continue
 		end
-		if item._Type ~= "Item" then
+		if not instancesManager.typeIs(item._Type, "Item") then
 			continue
 		end
 		if not item.Legal then
@@ -194,42 +210,45 @@ function module.isThereAnIlegalItemOnInventory(inv: { any })
 	return false
 end
 
-function module.toggleEquip(inv: { any }, pos1: number, pos2: number?)
-	if not t.table(inv) or t.number(pos1) then
+function module.normalizeToggleSlots(inv: { any }, pos1: number, pos2: number?)
+	if not t.table(inv) or not t.number(pos1) then
 		return
 	end
 	pos2 = pos2 or (pos1 == 1 and module.getNextSlotForANewItem(inv) or 1)
 	if not t.number(pos2) then
 		return
 	end
-
 	if pos1 == pos2 then
 		return
 	end
 
-	local uid1 = inv[pos1]
-	local uid2 = inv[pos2 :: number]
+	if pos1 == 1 then
+		pos1, pos2 = pos2 :: number, pos1
+	end
 
-	inv[pos2 :: number], inv[pos1] = uid1, uid2
+	return pos1, pos2
+end
+
+function module.toggleEquip(inv: { any }, pos1: number, pos2: number?)
+	pos1, pos2 = module.normalizeToggleSlots(inv, pos1, pos2)
+	if not pos1 and not pos2 then
+		return
+	end
+	local uid1 = inv[pos1 :: number]
+	local uid2 = inv[pos2 :: number]
+	inv[pos2 :: number], inv[pos1 :: number] = uid1, uid2
 
 	local obj1 = uid1 and instancesManager.getObj(uid1)
 	local obj2 = uid2 and instancesManager.getObj(uid2)
+	print(obj1, obj2)
+	-- if obj1 and (obj1 :: any).ToggleEquip then
+	-- 	(obj1 :: any):ToggleEquip(pos2)
+	-- end
+	-- if obj2 and (obj2 :: any).ToggleEquip then
+	-- 	(obj2 :: any):ToggleEquip(pos1)
+	-- end
 
-	if inv[1] == uid1 then
-		if obj2 and (obj2 :: any).UnequipItem then
-			(obj2 :: any):UnequipItem()
-		end
-		if obj1 and (obj1 :: any).EquipItem then
-			(obj1 :: any):EquipItem()
-		end
-	elseif inv[1] == uid2 then
-		if obj1 and (obj1 :: any).UnequipItem then
-			(obj1 :: any):UnequipItem()
-		end
-		if obj2 and (obj2 :: any).EquipItem then
-			(obj2 :: any):EquipItem()
-		end
-	end
+	return true
 end
 
 function module.addItemToInventory(itemUID: string, inv: { any }, pos: number?)

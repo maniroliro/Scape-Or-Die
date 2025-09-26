@@ -15,7 +15,7 @@ local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
 local directoryFolder = replicatedStorage.Directory
 
 local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
-module._Type = "Item"
+module._Type = replicableInstance.extendType("Item")
 
 export type ClassType =
 	typeof(setmetatable(

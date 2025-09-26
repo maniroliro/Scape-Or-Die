@@ -55,6 +55,7 @@ local function splitPartIntoGrid3D(part: BasePart, GRID_XZ: number?, GRID_Y: num
 	-- Ponto inicial (bordas) no espaço local
 	-- Vamos avançando e posicionando cada segmento pelo centro do bloco atual:
 	-- start = -total/2; center = start + chunk/2; start += chunk
+	local parts = {}
 	local startX = -size.X * 0.5
 	for ix = 1, #sizesX do
 		local sx = sizesX[ix]
@@ -104,7 +105,7 @@ local function splitPartIntoGrid3D(part: BasePart, GRID_XZ: number?, GRID_Y: num
 				end
 
 				seg.Parent = parent
-
+				table.insert(parts, seg)
 				startZ += sz
 			end
 
@@ -115,6 +116,8 @@ local function splitPartIntoGrid3D(part: BasePart, GRID_XZ: number?, GRID_Y: num
 	end
 
 	part:Destroy()
+
+	return parts
 end
 
 return splitPartIntoGrid3D

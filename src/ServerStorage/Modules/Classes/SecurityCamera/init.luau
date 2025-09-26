@@ -76,9 +76,9 @@ function module.Materialize(self: ClassType, wall: BasePart)
 	self.Model.Parent = self.AttachedToWall.Parent
 
 	self.Eye = self.CameraModel:FindFirstChild("Eye")
-	print(self.Eye)
+	--print(self.Eye)
 	self.Light = self.Eye:FindFirstChild("SpotLight") :: SpotLight
-	print(self.Light)
+	--print(self.Light)
 
 	if self.Light then
 		self.Light.Range = self.ViewMaxDistance
@@ -164,7 +164,7 @@ function module.StartWatching(self: ClassType, plr: Player?)
 				createDebugPart(camEye.Position, char.Position)
 				print("Player in sight", player)
 				local inv = inventorySharedUtil.getPlayerInventory(player)
-				if inventorySharedUtil.isThereAnIlegalItemOnInventory(inv) then
+				if inventorySharedUtil.isFirstItemIlegal(inv) then
 					part.Color = Color3.new(0, 1, 0)
 					print("player triggered")
 					self:AlertPolices(player)

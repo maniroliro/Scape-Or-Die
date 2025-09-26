@@ -11,10 +11,10 @@ local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableI
 local directoryFolder = replicatedStorage.Directory
 
 local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
-local ilegalItemDetectorDirectory = require(directoryFolder.IlegalItemDetectors)
+local scannerDirectory = require(directoryFolder.Scanners)
 
 local module = setmetatable({}, { __index = replicableInstance })
-module._Type = "IlegalItemDetector"
+module._Type = replicableInstance.extendType("Scanner")
 
 local function clampLevel(n: number): number
 	return math.clamp(n, 0, 3)
@@ -56,7 +56,7 @@ export type ClassType =
 		{ __index = module }
 	))
 	& replicableInstance.ClassType
-	& ilegalItemDetectorDirectory.Type
+	& scannerDirectory.Type
 
 function module.new(UID: string | number?): ClassType
 	local self = replicableInstance.newLinkedToAClass(module, replicableInstance, UID) :: ClassType

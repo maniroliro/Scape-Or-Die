@@ -4,18 +4,18 @@ local Players = game:GetService("Players")
 
 local localPlayer = Players.LocalPlayer
 
-local ilegalItemsDetectorDirectory = require(replicatedStorage.Directory.IlegalItemDetectors)
+local ilegalItemsDetectorDirectory = require(replicatedStorage.Directory.Scanners)
 
 local lib = require(replicatedStorage:WaitForChild("lib"))
 local charUtil = lib.FunctionUtils.Character
 local t = lib.FunctionUtils.t
 
 local replicableInstance = require(replicatedStorage.Modules.Shared.Classes.BaseClasses.ReplicableInstance)
-local ilegalItemDetectorSharedClass = require(replicatedStorage.Modules.Shared.Classes.DerivedClasses.IlegalItemDetectorClass)
+local scannerSharedClass = require(replicatedStorage.Modules.Shared.Classes.DerivedClasses.ScannerClass)
 
 local inventorySharedUtil = require(replicatedStorage.Modules.Shared.Utils.InventoryUtilShared)
 
-local module = setmetatable({}, ilegalItemDetectorSharedClass)
+local module = setmetatable({}, scannerSharedClass)
 
 export type ClassType =
 	typeof(setmetatable(
@@ -29,7 +29,7 @@ export type ClassType =
 		},
 		{ index = module }
 	))
-	& ilegalItemDetectorSharedClass.ClassType
+	& scannerSharedClass.ClassType
 
 local alertingSettings = {
 	[0] = {
@@ -53,23 +53,20 @@ local alertingSettings = {
 }
 
 function module.new(UID: string): ClassType
-	local self: ClassType =
-		replicableInstance.newLinkedToAClass(module, ilegalItemDetectorSharedClass, UID) :: ClassType
+	local self: ClassType = replicableInstance.newLinkedToAClass(module, scannerSharedClass, UID) :: ClassType
 	self.AlertLights = {}
 	self.LastBlinkedLight = 1
 	return self
 end
 
 function module.Materialize(self: ClassType, CF: CFrame)
-	local canMaterialize = ilegalItemDetectorSharedClass.Materialize(self, CF)
+	local canMaterialize = scannerSharedClass.Materialize(self, CF)
 	if not canMaterialize then
 		return self
 	end
 
-	-- Client-specific logic
-	--self.Model = ilegalItemsDetectorDirectory:getItemModel(self.Id):Clone()
-	self.Model:PivotTo(self.CFrame)
-	self.Model.Name = self.UID
+	-- local typeName = self:GetPrimaryType() or "Scanner"
+	-- self.Model.Name = string.format("%s _ %s", typeName, self.UID)
 	self.Model.Parent = workspace
 
 	self.DetectionArea = self.Model.DetectionArea
@@ -118,7 +115,7 @@ end
 -- aplica nível e controla o loop de pisca
 function module.SetLevel(self: ClassType, newLevel: number)
 	-- Chama a classe compartilhada primeiro para validação
-	local canSetLevel = ilegalItemDetectorSharedClass.SetLevel(self, newLevel)
+	local canSetLevel = scannerSharedClass.SetLevel(self, newLevel)
 	if not canSetLevel then
 		return self
 	end
@@ -143,7 +140,7 @@ end
 
 -- entrada local (quando o próprio jogador toca e tem item ilegal)
 function module.Alert(self: ClassType, level: number?)
-	local canAlert = ilegalItemDetectorSharedClass.Alert(self, level)
+	local canAlert = scannerSharedClass.Alert(self, level)
 	if not canAlert then
 		return self
 	end
@@ -164,7 +161,7 @@ function module.PlayerTriggered(self: ClassType)
 end
 
 function module.Active(self: ClassType, active: boolean?)
-	local canActivate = ilegalItemDetectorSharedClass.Active(self, active)
+	local canActivate = scannerSharedClass.Active(self, active)
 	if not canActivate then
 		return self
 	end

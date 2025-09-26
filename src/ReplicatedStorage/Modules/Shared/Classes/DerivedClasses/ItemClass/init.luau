@@ -15,19 +15,24 @@ local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
 local directoryFolder = replicatedStorage.Directory
 
 local itemsDirectory = require(directoryFolder.Items)
+local itemsFunctionDirectory = require(replicatedStorage.Directory.ItemsFunction)
 
 local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
-module._Type = "Item"
+module._Type = replicableInstance.extendType("Item")
 
 export type ClassType =
 	typeof(setmetatable(
 		{} :: {
-			Model: typeof(itemsDirectory.directoryFolder["00 _ Template"].Model),
+			Model: Model, -- typeof(itemsDirectory.directoryFolder["00 _ Template"].Mo),
 			PlayerOwner: Player?,
 			CFrame: CFrame?,
 			equipped: boolean,
 			InstantiatedTo: string | Player,
 			InstantiatedToChanged: lib.Signal<nil, string | Player>,
+			--SlotOnInstantiatedTo: number?,
+
+			ItemFunction1: itemsFunctionDirectory.Type,
+			ItemFunction2: itemsFunctionDirectory.Type,
 		},
 		{ __index = module }
 	))
@@ -38,6 +43,25 @@ function module.new(UID: string | number?): ClassType
 	local self = replicableInstance.newLinkedToAClass(module, replicableInstance, UID) :: ClassType
 	self.equipped = false
 	self.InstantiatedToChanged = self.Trove:Construct(signal)
+
+	return self
+end
+
+function module.AttachId(self: ClassType, id: string)
+	local sucess = replicableInstance.AttachId(self, id)
+	if not sucess then
+		return false
+	end
+
+	local itemsFunctionTable = self.ItemFunction
+	if not itemsFunctionTable or #itemsFunctionTable == 0 then
+		return
+	end
+	local func1 = itemsFunctionDirectory:getItemInfo(itemsFunctionTable[1])
+	local func2 = itemsFunctionDirectory:getItemInfo(itemsFunctionTable[2])
+	print(func1, func2)
+	self.ItemFunction1 = func1
+	self.ItemFunction2 = func2
 
 	return self
 end
@@ -65,7 +89,7 @@ function module.canAddToChest(self: ClassType, chestUID: string, contentName: st
 	end
 
 	local chest = instancesManager.getObj(chestUID)
-	if not chest or chest._Type ~= "Chest" then
+	if not instancesManager.objectIs(chest, "Chest") then
 		return false
 	end
 
@@ -89,7 +113,7 @@ function module.canRemoveFromChest(self: ClassType, chestUID: string)
 		return false -- Isn't in a chest
 	end
 	local chest = instancesManager.getObj(chestUID)
-	if not chest or chest._Type ~= "Chest" then
+	if not instancesManager.objectIs(chest, "Chest") then
 		return false
 	end
 	if not chest:canRemoveItem(self.UID) then
@@ -118,7 +142,7 @@ function module.InstantiateTo(self: ClassType, newInstantiate: string | Player, 
 	do
 		if newInstantiateIsChest then
 			local newObj = instancesManager.getObj(newInstantiate :: string)
-			newInstantiateIsChest = newObj and newObj._Type == "Chest" and true or false
+			newInstantiateIsChest = instancesManager.objectIs(newObj, "Chest")
 		end
 	end
 
@@ -128,16 +152,22 @@ function module.InstantiateTo(self: ClassType, newInstantiate: string | Player, 
 	do
 		if oldInstantiateIsChest then
 			local lastobj = instancesManager.getObj(last :: string)
-			oldInstantiateIsChest = lastobj and lastobj._Type == "Chest" and true or false
+			oldInstantiateIsChest = instancesManager.objectIs(lastobj, "Chest")
 		end
 	end
 
 	self.InstantiatedTo = newInstantiate
 	self.InstantiatedToChanged:Fire(newInstantiate)
 	if newInstantiateIsGround then
+		local inv = inventorySharedUtil.getPlayerInventory(last :: Player)
+		self:RemoveFromInventory(inv)
 		self:Drop()
 	elseif newInstantiateIsChest then
 		if oldInstantiateIsPlayer then
+			if self.equipped then
+				self:UnequipItem()
+			end
+
 			local inv = inventorySharedUtil.getPlayerInventory(last :: Player)
 			self:RemoveFromInventory(inv)
 		end
@@ -169,7 +199,7 @@ function module.TryToInstantiateTo(self: ClassType, newInstantiate: string | Pla
 	do
 		if newInstantiateIsChest then
 			local newObj = instancesManager.getObj(newInstantiate :: string)
-			newInstantiateIsChest = newObj and newObj._Type == "Chest" and true or false
+			newInstantiateIsChest = instancesManager.objectIs(newObj, "Chest")
 		end
 	end
 
@@ -179,7 +209,7 @@ function module.TryToInstantiateTo(self: ClassType, newInstantiate: string | Pla
 	do
 		if oldInstantiateIsChest then
 			local lastobj = instancesManager.getObj(last :: string)
-			oldInstantiateIsChest = lastobj and lastobj._Type == "Chest" and true or false
+			oldInstantiateIsChest = instancesManager.objectIs(lastobj, "Chest")
 		end
 	end
 
@@ -263,7 +293,7 @@ function module.AddToChest(self: ClassType, chestUID: string, contentTabName: st
 	end
 
 	local chest = instancesManager.getObj(chestUID)
-	if not chest or chest._Type ~= "Chest" then
+	if not instancesManager.objectIs(chest, "Chest") then
 		return false
 	end
 
@@ -274,7 +304,7 @@ end
 
 function module.RemoveFromChest(self: ClassType, chestUID: string)
 	local chest = instancesManager.getObj(chestUID)
-	if not chest or chest._Type ~= "Chest" then
+	if not instancesManager.objectIs(chest, "Chest") then
 		return false
 	end
 
@@ -287,8 +317,112 @@ function module.RemoveFromInventory(self: ClassType, inv: { any })
 		return false
 	end
 
+	print("equipped: ", self.equipped)
+	if self.equipped then
+		self:UnequipItem()
+	end
+
 	-- Remove o item do inventário
 	inventorySharedUtil.removeItem(inv, self.UID)
+	return true
+end
+
+function module.ToggleEquip(self: ClassType, pos: number?)
+	if self.equipped then
+		self:UnequipItem(pos)
+	else
+		self:EquipItem()
+	end
+	return self
+end
+
+function module.EquipItem(self: ClassType)
+	print("equipped", self.equipped)
+	if self.equipped then
+		return false
+	end
+	if not t.Player(self.InstantiatedTo) then
+		return false
+	end
+	self.equipped = true
+	print("equipped", self.equipped)
+
+	return self
+end
+
+function module.UnequipItem(self: ClassType)
+	print("equipped", self.equipped)
+	if not self.equipped then
+		return false
+	end
+	if not t.Player(self.InstantiatedTo) then
+		return false
+	end
+	self.equipped = false
+	print("equipped", self.equipped)
+
+	return self
+end
+
+function module.ChangeUsage(self: ClassType, newUsage: number?)
+	print(newUsage)
+	if not self.Usage or not self.MaxUsage or not self.UsageDecreaseEachUse then
+		return false
+	end
+	print()
+
+	self.Usage = math.clamp(newUsage or self.Usage - self.UsageDecreaseEachUse, 0, self.MaxUsage)
+	return true
+end
+
+function module.UseItem(self: ClassType, funcN: number)
+	print(funcN)
+	if not t.number(funcN) then
+		return false
+	end
+	print()
+	if
+		not (self.UsageDecreaseEachUse and self.MaxUsage and self.Usage and (self.ItemFunction1 or self.ItemFunction2))
+	then
+		return false
+	end
+	print()
+
+	if not self.equipped then
+		return false
+	end
+	print()
+
+	if not t.Player(self.InstantiatedTo) then
+		return false
+	end
+	print()
+
+	local funcName = "ItemFunction" .. funcN
+	local func = self[funcName] :: itemsFunctionDirectory.Type
+	print(funcName, func)
+
+	if not func then
+		return false
+	end
+	print()
+
+	local success = func.UseItem(self)
+	if not success then
+		return false
+	end
+	print()
+
+	self:ChangeUsage()
+	return true
+end
+
+function module.Destroy(self: ClassType)
+	local success = replicableInstance.Destroy(self)
+	if not success then
+		return false
+	end
+
 	return true
 end
 

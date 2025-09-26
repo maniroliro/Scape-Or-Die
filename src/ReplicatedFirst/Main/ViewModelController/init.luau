@@ -49,12 +49,12 @@ function module.Start()
 			local playerRootPart = charUtil.getAlivePlayerRootPart(localPlayer)
 			if playerRootPart then
 				--viewModel:PivotTo(camera.CFrame)
-				print(playerRootPart)
+				--print(playerRootPart)
 				local vel = playerRootPart.AssemblyLinearVelocity
 
 				local moveSpeed = (vel * Vector3.new(1, 0, 1)).Magnitude
-				print(viewModel.Attachment)
-				print(moveSpeed)
+				--print(viewModel.Attachment)
+				--print(moveSpeed)
 				local bobbingSpeed = moveSpeed * VIEW_MODEL_BOBBING_SPEED
 				local bobbing = math.min(bobbingSpeed, 1)
 
@@ -65,7 +65,7 @@ function module.Start()
 				local y = math.sin(module.stride * 2)
 				local bobbingOffset = Vector3.new(x, y, 0) * VIEW_MODEL_BOBBING_AMOUNT * module.bobbing
 				local bobbingCFrame = CFrame.new(bobbingOffset)
-				print(bobbingOffset)
+				--print(bobbingOffset)
 
 				local newCFrame = camera.CFrame * bobbingCFrame
 				viewModel:PivotTo(newCFrame)

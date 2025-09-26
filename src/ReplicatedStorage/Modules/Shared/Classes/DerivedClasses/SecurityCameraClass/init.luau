@@ -9,7 +9,7 @@ local directoryFolder = replicatedStorage.Directory
 local securityCamerasDirectory = require(directoryFolder.SecurityCameras)
 
 local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
-module._Type = "SecurityCamera"
+module._Type = replicableInstance.extendType("SecurityCamera")
 
 export type ClassType =
 	typeof(setmetatable(
