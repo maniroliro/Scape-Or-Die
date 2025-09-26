@@ -71,12 +71,24 @@ function module.Materialize(self: ClassType, CF: CFrame)
 	self.Trove:Add(self.ProximityPrompt.PromptButtonHoldEnded:Connect(function()
 		self.Remote:Fire(self.UID, "playerEndedHoldingProximityPrompt", {})
 	end))
+
+	local con2
 	self.Trove:Add(self.ProximityPrompt.Triggered:Connect(function()
 		self.ChestOpenByLocalPlayer = true
 		localplayer:SetAttribute("ChestOpen", self.UID)
 		self.Display.Visible = true
 		self.ProximityPrompt.Enabled = false
+		print("unlocking mouse")
 		userInputService.MouseBehavior = Enum.MouseBehavior.Default
+		self.Display.Modal.Visible = true
+
+		if con2 then
+			con2:Disconnect()
+			con2 = nil
+		end
+		con2 = game:GetService("RunService").Heartbeat:Connect(function(dt)
+			userInputService.MouseBehavior = Enum.MouseBehavior.Default
+		end)
 
 		-- local con
 		-- con = runService.Heartbeat:Connect(function()
@@ -120,7 +132,15 @@ function module.Materialize(self: ClassType, CF: CFrame)
 			if self.ChestOpenByLocalPlayer then
 				self.ChestOpenByLocalPlayer = false
 				localplayer:SetAttribute("ChestOpen", nil)
-				userInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
+				print("locking mouse")
+				self.Display.Modal.Visible = false
+				if con2 then
+					con2:Disconnect()
+					con2 = nil
+				end
+				con2 = game:GetService("RunService").Heartbeat:Connect(function(dt)
+					userInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
+				end)
 				self.Display.Visible = false
 				self.ProximityPrompt.Enabled = true
 				--con:Disconnect()
@@ -173,7 +193,7 @@ function module.AddItem(self: ClassType, itemUID: string, contentTabName: string
 		if not item.Display then
 			item:CreateDisplay()
 		end
-		local container = self.Display.Frame:FindFirstChild(contentTabName).Items
+		local container = self.Display.Frame.Frame:FindFirstChild(contentTabName).Items
 		if container and item.Display then
 			local placeholder = container:FindFirstChild("PlaceHolder" .. (pos :: number))
 			if placeholder then
@@ -211,6 +231,7 @@ function module.UpdateItemsInside(self: ClassType, itemsUIDTab: { [string]: { st
 		-- Clear UI placeholders before repopulating
 		local section = self.Display
 			and self.Display:FindFirstChild("Frame")
+			and self.Display.Frame:FindFirstChild("Frame")
 			and self.Display.Frame:FindFirstChild(contentName)
 		local container = section and section:FindFirstChild("Items")
 		if container then

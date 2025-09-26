@@ -7,7 +7,7 @@ local Classes = serverStoragemodules.Classes
 local securityCameraClass = require(Classes.SecurityCamera)
 local chestClass = require(Classes.Chest)
 local itemClass = require(Classes.Item)
-local ilegalItemDetectorClass = require(Classes.IlegalItemDetector)
+local scannerClass = require(Classes.Scanner)
 
 local serverServicesFolder = serverStoragemodules.Services
 local replicatedStorageServicesFolder = replicatedStoragemodules.Shared.Services
@@ -31,7 +31,6 @@ replicableInstancesHandler.Start()
 characterBehaviorService.Init()
 characterBehaviorService.Start()
 
-local plr
 local chest1 = chestClass.new(01)
 local chest2 = chestClass.new(01)
 local chest3 = chestClass.new(01)
@@ -86,20 +85,20 @@ end
 
 -- ItemDetector
 
-local itemDetector1 = ilegalItemDetectorClass.new()
+local itemDetector1 = scannerClass.new()
 itemDetector1:AttachId(1)
 itemDetector1:Materialize(workspace.md1.CFrame)
 itemDetector1:Active()
 itemDetector1:Replicate(true)
 
-local itemDetector2 = ilegalItemDetectorClass.new()
+local itemDetector2 = scannerClass.new()
 itemDetector2:AttachId(1)
 itemDetector2:Materialize(workspace.md2.CFrame)
 itemDetector2:Active()
 itemDetector2:Replicate(true)
 
-plr = game.Players.PlayerAdded:Wait()
---chest1:SetOwner(plr)
+local plr = game.Players.PlayerAdded:Wait()
+chest1:SetOwner(plr)
 
 -- SecurityCamera
 

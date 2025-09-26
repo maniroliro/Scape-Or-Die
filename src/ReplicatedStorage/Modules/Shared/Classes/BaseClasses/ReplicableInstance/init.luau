@@ -14,6 +14,11 @@ local sharedModules = replicatedStorage.Modules.Shared
 local instancesManager = require(sharedModules.Managers.InstancesManager)
 
 local module = setmetatable({}, { __index = instancesManager })
+module._Type = instancesManager.buildTypeMap("ReplicableInstance")
+
+local function getPrimaryTypeName(typeDescriptor): string?
+	return instancesManager.getPrimaryType(typeDescriptor)
+end
 
 local directories = {}
 
@@ -37,6 +42,18 @@ export type ClassType =
 		{ __index = module }
 	))
 	& genericObjType
+
+function module.extendType(typeName: string, baseMap: instancesManager.TypeMap?): instancesManager.TypeMap
+	return instancesManager.buildTypeMap(typeName, baseMap or module._Type)
+end
+
+function module.HasType(self: ClassType, query: string): boolean
+	return instancesManager.typeIs(self._Type, query)
+end
+
+function module.GetPrimaryType(self: ClassType): string?
+	return getPrimaryTypeName(self._Type)
+end
 
 function module.new(UID: string?): ClassType
 	local self = setmetatable({
@@ -67,9 +84,15 @@ function module.newLinkedToAClass<T, T2>(
 				return value2
 			end
 
-			local value3 = directories[self._Type]:getItemInfo(self.Id)[k]
-			if value3 then
-				return value3
+			local typeName = getPrimaryTypeName(self._Type)
+			if typeName then
+				local directory = directories[typeName]
+				if directory then
+					local value3 = directory:getItemInfo(self.Id)[k]
+					if value3 then
+						return value3
+					end
+				end
 			end
 
 			return nil
@@ -85,7 +108,11 @@ end
 -- end
 
 function module.AttachId<T>(self: T & ClassType, id: number)
-	local directory = directories[self._Type]
+	local typeName = getPrimaryTypeName(self._Type)
+	if not typeName then
+		return self
+	end
+	local directory = directories[typeName]
 	local info = directory:getItemInfo(id)
 
 	-- for k, v in info do
@@ -98,12 +125,17 @@ function module.AttachId<T>(self: T & ClassType, id: number)
 	return self
 end
 
-function module.Materialize<T>(self: T & ClassType, CF: CFrame?)
+function module.Materialize<T>(self: T & ClassType, CFOrModel: CFrame | Model | BasePart?)
+	local typeName = getPrimaryTypeName(self._Type)
+	if not typeName then
+		return self
+	end
 	if not self.model then
-		local model = workspace:FindFirstAncestor(self._Type .. " _ " .. self.UID)
+		local model = CFOrModel and typeof(CFOrModel) == "Instance" and CFOrModel:IsA("PVInstance") and CFOrModel
+			or workspace:FindFirstAncestor(typeName .. " _ " .. self.UID)
 
 		if not model then
-			for _, part in collectionService:GetTagged(self._Type) do
+			for _, part in collectionService:GetTagged(typeName) do
 				if part:GetAttribute("UID") == self.UID then
 					model = part
 					break
@@ -111,49 +143,44 @@ function module.Materialize<T>(self: T & ClassType, CF: CFrame?)
 			end
 		end
 
-		model = model or require(replicatedStorage.Directory[self._Type .. "s"]):getItemModel(self.Id):Clone()
+		model = model or require(replicatedStorage.Directory[typeName .. "s"]):getItemModel(self.Id):Clone()
 
 		if not model then
 			return false
 		end
 
 		self.Model = model
-		self.Model.Name = self._Type .. " _ " .. self.UID
+		self.Model.Name = typeName .. " _ " .. self.UID
 
-		self.Model:AddTag(self._Type)
+		self.Model:AddTag(typeName)
 		self.Model:SetAttribute("UID", self.UID)
 	end
-	if not t.CFrame(CF) then
+	if not t.CFrame(CFOrModel) then
 		return self
 	end
 
-	self.CFrame = lib.Utils.GetLegalCFrame(CF :: CFrame)
+	self.CFrame = lib.Utils.GetLegalCFrame(CFOrModel :: CFrame)
 	self.Model:PivotTo(self.CFrame)
 
 	return self
 end
 
--- function module.Destroy<T>(self: T & ClassType)
--- 	local ok
--- 	if self.Trove and (self.Trove :: any).Clean then
--- 		ok = pcall(function()
--- 			(self.Trove :: any):Clean()
--- 		end)
--- 	end
+function module.Destroy<T>(self: T & ClassType)
+	if self.Trove and (self.Trove :: any).Destroy then
+		self.Trove:Destroy()
+	end
 
--- 	local m = (self :: any).Model
--- 	if typeof(m) == "Instance" then
--- 		m:Destroy()
--- 		(self :: any).Model = nil
--- 	end
-
--- 	local da = (self :: any).DetectionArea
--- 	if typeof(da) == "Instance" then
--- 		da:Destroy()
--- 		(self :: any).DetectionArea = nil
--- 	end
-
--- 		return ok
--- 	end
+	local m: Model = self.Model
+	if typeof(m) == "Instance" and m:IsA("Model") then
+		m:Destroy()
+		self.Model = nil
+	end
+	for k in self :: {} do
+		if t.Instance((self :: {})[k]) then
+			(self :: {})[k]:Destroy()
+		end
+		(self :: {})[k] = nil
+	end
+end
 
 return module

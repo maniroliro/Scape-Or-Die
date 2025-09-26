@@ -10,6 +10,7 @@ local itemSharedClass = require(sharedClasses.DerivedClasses.ItemClass)
 
 local replicableInstance = require(sharedClasses.BaseClasses.ReplicableInstance)
 
+local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
 local inventoryServerUtil = require(serverStorage.Modules.Utils.InventoryUtilServer)
 
 local module = setmetatable({}, { __index = itemSharedClass })
@@ -51,6 +52,22 @@ function module.InstantiateTo(self: ClassType, any: string | Player, ...)
 	if not success then
 		return self
 	end
+
+	if t.Player(any) then
+		print(self.Model)
+		if not self.Model then
+			self:Materialize()
+		end
+		print(self.Model)
+		print(self.Model.Parent)
+
+		self.Model.Parent = (self.InstantiatedTo :: Player).Backpack
+	elseif t.string(any) and any ~= "" then
+		if self.Model then
+			self.Model.Parent = nil
+		end
+	end
+
 	-- Lógica específica do servidor
 	self.Remote:Fire(self.UID, "InstantiateTo", { any, ... })
 	return self
@@ -62,7 +79,12 @@ function module.Drop(self: ClassType)
 end
 
 function module.ToggleEquip(self: ClassType)
-	--TODO:
+	local success = itemSharedClass.ToggleEquip(self)
+	if not success then
+		return self
+	end
+
+	return self
 end
 
 function module.RemoveFromInventory(self: ClassType, inv: { any })
@@ -93,6 +115,103 @@ function module.TryToInstantiateTo(self: ClassType, plr: Player?, any: string | 
 	return self
 end
 
+function module.EquipItem(self: ClassType)
+	local success = itemSharedClass.EquipItem(self)
+	if not success then
+		return self
+	end
+
+	local inv = inventorySharedUtil.getPlayerInventory(self.InstantiatedTo)
+	local slot = inventorySharedUtil.getItemSlot(inv, self.UID)
+	print("slot", slot)
+	inventorySharedUtil.toggleEquip(inv, slot)
+
+	print(self.Model)
+	if not self.Model then
+		self:Materialize()
+	end
+	print(self.Model)
+	print(self.Model.Parent)
+
+	self.Model.Parent = self.InstantiatedTo.Character
+
+	if self.Model:IsA("BasePart") then
+		self.Model.Anchored = false
+	end
+
+	for _, part in self.Model:GetDescendants() do
+		if part:IsA("BasePart") then
+			part.Anchored = false
+		end
+	end
+
+	self.Remote:Fire(self.UID, "EquipItem", {})
+	return self
+end
+
+function module.UnequipItem(self: ClassType)
+	local success = itemSharedClass.UnequipItem(self)
+	if not success then
+		return self
+	end
+
+	self.Model.Parent = nil
+
+	if self.Model:IsA("BasePart") then
+		self.Model.Anchored = true
+	end
+
+	for _, part in self.Model:GetDescendants() do
+		if part:IsA("BasePart") then
+			part.Anchored = true
+		end
+	end
+
+	self.Remote:Fire(self.UID, "UnequipItem", {})
+	return self
+end
+
+function module.UseItem(self: ClassType, funcN: number)
+	local success = itemSharedClass.UseItem(self, funcN)
+	print("server use item", success)
+	if not success then
+		return self
+	end
+
+	self.Remote:Fire(self.UID, "UseItem", { funcN })
+	return self
+end
+
+function module.TryToUseItem(self: ClassType, plr: Player, funcN: number)
+	if t.Player(plr) and t.Player(self.InstantiatedTo) and plr == (self.InstantiatedTo :: Player) then
+		self:UseItem(funcN)
+	end
+
+	-- Apply the authoritative state change and replicate to clients
+	--dataStoreManager.updateClient(plr)
+	return self
+end
+
+function module.TryToEquip(self: ClassType, plr: Player)
+	if t.Player(plr) and t.Player(self.InstantiatedTo) and plr == (self.InstantiatedTo :: Player) then
+		self:EquipItem()
+	end
+
+	-- Apply the authoritative state change and replicate to clients
+	--dataStoreManager.updateClient(plr)
+	return self
+end
+
+function module.TryToUnequip(self: ClassType, plr: Player, pos: number)
+	if t.Player(plr) and t.Player(self.InstantiatedTo) and plr == (self.InstantiatedTo :: Player) then
+		self:UnequipItem(pos)
+	end
+
+	-- Apply the authoritative state change and replicate to clients
+	--dataStoreManager.updateClient(plr)
+	return self
+end
+
 function module.ReplicateTo(self: ClassType, client: Player?)
 	local newItem = lib.Remotes.instanceCreated.Item
 
@@ -100,13 +219,13 @@ function module.ReplicateTo(self: ClassType, client: Player?)
 		newItem:FireClient(client, self.UID)
 
 		self.Remote:FireClient(client, self.UID, "AttachId", { self.Id })
-		self.Remote:FireClient(client, self.UID, "Materialize", { self.CFrame })
+		self.Remote:FireClient(client, self.UID, "Materialize", {})
 		self.Remote:FireClient(client, self.UID, "InstantiateTo", { self.InstantiatedTo })
 	else
 		newItem:Fire(self.UID)
 
 		self.Remote:Fire(self.UID, "AttachId", { self.Id })
-		self.Remote:Fire(self.UID, "Materialize", { self.CFrame })
+		self.Remote:Fire(self.UID, "Materialize", {})
 		self.Remote:Fire(self.UID, "InstantiateTo", { self.InstantiatedTo })
 	end
 

@@ -5,15 +5,13 @@ local module = {}
 module.ViewModel = nil
 module.Attachment = nil
 module.ItemAttached = nil
-module._lastItemParent = localPlayer
 
 function module.SetViewModel(model: Model)
 	module.ViewModel = model
-	module.Attachment = model:FindFirstChild("Attachment", true)
+	module.Attachment = model:FindFirstChild("Attachment")
 	--module.ViewModel:PivotTo(camera.CFrame)
 
 	if module.ItemAttached then
-		module._lastItemParent = localPlayer
 		module.UnattachItem()
 	end
 
@@ -24,26 +22,32 @@ function module.AttachItem(item: Model)
 	if not module.ViewModel or not module.Attachment then
 		return false
 	end
-	if typeof(item) == "Instance" and item:IsA("Model") then
+	print()
+	if not (typeof(item) == "Instance" and item:IsA("Model")) then
 		return false
 	end
+	print()
 	if module.ItemAttached then
 		module.UnattachItem()
 	end
-	module._lastItemParent = item.Parent
+	print()
 	module.ItemAttached = item
 	item:PivotTo(module.Attachment.CFrame)
 
-	item.Parent = camera
+	print(item.Parent)
+	item.Parent = module.ViewModel
+	print(item.Parent)
 	return true
 end
 
 function module.UnattachItem()
+	print("unattach")
+	print(module.ItemAttached)
 	if not module.ItemAttached then
 		return false
 	end
 
-	module.ItemAttached.Parent = module._lastItemParent or localPlayer
+	module.ItemAttached.Parent = nil
 	module.ItemAttached = nil
 
 	return true

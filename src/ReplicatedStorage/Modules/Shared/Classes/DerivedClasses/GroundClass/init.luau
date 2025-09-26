@@ -10,7 +10,7 @@ local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableI
 local instancesManager = require(sharedModules.Managers.InstancesManager)
 
 local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
-module._Type = "Ground"
+module._Type = replicableInstance.extendType("Ground")
 
 export type ClassType = typeof(setmetatable(
 	{} :: {

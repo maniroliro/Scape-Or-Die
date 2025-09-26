@@ -11,7 +11,7 @@ local sharedModules = replicatedStorage.Modules.Shared
 local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
 
 local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
-module._Type = "JailComponent"
+module._Type = replicableInstance.extendType("JailComponent")
 
 export type ClassType =
 	typeof(setmetatable(
@@ -110,16 +110,23 @@ function module.Repair(self: ClassType, amount: number)
 end
 
 function module.DestroyModel(self: ClassType)
-	if not self.Model then
+	local model: Part = self.Model
+	if not model then
 		return false
 	end
 
-	self:_SetHealth(0)
+	self.Health = 0
+
+	if model:IsA("BasePart") then
+		model.Transparency = 1
+		model.CanCollide = false
+	end
 
 	for _, part in self.Model:GetDescendants() do
 		if part:IsA("BasePart") then
 			if part.Transparency then
 				part.Transparency = 1
+				part.CanCollide = false
 			end
 		end
 	end
@@ -132,10 +139,16 @@ function module.BuildModel(self: ClassType)
 		return false
 	end
 
+	if self.Model:IsA("BasePart") then
+		self.Model.Transparency = 0
+		self.Model.CanCollide = true
+	end
+
 	for _, part in self.Model:GetDescendants() do
 		if part:IsA("BasePart") then
 			if part.Transparency then
 				part.Transparency = 0
+				part.CanCollide = true
 			end
 		end
 	end

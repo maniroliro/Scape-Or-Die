@@ -7,5 +7,7 @@ return {
 		TryToInstantiateTo = "TryToInstantiateTo",
 		TryToEquip = "TryToEquip",
 		TryToUnequip = "TryToUnequip",
+		UseItem = "UseItem",
+		TryToUseItem = "TryToUseItem",
 	},
 }

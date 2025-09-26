@@ -12,7 +12,7 @@ local directoryFolder = replicatedStorage.Directory
 local chestDirectory = require(directoryFolder.Chests)
 
 local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
-module._Type = "Chest"
+module._Type = replicableInstance.extendType("Chest")
 
 local Storages = {
 	DeskContents = {

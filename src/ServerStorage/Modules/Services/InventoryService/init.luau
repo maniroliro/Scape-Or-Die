@@ -34,7 +34,7 @@ function module.Start()
 						dist = MaxDistanceToGetAnItem
 					else
 						itemParent = instancesManager.getObj(itemParent)
-						if itemParent._Type == 'Chest' then
+						if instancesManager.objectIs(itemParent, 'Chest') then
 							if itemParent.PlayerOwner == plr then
 								pos = table.find(itemParent.ItemsInside.HiddenContents, itemUID)
 								whereInChest = itemParent.ItemsInside.HiddenContents

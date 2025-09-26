@@ -30,8 +30,10 @@ function module.Start()
 			if not obj then
 				return
 			end
-			if funcAllowedToCall[obj._Type][funcName] then
-				print(obj, obj._Type, obj.UID, funcName)
+			local typeKey = instancesManager.getPrimaryType(obj._Type)
+			local allowed = typeKey and funcAllowedToCall[typeKey]
+			if allowed and allowed[funcName] then
+				print(obj, typeKey, obj.UID, funcName)
 				print(plr, table.unpack(args or {}))
 				obj[funcName](obj, plr, table.unpack(args or {}))
 			end
@@ -84,7 +86,8 @@ function module.Start()
 				table.insert(q, { funcName, args or {} })
 				return
 			end
-			print(obj, obj._Type, obj.UID)
+			local typeKey = instancesManager.getPrimaryType(obj._Type)
+			print(obj, typeKey, obj.UID)
 			print(funcName)
 			print(args)
 			obj[funcName](obj, table.unpack(args or {}))

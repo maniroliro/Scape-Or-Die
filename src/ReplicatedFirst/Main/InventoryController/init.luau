@@ -1,11 +1,13 @@
 local replicatedStorage = game:GetService("ReplicatedStorage")
 local userInputService = game:GetService("UserInputService")
+local starterGui = game:GetService("StarterGui")
 local localPlayer = game.Players.LocalPlayer
 
 local sharedModules = replicatedStorage.Modules.Shared
 
 local lib = require(replicatedStorage:WaitForChild("lib"))
 local inventoryUtilShared = require(sharedModules.Utils.InventoryUtilShared)
+local inventoryUtilClient = require(replicatedStorage.Modules.Client.Utils.InventoryUtilClient)
 local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
 local instanceManager = require(sharedModules.Managers.InstancesManager)
 
@@ -24,9 +26,23 @@ local acceptableInputs = {
 	Six = 6,
 }
 
-function module.Init() end
+function module.Init()
+	starterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack, false)
+	-- starterGui:SetCore("AvatarContextMenuTheme", {
+	-- 	BackgroundImage = "",
+	-- 	BackgroundTransparency = 0.5,
+	-- 	BackgroundColor = Color3.fromRGB(111, 145, 242),
+	-- 	NameTagColor = Color3.fromRGB(0, 0, 200),
+	-- 	NameUnderlineColor = Color3.fromRGB(213, 233, 255),
+	-- 	ButtonFrameColor = Color3.fromRGB(15, 24, 65),
+	-- 	ButtonFrameTransparency = 0.2,
+	-- 	ButtonUnderlineColor = Color3.fromRGB(213, 233, 255),
+	-- 	Font = Enum.Font.SciFi,
+	-- })
+end
 
 function module.Start()
+	print("InventoryController Started")
 	userInputService.InputBegan:Connect(function(inp)
 		local acceptableInp = acceptableInputs[inp.KeyCode.Name]
 		if acceptableInp then
@@ -34,10 +50,8 @@ function module.Start()
 			if not inventory then
 				return
 			end
-			local item = instanceManager.getObj(inventory[acceptableInp])
-			if item and item._Type == "Item" then
-				inventoryUtilShared.toggleEquip(inventory, acceptableInp)
-			end
+			inventoryUtilClient.toggleEquip(inventory, acceptableInp)
+			--end
 		end
 	end)
 	-- playerData.NewDataReceived:Connect(function(data)
