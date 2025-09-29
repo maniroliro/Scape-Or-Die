@@ -230,17 +230,17 @@ function module.RemoveFromInventory(self: ClassType, inv: { any })
 end
 
 function module.UseItem(self: ClassType, funcN: number)
-	local success = itemSharedClass.UseItem(self, funcN)
-	print("client, ", success)
-	if not success then
-		return self
-	end
-
 	if self.InstantiatedTo == localPlayer then
+		local success = itemSharedClass.UseItem(self, funcN)
+		print("client, ", success)
+		if not success then
+			return self
+		end
 		self.Remote:Fire(self.UID, "TryToUseItem", { funcN })
 	else
 		print(self.InstantiatedTo, " is trying to use item ", self.UID)
 	end
+
 	return self
 end
 
@@ -273,7 +273,7 @@ function module.EquipItem(self: ClassType)
 			end
 		end
 
-		self.Remote:Fire(self.UID, "TryToEquip", {})
+		--self.Remote:Fire(self.UID, "TryToEquip", {})
 	else
 		print(self.InstantiatedTo, " is trying to equip item ", self.UID)
 	end
@@ -281,21 +281,21 @@ function module.EquipItem(self: ClassType)
 	return self
 end
 
-function module.UnequipItem(self: ClassType, pos: number)
+function module.UnequipItem(self: ClassType)
 	print("Unequipping item")
 	local success = itemSharedClass.UnequipItem(self)
 	if not success then
 		return self
 	end
 	if self.InstantiatedTo == localPlayer then
-		viewModelManager.UnattachItem()
+		viewModelManager.UnattachItem(self.Model)
 		if self.useItemConnection then
 			self.useItemConnection:Disconnect()
 			self.useItemConnection = nil
 		end
 		self.Model.Parent = nil
 
-		self.Remote:Fire(self.UID, "TryToUnequip", { pos })
+		--self.Remote:Fire(self.UID, "TryToUnequip", { pos })
 	else
 		print(self.InstantiatedTo, " is trying to unequip item ", self.UID)
 	end

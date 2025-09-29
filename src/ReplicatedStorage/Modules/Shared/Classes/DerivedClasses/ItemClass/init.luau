@@ -398,20 +398,20 @@ function module.UseItem(self: ClassType, funcN: number)
 	end
 	print()
 
-	local funcName = "ItemFunction" .. funcN
-	local func = self[funcName] :: itemsFunctionDirectory.Type
-	print(funcName, func)
+	-- local funcName = "ItemFunction" .. funcN
+	-- local func = self[funcName] :: itemsFunctionDirectory.Type
+	-- print(funcName, func)
 
-	if not func then
-		return false
-	end
-	print()
+	-- if not func then
+	-- 	return false
+	-- end
+	-- print()
 
-	local success = func.UseItem(self)
-	if not success then
-		return false
-	end
-	print()
+	-- local success = func.UseItem(self)
+	-- if not success then
+	-- 	return false
+	-- end
+	-- print()
 
 	self:ChangeUsage()
 	return true

@@ -32,6 +32,9 @@ export type ClassType =
 			DrawerPivotPosition: Vector3,
 			ProximityPrompt: ProximityPrompt,
 			ChestOpenByLocalPlayer: boolean,
+
+			CloseDisplayButton: RBXScriptConnection?,
+			MouseBehaviorConnection: RBXScriptConnection?,
 		},
 		{ __index = module }
 	))
@@ -44,6 +47,64 @@ function module.new(UID: string)
 		HiddenContents = {},
 	}
 	self.ChestOpenByLocalPlayer = false
+
+	return self
+end
+
+function module.OpenChest(self: ClassType)
+	if self.ChestOpenByLocalPlayer then
+		return self
+	end
+
+	local success = chestSharedClass.OpenChest(self, localplayer)
+	if not success then
+		return self
+	end
+	self.ChestOpenByLocalPlayer = true
+
+	self.Display.Visible = true
+	self.ProximityPrompt.Enabled = false
+
+	print("unlocking mouse")
+	userInputService.MouseBehavior = Enum.MouseBehavior.Default
+	self.Display.Modal.Visible = true
+
+	if self.MouseBehaviorConnection then
+		self.MouseBehaviorConnection:Disconnect()
+		self.MouseBehaviorConnection = nil
+	end
+	self.MouseBehaviorConnection = game:GetService("RunService").Heartbeat:Connect(function(dt)
+		userInputService.MouseBehavior = Enum.MouseBehavior.Default
+	end)
+
+	return self
+end
+
+function module.CloseChest(self: ClassType)
+	if not self.ChestOpenByLocalPlayer then
+		return self
+	end
+
+	local success = chestSharedClass.CloseChest(self, localplayer)
+	if not success then
+		return self
+	end
+	self.ChestOpenByLocalPlayer = false
+
+	self.Display.Visible = false
+	self.ProximityPrompt.Enabled = true
+
+	print("locking mouse")
+	userInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
+	self.Display.Modal.Visible = false
+
+	if self.MouseBehaviorConnection then
+		self.MouseBehaviorConnection:Disconnect()
+		self.MouseBehaviorConnection = nil
+	end
+	self.MouseBehaviorConnection = game:GetService("RunService").Heartbeat:Connect(function(dt)
+		userInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
+	end)
 
 	return self
 end
@@ -72,42 +133,13 @@ function module.Materialize(self: ClassType, CF: CFrame)
 		self.Remote:Fire(self.UID, "playerEndedHoldingProximityPrompt", {})
 	end))
 
-	local con2
 	self.Trove:Add(self.ProximityPrompt.Triggered:Connect(function()
-		self.ChestOpenByLocalPlayer = true
-		localplayer:SetAttribute("ChestOpen", self.UID)
-		self.Display.Visible = true
-		self.ProximityPrompt.Enabled = false
-		print("unlocking mouse")
-		userInputService.MouseBehavior = Enum.MouseBehavior.Default
-		self.Display.Modal.Visible = true
-
-		if con2 then
-			con2:Disconnect()
-			con2 = nil
-		end
-		con2 = game:GetService("RunService").Heartbeat:Connect(function(dt)
-			userInputService.MouseBehavior = Enum.MouseBehavior.Default
-		end)
-
-		-- local con
-		-- con = runService.Heartbeat:Connect(function()
-		-- 	local plrRootPart = charUtils.getAlivePlayerRootPart(localplayer)
-		-- 	if not plrRootPart or (plrRootPart.Position - self.CFrame.Position).Magnitude >= maxDistanceToInteract then
-		-- 		localplayer:SetAttribute("ChestOpen", nil)
-		-- 		self.Display.Visible = false
-		-- 		self.ProximityPrompt.Enabled = true
-		-- 		con:Disconnect()
-		-- 		con = nil
-		-- 		return
-		-- 	end
-		-- end)
-		-- self.Trove:Add(con)
+		self:OpenChest()
 	end))
 
 	local maxDistanceToInteract = self.MaxDistanceToInteract or 8
 
-	local con = self.Trove:Add(runService.RenderStepped:Connect(function()
+	self.Trove:Add(runService.RenderStepped:Connect(function()
 		local hrp = charUtils.getAlivePlayerRootPart(localplayer)
 		local sprPos = self.DrawerSpring.Position
 
@@ -130,21 +162,7 @@ function module.Materialize(self: ClassType, CF: CFrame)
 			end
 		else
 			if self.ChestOpenByLocalPlayer then
-				self.ChestOpenByLocalPlayer = false
-				localplayer:SetAttribute("ChestOpen", nil)
-				print("locking mouse")
-				self.Display.Modal.Visible = false
-				if con2 then
-					con2:Disconnect()
-					con2 = nil
-				end
-				con2 = game:GetService("RunService").Heartbeat:Connect(function(dt)
-					userInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
-				end)
-				self.Display.Visible = false
-				self.ProximityPrompt.Enabled = true
-				--con:Disconnect()
-				--con = nil
+				self:CloseChest()
 				return
 			end
 
@@ -171,6 +189,12 @@ function module.Materialize(self: ClassType, CF: CFrame)
 	self.Display.Visible = false
 	self.Display.Parent = localplayer.PlayerGui.Chests
 
+	self.CloseDisplayButton =
+		self.Trove:Add((self.Display.Frame.Frame.XButton :: TextButton).Activated:Connect(function()
+			print("Close button ")
+			self:CloseChest()
+		end))
+
 	return self
 end
 
@@ -193,7 +217,7 @@ function module.AddItem(self: ClassType, itemUID: string, contentTabName: string
 		if not item.Display then
 			item:CreateDisplay()
 		end
-		local container = self.Display.Frame.Frame:FindFirstChild(contentTabName).Items
+		local container = self.Display.Frame.Frame.Frame:FindFirstChild(contentTabName).Items
 		if container and item.Display then
 			local placeholder = container:FindFirstChild("PlaceHolder" .. (pos :: number))
 			if placeholder then

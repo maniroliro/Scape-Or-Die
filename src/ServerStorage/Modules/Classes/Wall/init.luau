@@ -38,6 +38,26 @@ function module.Materialize(self: ClassType, Model: Model | BasePart?)
 	return self
 end
 
+function module.DestroyModel(self: ClassType)
+	local success = wallSharedClass.DestroyModel(self)
+	if not success then
+		return self
+	end
+
+	self.Remote:Fire(self.UID, "DestroyModel", {})
+	return self
+end
+
+function module.TakeDamage(self: ClassType, damage: number)
+	local success = wallSharedClass.TakeDamage(self, damage)
+	if not success then
+		return self
+	end
+
+	self.Remote:Fire(self.UID, "TakeDamage", { damage })
+	return self
+end
+
 function module.ReplicateTo(self: ClassType, client: Player?)
 	local newwall = lib.Remotes.instanceCreated.Wall
 	if client then

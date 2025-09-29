@@ -23,6 +23,7 @@ export type Packet<A... = (), B... = ()> = {
 	Response: (self: Packet<A..., B...>, B...) -> Packet<A..., B...>,
 	Fire: (self: Packet<A..., B...>, A...) -> B...,
 	FireClient: (self: Packet<A..., B...>, player: Player, A...) -> B...,
+	FireClientExcept: (self: Packet<A..., B...>, exceptPlayer: Player, A...) -> B...,
 	Serialize: (self: Packet<A..., B...>, A...) -> (buffer, { Instance }?),
 	Deserialize: (self: Packet<A..., B...>, serializeBuffer: buffer, instances: { Instance }?) -> A...,
 }
@@ -142,16 +143,13 @@ function Packet:FireClient(player, ...)
 			error("Cannot have more than 128 yielded threads", 2)
 			return
 		end
-		Import(
-			playerCursors[player]
-				or {
-					Buffer = buffer.create(128),
-					BufferLength = 128,
-					BufferOffset = 0,
-					Instances = {},
-					InstancesOffset = 0,
-				}
-		)
+		Import(playerCursors[player] or {
+			Buffer = buffer.create(128),
+			BufferLength = 128,
+			BufferOffset = 0,
+			Instances = {},
+			InstancesOffset = 0,
+		})
 		WriteU8(self.Id)
 		WriteU8(threads.Index)
 		threads[threads.Index] = {
@@ -163,19 +161,24 @@ function Packet:FireClient(player, ...)
 		playerCursors[player] = Export()
 		return coroutine.yield()
 	else
-		Import(
-			playerCursors[player]
-				or {
-					Buffer = buffer.create(128),
-					BufferLength = 128,
-					BufferOffset = 0,
-					Instances = {},
-					InstancesOffset = 0,
-				}
-		)
+		Import(playerCursors[player] or {
+			Buffer = buffer.create(128),
+			BufferLength = 128,
+			BufferOffset = 0,
+			Instances = {},
+			InstancesOffset = 0,
+		})
 		WriteU8(self.Id)
 		WriteParameters(self.Writes, { ... })
 		playerCursors[player] = Export()
+	end
+end
+
+function Packet:FireClientExcept(exceptPlayer: Player, ...)
+	for _, player in PlayersService:GetPlayers() do
+		if player ~= exceptPlayer then
+			self:FireClient(player, ...)
+		end
 	end
 end
 
@@ -337,16 +340,13 @@ if RunService:IsServer() then
 		if player.Parent == nil then
 			return
 		end
-		Import(
-			playerCursors[player]
-				or {
-					Buffer = buffer.create(128),
-					BufferLength = 128,
-					BufferOffset = 0,
-					Instances = {},
-					InstancesOffset = 0,
-				}
-		)
+		Import(playerCursors[player] or {
+			Buffer = buffer.create(128),
+			BufferLength = 128,
+			BufferOffset = 0,
+			Instances = {},
+			InstancesOffset = 0,
+		})
 		WriteU8(packet.Id)
 		WriteU8(threadIndex + 128)
 		WriteParameters(packet.ResponseWrites, values)

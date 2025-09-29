@@ -55,6 +55,24 @@ function module.new(UID: string | number?): ClassType
 	return self
 end
 
+function module.OpenChest(self: ClassType, plr: Player)
+	if not t.Player(plr) then
+		return false
+	end
+
+	plr:SetAttribute("ChestOpen", self.UID)
+	return self
+end
+
+function module.CloseChest(self: ClassType, plr: Player)
+	if not t.Player(plr) then
+		return false
+	end
+
+	plr:SetAttribute("ChestOpen", nil)
+	return self
+end
+
 function module.isPosAFreeSlot(self: ClassType, contentName: Storages, pos: number)
 	if not contentName or type(pos) ~= "number" then
 		return false

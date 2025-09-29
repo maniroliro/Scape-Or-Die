@@ -58,7 +58,7 @@ function MT.getItemModule(self: ClassType, item: anytype) --: typeof(self.direct
 	return item --:: typeof(self.directoryFolder["00 | Template"])
 end
 
-function MT.getDirectoryAssetsFolder(self: ClassType, item: anytype): Folder?
+function MT.getDirectoryAssetsFolder(self: ClassType, item: anytype?): Folder?
 	local itemtype = type(item)
 	if itemtype == "table" then
 		local found = self.directoryAssetsFolder:FindFirstChild(string.format("%02d", item.Id) .. " _ " .. item.Name)
@@ -71,6 +71,8 @@ function MT.getDirectoryAssetsFolder(self: ClassType, item: anytype): Folder?
 				return value:IsA("Folder") and value :: Folder or nil
 			end
 		end
+	elseif not item then
+		return self.directoryAssetsFolder:FindFirstChild("00 _ Template") :: Folder
 	end
 
 	return nil
@@ -108,6 +110,18 @@ end
 function MT.getItemDisplay(self: ClassType, item: anytype): Frame
 	local itemModule = self:getDirectoryAssetsFolder(item)
 	return itemModule:FindFirstChild("Display") --:: typeof(self.directoryFolder["00 | Template"].Display)
+end
+
+function MT.FindFirstChildOfClass(self: ClassType, item: anytype, className: string): Instance?
+	local folder = self:getDirectoryAssetsFolder(item)
+	if folder then
+		for _, child in folder:GetChildren() do
+			if child:IsA(className) then
+				return child
+			end
+		end
+	end
+	return self:getDirectoryAssetsFolder():FindFirstChildOfClass(className)
 end
 
 --local Items = directorysFolder:WaitForChild('Items')

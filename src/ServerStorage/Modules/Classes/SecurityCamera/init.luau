@@ -101,6 +101,7 @@ function module.Materialize(self: ClassType, wall: BasePart)
 end
 
 local part
+local color = Color3.new(1, 0, 0)
 local function createDebugPart(fromVector: Vector3, toVector: Vector3)
 	if part then
 		part:Destroy()
@@ -114,7 +115,7 @@ local function createDebugPart(fromVector: Vector3, toVector: Vector3)
 	part.Size = Vector3.new(0.4, 0.4, (fromVector - toVector).Magnitude)
 	part.CFrame = cframe
 	part.Transparency = 0.5
-	part.Color = Color3.new(1, 0, 0)
+	part.Color = color
 	part.Parent = workspace
 
 	return part
@@ -164,10 +165,14 @@ function module.StartWatching(self: ClassType, plr: Player?)
 				createDebugPart(camEye.Position, char.Position)
 				print("Player in sight", player)
 				local inv = inventorySharedUtil.getPlayerInventory(player)
-				if inventorySharedUtil.isFirstItemIlegal(inv) then
-					part.Color = Color3.new(0, 1, 0)
+				local isIlegal = inventorySharedUtil.isFirstItemIlegal(inv)
+				print("isIlegal", isIlegal)
+				if isIlegal then
+					color = Color3.new(0, 1, 0)
 					print("player triggered")
 					self:AlertPolices(player)
+				else
+					color = Color3.new(1, 0, 0)
 				end
 				continue
 			end

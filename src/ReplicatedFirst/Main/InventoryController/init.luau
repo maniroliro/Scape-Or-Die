@@ -6,6 +6,7 @@ local localPlayer = game.Players.LocalPlayer
 local sharedModules = replicatedStorage.Modules.Shared
 
 local lib = require(replicatedStorage:WaitForChild("lib"))
+local remotes = lib.Remotes
 local inventoryUtilShared = require(sharedModules.Utils.InventoryUtilShared)
 local inventoryUtilClient = require(replicatedStorage.Modules.Client.Utils.InventoryUtilClient)
 local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
@@ -28,17 +29,6 @@ local acceptableInputs = {
 
 function module.Init()
 	starterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack, false)
-	-- starterGui:SetCore("AvatarContextMenuTheme", {
-	-- 	BackgroundImage = "",
-	-- 	BackgroundTransparency = 0.5,
-	-- 	BackgroundColor = Color3.fromRGB(111, 145, 242),
-	-- 	NameTagColor = Color3.fromRGB(0, 0, 200),
-	-- 	NameUnderlineColor = Color3.fromRGB(213, 233, 255),
-	-- 	ButtonFrameColor = Color3.fromRGB(15, 24, 65),
-	-- 	ButtonFrameTransparency = 0.2,
-	-- 	ButtonUnderlineColor = Color3.fromRGB(213, 233, 255),
-	-- 	Font = Enum.Font.SciFi,
-	-- })
 end
 
 function module.Start()
@@ -50,8 +40,12 @@ function module.Start()
 			if not inventory then
 				return
 			end
-			inventoryUtilClient.toggleEquip(inventory, acceptableInp)
-			--end
+			local success, pos1, pos2 = inventoryUtilClient.toggleEquip(inventory, acceptableInp)
+			if not success then
+				return
+			end
+
+			remotes.ChangeItemPositionOnInventory:Fire(pos1, pos2)
 		end
 	end)
 	-- playerData.NewDataReceived:Connect(function(data)

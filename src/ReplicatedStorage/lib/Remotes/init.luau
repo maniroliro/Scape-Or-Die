@@ -13,8 +13,10 @@ local module = {
 	},
 	UpdateObj = packet("UpdateObj", packet.String, packet.String, { packet.Any }),
 
-	AddItemToInventory = packet("AddItemToInventory", packet.String),
-	EquipItem = packet("EquipItem", packet.String),
+	--AddItemToInventory = packet("AddItemToInventory", packet.String),
+	--EquipItem = packet("EquipItem", packet.String),
+
+	ChangeItemPositionOnInventory = packet("ChangeItemPositionOnInventory", packet.NumberS8, packet.NumberS8),
 }
 
 --for _, remote in module.instanceCreated do

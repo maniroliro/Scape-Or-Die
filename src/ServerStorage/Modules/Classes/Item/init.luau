@@ -121,10 +121,10 @@ function module.EquipItem(self: ClassType)
 		return self
 	end
 
-	local inv = inventorySharedUtil.getPlayerInventory(self.InstantiatedTo)
-	local slot = inventorySharedUtil.getItemSlot(inv, self.UID)
-	print("slot", slot)
-	inventorySharedUtil.toggleEquip(inv, slot)
+	-- local inv = inventorySharedUtil.getPlayerInventory(self.InstantiatedTo)
+	-- local slot = inventorySharedUtil.getItemSlot(inv, self.UID)
+	-- print("slot", slot)
+	-- inventorySharedUtil.toggleEquip(inv, slot)
 
 	print(self.Model)
 	if not self.Model then
@@ -178,7 +178,22 @@ function module.UseItem(self: ClassType, funcN: number)
 		return self
 	end
 
-	self.Remote:Fire(self.UID, "UseItem", { funcN })
+	local funcName = "ItemFunction" .. funcN
+	local func = self[funcName]
+	print(funcName, func)
+
+	if not func then
+		return false
+	end
+	print()
+
+	local success2 = func.UseItem(self)
+	if not success2 then
+		return false
+	end
+	print()
+
+	self.Remote:FireClientExcept(self.InstantiatedTo, self.UID, "UseItem", { funcN })
 	return self
 end
 
@@ -202,9 +217,9 @@ function module.TryToEquip(self: ClassType, plr: Player)
 	return self
 end
 
-function module.TryToUnequip(self: ClassType, plr: Player, pos: number)
+function module.TryToUnequip(self: ClassType, plr: Player)
 	if t.Player(plr) and t.Player(self.InstantiatedTo) and plr == (self.InstantiatedTo :: Player) then
-		self:UnequipItem(pos)
+		self:UnequipItem()
 	end
 
 	-- Apply the authoritative state change and replicate to clients

@@ -66,7 +66,7 @@ local function getTargetHit(player: Player, head: BasePart)
 	params.FilterDescendantsInstances = character and { character } or nil
 	local result = workspace:Raycast(head.Position, head.CFrame.LookVector * MAX_DISTANCE, params)
 	if result then
-		return result.Instance, result.Position
+		return result.Instance
 	end
 	-- end
 	return nil
@@ -92,7 +92,7 @@ local function CanUse(item)
 		return false
 	end
 
-	local targetPart, hitPosition = getTargetHit(player, head)
+	local targetPart = getTargetHit(player, head)
 	if not targetPart then
 		return false
 	end
@@ -126,7 +126,7 @@ local function UseItem(item)
 		return false
 	end
 
-	jailComponent:DestroyModel()
+	jailComponent:TakeDamage(item.UsageDecreaseEachUse)
 	--decrease
 	return true
 end
