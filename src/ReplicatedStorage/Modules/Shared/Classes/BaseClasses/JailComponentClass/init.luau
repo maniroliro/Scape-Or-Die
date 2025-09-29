@@ -61,6 +61,10 @@ function module.Materialize(self: ClassType, CF: CFrame)
 end
 
 function module._SetHealth(self: ClassType, health: number)
+	if health == self.Health then
+		return self
+	end
+
 	local maxHealth = self.MaxHealth
 
 	if health <= 0 then
@@ -96,14 +100,6 @@ function module.Repair(self: ClassType, amount: number)
 	local maxHealth = self.MaxHealth
 
 	amount = amount or maxHealth
-	-- if health <= 0 then
-	-- 	return false
-	-- end
-
-	health += amount
-	if health > maxHealth then
-		health = maxHealth
-	end
 	self:_SetHealth(health)
 
 	return self
@@ -115,7 +111,7 @@ function module.DestroyModel(self: ClassType)
 		return false
 	end
 
-	self.Health = 0
+	self:TakeDamage(self.Health)
 
 	if model:IsA("BasePart") then
 		model.Transparency = 1

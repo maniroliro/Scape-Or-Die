@@ -241,12 +241,12 @@ function module.toggleEquip(inv: { any }, pos1: number, pos2: number?)
 	local obj1 = uid1 and instancesManager.getObj(uid1)
 	local obj2 = uid2 and instancesManager.getObj(uid2)
 	print(obj1, obj2)
-	-- if obj1 and (obj1 :: any).ToggleEquip then
-	-- 	(obj1 :: any):ToggleEquip(pos2)
-	-- end
-	-- if obj2 and (obj2 :: any).ToggleEquip then
-	-- 	(obj2 :: any):ToggleEquip(pos1)
-	-- end
+	if obj1 and (obj1 :: any).ToggleEquip then
+		(obj1 :: any):ToggleEquip(pos2)
+	end
+	if obj2 and (obj2 :: any).ToggleEquip then
+		(obj2 :: any):ToggleEquip(pos1)
+	end
 
 	return true
 end

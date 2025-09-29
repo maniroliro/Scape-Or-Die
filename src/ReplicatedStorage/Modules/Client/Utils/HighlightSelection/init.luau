@@ -43,20 +43,32 @@ local function fireTotalSelected(plusOrMinus: string)
 	module.selectableTotalChanged:Fire(module.totalSelectables)
 end
 
-function module.addSelection(part: PVInstance)
+function module.addSelection(part: PVInstance, maxDistance: number?)
 	if module.selections[part] then
 		return nil
 	end
 	module.selections[part] = {
 		highlight = nil,
 		hovering = false,
+		maxDistance = maxDistance or 20,
 	}
 
 	fireTotalSelected("+")
-	return nil
+	return module.selections[part]
 end
 
 function module.removeSelection(part: PVInstance)
+	if not module.selections[part] then
+		return nil
+	end
+
+	local highlightPart = module.selections[part].highlight
+	if highlightPart then
+		highlightPart:Destroy()
+	end
+	module.selections[part].highlight = nil
+	module.selections[part] = nil
+
 	fireTotalSelected("-")
 	return nil
 end

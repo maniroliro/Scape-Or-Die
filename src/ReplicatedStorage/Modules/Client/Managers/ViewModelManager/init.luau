@@ -40,10 +40,14 @@ function module.AttachItem(item: Model)
 	return true
 end
 
-function module.UnattachItem()
+function module.UnattachItem(item: Model?)
+	print(item)
 	print("unattach")
 	print(module.ItemAttached)
 	if not module.ItemAttached then
+		return false
+	end
+	if item and item ~= module.ItemAttached then
 		return false
 	end
 

@@ -6,8 +6,8 @@ local player = game.Players.LocalPlayer
 local mouse = player:GetMouse()
 
 local lib = require(replicatedStorage:WaitForChild("lib"))
-local libUtils = lib.ModuleUtils
-local trove = libUtils.Trove
+local charUtil = lib.FunctionUtils.Character
+local trove = lib.ModuleUtils.Trove
 
 local highlightSelectionUtil = require(replicatedStorage.Modules.Client.Utils.HighlightSelection)
 
@@ -36,7 +36,14 @@ function module.Start()
 					target = target and target:FindFirstAncestorOfClass("Model")
 					partInfo = highlightSelectionUtil.selections[target]
 				end
-				if target and partInfo then
+
+				local hrp = charUtil.getAlivePlayerRootPart(player)
+				if
+					target
+					and partInfo
+					and hrp
+					and (hrp.Position - target:GetPivot().Position).Magnitude < partInfo.maxDistance
+				then
 					if not partInfo.hovering then
 						userInputService.MouseIcon = "rbxasset://SystemCursors/PointingHand"
 						partInfo.hovering = true
