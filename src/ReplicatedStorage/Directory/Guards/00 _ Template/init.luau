@@ -5,7 +5,13 @@ local module = {
 
 	Health = 100,
 	MaxHealth = 100,
-	Damage = 30,
+	Damage = 20,
+
+	FOV = 110,
+	Range = 90,
+
+	PatrolSpeed = 12,
+	EmergencySpeed = 15,
 }
 
 return module

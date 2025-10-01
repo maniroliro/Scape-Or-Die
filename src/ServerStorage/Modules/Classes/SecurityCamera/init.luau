@@ -132,6 +132,9 @@ function module.StartWatching(self: ClassType, plr: Player?)
 		return self
 	end
 	local dbTime = 0
+
+	local fov = self.FOV
+	local range = self.ViewMaxDistance
 	self.CheckingPlayersInTheArea = self.Trove:Connect(runService.Heartbeat, function(dt)
 		dbTime = dbTime + dt
 		if dbTime < 0.05 then
@@ -161,7 +164,7 @@ function module.StartWatching(self: ClassType, plr: Player?)
 			print("------------------------")
 			print("angle: " .. angle)
 			print("distance: " .. distance)
-			if angle <= self.FOV / 2 and distance < self.ViewMaxDistance then
+			if angle <= fov / 2 and distance < range then
 				createDebugPart(camEye.Position, char.Position)
 				print("Player in sight", player)
 				local inv = inventorySharedUtil.getPlayerInventory(player)
