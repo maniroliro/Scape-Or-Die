@@ -38,7 +38,7 @@ export type ClassType =
 	& itemSharedClass.ClassType
 
 function module.new(UID: string?)
-	local self: ClassType = replicableInstance.newLinkedToAClass(module, itemSharedClass, UID) :: ClassType
+	local self = replicableInstance.newLinkedToAClass(module, itemSharedClass, UID) :: ClassType
 
 	return self
 end
@@ -106,15 +106,15 @@ function module.CreateDisplay(self: ClassType)
 	return self
 end
 
-function module.ChangeDisplayType(self: ClassType, newDisplay: "Trace" | "Flat")
-	if self.Display then
-		self.Display:Destroy()
-		self.Display = nil
-	end
-	self.Display = newDisplay
+-- function module.ChangeDisplayType(self: ClassType, newDisplay: "Trace" | "Flat")
+-- 	if self.Display then
+-- 		self.Display:Destroy()
+-- 		self.Display = nil
+-- 	end
+-- 	self.Display = newDisplay
 
-	return self
-end
+-- 	return self
+-- end
 
 function module.AddToInventory(self: ClassType, inv: { any }?, slot: number?)
 	local success = itemSharedClass.AddToInventory(self, inv, slot)
