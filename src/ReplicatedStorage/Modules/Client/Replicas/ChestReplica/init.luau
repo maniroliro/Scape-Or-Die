@@ -22,7 +22,7 @@ local highlightSelectionUtil = require(clientModules.Utils.HighlightSelection)
 
 local localplayer = PlayersService.LocalPlayer
 
-local module = setmetatable({} :: {}, { __index = chestSharedClass })
+local module = setmetatable({}, { __index = chestSharedClass })
 
 export type ClassType =
 	typeof(setmetatable(
@@ -33,7 +33,7 @@ export type ClassType =
 			ProximityPrompt: ProximityPrompt,
 			ChestOpenByLocalPlayer: boolean,
 
-			CloseDisplayButton: RBXScriptConnection?,
+			CloseDisplayButtonConnection: RBXScriptConnection?,
 			MouseBehaviorConnection: RBXScriptConnection?,
 		},
 		{ __index = module }
@@ -69,11 +69,19 @@ function module.OpenChest(self: ClassType)
 	userInputService.MouseBehavior = Enum.MouseBehavior.Default
 	self.Display.Modal.Visible = true
 
+	if not self.CloseDisplayButtonConnection then
+		self.CloseDisplayButtonConnection =
+			self.Trove:Add((self.Display.Modal :: GuiButton).Activated:Connect(function()
+				print("Close button clicked")
+				self:CloseChest()
+			end))
+	end
+
 	if self.MouseBehaviorConnection then
 		self.MouseBehaviorConnection:Disconnect()
 		self.MouseBehaviorConnection = nil
 	end
-	self.MouseBehaviorConnection = game:GetService("RunService").Heartbeat:Connect(function(dt)
+	self.MouseBehaviorConnection = game:GetService("RunService").Heartbeat:Connect(function()
 		userInputService.MouseBehavior = Enum.MouseBehavior.Default
 	end)
 
@@ -97,12 +105,16 @@ function module.CloseChest(self: ClassType)
 	print("locking mouse")
 	userInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
 	self.Display.Modal.Visible = false
+	if self.CloseDisplayButtonConnection then
+		self.CloseDisplayButtonConnection:Disconnect()
+		self.CloseDisplayButtonConnection = nil
+	end
 
 	if self.MouseBehaviorConnection then
 		self.MouseBehaviorConnection:Disconnect()
 		self.MouseBehaviorConnection = nil
 	end
-	self.MouseBehaviorConnection = game:GetService("RunService").Heartbeat:Connect(function(dt)
+	self.MouseBehaviorConnection = game:GetService("RunService").Heartbeat:Connect(function()
 		userInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
 	end)
 
@@ -188,13 +200,6 @@ function module.Materialize(self: ClassType, CF: CFrame)
 	self.Display.Name = self.UID
 	self.Display.Visible = false
 	self.Display.Parent = localplayer.PlayerGui.Chests
-
-	self.CloseDisplayButton =
-		self.Trove:Add((self.Display.Frame.Frame.XButton :: TextButton).Activated:Connect(function()
-			print("Close button ")
-			self:CloseChest()
-		end))
-
 	return self
 end
 
@@ -217,7 +222,7 @@ function module.AddItem(self: ClassType, itemUID: string, contentTabName: string
 		if not item.Display then
 			item:CreateDisplay()
 		end
-		local container = self.Display.Frame.Frame.Frame:FindFirstChild(contentTabName).Items
+		local container = self.Display.Frame.Frame.Frame.Frame:FindFirstChild(contentTabName).Items
 		if container and item.Display then
 			local placeholder = container:FindFirstChild("PlaceHolder" .. (pos :: number))
 			if placeholder then

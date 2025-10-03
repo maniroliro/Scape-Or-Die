@@ -1,6 +1,7 @@
 local replicatedStorage = game:GetService("ReplicatedStorage")
 local runService = game:GetService("RunService")
 local playersService = game:GetService("Players")
+local serverStorage = game:GetService("ServerStorage")
 
 local sharedModules = replicatedStorage.Modules.Shared
 
@@ -16,6 +17,7 @@ local instancesManager = require(sharedModules.Managers.InstancesManager)
 local guardSharedClass = require(sharedModules.Classes.DerivedClasses.GuardClass)
 
 local forbiddenAi = require(sharedModules.Packages.Forbidden.AI)
+local collisionGroupUtils = require(serverStorage.Modules.Utils.CollisionGroup)
 
 local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
 module._Type = replicableInstance.extendType("Guard")
@@ -30,6 +32,7 @@ export type ClassType =
 			LastTimeSawPrisoner: number,
 
 			WatchingConnection: RBXScriptConnection?,
+			StopChasingThread: thread?,
 		},
 		{ __index = module }
 	))
@@ -50,6 +53,8 @@ function module.Materialize(self: ClassType, spawnCFrame: CFrame?)
 	if not success then
 		return false
 	end
+
+	collisionGroupUtils.setModelCollisionGroup(self.Character, "GuardsCharacters")
 
 	self.Head = self.Character:FindFirstChild("Head")
 	self.Character.Parent = workspace
@@ -117,7 +122,7 @@ function module.StartWorking(self: ClassType)
 			local direction = (rtp.Position - self.Character.PrimaryPart.Position)
 			local distance = direction.Magnitude
 
-			if distance > self.Range then
+			if distance > range then
 				continue
 			end
 
@@ -127,11 +132,11 @@ function module.StartWorking(self: ClassType)
 			local dot = guardLookVectorDirection:Dot(directionUnit)
 			local rad = math.acos(dot)
 			local angle = math.deg(rad)
-			print("------------------------")
-			print("angle: " .. angle)
-			print("distance: " .. distance)
+			--print("------------------------")
+			--print("angle: " .. angle)
+			--print("distance: " .. distance)
 			if angle <= fov / 2 and distance < range then
-				print("Player in sight", player)
+				--print("Player in sight", player)
 
 				local isIlegal = true
 				-- local inv = inventorySharedUtil.getPlayerInventory(player)
@@ -139,18 +144,18 @@ function module.StartWorking(self: ClassType)
 
 				-- CHECK IF PLAYER IS DOING SOMETHING NOT COOL
 
-				print("isIlegal", isIlegal)
+				--print("isIlegal", isIlegal)
 				if isIlegal then
 					color = Color3.new(0, 1, 0)
-					print("player triggered")
 
 					local params = RaycastParams.new()
 					params.FilterType = Enum.RaycastFilterType.Exclude
 					params.FilterDescendantsInstances = self.Character and { self.Character } or nil
-					local result = workspace:Raycast(self.Head.Position, directionUnit * self.Range, params)
-					print(result and result.Instance)
-					print(result.Instance:IsDescendantOf(rtp.Parent))
+					local result = workspace:Raycast(self.Head.Position, directionUnit * range, params)
+					--print(result and result.Instance)
+					--print(result.Instance:IsDescendantOf(rtp.Parent))
 					if result and result.Instance:IsDescendantOf(rtp.Parent) then
+						--print("player triggered")
 						self.LastTimeSawPrisoner = 0
 						self.ChasingPrisoner = player
 						self.LastPositionGoing = rtp.Position
@@ -161,7 +166,6 @@ function module.StartWorking(self: ClassType)
 		end
 
 		if (self.LastTimeSawPrisoner :: number) < 3 and self.ChasingPrisoner then
-			print("not seeing but going to last known position")
 			local hrp = charUtil.getAlivePlayerRootPart(self.ChasingPrisoner)
 			if not hrp then
 				self.ChasingPrisoner = nil
@@ -170,7 +174,11 @@ function module.StartWorking(self: ClassType)
 			createDebugPart(self.Head.Position, hrp.Position)
 			forbiddenAi.SmartPathfind(self.Character, hrp.Position)
 
-			task.delay(3, function()
+			if self.StopChasingThread then
+				task.cancel(self.StopChasingThread)
+				self.StopChasingThread = nil
+			end
+			self.StopChasingThread = task.delay(3, function()
 				self.ChasingPrisoner = nil
 			end)
 			return

@@ -14,10 +14,14 @@ local module = {
 		1,
 	},
 
-	-- UseItem = function(self, ...)
-
-	-- 	return true
-	-- end,
+	Crafts = {
+		{
+			item1 = 1,
+			item2 = 1,
+			item3 = 2,
+			intelligenceRequired = 30,
+		},
+	},
 
 	AttackInfos = {
 		Speed = {

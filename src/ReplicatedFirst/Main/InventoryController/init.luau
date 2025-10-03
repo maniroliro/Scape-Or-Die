@@ -27,9 +27,7 @@ local acceptableInputs = {
 	Six = 6,
 }
 
-function module.Init()
-	starterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack, false)
-end
+function module.Init() end
 
 function module.Start()
 	print("InventoryController Started")

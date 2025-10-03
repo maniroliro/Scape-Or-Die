@@ -15,21 +15,21 @@ local playerDataController = require(script.PlayerDataController)
 local inventoryController = require(script.InventoryController)
 local playerInteractionsController = require(script.PlayerInteractionsController)
 local viewModelController = require(script.ViewModelController)
+local playerUIController = require(script.PlayerUIController)
+
+playerDataController.Init()
+instanceHandler.Init()
+viewModelController.Init()
+inventoryController.Init()
+playerInteractionsController.Init()
+playerUIController.Init()
 
 playerDataController.Start()
-playerDataController.Init()
-
-instanceHandler.Init()
 instanceHandler.Start()
-
-viewModelController.Init()
 viewModelController.Start()
-
-inventoryController.Init()
 inventoryController.Start()
-
-playerInteractionsController.Init()
 playerInteractionsController.Start()
+playerUIController.Start()
 
 --local replicableInstance = require(replicatedStorage.Modules.Shared.Classes.BaseClasses.ReplicableInstance)
 --replicableInstance.Init()
