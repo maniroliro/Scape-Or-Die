@@ -8,6 +8,8 @@ local securityCameraClass = require(Classes.SecurityCamera)
 local chestClass = require(Classes.Chest)
 local itemClass = require(Classes.Item)
 local scannerClass = require(Classes.Scanner)
+local wallClass = require(Classes.Wall)
+local guardClass = require(Classes.Guard)
 
 local serverServicesFolder = serverStoragemodules.Services
 local replicatedStorageServicesFolder = replicatedStoragemodules.Shared.Services
@@ -15,21 +17,25 @@ local playerDataService = require(serverServicesFolder.PlayerDataService)
 local inventoryService = require(serverServicesFolder.InventoryService)
 local replicableInstancesHandler = require(replicatedStorageServicesFolder.ReplicableInstancesHandler)
 local characterBehaviorService = require(serverServicesFolder.CharacterBehaviorService)
+local physicsService = require(serverServicesFolder.PhysicsService)
 
 local directoryFolder = replicatedStorage.Directory
 local itemDirectory = require(directoryFolder.Items)
+local wallDir = require(directoryFolder.Walls)
+
+local splitPartIntoGrid = require(replicatedStorage.Modules.Shared.Utils.GetSplittedPartsInGrid)
 
 playerDataService.Init()
-playerDataService.Start()
-
 inventoryService.Init()
-inventoryService.Start()
-
 replicableInstancesHandler.Init()
-replicableInstancesHandler.Start()
-
 characterBehaviorService.Init()
+physicsService.Init()
+
+playerDataService.Start()
+inventoryService.Start()
+replicableInstancesHandler.Start()
 characterBehaviorService.Start()
+physicsService.Start()
 
 local chest1 = chestClass.new(01)
 local chest2 = chestClass.new(01)
@@ -123,9 +129,23 @@ cam3:AttachCameraZone(workspace.ahaaa)
 cam3:Active(true)
 cam3:Replicate(true)
 
---table.insert(instances, cam)
---table.insert(instances, chest)
+--  Walls
 
---print(instances)
+local allParts = splitPartIntoGrid(workspace.theWallTestSizeDiv)
+for _, p in pairs(allParts) do
+	local mat = p.Material.Name
+	local id = wallDir:getIdByName(mat)
+	local newWall = wallClass.new(id)
+	newWall:Materialize(p)
 
---print(lib.Utils.ReplicableInstance.objsCreated)
+	newWall:Replicate(true)
+	print(p)
+end
+
+-- Guards
+
+local guard1 = guardClass.new(00)
+guard1:Materialize(CFrame.new(0, 5, 0))
+guard1:StartWorking()
+
+guard1:Replicate(false)

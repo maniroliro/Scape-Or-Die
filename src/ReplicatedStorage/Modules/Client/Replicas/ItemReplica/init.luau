@@ -24,7 +24,6 @@ local itemHover = require(clientModules.Utils.ItemHover)
 local localPlayer = game.Players.LocalPlayer
 
 local module = setmetatable({}, { __index = itemSharedClass })
-module.__index = module
 
 export type ClassType =
 	typeof(setmetatable(
@@ -34,11 +33,11 @@ export type ClassType =
 			animType: "KeyDown" | nil,
 			useItemConnection: RBXScriptConnection?,
 		},
-		module
+		{ __index = module }
 	))
 	& itemSharedClass.ClassType
 
-function module.new(UID: string)
+function module.new(UID: string?)
 	local self: ClassType = replicableInstance.newLinkedToAClass(module, itemSharedClass, UID) :: ClassType
 
 	return self
@@ -103,6 +102,16 @@ function module.CreateDisplay(self: ClassType)
 		self.Display.BackgroundColor3 = Color3.fromRGB(255, 0, 4)
 		self.Display.Transparency = 0.85
 	end
+
+	return self
+end
+
+function module.ChangeDisplayType(self: ClassType, newDisplay: "Trace" | "Flat")
+	if self.Display then
+		self.Display:Destroy()
+		self.Display = nil
+	end
+	self.Display = newDisplay
 
 	return self
 end

@@ -7,9 +7,6 @@ local utils = lib.Utils
 local charUtil = FunctionUtils.Character
 local getLegalRotation = utils.GetLegalRotation
 
-local wallClass = require(game.ServerStorage.Modules.Classes.Wall)
-local wallDir = require(replicatedStorage.Directory.Walls)
-
 -- Snappa a rotação inteira (X, Y, Z) para múltiplos de 90°
 
 local deb = 0.2
@@ -53,17 +50,3 @@ local function cut(partPassed: Part)
 end
 
 cut(wall)
-
-local splitPartIntoGrid = require(replicatedStorage.Modules.Shared.Utils.GetSplittedPartsInGrid)
-
-local allParts = splitPartIntoGrid(workspace.theWallTestSizeDiv)
-
-for _, p in pairs(allParts) do
-	local mat = p.Material.Name
-	local id = wallDir:getIdByName(mat)
-	local newWall = wallClass.new(id)
-	newWall:Materialize(p)
-
-	newWall:Replicate(true)
-	print(p)
-end

@@ -132,6 +132,9 @@ function module.StartWatching(self: ClassType, plr: Player?)
 		return self
 	end
 	local dbTime = 0
+
+	local fov = self.FOV
+	local range = self.ViewMaxDistance
 	self.CheckingPlayersInTheArea = self.Trove:Connect(runService.Heartbeat, function(dt)
 		dbTime = dbTime + dt
 		if dbTime < 0.05 then
@@ -158,15 +161,15 @@ function module.StartWatching(self: ClassType, plr: Player?)
 			local dot = camEyeDirection:Dot(directionUnit)
 			local rad = math.acos(dot)
 			local angle = math.deg(rad)
-			print("------------------------")
-			print("angle: " .. angle)
-			print("distance: " .. distance)
-			if angle <= self.FOV / 2 and distance < self.ViewMaxDistance then
+			--print("------------------------")
+			--print("angle: " .. angle)
+			--print("distance: " .. distance)
+			if angle <= fov / 2 and distance < range then
 				createDebugPart(camEye.Position, char.Position)
-				print("Player in sight", player)
+				--print("Player in sight", player)
 				local inv = inventorySharedUtil.getPlayerInventory(player)
 				local isIlegal = inventorySharedUtil.isFirstItemIlegal(inv)
-				print("isIlegal", isIlegal)
+				--print("isIlegal", isIlegal)
 				if isIlegal then
 					color = Color3.new(0, 1, 0)
 					print("player triggered")

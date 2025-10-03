@@ -61,7 +61,9 @@ function module.Replicate<T>(self: T & genericObjType, replicate: boolean?)
 	local notToReplicateTab = module.objsCreated.NotToReplicate
 	local toReplicateTab = module.objsCreated.ToReplicate
 
-	if replicate or notToReplicateTab[UID] then
+	replicate = replicate == nil and true or replicate
+
+	if replicate and notToReplicateTab[UID] then
 		notToReplicateTab[UID] = nil
 		toReplicateTab[UID] = self
 		self:ReplicateTo()

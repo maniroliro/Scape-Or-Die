@@ -26,7 +26,7 @@ function module.newDirectory<ModuleScriptDirectory>(directoryFolder: ModuleScrip
 end
 
 function MT:getItemInfo(itemId: anytype)
-	print(self.directoryFolder, itemId)
+	--print(self.directoryFolder, itemId)
 	local itemType = typeof(itemId)
 	if itemType == "string" or itemType == "number" then
 		for _, mod in self.directoryFolder:GetChildren() do

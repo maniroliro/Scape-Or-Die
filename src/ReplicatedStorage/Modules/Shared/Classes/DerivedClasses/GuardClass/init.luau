@@ -20,6 +20,7 @@ export type ClassType =
 			Character: Model?,
 			ChansingPrisoner: Player?,
 
+			KnockedDown: boolean,
 			HealthChanged: lib.Signal<nil, number>,
 		},
 		{ __index = module }
