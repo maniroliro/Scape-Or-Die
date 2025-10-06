@@ -48,12 +48,6 @@ function toggleMenuActive()
 		module.MouseBehaviorConnection = game:GetService("RunService").Heartbeat:Connect(function()
 			userInputService.MouseBehavior = Enum.MouseBehavior.Default
 		end)
-
-		local tabSystem =
-			createTabSystem(module.Display.Frame.Menu.Frame.Tabs, module.Display.Frame.Menu.Frame.Contents, script)
-		tabSystem.toggleTabActive("Profile")
-
-		module.ObjTrove = tabSystem.Trove
 	else
 		print("locking mouse")
 		module.Display.Frame.Modal.Visible = false
@@ -72,11 +66,16 @@ function toggleMenuActive()
 			userInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
 		end)
 
-		module.ObjTrove:Destroy()
+		--module.ObjTrove:Destroy()
 	end
 end
 
 function module.Start()
+	local tabSystem =
+		createTabSystem(module.Display.Frame.Menu.Frame.Tabs, module.Display.Frame.Menu.Frame.Contents, script)
+	module.ObjTrove = tabSystem.Trove
+
+	tabSystem.toggleTabActive("Profile")
 	module.Trove:Connect(userInputService.InputBegan, function(input, gameProcessed)
 		if gameProcessed then
 			print("gameProcessed")
@@ -84,6 +83,7 @@ function module.Start()
 		end
 		print(input.KeyCode)
 		if input.KeyCode == Enum.KeyCode.Tab then
+			tabSystem.toggleTabActive("Profile")
 			toggleMenuActive()
 		end
 	end)

@@ -2,17 +2,9 @@ local module = {
 
 	Name = script.Name:match("_ (.*)"),
 	Id = tonumber(script.Name:match("^(.-) _")),
-	Legal = true,
+	Legal = false,
 	MetalDetectorCanDetect = true,
 	CanSpawnInChests = true,
-
-	Usage = 100,
-	MaxUsage = 100,
-	UsageDecreaseEachUse = 20,
-
-	ItemFunction = {
-		1,
-	},
 
 	Crafts = {
 		{

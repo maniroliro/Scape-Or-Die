@@ -44,7 +44,6 @@ function module.Active(self: ClassType, active: boolean?)
 		return self
 	end
 
-	print("activa")
 	return self
 end
 

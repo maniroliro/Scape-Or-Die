@@ -43,7 +43,6 @@ function module.Materialize(self: ClassType, CF: CFrame)
 		return self
 	end
 
-	print(self.Model)
 	if self.Model then
 		local billboardGui = wallDirectory:FindFirstChildOfClass(self.Id, "BillboardGui")
 		self.BillboardGuiInfo = billboardGui:Clone()

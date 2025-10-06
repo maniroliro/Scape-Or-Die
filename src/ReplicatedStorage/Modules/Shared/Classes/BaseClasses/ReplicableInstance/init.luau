@@ -84,11 +84,13 @@ function module.newLinkedToAClass<T, T2>(
 				return value2
 			end
 
+			print(k)
 			local typeName = getPrimaryTypeName(self._Type)
 			if typeName then
 				local directory = directories[typeName]
 				if directory then
 					local value3 = directory:getItemInfo(self.Id)[k]
+					print(value3)
 					if value3 then
 						return value3
 					end

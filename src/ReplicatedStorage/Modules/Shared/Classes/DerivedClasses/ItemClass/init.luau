@@ -53,16 +53,6 @@ function module.AttachId(self: ClassType, id: string)
 		return false
 	end
 
-	local itemsFunctionTable = self.ItemFunction
-	if not itemsFunctionTable or #itemsFunctionTable == 0 then
-		return
-	end
-	local func1 = itemsFunctionDirectory:getItemInfo(itemsFunctionTable[1])
-	local func2 = itemsFunctionDirectory:getItemInfo(itemsFunctionTable[2])
-	print(func1, func2)
-	self.ItemFunction1 = func1
-	self.ItemFunction2 = func2
-
 	return self
 end
 
@@ -72,6 +62,15 @@ function module.Materialize(self: ClassType, CF: CFrame)
 		return false
 	end
 
+	local itemsFunctionTable = self.ItemFunction
+	if not itemsFunctionTable or #itemsFunctionTable == 0 then
+		return
+	end
+	local func1 = itemsFunctionDirectory:getItemInfo(itemsFunctionTable[1])
+	local func2 = itemsFunctionDirectory:getItemInfo(itemsFunctionTable[2])
+	print(func1, func2)
+	self.ItemFunction1 = func1
+	self.ItemFunction2 = func2
 	return self
 end
 

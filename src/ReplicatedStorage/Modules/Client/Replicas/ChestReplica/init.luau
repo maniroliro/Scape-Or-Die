@@ -17,7 +17,7 @@ local chestDirectory = require(replicatedStorage.Directory.Chests)
 local chestSharedClass = require(sharedModules.Classes.DerivedClasses.ChestClass)
 
 local itemsReplica = require(clientModules.Replicas.ItemReplica)
-local itemHover = require(clientModules.Utils.ItemHover)
+
 local highlightSelectionUtil = require(clientModules.Utils.HighlightSelection)
 
 local localplayer = PlayersService.LocalPlayer
@@ -246,7 +246,6 @@ function module.RemoveItem(self: ClassType, itemUID: string, contentTabName: str
 	local item = instancesManager.getObj(itemUID)
 	if item and item.Display and item.Display.Parent then
 		item.Display.Parent = nil
-		itemHover.removeItem(itemUID)
 	end
 
 	return self
