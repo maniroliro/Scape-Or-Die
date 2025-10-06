@@ -10,13 +10,9 @@ local function createSystem(
 		if typeof(callback) == "Instance" then
 			modulesRequired = {}
 			for _, moduleScript in callback:GetChildren() do
-				print()
 				if moduleScript:IsA("ModuleScript") then
-					print()
 					modulesRequired[moduleScript.Name] = require(moduleScript)
-					print()
 					if modulesRequired[moduleScript.Name].Init then
-						print()
 						modulesRequired[moduleScript.Name].Init()
 					end
 				end
@@ -80,9 +76,11 @@ local function createSystem(
 			continue
 		end
 		newTrove:Add(tab:FindFirstChildWhichIsA("GuiButton").Activated:Connect(function()
+			print("Tab clicked: " .. tab.Name)
 			toggleTabActive(tab.Name)
 		end))
 	end
+	print("tab made")
 	return {
 		Trove = newTrove,
 		toggleTabActive = toggleTabActive,

@@ -53,7 +53,7 @@ function module.Start()
 			end
 
 			remote.OnClientEvent:Connect(function(UID: string, ...)
-				print(name)
+				warn(name)
 				if instancesManager.getObj(UID) then
 					return
 				end
@@ -87,9 +87,9 @@ function module.Start()
 				return
 			end
 			local typeKey = instancesManager.getPrimaryType(obj._Type)
-			print(obj, typeKey, obj.UID)
-			print(funcName)
-			print(args)
+			warn(obj, typeKey, obj.UID)
+			warn(funcName)
+			warn(args)
 			obj[funcName](obj, table.unpack(args or {}))
 		end))
 	end

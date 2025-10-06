@@ -19,7 +19,22 @@ local inventoryUtil = require(sharedModules.Utils.InventoryUtilShared)
 local inventoryUtilClient = require(clientModules.Utils.InventoryUtilClient)
 local viewModelManager = require(clientModules.Managers.ViewModelManager)
 
-local itemHover = require(clientModules.Utils.ItemHover)
+local assetsFolder = replicatedStorage:WaitForChild("Assets")
+local itemInfoOverlay = assetsFolder:WaitForChild("Displays"):WaitForChild("ItemInfoOverlay")
+
+local frameHover = require(clientModules.Utils.FrameHover)
+local itemHover = frameHover.newHover(itemInfoOverlay, function(self, item)
+	if not item then
+		return
+	end
+	self.Display.UIStroke.Color = item.Legal and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(255, 0, 4)
+	self.Display.Info.ItemName.Text = item.Id .. " _ " .. item.Name -- or "Unknown Item"
+
+	local infoinfo = self.Display.Info.Info
+	infoinfo.Speed.Text = "Speed: " .. item.AttackInfos.Speed.Name
+	infoinfo.Damage.Text = "Damage: " .. item.AttackInfos.Damage.Name
+	infoinfo.Range.Text = "Range: " .. item.AttackInfos.Range.Name
+end)
 
 local localPlayer = game.Players.LocalPlayer
 
@@ -37,7 +52,7 @@ export type ClassType =
 	))
 	& itemSharedClass.ClassType
 
-function module.new(UID: string?)
+function module.new(UID: string?): ClassType
 	local self = replicableInstance.newLinkedToAClass(module, itemSharedClass, UID) :: ClassType
 
 	return self
@@ -85,15 +100,14 @@ function module.CreateDisplay(self: ClassType)
 	local twI1 = TweenInfo.new(0.1, Enum.EasingStyle.Sine)
 	local originalSize = self.Display.Size
 	local futureSize = UDim2.fromScale(originalSize.X.Scale * 1.1, originalSize.Y.Scale * 1.1)
-	local tw1 = tweenService:Create(self.Display, twI1, { Size = futureSize })
-	local tw2 = tweenService:Create(self.Display, twI1, { Size = originalSize })
+	local tw1 = tweenService:Create(self.Display.ImageLabel, twI1, { Size = futureSize })
+	local tw2 = tweenService:Create(self.Display.ImageLabel, twI1, { Size = originalSize })
 	self.Display.MouseEnter:Connect(function()
 		tw1:Play()
 	end)
 	self.Display.MouseLeave:Connect(function()
 		tw2:Play()
 	end)
-	self:AnimKeyDown()
 
 	if self.Legal then
 		self.Display.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -134,7 +148,9 @@ function module.AddToInventory(self: ClassType, inv: { any }?, slot: number?)
 		or inventoryUtil.getItemSlot(playerInventory, self.UID)
 		or inventoryUtil.getNextSlotForANewItem(playerInventory)
 	inventoryUtilClient.putItemOnInventorySlot(self.UID, slot)
-	itemHover.forceHide(self.UID)
+
+	self:AnimKeyDown()
+	itemHover:forceHide(self)
 
 	return self
 end
@@ -149,6 +165,16 @@ function module.AddToChest(self: ClassType, chestUID: string?, contentTabName: s
 	return self
 end
 
+function module.AnimItemInfo(self: ClassType)
+	if not self.Display then
+		self:CreateDisplay()
+	end
+
+	itemHover:addItem(self)
+
+	return self
+end
+
 function module.AnimKeyDown(self: ClassType)
 	if self.animType == "KeyDown" then
 		return
@@ -158,7 +184,7 @@ function module.AnimKeyDown(self: ClassType)
 		self:CreateDisplay()
 	end
 
-	itemHover.addItem(self)
+	self:AnimItemInfo()
 
 	local listening = false
 	self.Display.MouseEnter:Connect(function()
@@ -204,6 +230,7 @@ function module.InstantiateTo(self: ClassType, ...)
 		return self
 	end
 
+	self:AnimKeyDown()
 	return self
 end
 
