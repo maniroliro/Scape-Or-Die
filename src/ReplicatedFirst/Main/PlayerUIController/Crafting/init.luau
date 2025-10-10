@@ -5,6 +5,7 @@ local playerGUI = player:WaitForChild("PlayerGui") :: PlayerGui
 
 local lib = require(replicatedStorage.lib)
 local trove = lib.ModuleUtils.Trove
+local remotes = lib.Remotes
 
 local clientModules = replicatedStorage.Modules.Client
 
@@ -15,6 +16,7 @@ local itemReplicaModule = require(replicatedStorage.Modules.Client.Replicas.Item
 
 local assetsFolder = replicatedStorage:WaitForChild("Assets")
 local craftInfoOverlay = assetsFolder:WaitForChild("Displays"):WaitForChild("CraftItemInfoOverlay")
+local craftUtil = require(replicatedStorage.Modules.Shared.Functions.CraftItem)
 
 local frameHover = require(clientModules.Utils.FrameHover)
 
@@ -25,9 +27,24 @@ type craftInfo = {
 	resultItem: itemReplicaModule.ClassType,
 	Display: Frame,
 	intelligenceRequired: number,
+	Trove: lib.TroveType,
+	craftIndex: number,
 }
 
 type craftFrame = typeof(craftInfoOverlay)
+
+local module = {}
+module.Display = playerGUI:WaitForChild("Menu").Frame.Menu.Frame.Contents.Crafting
+module.Trove = trove.new()
+module.ActivatedToCraft = nil
+
+module.Crafts = {
+	intelligence30 = {},
+	intelligence40 = {},
+	intelligence50 = {},
+	intelligence60 = {},
+	intelligence70 = {},
+}
 
 local craftInfoHover: frameHover.ClassType<craftFrame, craftInfo> = frameHover.newHover(
 	craftInfoOverlay,
@@ -53,18 +70,6 @@ local craftInfoHover: frameHover.ClassType<craftFrame, craftInfo> = frameHover.n
 		end
 	end
 )
-
-local module = {}
-module.Display = playerGUI:WaitForChild("Menu").Frame.Menu.Frame.Contents.Crafting
-module.Trove = trove.new()
-
-module.Crafts = {
-	intelligence30 = {},
-	intelligence40 = {},
-	intelligence50 = {},
-	intelligence60 = {},
-	intelligence70 = {},
-}
 
 function module.Init()
 	print("Initializing Crafting UI")
@@ -96,6 +101,7 @@ function module.Init()
 				for i, craft: { item1: number, item2: number, item3: number, intelligenceRequired: number } in
 					item.Crafts
 				do
+					local objtrove = trove.new()
 					local intelligenceRequired = craft.intelligenceRequired
 					local itemReplica = itemReplicaModule.new()
 					itemReplica:AttachId(item.Id)
@@ -127,17 +133,20 @@ function module.Init()
 					itemToCraft3:CreateDisplay()
 
 					local craftInfo = {
-						itemToCraft1 = itemToCraft1,
-						itemToCraft2 = itemToCraft2,
-						itemToCraft3 = itemToCraft3,
-						resultItem = itemReplica,
-						Display = itemReplica.Display,
+						itemToCraft1 = objtrove:Add(itemToCraft1),
+						itemToCraft2 = objtrove:Add(itemToCraft2),
+						itemToCraft3 = objtrove:Add(itemToCraft3),
+						resultItem = objtrove:Add(itemReplica),
+						Display = objtrove:Add(itemReplica.Display),
 						intelligenceRequired = intelligenceRequired,
+						craftIndex = i,
+						Trove = trove.new(),
 					}
 
 					craftInfoHover:addItem(craftInfo)
 
-					frame.ImageButton.Activated:Connect(function()
+					local con = frame.ImageButton.Activated:Connect(function()
+						print(frame.ImageButton)
 						local frame = secondDiv.Frame.Frame.Frame
 
 						for i = 1, 3 do
@@ -151,12 +160,14 @@ function module.Init()
 							end
 
 							clone.Parent = frameToParent
+							module.ActivatedToCraft = craftInfo
 						end
 					end)
 
+					objtrove:Add(con)
 					table.insert(module.Crafts["intelligence" .. intelligenceRequired], {
-						item = itemReplica,
-						craftIndex = i,
+						Trove = objtrove,
+						craftInfo = craftInfo,
 					})
 				end
 			end
@@ -178,6 +189,20 @@ function module.Start()
 		print("Tab changed to: " .. tabName)
 	end)
 	tabSystem.toggleTabActive("Intelligence30")
+	module.Trove:Add(secondDiv.Frame.Frame.Craft.ImageButton.Activated:Connect(function()
+		print(
+			"Crafting item:",
+			module.ActivatedToCraft.resultItem.Id,
+			"Craft Index:",
+			module.ActivatedToCraft.craftIndex
+		)
+		local success =
+			craftUtil.canCraftItem(player, module.ActivatedToCraft.resultItem.Id, module.ActivatedToCraft.craftIndex)
+		print(success)
+		if success then
+			remotes.CraftItem:Fire(module.ActivatedToCraft.resultItem.Id, module.ActivatedToCraft.craftIndex)
+		end
+	end))
 end
 
 function module.Stop()

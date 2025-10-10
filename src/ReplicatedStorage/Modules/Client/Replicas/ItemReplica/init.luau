@@ -59,6 +59,7 @@ function module.new(UID: string?): ClassType
 end
 
 function module.Materialize(self: ClassType, CF: CFrame)
+	print("model", self.Model)
 	if self.Model then
 		local tool = localPlayer.Backpack:FindFirstChild(self.Model.Name)
 			or localPlayer.Character and localPlayer.Character:FindFirstChild(self.Model.Name)
@@ -134,6 +135,10 @@ function module.AddToInventory(self: ClassType, inv: { any }?, slot: number?)
 	local success = itemSharedClass.AddToInventory(self, inv, slot)
 	if not success then
 		return self
+	end
+
+	if not self.Display then
+		self:CreateDisplay()
 	end
 
 	-- Lógica específica do cliente
@@ -224,8 +229,8 @@ function module.Drop(self: ClassType)
 	return self
 end
 
-function module.InstantiateTo(self: ClassType, ...)
-	local success = itemSharedClass.InstantiateTo(self, ...)
+function module.InstantiateTo(self: ClassType, newInstantiate: string | Player, chestStorage)
+	local success = itemSharedClass.InstantiateTo(self, newInstantiate, chestStorage)
 	if not success then
 		return self
 	end
@@ -287,6 +292,7 @@ function module.EquipItem(self: ClassType)
 	end
 
 	if self.InstantiatedTo == localPlayer then
+		print(self.Model)
 		viewModelManager.AttachItem(self.Model)
 		local itemsFunctionTable = self.ItemFunction
 		if itemsFunctionTable and #itemsFunctionTable >= 0 then

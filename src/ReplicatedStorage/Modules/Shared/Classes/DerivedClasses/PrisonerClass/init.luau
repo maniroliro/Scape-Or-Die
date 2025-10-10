@@ -10,12 +10,14 @@ local sharedModules = replicatedStorage.Modules.Shared
 local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
 local instancesManager = require(sharedModules.Managers.InstancesManager)
 
+local gameCharacterClass = require(sharedModules.Classes.BaseClasses.GameCharacterClass)
+
 local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
 
 local directoryFolder = replicatedStorage.Directory
 
-local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
-module._Type = replicableInstance.extendType("Item")
+local module = setmetatable({}, { __index = gameCharacterClass }) --:: & replicableInstance.ClassType
+module._Type = replicableInstance.extendType("Prisoner")
 
 export type ClassType =
 	typeof(setmetatable(
@@ -34,10 +36,10 @@ export type ClassType =
 		},
 		{ __index = module }
 	))
-	& replicableInstance.ClassType
+	& gameCharacterClass.ClassType
 
 function module.new(UID: string | number?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, replicableInstance, UID) :: ClassType
+	local self = replicableInstance.newLinkedToAClass(module, gameCharacterClass, UID) :: ClassType
 
 	return self
 end

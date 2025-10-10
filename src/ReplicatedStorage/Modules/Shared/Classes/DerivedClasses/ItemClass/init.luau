@@ -74,14 +74,6 @@ function module.Materialize(self: ClassType, CF: CFrame)
 	return self
 end
 
-function module.canAddToInventory(self: ClassType, inv: { any })
-	if not inventorySharedUtil.canAddItem(inv, self.UID) then
-		return false
-	end
-
-	return true
-end
-
 function module.canAddToChest(self: ClassType, chestUID: string, contentName: string?)
 	if not t.Player(self.InstantiatedTo) then
 		return false
@@ -157,29 +149,22 @@ function module.InstantiateTo(self: ClassType, newInstantiate: string | Player, 
 
 	self.InstantiatedTo = newInstantiate
 	self.InstantiatedToChanged:Fire(newInstantiate)
-	if newInstantiateIsGround then
+
+	if oldInstantiateIsPlayer then
+		if self.equipped then
+			self:UnequipItem()
+		end
 		local inv = inventorySharedUtil.getPlayerInventory(last :: Player)
 		self:RemoveFromInventory(inv)
+	elseif oldInstantiateIsChest then
+		self:RemoveFromChest(last)
+	end
+
+	if newInstantiateIsGround then
 		self:Drop()
 	elseif newInstantiateIsChest then
-		if oldInstantiateIsPlayer then
-			if self.equipped then
-				self:UnequipItem()
-			end
-
-			local inv = inventorySharedUtil.getPlayerInventory(last :: Player)
-			self:RemoveFromInventory(inv)
-		end
 		self:AddToChest(newInstantiate :: string, chestStorage)
 	elseif newInstantiateIsPlayer then
-		if oldInstantiateIsPlayer then
-			self:RemoveFromInventory(inventorySharedUtil.getPlayerInventory(last :: Player))
-		elseif oldInstantiateIsChest then
-			self:RemoveFromChest(last)
-			--elseif oldInstantiateIsGround then
-			-- nothing to remove
-		end
-
 		self:AddToInventory()
 	end
 
@@ -266,16 +251,25 @@ function module.SetOwner(self: ClassType, plr: Player?)
 	return self
 end
 
-function module.AddToInventory(self: ClassType, inv: { any }?, slot: number?)
-	local plr = self.InstantiatedTo
-	if not t.Player(plr) then
+function module.canAddToInventory(self: ClassType, inv: { any })
+	if not inv then
 		return false
 	end
 
-	local inventory = inv or inventorySharedUtil.getPlayerInventory(plr)
-	if not inventory then
+	if not inventorySharedUtil.canAddItem(inv, self.UID) then
 		return false
 	end
+
+	return true, inv
+end
+
+function module.AddToInventory(self: ClassType, inv: { any }?, slot: number?)
+	inv = inv or inventorySharedUtil.getPlayerInventory(self.InstantiatedTo)
+	local success, inventory = self:canAddToInventory(inv)
+	if not success then
+		return false
+	end
+
 	if inventorySharedUtil.canAddItem(inventory, self.UID) then
 		self:TryToInstantiateTo(self.InstantiatedTo)
 		slot = slot or inventorySharedUtil.getNextSlotForANewItem(inventory)
@@ -417,11 +411,8 @@ function module.UseItem(self: ClassType, funcN: number)
 end
 
 function module.Destroy(self: ClassType)
-	local success = replicableInstance.Destroy(self)
-	if not success then
-		return false
-	end
-
+	self:InstantiateTo(nil)
+	replicableInstance.Destroy(self)
 	return true
 end
 

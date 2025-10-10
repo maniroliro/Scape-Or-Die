@@ -17,6 +17,8 @@ local module = {
 	--EquipItem = packet("EquipItem", packet.String),
 
 	ChangeItemPositionOnInventory = packet("ChangeItemPositionOnInventory", packet.NumberS8, packet.NumberS8),
+
+	CraftItem = packet("CraftItem", packet.NumberS8, packet.NumberS8), --:Response(packet.Boolean8),
 }
 
 --for _, remote in module.instanceCreated do

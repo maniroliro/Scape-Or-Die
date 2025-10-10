@@ -18,6 +18,7 @@ local inventoryService = require(serverServicesFolder.InventoryService)
 local replicableInstancesHandler = require(replicatedStorageServicesFolder.ReplicableInstancesHandler)
 local characterBehaviorService = require(serverServicesFolder.CharacterBehaviorService)
 local physicsService = require(serverServicesFolder.PhysicsService)
+local remoteResponse = require(serverServicesFolder.RemotesResponse)
 
 local directoryFolder = replicatedStorage.Directory
 local itemDirectory = require(directoryFolder.Items)
@@ -30,12 +31,14 @@ inventoryService.Init()
 replicableInstancesHandler.Init()
 characterBehaviorService.Init()
 physicsService.Init()
+remoteResponse.Init()
 
 playerDataService.Start()
 inventoryService.Start()
 replicableInstancesHandler.Start()
 characterBehaviorService.Start()
 physicsService.Start()
+remoteResponse.Start()
 
 local chest1 = chestClass.new(01)
 local chest2 = chestClass.new(01)
