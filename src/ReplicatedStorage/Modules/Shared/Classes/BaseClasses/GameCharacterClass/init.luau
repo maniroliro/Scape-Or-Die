@@ -12,7 +12,7 @@ local directoryFolder = replicatedStorage.Directory
 local guardDirectory = require(directoryFolder.Guards)
 
 local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
-module._Type = replicableInstance.extendType("Guard")
+module._Type = replicableInstance.extendType("GameCharacter")
 
 export type ClassType =
 	typeof(setmetatable(
@@ -21,10 +21,10 @@ export type ClassType =
 			KnockedDown: boolean,
 			HealthChanged: lib.Signal<nil, number>,
 
-			ControlledBy: (Player | string)?,
+			ControlledBy: (Player | string)?, -- PlayerInstance or 'AI'
 
 			Health: number,
-			Outfit: "Prisoner" | "Guard",
+			Outfit: "Prisoner" | "Guard" | "Undressed",
 			Fitness: number,
 			Strength: number,
 		},
@@ -67,3 +67,47 @@ function module.Materialize(self: ClassType, spawnCFrame: CFrame?)
 
 	return self
 end
+
+function module._SetHealth(self: ClassType, health: number)
+	if health == self.Health then
+		return self
+	end
+
+	local maxHealth = self.MaxHealth
+
+	if health <= 0 then
+		self.Health = 0
+		self.HealthChanged:Fire(self.Health)
+		self:KnockDown()
+		return self
+	end
+
+	if health > maxHealth then
+		health = maxHealth
+	end
+	self.Health = health
+
+	self.HealthChanged:Fire(self.Health)
+	return self
+end
+
+function module.TakeDamage(self: ClassType, damage: number)
+	local health = self.Health
+	if health <= 0 then
+		return false
+	end
+
+	health -= damage
+	self:_SetHealth(health)
+
+	return self
+end
+
+function module.KnockDown(self: ClassType)
+	if self.Character then
+		self:TakeDamage(self.Health)
+	end
+	return self
+end
+
+return module

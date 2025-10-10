@@ -1,5 +1,6 @@
 local replicatedStorage = game:GetService("ReplicatedStorage")
 local collectionService = game:GetService("CollectionService")
+local runService = game:GetService("RunService")
 
 local lib = require(replicatedStorage.lib)
 local packet = lib.ModuleUtils.Packet
@@ -12,6 +13,7 @@ local dirFolder: Folder = replicatedStorage.Directory
 
 local sharedModules = replicatedStorage.Modules.Shared
 local instancesManager = require(sharedModules.Managers.InstancesManager)
+local destroyMethodUtil = require(sharedModules.Utils.DestroyObject)
 
 local module = setmetatable({}, { __index = instancesManager })
 module._Type = instancesManager.buildTypeMap("ReplicableInstance")
@@ -60,6 +62,7 @@ function module.new(UID: string?): ClassType
 		UID = UID or getLegalUID(),
 		Trove = trove.new(),
 		Remote = remotes.UpdateObj,
+		Destroying = false,
 	}, { __index = module }) :: ClassType
 
 	instancesManager.addObj(self)
@@ -84,13 +87,13 @@ function module.newLinkedToAClass<T, T2>(
 				return value2
 			end
 
-			print(k)
+			--warn(k)
 			local typeName = getPrimaryTypeName(self._Type)
 			if typeName then
 				local directory = directories[typeName]
 				if directory then
 					local value3 = directory:getItemInfo(self.Id)[k]
-					print(value3)
+					--warn(value3)
 					if value3 then
 						return value3
 					end
@@ -134,7 +137,7 @@ function module.Materialize<T>(self: T & ClassType, CFOrModel: CFrame | Model | 
 	end
 	if not self.model then
 		local model = CFOrModel and typeof(CFOrModel) == "Instance" and CFOrModel:IsA("PVInstance") and CFOrModel
-			or workspace:FindFirstAncestor(typeName .. " _ " .. self.UID)
+			or workspace:FindFirstChild(typeName .. " _ " .. self.UID, true)
 
 		if not model then
 			for _, part in collectionService:GetTagged(typeName) do
@@ -167,22 +170,20 @@ function module.Materialize<T>(self: T & ClassType, CFOrModel: CFrame | Model | 
 	return self
 end
 
-function module.Destroy<T>(self: T & ClassType)
-	if self.Trove and (self.Trove :: any).Destroy then
-		self.Trove:Destroy()
+function module.Destroy<T>(self: T & ClassType & { [string]: any })
+	print("1destroying", self.UID)
+	if self.Destroying then
+		return
 	end
-
-	local m: Model = self.Model
-	if typeof(m) == "Instance" and m:IsA("Model") then
-		m:Destroy()
-		self.Model = nil
+	print("2destroying", self.UID)
+	self.Destroying = true
+	if self.Remote and runService:IsServer() then
+		self.Remote:Fire(self.UID, "Destroy", {})
 	end
-	for k in self :: {} do
-		if t.Instance((self :: {})[k]) then
-			(self :: {})[k]:Destroy()
-		end
-		(self :: {})[k] = nil
-	end
+	instancesManager.removeObj(self.UID)
+	print("3destroying", self.UID)
+	self.Destroy = nil
+	destroyMethodUtil(self)
 end
 
 return module

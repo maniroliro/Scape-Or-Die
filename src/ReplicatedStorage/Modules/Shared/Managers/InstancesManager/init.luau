@@ -1,3 +1,5 @@
+local trove = require(game.ReplicatedStorage.lib.lib.ModuleUtils._Trove)
+
 export type TypeMap = { [string]: string, _primary: string?, _current: string? }
 
 local function cloneTypeMap(map: TypeMap?): TypeMap
@@ -16,9 +18,11 @@ end
 export type genericObjType = {
 	_Type: TypeMap,
 	UID: string,
+	Destroying: boolean?,
 } & { [string]: any }
 
 local module = {}
+module.Trove = trove.new()
 module.objsCreated = {
 	ToReplicate = {} :: { [string]: genericObjType },
 	NotToReplicate = {} :: { [string]: genericObjType },
@@ -76,6 +80,7 @@ function module.Replicate<T>(self: T & genericObjType, replicate: boolean?)
 end
 
 function module.addObj(self: genericObjType, replicate: boolean?)
+	module.Trove:Add(self)
 	module.Replicate(self, replicate)
 end
 
@@ -84,13 +89,15 @@ function module.removeObj(UID: string)
 	if not obj then
 		return
 	end
-
-	if (obj :: any).Destroy then
-		(obj :: any):Destroy()
-	end
-
 	module.objsCreated.ToReplicate[UID] = nil
 	module.objsCreated.NotToReplicate[UID] = nil
+
+	if not obj.Destroying then
+		if (obj :: any).Destroy then
+			(obj :: any):Destroy()
+		end
+	end
+	module.Trove:Remove(obj)
 end
 
 function module.getObj(UID: string)

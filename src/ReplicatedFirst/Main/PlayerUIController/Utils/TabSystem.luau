@@ -76,11 +76,9 @@ local function createSystem(
 			continue
 		end
 		newTrove:Add(tab:FindFirstChildWhichIsA("GuiButton").Activated:Connect(function()
-			print("Tab clicked: " .. tab.Name)
 			toggleTabActive(tab.Name)
 		end))
 	end
-	print("tab made")
 	return {
 		Trove = newTrove,
 		toggleTabActive = toggleTabActive,
