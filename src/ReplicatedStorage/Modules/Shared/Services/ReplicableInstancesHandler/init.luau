@@ -33,8 +33,8 @@ function module.Start()
 			local typeKey = instancesManager.getPrimaryType(obj._Type)
 			local allowed = typeKey and funcAllowedToCall[typeKey]
 			if allowed and allowed[funcName] then
-				print(obj, typeKey, obj.UID, funcName)
-				print(plr, table.unpack(args or {}))
+				warn(obj, typeKey, obj.UID, funcName)
+				warn(plr, table.unpack(args or {}))
 				obj[funcName](obj, plr, table.unpack(args or {}))
 			end
 		end)

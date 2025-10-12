@@ -121,8 +121,8 @@ function module.CloseChest(self: ClassType)
 	return self
 end
 
-function module.Materialize(self: ClassType, CF: CFrame)
-	local success = chestSharedClass.Materialize(self, CF)
+function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
+	local success = chestSharedClass.Materialize(self, info)
 	if not success then
 		return self
 	end

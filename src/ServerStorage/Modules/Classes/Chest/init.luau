@@ -211,9 +211,9 @@ function module.playerEndedHoldingProximityPrompt(self: ClassType, plr: Player)
 	return self
 end
 
-function module.Materialize(self: ClassType, CF: CFrame)
+function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
 	-- Chama o método shared do ReplicableInstance primeiro
-	local success = chestSharedClass.Materialize(self, CF)
+	local success = chestSharedClass.Materialize(self, info)
 	if not success then
 		return self
 	end

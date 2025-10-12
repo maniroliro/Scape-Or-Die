@@ -1,4 +1,5 @@
 local replicatedStorage = game:GetService("ReplicatedStorage")
+local runService = game:GetService("RunService")
 
 local lib = require(replicatedStorage.lib)
 local t = lib.FunctionUtils.t
@@ -56,8 +57,15 @@ function module.AttachId(self: ClassType, id: string)
 	return self
 end
 
-function module.Materialize(self: ClassType, CF: CFrame)
-	local success = replicableInstance.Materialize(self, CF)
+function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
+	info = (info or {} :: any)
+	if runService:IsClient() then
+		info.Suffix = "Client"
+	else
+		info.Suffix = "Server"
+	end
+
+	local success = replicableInstance.Materialize(self, info)
 	if not success then
 		return false
 	end
@@ -359,21 +367,26 @@ end
 
 function module.ChangeUsage(self: ClassType, newUsage: number?)
 	print(newUsage)
+	print(self.Usage, self.MaxUsage, self.UsageDecreaseEachUse)
 	if not self.Usage or not self.MaxUsage or not self.UsageDecreaseEachUse then
 		return false
 	end
 	print()
 
 	self.Usage = math.clamp(newUsage or self.Usage - self.UsageDecreaseEachUse, 0, self.MaxUsage)
+
+	if 0 >= self.Usage then
+		self:Destroy()
+	end
 	return true
 end
 
-function module.UseItem(self: ClassType, funcN: number)
-	print(funcN)
+function module.CanUseItem(self: ClassType, funcN: number)
 	if not t.number(funcN) then
 		return false
 	end
 	print()
+
 	if
 		not (self.UsageDecreaseEachUse and self.MaxUsage and self.Usage and (self.ItemFunction1 or self.ItemFunction2))
 	then
@@ -391,22 +404,41 @@ function module.UseItem(self: ClassType, funcN: number)
 	end
 	print()
 
-	-- local funcName = "ItemFunction" .. funcN
-	-- local func = self[funcName] :: itemsFunctionDirectory.Type
-	-- print(funcName, func)
+	local funcName = "ItemFunction" .. funcN
+	local func = self[funcName]
 
-	-- if not func then
-	-- 	return false
-	-- end
-	-- print()
+	if not func then
+		return false
+	end
+	print()
 
-	-- local success = func.UseItem(self)
-	-- if not success then
-	-- 	return false
-	-- end
-	-- print()
+	local success2 = func.CanUse(self)
+	if not success2 then
+		return false
+	end
+	print()
 
-	self:ChangeUsage()
+	return true
+end
+
+function module.UseItem(self: ClassType, funcN: number)
+	local canUse = self:CanUseItem(funcN)
+	if not canUse then
+		return false
+	end
+
+	local funcName = "ItemFunction" .. funcN
+	local func = self[funcName]
+
+	if not func then
+		return false
+	end
+
+	local success2 = func.UseItem(self)
+	if not success2 then
+		return false
+	end
+
 	return true
 end
 

@@ -94,7 +94,12 @@ function module.Init()
 		end
 	end
 
-	for _, itemModule in itemDirectory:GetChildren() do
+	local itemsFolderSorted = itemDirectory:GetChildren()
+	table.sort(itemsFolderSorted, function(a, b)
+		return a.Name < b.Name
+	end)
+
+	for _, itemModule in itemsFolderSorted do
 		if itemModule:IsA("ModuleScript") then
 			local item = require(itemModule)
 			if item and item.Crafts and #item.Crafts > 0 then

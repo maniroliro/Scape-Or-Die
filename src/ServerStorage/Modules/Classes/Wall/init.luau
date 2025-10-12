@@ -26,9 +26,9 @@ function module.new(id: string | number?): ClassType
 	return self
 end
 
-function module.Materialize(self: ClassType, Model: Model | BasePart?)
+function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
 	-- Chama o método shared do ReplicableInstance primeiro
-	local success = wallSharedClass.Materialize(self, Model)
+	local success = wallSharedClass.Materialize(self, info)
 	if not success then
 		return self
 	end

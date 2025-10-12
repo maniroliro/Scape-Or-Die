@@ -127,6 +127,7 @@ local function UseItem(item)
 	end
 
 	jailComponent:TakeDamage(item.UsageDecreaseEachUse)
+	item:ChangeUsage()
 	--decrease
 	return true
 end

@@ -62,8 +62,8 @@ function module.AttachCameraZone(self: ClassType, area: Part)
 	return self
 end
 
-function module.Materialize(self: ClassType, wall: BasePart)
-	local wallUID = wall:GetAttribute("UID")
+function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
+	local wallUID = info.Model:GetAttribute("UID")
 	if not wallUID then
 		return false
 	end

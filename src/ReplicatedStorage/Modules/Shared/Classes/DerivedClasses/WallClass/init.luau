@@ -28,8 +28,8 @@ function module.new(UID: string | number?): ClassType
 	return self
 end
 
-function module.Materialize(self: ClassType, CF: CFrame)
-	local success = jailComponentClass.Materialize(self, CF)
+function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
+	local success = jailComponentClass.Materialize(self, info)
 	if not success then
 		return false
 	end

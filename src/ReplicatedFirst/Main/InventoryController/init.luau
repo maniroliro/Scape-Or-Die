@@ -17,6 +17,7 @@ local playerData = require(replicatedStorage.Modules.Client.PlayerData)
 local module = {}
 module.inventoryItems = {}
 module.equippeditem = nil
+module.itemsRegulated = {}
 
 local acceptableInputs = {
 	One = 1,
@@ -46,6 +47,28 @@ function module.Start()
 			remotes.ChangeItemPositionOnInventory:Fire(pos1, pos2)
 		end
 	end)
+
+	local function regulateItem(item)
+		if module.itemsRegulated[item] then
+			return
+		end
+		module.itemsRegulated[item] = true
+		if item:IsA("BasePart") then
+			item.LocalTransparencyModifier = 1
+		end
+		for _, part in item:GetDescendants() do
+			if part:IsA("BasePart") then
+				part.LocalTransparencyModifier = 1
+			end
+		end
+	end
+
+	localPlayer.CharacterAdded:Connect(function(character)
+		character.ChildAdded:Connect(regulateItem)
+	end)
+
+	localPlayer.Backpack.ChildAdded:Connect(regulateItem)
+
 	-- playerData.NewDataReceived:Connect(function(data)
 	-- 	print('analize')
 	-- 	local oldData = playerData.Data
