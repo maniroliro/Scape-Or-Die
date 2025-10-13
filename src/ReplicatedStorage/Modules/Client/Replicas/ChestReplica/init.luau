@@ -17,8 +17,8 @@ local chestDirectory = require(replicatedStorage.Directory.Chests)
 local chestSharedClass = require(sharedModules.Classes.DerivedClasses.ChestClass)
 
 local itemsReplica = require(clientModules.Replicas.ItemReplica)
-
 local highlightSelectionUtil = require(clientModules.Utils.HighlightSelection)
+local menuUiManager = require(clientModules.Managers.MenuUIManager)
 
 local localplayer = PlayersService.LocalPlayer
 
@@ -32,6 +32,7 @@ export type ClassType =
 			DrawerPivotPosition: Vector3,
 			ProximityPrompt: ProximityPrompt,
 			ChestOpenByLocalPlayer: boolean,
+			WasMenuAlreadyActivated: boolean?,
 
 			CloseDisplayButtonConnection: RBXScriptConnection?,
 			MouseBehaviorConnection: RBXScriptConnection?,
@@ -62,28 +63,26 @@ function module.OpenChest(self: ClassType)
 	end
 	self.ChestOpenByLocalPlayer = true
 
+	self.Display.Name = "Chest"
 	self.Display.Visible = true
 	self.ProximityPrompt.Enabled = false
 
+	--self.DisplayTab.Visible = true
+
+	self.WasMenuAlreadyActivated = menuUiManager.isMenuActivated
+	menuUiManager.tabSystem.toggleTabActive("Chest")
+	menuUiManager.ActiveMenu()
+
 	print("unlocking mouse")
 	userInputService.MouseBehavior = Enum.MouseBehavior.Default
-	self.Display.Modal.Visible = true
 
 	if not self.CloseDisplayButtonConnection then
 		self.CloseDisplayButtonConnection =
-			self.Trove:Add((self.Display.Modal :: GuiButton).Activated:Connect(function()
+			self.Trove:Add((localplayer.PlayerGui.Menu.Frame.Modal :: GuiButton).Activated:Connect(function()
 				print("Close button clicked")
 				self:CloseChest()
 			end))
 	end
-
-	if self.MouseBehaviorConnection then
-		self.MouseBehaviorConnection:Disconnect()
-		self.MouseBehaviorConnection = nil
-	end
-	self.MouseBehaviorConnection = game:GetService("RunService").Heartbeat:Connect(function()
-		userInputService.MouseBehavior = Enum.MouseBehavior.Default
-	end)
 
 	return self
 end
@@ -99,24 +98,23 @@ function module.CloseChest(self: ClassType)
 	end
 	self.ChestOpenByLocalPlayer = false
 
+	self.Display.Name = self.UID
 	self.Display.Visible = false
 	self.ProximityPrompt.Enabled = true
 
+	menuUiManager.tabSystem.toggleTabActive("Profile")
+
+	if not self.WasMenuAlreadyActivated then
+		menuUiManager.DisableMenu()
+	end
+
+	self.WasMenuAlreadyActivated = nil
+
 	print("locking mouse")
-	userInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
-	self.Display.Modal.Visible = false
 	if self.CloseDisplayButtonConnection then
 		self.CloseDisplayButtonConnection:Disconnect()
 		self.CloseDisplayButtonConnection = nil
 	end
-
-	if self.MouseBehaviorConnection then
-		self.MouseBehaviorConnection:Disconnect()
-		self.MouseBehaviorConnection = nil
-	end
-	self.MouseBehaviorConnection = game:GetService("RunService").Heartbeat:Connect(function()
-		userInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
-	end)
 
 	return self
 end
@@ -199,7 +197,11 @@ function module.Materialize(self: ClassType, info: replicableInstance.Materializ
 	self.Display = chestDirectory:getItemDisplay(self.Id):Clone()
 	self.Display.Name = self.UID
 	self.Display.Visible = false
-	self.Display.Parent = localplayer.PlayerGui.Chests
+	self.Display.Parent = localplayer.PlayerGui.Menu.Frame.Menu.Frame.Contents
+	self.Display.Frame.Tittle.TextLabel.Text = (self.PlayerOwner and self.PlayerOwner.Name .. "'s Desk") or "Desk"
+
+	--self.DisplayTab = localplayer.PlayerGui.Menu.Frame.Menu.Frame.Tabs.Chest
+
 	return self
 end
 
@@ -222,7 +224,7 @@ function module.AddItem(self: ClassType, itemUID: string, contentTabName: string
 		if not item.Display then
 			item:CreateDisplay()
 		end
-		local container = self.Display.Frame.Frame.Frame.Frame:FindFirstChild(contentTabName).Items
+		local container = self.Display.Frame.Frame:FindFirstChild(contentTabName).Items
 		if container and item.Display then
 			local placeholder = container:FindFirstChild("PlaceHolder" .. (pos :: number))
 			if placeholder then
@@ -257,16 +259,13 @@ function module.UpdateItemsInside(self: ClassType, itemsUIDTab: { [string]: { st
 		itemsInside[contentName] = {}
 
 		-- Clear UI placeholders before repopulating
-		local section = self.Display
-			and self.Display:FindFirstChild("Frame")
-			and self.Display.Frame:FindFirstChild("Frame")
-			and self.Display.Frame:FindFirstChild(contentName)
+		local section = self.Display.Frame.Frame:FindFirstChild(contentName)
 		local container = section and section:FindFirstChild("Items")
 		if container then
 			for _, placeholder in container:GetChildren() do
 				if typeof(placeholder) == "Instance" and placeholder.Name:match("^PlaceHolder") then
 					for _, child in placeholder:GetChildren() do
-						child.Parent = nil
+						--child.Parent = nil
 					end
 				end
 			end

@@ -231,10 +231,12 @@ function module.ReplicateTo(self: ClassType, client: Player?)
 		newchest:FireClient(client, self.UID)
 
 		self.Remote:FireClient(client, self.UID, "AttachId", { self.Id })
+		self.Remote:FireClient(client, self.UID, "SetOwner", { self.PlayerOwner })
 		self.Remote:FireClient(client, self.UID, "Materialize", { self.CFrame })
 	else
 		newchest:Fire(self.UID)
 		self.Remote:Fire(self.UID, "AttachId", { self.Id })
+		self.Remote:Fire(self.UID, "SetOwner", { self.PlayerOwner })
 		self.Remote:Fire(self.UID, "Materialize", { self.CFrame })
 	end
 

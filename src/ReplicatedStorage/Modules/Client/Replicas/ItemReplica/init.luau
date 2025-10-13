@@ -179,11 +179,14 @@ function module.AnimKeyDown(self: ClassType)
 
 	local listening = false
 	self.Display.MouseEnter:Connect(function()
+		print(listening)
+		print(self.Display)
 		if listening then
 			return
 		end
 		listening = true
 		local conKey = userInputService.InputBegan:Connect(function(inp)
+			print(inp)
 			if inp.KeyCode == Enum.KeyCode.E then
 				if type(self.InstantiatedTo) == "string" then
 					self:TryToInstantiateTo(localPlayer)
@@ -200,6 +203,7 @@ function module.AnimKeyDown(self: ClassType)
 			conKey:Disconnect()
 			conLeave:Disconnect()
 			listening = false
+			--self.animType = nil
 		end)
 		self.Trove:Add(conKey)
 		self.Trove:Add(conLeave)

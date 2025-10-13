@@ -9,7 +9,7 @@ local remotes = lib.Remotes
 
 local clientModules = replicatedStorage.Modules.Client
 
-local createTabSystem = require(script.Parent.Utils.TabSystem)
+local createTabSystem = require(replicatedStorage.Modules.Client.Utils.TabSystem)
 
 local itemDirectory = replicatedStorage.Directory.Items
 local itemReplicaModule = require(replicatedStorage.Modules.Client.Replicas.ItemReplica)
