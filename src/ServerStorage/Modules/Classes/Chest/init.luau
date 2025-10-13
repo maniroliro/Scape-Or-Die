@@ -211,9 +211,9 @@ function module.playerEndedHoldingProximityPrompt(self: ClassType, plr: Player)
 	return self
 end
 
-function module.Materialize(self: ClassType, CF: CFrame)
+function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
 	-- Chama o método shared do ReplicableInstance primeiro
-	local success = chestSharedClass.Materialize(self, CF)
+	local success = chestSharedClass.Materialize(self, info)
 	if not success then
 		return self
 	end
@@ -231,10 +231,12 @@ function module.ReplicateTo(self: ClassType, client: Player?)
 		newchest:FireClient(client, self.UID)
 
 		self.Remote:FireClient(client, self.UID, "AttachId", { self.Id })
+		self.Remote:FireClient(client, self.UID, "SetOwner", { self.PlayerOwner })
 		self.Remote:FireClient(client, self.UID, "Materialize", { self.CFrame })
 	else
 		newchest:Fire(self.UID)
 		self.Remote:Fire(self.UID, "AttachId", { self.Id })
+		self.Remote:Fire(self.UID, "SetOwner", { self.PlayerOwner })
 		self.Remote:Fire(self.UID, "Materialize", { self.CFrame })
 	end
 

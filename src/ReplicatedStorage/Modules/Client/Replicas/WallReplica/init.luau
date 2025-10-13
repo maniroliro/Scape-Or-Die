@@ -37,8 +37,8 @@ function module.new(UID: string)
 	return self
 end
 
-function module.Materialize(self: ClassType, CF: CFrame)
-	local success = wallSharedClass.Materialize(self, CF)
+function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
+	local success = wallSharedClass.Materialize(self, info)
 	if not success then
 		return self
 	end

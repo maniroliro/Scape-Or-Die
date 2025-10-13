@@ -59,8 +59,9 @@ function module.new(UID: string): ClassType
 	return self
 end
 
-function module.Materialize(self: ClassType, CF: CFrame)
-	local canMaterialize = scannerSharedClass.Materialize(self, CF)
+function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
+	info = replicableInstance.NormalizeToMaterializeInfo(info)
+	local canMaterialize = scannerSharedClass.Materialize(self, info)
 	if not canMaterialize then
 		return self
 	end
@@ -70,7 +71,7 @@ function module.Materialize(self: ClassType, CF: CFrame)
 	self.Model.Parent = workspace
 
 	self.DetectionArea = self.Model.DetectionArea
-	self.DetectionArea.CFrame = CF
+	self.DetectionArea.CFrame = info.CFrame
 
 	self.AlertLights = {}
 	for _, part in self.Model:GetDescendants() do

@@ -37,8 +37,8 @@ function module.AttachId(self: ClassType, id: string | number)
 	return self
 end
 
-function module.Materialize(self: ClassType, CF: CFrame)
-	local success = scannerSharedClass.Materialize(self, CF)
+function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
+	local success = scannerSharedClass.Materialize(self, info)
 	if not success then
 		return self
 	end

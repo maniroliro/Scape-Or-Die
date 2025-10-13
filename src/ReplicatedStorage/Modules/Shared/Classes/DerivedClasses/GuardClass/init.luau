@@ -45,12 +45,12 @@ function module.AttachId(self: ClassType, id: string)
 	return self
 end
 
-function module.Materialize(self: ClassType, spawnCFrame: CFrame?)
+function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
 	if self.Character then
 		return false
 	end
 
-	local success = replicableInstance.Materialize(self, spawnCFrame)
+	local success = replicableInstance.Materialize(self, info)
 	if not success then
 		return false
 	end

@@ -185,7 +185,7 @@ end
 
 function module.SetOwner(self: ClassType, plr: Player?)
 	if not t.Player(plr) then
-		return self
+		return false
 	end
 
 	self.PlayerOwner = plr

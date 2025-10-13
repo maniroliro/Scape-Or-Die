@@ -58,30 +58,16 @@ function module.new(UID: string?): ClassType
 	return self
 end
 
-function module.Materialize(self: ClassType, CF: CFrame)
-	print("model", self.Model)
+function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
+	print(self.Model)
 	if self.Model then
-		local tool = localPlayer.Backpack:FindFirstChild(self.Model.Name)
-			or localPlayer.Character and localPlayer.Character:FindFirstChild(self.Model.Name)
-
-		if not tool then
-			return self
-		end
-		if tool:IsA("BasePart") then
-			tool.LocalTransparencyModifier = 1
-		end
-		for _, part in tool:GetDescendants() do
-			if part:IsA("BasePart") then
-				part.LocalTransparencyModifier = 1
-			end
-		end
-
 		return self
 	end
-	local success = itemSharedClass.Materialize(self, CF)
+	local success = itemSharedClass.Materialize(self, info)
 	if not success then
 		return self
 	end
+	print(self.Model)
 
 	return self
 end
@@ -193,11 +179,14 @@ function module.AnimKeyDown(self: ClassType)
 
 	local listening = false
 	self.Display.MouseEnter:Connect(function()
+		print(listening)
+		print(self.Display)
 		if listening then
 			return
 		end
 		listening = true
 		local conKey = userInputService.InputBegan:Connect(function(inp)
+			print(inp)
 			if inp.KeyCode == Enum.KeyCode.E then
 				if type(self.InstantiatedTo) == "string" then
 					self:TryToInstantiateTo(localPlayer)
@@ -214,6 +203,7 @@ function module.AnimKeyDown(self: ClassType)
 			conKey:Disconnect()
 			conLeave:Disconnect()
 			listening = false
+			--self.animType = nil
 		end)
 		self.Trove:Add(conKey)
 		self.Trove:Add(conLeave)
@@ -270,18 +260,31 @@ function module.RemoveFromInventory(self: ClassType, inv: { any })
 	return self
 end
 
+function module.AnimateUseItem(self: ClassType)
+	return self
+end
+
 function module.UseItem(self: ClassType, funcN: number)
 	if self.InstantiatedTo == localPlayer then
-		local success = itemSharedClass.UseItem(self, funcN)
-		print("client, ", success)
-		if not success then
-			return self
-		end
-		self.Remote:Fire(self.UID, "TryToUseItem", { funcN })
+		self:AnimateUseItem()
+		--local success = itemSharedClass.UseItem(self, funcN)
+		--print("client, ", success)
 	else
 		print(self.InstantiatedTo, " is trying to use item ", self.UID)
 	end
 
+	return self
+end
+
+function module.TryToUseItem(self: ClassType, funcN: number)
+	local success = itemSharedClass.CanUseItem(self, funcN)
+	if not success then
+		return self
+	end
+
+	self:AnimateUseItem()
+
+	self.Remote:Fire(self.UID, "TryToUseItem", { funcN })
 	return self
 end
 
@@ -292,23 +295,20 @@ function module.EquipItem(self: ClassType)
 	end
 
 	if self.InstantiatedTo == localPlayer then
-		print(self.Model)
 		viewModelManager.AttachItem(self.Model)
 		local itemsFunctionTable = self.ItemFunction
 		if itemsFunctionTable and #itemsFunctionTable >= 0 then
 			local func1 = itemsFunctionDirectory:getItemInfo(itemsFunctionTable[1])
 			local func2 = itemsFunctionDirectory:getItemInfo(itemsFunctionTable[2])
-			print(func1, func2)
 			if func1 or func2 then
 				self.useItemConnection = self.Trove:Add(userInputService.InputBegan:Connect(function(inp)
-					print(inp.UserInputType)
 					if inp.UserInputType == Enum.UserInputType.MouseButton1 then
 						if func1 then
-							self:UseItem(1)
+							self:TryToUseItem(1)
 						end
 					elseif inp.UserInputType == Enum.UserInputType.MouseButton2 then
 						if func2 then
-							self:UseItem(2)
+							self:TryToUseItem(2)
 						end
 					end
 				end))

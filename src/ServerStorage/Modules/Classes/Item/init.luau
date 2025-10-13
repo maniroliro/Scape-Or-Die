@@ -36,8 +36,8 @@ function module.AttachId(self: ClassType, itemId: number)
 	return self
 end
 
-function module.Materialize(self: ClassType, CF: CFrame)
-	local success = itemSharedClass.Materialize(self, CF)
+function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
+	local success = itemSharedClass.Materialize(self, info)
 	if not success then
 		return self
 	end
@@ -178,27 +178,15 @@ function module.UseItem(self: ClassType, funcN: number)
 		return self
 	end
 
-	local funcName = "ItemFunction" .. funcN
-	local func = self[funcName]
-	print(funcName, func)
-
-	if not func then
-		return false
-	end
-	print()
-
-	local success2 = func.UseItem(self)
-	if not success2 then
-		return false
-	end
-	print()
-
-	self.Remote:FireClientExcept(self.InstantiatedTo, self.UID, "UseItem", { funcN })
+	self.Remote:Fire(self.UID, "UseItem", { funcN })
 	return self
 end
 
 function module.TryToUseItem(self: ClassType, plr: Player, funcN: number)
 	if t.Player(plr) and t.Player(self.InstantiatedTo) and plr == (self.InstantiatedTo :: Player) then
+		if not itemSharedClass.CanUseItem(self, funcN) then
+			return self
+		end
 		self:UseItem(funcN)
 	end
 

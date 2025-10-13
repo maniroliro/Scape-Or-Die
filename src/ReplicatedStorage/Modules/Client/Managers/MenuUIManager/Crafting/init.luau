@@ -9,7 +9,7 @@ local remotes = lib.Remotes
 
 local clientModules = replicatedStorage.Modules.Client
 
-local createTabSystem = require(script.Parent.Utils.TabSystem)
+local createTabSystem = require(replicatedStorage.Modules.Client.Utils.TabSystem)
 
 local itemDirectory = replicatedStorage.Directory.Items
 local itemReplicaModule = require(replicatedStorage.Modules.Client.Replicas.ItemReplica)
@@ -94,7 +94,12 @@ function module.Init()
 		end
 	end
 
-	for _, itemModule in itemDirectory:GetChildren() do
+	local itemsFolderSorted = itemDirectory:GetChildren()
+	table.sort(itemsFolderSorted, function(a, b)
+		return a.Name < b.Name
+	end)
+
+	for _, itemModule in itemsFolderSorted do
 		if itemModule:IsA("ModuleScript") then
 			local item = require(itemModule)
 			if item and item.Crafts and #item.Crafts > 0 then

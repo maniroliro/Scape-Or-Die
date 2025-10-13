@@ -35,12 +35,18 @@ local function createSystem(
 				otherTab.Background.Transparency = 0
 				otherTab.Background.ZIndex = 3
 				otherTab.Frame.ZIndex = 1
+				otherTab.Visible = true
 				continue
 			end
 			otherTab.Background.BackgroundColor3 = Color3.fromRGB(139, 170, 202)
 			otherTab.Background.Transparency = 0.5
 			otherTab.Background.ZIndex = -1
 			otherTab.Frame.ZIndex = -1
+
+			if not contentsFolder:FindFirstChild(otherTab.Name) then
+				print(contentsFolder:FindFirstChild(otherTab.Name))
+				otherTab.Visible = false
+			end
 		end
 		for _, otherContent in contentsFolder:GetChildren() do
 			if not otherContent:IsA("Frame") then

@@ -33,6 +33,27 @@ for _, dirType in dirFolder:GetChildren() do
 	directories[name] = require(dirType)
 end
 
+export type MaterializeInfo = {
+	CFrame: CFrame,
+	Model: Model | BasePart,
+	Suffix: string,
+}
+
+function module.NormalizeToMaterializeInfo(...): MaterializeInfo
+	local info = {} :: any
+	for _, v in table.pack(...) do
+		if type(v) == "string" then
+			info["Suffix"] = v
+		elseif typeof(v) == "Instance" and v:IsA("Model") then
+			info["Model"] = v
+		elseif typeof(v) == "CFrame" then
+			info["CFrame"] = v
+		end
+	end
+
+	return info
+end
+
 export type genericObjType = instancesManager.genericObjType
 
 export type ClassType =
@@ -130,16 +151,31 @@ function module.AttachId<T>(self: T & ClassType, id: number)
 	return self
 end
 
-function module.Materialize<T>(self: T & ClassType, CFOrModel: CFrame | Model | BasePart?)
+function module.Materialize<T>(self: T & ClassType, info: MaterializeInfo, ...)
+	if type(info) ~= "table" then
+		info = module.NormalizeToMaterializeInfo(info, ...)
+	end
 	local typeName = getPrimaryTypeName(self._Type)
 	if not typeName then
 		return self
 	end
-	if not self.model then
-		local model = CFOrModel and typeof(CFOrModel) == "Instance" and CFOrModel:IsA("PVInstance") and CFOrModel
-			or workspace:FindFirstChild(typeName .. " _ " .. self.UID, true)
 
-		if not model then
+	local cframe = info.CFrame
+	local modelArg = info.Model
+	local suffix = info.Suffix
+
+	local id = self.Id
+
+	local suffixStr = suffix and " _ " .. suffix or ""
+	local idStr = id and " _ " .. tostring(id) or ""
+
+	local name = typeName .. idStr .. " _ " .. self.UID .. suffixStr
+
+	if not self.model then
+		local model = modelArg and typeof(modelArg) == "Instance" and modelArg:IsA("PVInstance") and modelArg
+			or workspace:FindFirstChild(name, true)
+
+		if not model and not suffix then
 			for _, part in collectionService:GetTagged(typeName) do
 				if part:GetAttribute("UID") == self.UID then
 					model = part
@@ -155,16 +191,16 @@ function module.Materialize<T>(self: T & ClassType, CFOrModel: CFrame | Model | 
 		end
 
 		self.Model = model
-		self.Model.Name = typeName .. " _ " .. self.UID
+		self.Model.Name = name
 
 		self.Model:AddTag(typeName)
 		self.Model:SetAttribute("UID", self.UID)
 	end
-	if not t.CFrame(CFOrModel) then
+	if not t.CFrame(cframe) then
 		return self
 	end
 
-	self.CFrame = lib.Utils.GetLegalCFrame(CFOrModel :: CFrame)
+	self.CFrame = lib.Utils.GetLegalCFrame(cframe :: CFrame)
 	self.Model:PivotTo(self.CFrame)
 
 	return self

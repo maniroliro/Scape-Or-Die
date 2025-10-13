@@ -48,8 +48,8 @@ function module.new(id: string | number?): ClassType
 	return self
 end
 
-function module.Materialize(self: ClassType, spawnCFrame: CFrame?)
-	local success = guardSharedClass.Materialize(self, spawnCFrame)
+function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
+	local success = guardSharedClass.Materialize(self, info)
 	if not success then
 		return false
 	end
