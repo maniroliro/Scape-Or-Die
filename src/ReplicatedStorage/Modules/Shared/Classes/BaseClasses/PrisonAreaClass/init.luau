@@ -5,7 +5,7 @@ local sharedModules = replicatedStorage.Modules.Shared
 local lib = require(replicatedStorage.lib)
 local t = lib.FunctionUtils.t
 local signal = lib.ModuleUtils.Signal
-local zonePlus = lib.ModuleUtils.ZonePlus
+local simpleZone = lib.ModuleUtils.Zone
 
 local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
 local instancesManager = require(sharedModules.Managers.InstancesManager)
@@ -19,7 +19,6 @@ export type ClassType =
 	typeof(setmetatable(
 		{} :: {
 			Areas: { BasePart }, -- typeof(replicatedStorage.Assets.Directory.Chests["00 _ Template"].Model),
-			AreasConnection: { any },
 			GameCharacterEnteredArea: lib.Signal<nil, Model, BasePart>,
 			GameCharacterExitedArea: lib.Signal<nil, Model, BasePart>,
 		},
@@ -33,9 +32,8 @@ function module.new(UID: string | number?): ClassType
 	self.AreasConnection = {}
 	self.GameCharacterEnteredArea = self.Trove:Construct(signal)
 	self.GameCharacterExitedArea = self.Trove:Construct(signal)
-	
-	local newzone = zonePlus.new()
-	new
+
+	--simpleZone.SimpleZone.fromParts({parts})
 
 	return self
 end

@@ -5,7 +5,7 @@ local playersService = game:GetService("Players")
 local lib = require(replicatedStorage.lib)
 local t = lib.FunctionUtils.t
 local charUtil = lib.FunctionUtils.Character
-local zonePlus = lib.ModuleUtils.ZonePlus
+local simpleZone = lib.ModuleUtils.Zone
 
 local sharedModules = replicatedStorage.Modules.Shared
 local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
@@ -17,7 +17,7 @@ local module = setmetatable({}, { __index = securityCameraSharedClass })
 export type ClassType =
 	typeof(setmetatable(
 		{} :: {
-			CameraZone: BasePart?,
+			CameraZone: lib.Zone,
 			PlayersInTheArea: { Player },
 			StartWatchingPlayer: lib.Signal<nil, Player>?,
 			FinishWatchingPlayer: lib.Signal<nil, Player>?,
@@ -58,7 +58,7 @@ function module.AttachCameraZone(self: ClassType, area: Part)
 		return self
 	end
 
-	self.CameraZone = zonePlus.new(area)
+	self.CameraZone = simpleZone.SimpleZone.fromParts({ area })
 	return self
 end
 
@@ -216,15 +216,16 @@ function module.Active(self: ClassType, active: boolean?)
 	end
 	if self.isActivated then
 		if self.CameraZone then
-			self.StartWatchingPlayer = self.Trove:Connect(self.CameraZone.playerEntered, function(plr)
+			self.StartWatchingPlayer = self.Trove:Add(self.CameraZone:ListenTo("Player", "Entered", function(plr)
 				print(plr)
 				self:StartWatching(plr)
-			end)
-
-			self.FinishWatchingPlayer = self.Trove:Connect(self.CameraZone.playerExited, function(plr)
+			end))
+			self.FinishWatchingPlayer = self.Trove:Add(self.CameraZone:ListenTo("Player", "Exited", function(plr)
 				print(plr)
 				self:StopWatchingPlayer(plr)
-			end)
+			end))
+
+			self.CameraZone:BindToHeartbeat()
 		else
 			for _, plr in playersService:GetPlayers() do
 				self:StartWatching(plr)
