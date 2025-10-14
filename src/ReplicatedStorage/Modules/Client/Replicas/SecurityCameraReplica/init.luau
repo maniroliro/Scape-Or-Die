@@ -1,15 +1,10 @@
 local replicatedStorage = game:GetService("ReplicatedStorage")
 
 local lib = require(replicatedStorage.lib)
-local t = lib.FunctionUtils.t
-local zonePlus = lib.ModuleUtils.ZonePlus
 
 local sharedModules = replicatedStorage.Modules.Shared
 local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
 local securityCameraSharedClass = require(sharedModules.Classes.DerivedClasses.SecurityCameraClass)
-
-local directory = replicatedStorage.Directory
-local securityCameraDirectory = require(directory.SecurityCameras)
 
 local module = setmetatable({}, { __index = securityCameraSharedClass })
 module.__index = module
@@ -46,13 +41,5 @@ function module.Active(self: ClassType, active: boolean?)
 
 	return self
 end
-
--- function module.AttachCameraArea(self: ClassType, part: BasePart)
--- 	self.CameraArea = part
--- 	self.CameraZone = zonePlus.new(self.CameraArea)
--- 	self.PlayerEnteredCameraZone = self.CameraZone.playerEntered
-
--- 	return self
--- end
 
 return module

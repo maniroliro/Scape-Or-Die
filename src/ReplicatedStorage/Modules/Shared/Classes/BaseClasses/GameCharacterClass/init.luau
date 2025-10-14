@@ -31,7 +31,6 @@ export type ClassType =
 		{ __index = module }
 	))
 	& replicableInstance.ClassType
-	& guardDirectory.Type
 
 function module.new(UID: string | number?): ClassType
 	local self = replicableInstance.newLinkedToAClass(module, replicableInstance, UID) :: ClassType
