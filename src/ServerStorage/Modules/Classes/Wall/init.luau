@@ -10,14 +10,14 @@ local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableI
 local instancesManager = require(sharedModules.Managers.InstancesManager)
 local charUtils = lib.FunctionUtils.Character
 
-local wallSharedClass = require(sharedModules.Classes.DerivedClasses.WallClass)
+local wallSharedClass = require(sharedModules.Classes.WallClass)
 
 local module = setmetatable({}, { __index = wallSharedClass })
 
 export type ClassType = typeof(setmetatable({} :: {}, { __index = module })) & wallSharedClass.ClassType
 
 function module.new(id: string | number?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, wallSharedClass) :: ClassType
+	local self = replicableInstance.newLinkedToAClass(module, wallSharedClass.new()) :: ClassType
 	self.PlayersSearching = {}
 
 	if id then

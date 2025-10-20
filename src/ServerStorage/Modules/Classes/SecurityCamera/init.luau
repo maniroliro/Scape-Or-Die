@@ -9,7 +9,7 @@ local simpleZone = lib.ModuleUtils.Zone
 
 local sharedModules = replicatedStorage.Modules.Shared
 local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
-local securityCameraSharedClass = require(sharedModules.Classes.DerivedClasses.SecurityCameraClass)
+local securityCameraSharedClass = require(sharedModules.Classes.SecurityCameraClass)
 local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
 
 local module = setmetatable({}, { __index = securityCameraSharedClass })
@@ -35,7 +35,7 @@ export type ClassType =
 	& securityCameraSharedClass.ClassType
 
 function module.new(id: string | number?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, securityCameraSharedClass) :: ClassType
+	local self = replicableInstance.newLinkedToAClass(module, securityCameraSharedClass.new()) :: ClassType
 	self.PlayersInTheArea = {}
 	self.AlreadyRotatedToOneSide = 0
 	self.RotationMultiplier = 1

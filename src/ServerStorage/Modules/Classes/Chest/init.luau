@@ -10,7 +10,7 @@ local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableI
 local instancesManager = require(sharedModules.Managers.InstancesManager)
 local charUtils = lib.FunctionUtils.Character
 
-local chestSharedClass = require(sharedModules.Classes.DerivedClasses.ChestClass)
+local chestSharedClass = require(sharedModules.Classes.ChestClass)
 
 local module = setmetatable({}, { __index = chestSharedClass })
 
@@ -38,7 +38,7 @@ export type ClassType =
 	& chestSharedClass.ClassType
 
 function module.new(id: string | number?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, chestSharedClass) :: ClassType
+	local self = replicableInstance.newLinkedToAClass(module, chestSharedClass.new()) :: ClassType
 	self.PlayersSearching = {}
 
 	if id then

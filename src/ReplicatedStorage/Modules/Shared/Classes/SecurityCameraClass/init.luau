@@ -26,8 +26,8 @@ export type ClassType =
 	& replicableInstance.ClassType
 	& securityCamerasDirectory.Type
 
-function module.new(UID: string | number?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, replicableInstance, UID) :: ClassType
+function module.new(UID: string?): ClassType
+	local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID)) :: ClassType
 
 	return self
 end
