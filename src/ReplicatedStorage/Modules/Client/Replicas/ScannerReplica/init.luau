@@ -4,18 +4,16 @@ local Players = game:GetService("Players")
 
 local localPlayer = Players.LocalPlayer
 
-local ilegalItemsDetectorDirectory = require(replicatedStorage.Directory.Scanners)
-
 local lib = require(replicatedStorage:WaitForChild("lib"))
 local charUtil = lib.FunctionUtils.Character
 local t = lib.FunctionUtils.t
 
 local replicableInstance = require(replicatedStorage.Modules.Shared.Classes.BaseClasses.ReplicableInstance)
-local scannerSharedClass = require(replicatedStorage.Modules.Shared.Classes.DerivedClasses.ScannerClass)
+local scannerSharedClass = require(replicatedStorage.Modules.Shared.Classes.ScannerClass)
 
 local inventorySharedUtil = require(replicatedStorage.Modules.Shared.Utils.InventoryUtilShared)
 
-local module = setmetatable({}, scannerSharedClass)
+local module = setmetatable({}, { __index = scannerSharedClass })
 
 export type ClassType =
 	typeof(setmetatable(
@@ -53,7 +51,7 @@ local alertingSettings = {
 }
 
 function module.new(UID: string): ClassType
-	local self: ClassType = replicableInstance.newLinkedToAClass(module, scannerSharedClass, UID) :: ClassType
+	local self: ClassType = replicableInstance.newLinkedToAClass(module, scannerSharedClass.new(UID)) :: ClassType
 	self.AlertLights = {}
 	self.LastBlinkedLight = 1
 	return self

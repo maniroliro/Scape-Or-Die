@@ -15,7 +15,7 @@ local instancesManager = require(sharedModules.Managers.InstancesManager)
 
 local highlightSelectionUtil = require(clientModules.Utils.HighlightSelection)
 
-local wallSharedClass = require(sharedModules.Classes.DerivedClasses.WallClass)
+local wallSharedClass = require(sharedModules.Classes.WallClass)
 local wallDirectory = require(replicatedStorage.Directory.Walls)
 
 local localplayer = PlayersService.LocalPlayer
@@ -32,7 +32,7 @@ export type ClassType =
 	& wallSharedClass.ClassType
 
 function module.new(UID: string)
-	local self: ClassType = replicableInstance.newLinkedToAClass(module, wallSharedClass, UID) :: ClassType
+	local self: ClassType = replicableInstance.newLinkedToAClass(module, wallSharedClass.new(UID)) :: ClassType
 
 	return self
 end

@@ -22,15 +22,10 @@ module._Type = replicableInstance.extendType("Prisoner")
 export type ClassType =
 	typeof(setmetatable(
 		{} :: {
-			Player: Player?,
 			Inventory: { string },
 
 			Heat: number,
-			Health: number,
-			Outfit: "Prisoner" | "Guard",
 			Stamina: number,
-			Fitness: number,
-			Strength: number,
 			Intellect: number,
 			Money: number,
 		},
@@ -38,8 +33,8 @@ export type ClassType =
 	))
 	& gameCharacterClass.ClassType
 
-function module.new(UID: string | number?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, gameCharacterClass, UID) :: ClassType
+function module.new(UID: string?): ClassType
+	local self = replicableInstance.newLinkedToAClass(module, gameCharacterClass.new(UID)) :: ClassType
 
 	return self
 end

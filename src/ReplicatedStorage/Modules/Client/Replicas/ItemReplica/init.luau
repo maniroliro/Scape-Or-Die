@@ -11,7 +11,7 @@ local charUtil = lib.FunctionUtils.Character
 local clientModules = replicatedStorage.Modules.Client
 local sharedModules = replicatedStorage.Modules.Shared
 local sharedClasses = sharedModules.Classes
-local itemSharedClass = require(sharedClasses.DerivedClasses.ItemClass)
+local itemSharedClass = require(sharedClasses.ItemClass)
 
 local replicableInstance = require(sharedClasses.BaseClasses.ReplicableInstance)
 
@@ -53,7 +53,7 @@ export type ClassType =
 	& itemSharedClass.ClassType
 
 function module.new(UID: string?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, itemSharedClass, UID) :: ClassType
+	local self = replicableInstance.newLinkedToAClass(module, itemSharedClass.new(UID)) :: ClassType
 
 	return self
 end

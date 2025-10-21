@@ -12,15 +12,17 @@ local instancesManager = require(sharedModules.Managers.InstancesManager)
 local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
 module._Type = replicableInstance.extendType("Ground")
 
-export type ClassType = typeof(setmetatable(
-	{} :: {
-		items: { [string]: CFrame },
-	},
-	{ __index = module }
-)) & replicableInstance.ClassType
+export type ClassType =
+	typeof(setmetatable(
+		{} :: {
+			items: { [string]: CFrame },
+		},
+		{ __index = module }
+	))
+	& replicableInstance.ClassType
 
-function module.new(UID: string | number?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, replicableInstance, UID) :: ClassType
+function module.new(UID: string?): ClassType
+	local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID)) :: ClassType
 	self.items = {}
 
 	return self

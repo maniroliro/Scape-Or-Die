@@ -27,14 +27,14 @@ local rng = Random.new()
 function Module.removeDuplicates<T>(array: { T }): { T }
 	local result = table.create(#array)
 	local seen: { [T]: boolean } = {}
-	
+
 	for _, value in ipairs(array) do
 		if not seen[value] then
 			table.insert(result, value)
 			seen[value] = true
 		end
 	end
-	
+
 	return result
 end
 
@@ -42,7 +42,7 @@ do
 	local metatables = {
 		k = { __mode = "k" },
 		v = { __mode = "v" },
-		kv = { __mode = "kv" }
+		kv = { __mode = "kv" },
 	}
 	-- Creates and returns a new weak table for caching purposes.
 	function Module.weakCache(mode: "k" | "v" | "kv"): { [any]: any }
@@ -88,8 +88,6 @@ local function Copy<T>(t: T, deep: boolean?): T
 	end
 	return deepCopy(t :: any) :: T
 end
-
-
 
 --[=[
 	@within TableUtil
@@ -934,17 +932,19 @@ end
 
 -- Checks if the tables store the exact same values. Can be used for __eq metamethod
 function Module.checkTableEquality(table1: { [any]: any }, table2: { [any]: any }): boolean
-	if type(table1) ~= type(table2) then return false end
+	if type(table1) ~= type(table2) then
+		return false
+	end
 	if table1 == table2 then
 		return true
 	end
-	
+
 	if rawequal(table1, table2) then
 		return true
 	end
-	
+
 	for i, v in pairs(table1) do
-		if type(v) == 'table' then
+		if type(v) == "table" then
 			if not Module.checkTableEquality(v, table2[i]) then
 				return false
 			end
@@ -956,7 +956,7 @@ function Module.checkTableEquality(table1: { [any]: any }, table2: { [any]: any 
 	end
 
 	for i, v in pairs(table2) do
-		if type(v) == 'table' then
+		if type(v) == "table" then
 			if not Module.checkTableEquality(v, table1[i]) then
 				return false
 			end
@@ -970,7 +970,7 @@ function Module.checkTableEquality(table1: { [any]: any }, table2: { [any]: any 
 	return true
 end
 
-function Module.getValueFromKeyRecursive(key: any, dictionary: {[any]: any}): any?
+function Module.getValueFromKeyRecursive(key: any, dictionary: { [any]: any }): any?
 	if not rawget(dictionary, key) then
 		for _, thing in pairs(dictionary) do
 			if typeof(thing) ~= "table" then
@@ -989,7 +989,7 @@ function Module.getValueFromKeyRecursive(key: any, dictionary: {[any]: any}): an
 	return nil
 end
 
-function Module.getValueFromStringPatternRecursive(pattern: string, dictionary: {[any]: any}): any?
+function Module.getValueFromStringPatternRecursive(pattern: string, dictionary: { [any]: any }): any?
 	local pattern = string.lower(pattern)
 	for key, thing in pairs(dictionary) do
 		-- string.find() is faster than string.match() as we don't need to make a new substring
@@ -1008,7 +1008,7 @@ function Module.getValueFromStringPatternRecursive(pattern: string, dictionary: 
 end
 
 -- Returns a new array that is the result of array1 and array2
-function Module.mergeArrays(array1: {[number]: any}, array2: {[number]: any})
+function Module.mergeArrays(array1: { [number]: any }, array2: { [number]: any })
 	local length = #array2
 	local newArray = table.clone(array2)
 	for i, v in ipairs(array1) do
@@ -1019,8 +1019,9 @@ end
 
 -- Returns a new dictionary that is the result of dict1 and dict2.
 -- If any keys match, the first encountered key will have precendence!
-function Module.mergeDict(...: { [any]: any })
-	local dictionaries = {...}
+function Module.mergeDict<A, B, C>(A: A, B: B, C: C): A & B & C
+	-- Cast to 'any' to avoid array element type unification across generics A, B, and C
+	local dictionaries = { A :: any, B :: any, C :: any }
 	local result = {}
 
 	for index, dict in ipairs(dictionaries) do
@@ -1033,7 +1034,7 @@ function Module.mergeDict(...: { [any]: any })
 		end
 	end
 
-	return result
+	return result :: any
 end
 
 function Module.mergeTables(baseTable: { [any]: any }, targetTable: { [any]: any })
@@ -1080,7 +1081,7 @@ do
 		end
 		return vResult, kResult
 	end
-	
+
 	local cache = Module.weakCache("k")
 	-- Converts the dictionary to two arrays containing the keys and values.
 	-- Results are cached for the same input and shallow copied versions are returned.
@@ -1112,7 +1113,7 @@ do
 
 		return newDict
 	end
-	
+
 	local cache = Module.weakCache("k")
 	-- Converts the list to a dictionary where the values become the keys and the indexes become the values.
 	-- Results are cached for the same input and a shallow copied version is returned.
@@ -1171,13 +1172,18 @@ function Module.chunkArray<T>(array: { T }, chunkSize: number): { { T } }
 	return chunks
 end
 
-type RecursiveCallback = (key: any, value: any, path: {any}, current: { [any]: any }) -> ()
-type CanTraverseCallback = (key: any, value: any, path: {any}, current: { [any]: any }) -> (boolean)
+type RecursiveCallback = (key: any, value: any, path: { any }, current: { [any]: any }) -> ()
+type CanTraverseCallback = (key: any, value: any, path: { any }, current: { [any]: any }) -> boolean
 @deprecated
 -- Recursively traverse over a table.
 -- <strong>canTraverse</strong>: Determines if the given value (table) can be traversed or be passed to the <strong>callback</strong> instead.
 -- <strong>callback</strong>: Called and given the key and value in the current traversal of a table.
-function Module.traverse(inputTable: { [any]: any | { [any]: any } }, canTraverse: CanTraverseCallback, callback: RecursiveCallback, path: {any}?)
+function Module.traverse(
+	inputTable: { [any]: any | { [any]: any } },
+	canTraverse: CanTraverseCallback,
+	callback: RecursiveCallback,
+	path: { any }?
+)
 	local path = path or {}
 
 	for key, value in pairs(inputTable) do
@@ -1200,16 +1206,16 @@ end
 function Module.simpleTraverse(
 	sourceTbl: { [any]: any },
 	onVisit: (key: any, value: any, path: { any }, node: { [any]: any }) -> (),
-	shouldVisit: ( (key: any, value: any, path: { any }, node: { [any]: any }) -> (boolean) )?
+	shouldVisit: ((key: any, value: any, path: { any }, node: { [any]: any }) -> boolean)?
 )
 	local seen = {}
-	
+
 	local function recurse(node: { [any]: any }, path: { any })
 		if seen[node] then
 			return -- avoid issues with cyclic table references
 		end
 		seen[node] = true
-		
+
 		for key, value in pairs(node) do
 			path[#path + 1] = key
 
@@ -1264,7 +1270,7 @@ do
 		end
 		return set
 	end
-	
+
 	--[[
 		Returns true if any value in <strong>checkTable</strong> exists in <strong>baseTable</strong>
 	]]
@@ -1282,7 +1288,7 @@ do
 end
 
 -- Grabs a random key/index pair out of the given table.
-function Module.random<K>(source: { [K]: any }, rngOverride: Random?): (K?)
+function Module.random<K>(source: { [K]: any }, rngOverride: Random?): K?
 	assert(type(source) == "table", "First argument must be a table")
 	local random = if typeof(rngOverride) == "Random" then rngOverride else rng
 
@@ -1308,10 +1314,7 @@ do
 		This caches the results if the input array and comparator are the same and returns a shallow copy of the cached results.
 		Do not use if the input array is frequently mutated during runtime
 	]]
-	function Module.sortCached<T>(
-		array: { T },
-		comparator: (a: T, b: T) -> boolean
-	): { T }
+	function Module.sortCached<T>(array: { T }, comparator: (a: T, b: T) -> boolean): { T }
 		assert(typeof(array) == "table", "Expected a table")
 		assert(typeof(comparator) == "function", "Expected a comparator function")
 		local cacheForTable = sortCache[array]

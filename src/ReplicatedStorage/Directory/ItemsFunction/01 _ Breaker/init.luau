@@ -33,7 +33,7 @@ local function getJailComponentFromInstance(inst: Instance)
 			local uid = current:GetAttribute("UID")
 			if uid then
 				local obj = instancesManager.getObj(uid)
-				if instancesManager.objectIs(obj, "JailComponent") then
+				if obj:IsA("JailComponent") then
 					return obj
 				end
 			end

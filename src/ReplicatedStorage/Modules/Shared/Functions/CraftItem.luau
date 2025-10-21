@@ -65,7 +65,7 @@ function module.canCraftItem(player, itemId, craftNumber)
 				continue
 			end
 			local item = instancesManager.getObj(itemUID)
-			if item and item:HasType("Item") and item.Id == necessaryItem then
+			if item and item:IsA("Item") and item.Id == necessaryItem then
 				indexesUsed[index] = true
 				break
 			end

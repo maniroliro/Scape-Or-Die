@@ -9,18 +9,17 @@ local lib = require(replicatedStorage.lib)
 local t = lib.FunctionUtils.t
 local charUtil = lib.FunctionUtils.Character
 local signal = lib.ModuleUtils.Signal
-local getlegalCFrame = lib.Utils.GetLegalCFrame
+local getLegalPosition = lib.Utils.GetLegalPosition
 
 local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
 local instancesManager = require(sharedModules.Managers.InstancesManager)
-
-local guardSharedClass = require(sharedModules.Classes.DerivedClasses.GuardClass)
+local guardSharedClass = require(sharedModules.Classes.GuardClass)
+local gameCharacterServerClass = require(serverStorage.Modules.Classes.BaseClasses.GameCharacter)
 
 local forbiddenAi = require(sharedModules.Packages.Forbidden.AI)
 local collisionGroupUtils = require(serverStorage.Modules.Utils.CollisionGroup)
 
-local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
-module._Type = replicableInstance.extendType("Guard")
+local module = setmetatable({}, { __index = guardSharedClass }) --:: & replicableInstance.ClassType
 
 export type ClassType =
 	typeof(setmetatable(
@@ -37,9 +36,10 @@ export type ClassType =
 		{ __index = module }
 	))
 	& guardSharedClass.ClassType
+	& gameCharacterServerClass.ClassType
 
 function module.new(id: string | number?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, guardSharedClass) :: ClassType
+	local self = replicableInstance.newLinkedToAClass(module, guardSharedClass.new()) :: ClassType
 	self.HealthChanged = self.Trove:Add(signal.new())
 
 	if id then
@@ -172,7 +172,7 @@ function module.StartWorking(self: ClassType)
 				return
 			end
 			createDebugPart(self.Head.Position, hrp.Position)
-			forbiddenAi.SmartPathfind(self.Character, hrp.Position)
+			forbiddenAi.SmartPathfind(self.Character, getLegalPosition(hrp.Position))
 
 			if self.StopChasingThread then
 				task.cancel(self.StopChasingThread)
@@ -184,7 +184,10 @@ function module.StartWorking(self: ClassType)
 			return
 		else
 			if (self.Character.PrimaryPart :: Part).AssemblyLinearVelocity.Magnitude < 3 then
-				forbiddenAi.SmartPathfind(self.Character, Vector3.new(math.random(0, 50), 0, math.random(0, 50)))
+				forbiddenAi.SmartPathfind(
+					self.Character,
+					getLegalPosition(Vector3.new(math.random(0, 50), 0, math.random(0, 50)))
+				)
 			end
 		end
 	end))

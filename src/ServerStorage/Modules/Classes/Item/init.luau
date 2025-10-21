@@ -6,7 +6,7 @@ local t = lib.FunctionUtils.t
 
 local sharedModules = replicatedStorage.Modules.Shared
 local sharedClasses = sharedModules.Classes
-local itemSharedClass = require(sharedClasses.DerivedClasses.ItemClass)
+local itemSharedClass = require(sharedClasses.ItemClass)
 
 local replicableInstance = require(sharedClasses.BaseClasses.ReplicableInstance)
 
@@ -19,7 +19,7 @@ module.__index = module
 export type ClassType = typeof(setmetatable({} :: {}, module)) & itemSharedClass.ClassType
 
 function module.new(id: string?): ClassType
-	local self: ClassType = replicableInstance.newLinkedToAClass(module, itemSharedClass) :: ClassType
+	local self: ClassType = replicableInstance.newLinkedToAClass(module, itemSharedClass.new()) :: ClassType
 
 	if id then
 		self:AttachId(id)

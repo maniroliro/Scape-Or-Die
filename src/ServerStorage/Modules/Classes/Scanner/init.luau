@@ -2,14 +2,14 @@ local replicatedStorage = game:GetService("ReplicatedStorage")
 local serverStorage = game:GetService("ServerStorage")
 local Players = game:GetService("Players")
 
-local ilegalItemsDetectorDirectory = require(replicatedStorage.Directory.Scanners)
+local ScannersDirectory = require(replicatedStorage.Directory.Scanners)
 local lib = require(replicatedStorage.lib)
 local charUtil = lib.FunctionUtils.Character
 local t = lib.FunctionUtils.t
 
 local sharedModules = replicatedStorage.Modules.Shared
 local sharedClasses = sharedModules.Classes
-local scannerSharedClass = require(sharedClasses.DerivedClasses.ScannerClass)
+local scannerSharedClass = require(sharedClasses.ScannerClass)
 
 local replicableInstance = require(sharedClasses.BaseClasses.ReplicableInstance)
 local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
@@ -20,7 +20,7 @@ module._Type = replicableInstance.extendType("Scanner", scannerSharedClass._Type
 export type ClassType = typeof(setmetatable({} :: {}, { __index = module })) & scannerSharedClass.ClassType
 
 function module.new(id: string | number?): ClassType
-	local self: ClassType = replicableInstance.newLinkedToAClass(module, scannerSharedClass) :: ClassType
+	local self: ClassType = replicableInstance.newLinkedToAClass(module, scannerSharedClass.new()) :: ClassType
 
 	if id then
 		self:AttachId(id)
@@ -45,7 +45,7 @@ function module.Materialize(self: ClassType, info: replicableInstance.Materializ
 
 	self.Model.Parent = workspace
 
-	self.DetectionArea = ilegalItemsDetectorDirectory:getItemModel(self.Id):Clone().DetectionArea
+	self.DetectionArea = ScannersDirectory:getItemModel(self.Id):Clone().DetectionArea
 	self.DetectionArea.CFrame = self.CFrame
 	self.DetectionArea.Parent = workspace
 

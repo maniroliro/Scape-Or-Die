@@ -4,26 +4,44 @@ local sharedModules = replicatedStorage.Modules.Shared
 
 local lib = require(replicatedStorage.lib)
 local t = lib.FunctionUtils.t
+local tableUtils = lib.FunctionUtils.Table
 local signal = lib.ModuleUtils.Signal
 local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
 local instancesManager = require(sharedModules.Managers.InstancesManager)
 
-local directoryFolder = replicatedStorage.Directory
-local guardDirectory = require(directoryFolder.Guards)
+local livingClass = require(sharedModules.Classes.BaseClasses.LivingClass)
 
-local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
+local directoryFolder = replicatedStorage.Directory
+
+local module = setmetatable({}, {
+	__index = function(_, k)
+		return replicableInstance[k] or livingClass[k]
+	end,
+})
 module._Type = replicableInstance.extendType("GameCharacter")
+
+-- export type ClassType = replicableInstance.ClassType<
+-- 	typeof(setmetatable(
+-- 		{} :: {
+-- 			Character: Model?,
+-- 			KnockedDown: boolean,
+-- 			ControlledBy: (Player | string)?, -- PlayerInstance or 'AI'
+
+-- 			Outfit: "Prisoner" | "Guard" | "Undressed",
+-- 			Fitness: number,
+-- 			Strength: number,
+-- 		},
+-- 		{ __index = module }
+-- 	))
+-- >
 
 export type ClassType =
 	typeof(setmetatable(
 		{} :: {
 			Character: Model?,
 			KnockedDown: boolean,
-			HealthChanged: lib.Signal<nil, number>,
-
 			ControlledBy: (Player | string)?, -- PlayerInstance or 'AI'
 
-			Health: number,
 			Outfit: "Prisoner" | "Guard" | "Undressed",
 			Fitness: number,
 			Strength: number,
@@ -31,15 +49,18 @@ export type ClassType =
 		{ __index = module }
 	))
 	& replicableInstance.ClassType
+	& livingClass.ClassType
 
-function module.new(UID: string | number?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, replicableInstance, UID) :: ClassType
-	self.HealthChanged = signal.new()
+function module.new(UID: string?): ClassType
+	local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID))
+	self = replicableInstance.newLinkedToAClass(self, livingClass.new(self))
+
+	print("asdasdasd", self.HealthChanged)
 
 	return self
 end
 
-function module.AttachId(self: ClassType, id: string)
+function module.AttachId(self: ClassType, id: number)
 	local sucess = replicableInstance.AttachId(self, id)
 	if not sucess then
 		return false
@@ -63,41 +84,6 @@ function module.Materialize(self: ClassType, info: replicableInstance.Materializ
 
 	self.Character = self.Model
 	self.Model = nil
-
-	return self
-end
-
-function module._SetHealth(self: ClassType, health: number)
-	if health == self.Health then
-		return self
-	end
-
-	local maxHealth = self.MaxHealth
-
-	if health <= 0 then
-		self.Health = 0
-		self.HealthChanged:Fire(self.Health)
-		self:KnockDown()
-		return self
-	end
-
-	if health > maxHealth then
-		health = maxHealth
-	end
-	self.Health = health
-
-	self.HealthChanged:Fire(self.Health)
-	return self
-end
-
-function module.TakeDamage(self: ClassType, damage: number)
-	local health = self.Health
-	if health <= 0 then
-		return false
-	end
-
-	health -= damage
-	self:_SetHealth(health)
 
 	return self
 end

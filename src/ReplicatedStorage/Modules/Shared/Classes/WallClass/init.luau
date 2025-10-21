@@ -22,8 +22,8 @@ export type ClassType =
 	& jailComponentClass.ClassType
 	& wallsDirectory.Type
 
-function module.new(UID: string | number?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, jailComponentClass, UID) :: ClassType
+function module.new(UID: string?): ClassType
+	local self = replicableInstance.newLinkedToAClass(module, jailComponentClass.new(UID)) :: ClassType
 
 	return self
 end
@@ -39,7 +39,7 @@ function module.Materialize(self: ClassType, info: replicableInstance.Materializ
 	return self
 end
 
-function module.AttachId(self: ClassType, id: string)
+function module.AttachId(self: ClassType, id: number)
 	local success = jailComponentClass.AttachId(self, id)
 	if not success then
 		return false

@@ -184,7 +184,7 @@ function module.isFirstItemIlegal(inv: { any })
 	if not item then
 		return
 	end
-	if not instancesManager.typeIs(item._Type, "Item") then
+	if not item:IsA("Item") then
 		return
 	end
 
@@ -200,7 +200,7 @@ function module.isThereAnIlegalItemOnInventory(inv: { any })
 		if not item then
 			continue
 		end
-		if not instancesManager.typeIs(item._Type, "Item") then
+		if not item:IsA("Item") then
 			continue
 		end
 		if not item.Legal then

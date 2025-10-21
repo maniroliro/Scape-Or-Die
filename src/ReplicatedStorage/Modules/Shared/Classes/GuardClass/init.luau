@@ -1,7 +1,9 @@
 local replicatedStorage = game:GetService("ReplicatedStorage")
+local runService = game:GetService("RunService")
 
 local sharedModules = replicatedStorage.Modules.Shared
 
+local BaseClass = require(sharedModules.Classes.BaseClasses.BaseClass)
 local lib = require(replicatedStorage.lib)
 local t = lib.FunctionUtils.t
 local signal = lib.ModuleUtils.Signal
@@ -9,7 +11,10 @@ local signal = lib.ModuleUtils.Signal
 local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
 local instancesManager = require(sharedModules.Managers.InstancesManager)
 
-local gameCharacterClass = require(sharedModules.Classes.BaseClasses.GameCharacterClass)
+local gameCharacterSharedClass = require(sharedModules.Classes.BaseClasses.GameCharacterClass)
+local gameCharacterClass = runService:IsServer()
+		and require(game.ServerStorage.Modules.Classes.BaseClasses.GameCharacter)
+	or require(replicatedStorage.Modules.Client.Replicas.GameCharacterReplica)
 
 local directoryFolder = replicatedStorage.Directory
 local guardDirectory = require(directoryFolder.Guards)
@@ -24,16 +29,16 @@ export type ClassType =
 		},
 		{ __index = module }
 	))
-	& gameCharacterClass.ClassType
+	& gameCharacterSharedClass.ClassType
 	& guardDirectory.Type
 
-function module.new(UID: string | number?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, gameCharacterClass, UID) :: ClassType
+function module.new(UID: string?): ClassType
+	local self = replicableInstance.newLinkedToAClass(module, gameCharacterClass.new(UID)) :: ClassType
 
 	return self
 end
 
-function module.AttachId(self: ClassType, id: string)
+function module.AttachId(self: ClassType, id: number)
 	local sucess = replicableInstance.AttachId(self, id)
 	if not sucess then
 		return false

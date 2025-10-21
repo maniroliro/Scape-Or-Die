@@ -40,15 +40,15 @@ export type ClassType =
 	& itemsDirectory.Type
 	& replicableInstance.ClassType
 
-function module.new(UID: string | number?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, replicableInstance, UID) :: ClassType
+function module.new(UID: string?): ClassType
+	local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID)) :: ClassType
 	self.equipped = false
 	self.InstantiatedToChanged = self.Trove:Construct(signal)
 
 	return self
 end
 
-function module.AttachId(self: ClassType, id: string)
+function module.AttachId(self: ClassType, id: number)
 	local sucess = replicableInstance.AttachId(self, id)
 	if not sucess then
 		return false
@@ -88,7 +88,7 @@ function module.canAddToChest(self: ClassType, chestUID: string, contentName: st
 	end
 
 	local chest = instancesManager.getObj(chestUID)
-	if not instancesManager.objectIs(chest, "Chest") then
+	if not chest:IsA("Chest") then
 		return false
 	end
 
@@ -112,7 +112,7 @@ function module.canRemoveFromChest(self: ClassType, chestUID: string)
 		return false -- Isn't in a chest
 	end
 	local chest = instancesManager.getObj(chestUID)
-	if not instancesManager.objectIs(chest, "Chest") then
+	if not chest:IsA("Chest") then
 		return false
 	end
 	if not chest:canRemoveItem(self.UID) then
@@ -141,7 +141,7 @@ function module.InstantiateTo(self: ClassType, newInstantiate: string | Player, 
 	do
 		if newInstantiateIsChest then
 			local newObj = instancesManager.getObj(newInstantiate :: string)
-			newInstantiateIsChest = instancesManager.objectIs(newObj, "Chest")
+			newInstantiateIsChest = newObj:IsA("Chest")
 		end
 	end
 
@@ -151,7 +151,7 @@ function module.InstantiateTo(self: ClassType, newInstantiate: string | Player, 
 	do
 		if oldInstantiateIsChest then
 			local lastobj = instancesManager.getObj(last :: string)
-			oldInstantiateIsChest = instancesManager.objectIs(lastobj, "Chest")
+			oldInstantiateIsChest = lastobj:IsA("Chest")
 		end
 	end
 
@@ -191,7 +191,7 @@ function module.TryToInstantiateTo(self: ClassType, newInstantiate: string | Pla
 	do
 		if newInstantiateIsChest then
 			local newObj = instancesManager.getObj(newInstantiate :: string)
-			newInstantiateIsChest = instancesManager.objectIs(newObj, "Chest")
+			newInstantiateIsChest = newObj:IsA("Chest")
 		end
 	end
 
@@ -201,7 +201,7 @@ function module.TryToInstantiateTo(self: ClassType, newInstantiate: string | Pla
 	do
 		if oldInstantiateIsChest then
 			local lastobj = instancesManager.getObj(last :: string)
-			oldInstantiateIsChest = instancesManager.objectIs(lastobj, "Chest")
+			oldInstantiateIsChest = lastobj:IsA("Chest")
 		end
 	end
 
@@ -294,7 +294,7 @@ function module.AddToChest(self: ClassType, chestUID: string, contentTabName: st
 	end
 
 	local chest = instancesManager.getObj(chestUID)
-	if not instancesManager.objectIs(chest, "Chest") then
+	if not chest:IsA("Chest") then
 		return false
 	end
 
@@ -305,7 +305,7 @@ end
 
 function module.RemoveFromChest(self: ClassType, chestUID: string)
 	local chest = instancesManager.getObj(chestUID)
-	if not instancesManager.objectIs(chest, "Chest") then
+	if not chest:IsA("Chest") then
 		return false
 	end
 

@@ -14,7 +14,7 @@ local spring = lib.ModuleUtils.Spring
 local charUtils = lib.FunctionUtils.Character
 
 local chestDirectory = require(replicatedStorage.Directory.Chests)
-local chestSharedClass = require(sharedModules.Classes.DerivedClasses.ChestClass)
+local chestSharedClass = require(sharedModules.Classes.ChestClass)
 
 local itemsReplica = require(clientModules.Replicas.ItemReplica)
 local highlightSelectionUtil = require(clientModules.Utils.HighlightSelection)
@@ -42,7 +42,7 @@ export type ClassType =
 	& chestSharedClass.ClassType
 
 function module.new(UID: string)
-	local self: ClassType = replicableInstance.newLinkedToAClass(module, chestSharedClass, UID) :: ClassType
+	local self: ClassType = replicableInstance.newLinkedToAClass(module, chestSharedClass.new(UID)) :: ClassType
 	self.ItemsInside = {
 		DeskContents = {},
 		HiddenContents = {},
