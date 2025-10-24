@@ -30,7 +30,7 @@ function module.Start()
 			if not obj then
 				return
 			end
-			local typeKey = obj:GetPrimaryType()
+			local typeKey = obj.ClassName
 			local allowed = typeKey and funcAllowedToCall[typeKey]
 			if allowed and allowed[funcName] then
 				warn(obj, typeKey, obj.UID, funcName)
@@ -86,7 +86,7 @@ function module.Start()
 				table.insert(q, { funcName, args or {} })
 				return
 			end
-			local typeKey = obj:GetPrimaryType()
+			local typeKey = obj.ClassName
 			warn(obj, typeKey, obj.UID)
 			warn(funcName)
 			warn(args)

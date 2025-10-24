@@ -13,7 +13,7 @@ local instancesManager = require(sharedModules.Managers.InstancesManager)
 local directoryFolder = replicatedStorage.Directory
 
 local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
-module._Type = replicableInstance.extendType("PrisonArea")
+module._Type = replicableInstance.ExtendType("PrisonArea")
 
 export type ClassType =
 	typeof(setmetatable(

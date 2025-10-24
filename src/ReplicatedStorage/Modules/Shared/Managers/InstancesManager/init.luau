@@ -1,11 +1,10 @@
-local objectTypeUtil = require(game.ReplicatedStorage.Modules.Shared.Utils.ObjectType)
+local objectTypeUtil = require(game.ReplicatedStorage.Modules.Shared.Classes.BaseClasses.ObjectType)
 local trove = require(game.ReplicatedStorage.lib.lib.ModuleUtils._Trove)
 
 export type genericObjType = {
-	_Type: objectTypeUtil.TypeMap,
 	UID: string,
 	Destroying: boolean?,
-} & { [string]: any }
+} & { [string]: any } & objectTypeUtil.ClassType
 
 local module = {}
 module.Trove = trove.new()

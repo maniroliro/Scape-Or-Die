@@ -11,7 +11,7 @@ local sharedModules = replicatedStorage.Modules.Shared
 local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
 
 local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
-module._Type = replicableInstance.extendType("JailComponent")
+module._Type = replicableInstance.ExtendType("JailComponent")
 
 export type ClassType =
 	typeof(setmetatable(

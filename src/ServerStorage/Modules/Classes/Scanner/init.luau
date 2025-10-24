@@ -15,7 +15,7 @@ local replicableInstance = require(sharedClasses.BaseClasses.ReplicableInstance)
 local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
 
 local module = setmetatable({}, { __index = scannerSharedClass })
-module._Type = replicableInstance.extendType("Scanner", scannerSharedClass._Type)
+module._Type = replicableInstance.ExtendType("Scanner", scannerSharedClass._Type)
 
 export type ClassType = typeof(setmetatable({} :: {}, { __index = module })) & scannerSharedClass.ClassType
 
