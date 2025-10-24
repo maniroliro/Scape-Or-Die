@@ -14,7 +14,7 @@ local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
 local scannerDirectory = require(directoryFolder.Scanners)
 
 local module = setmetatable({}, { __index = replicableInstance })
-module._Type = replicableInstance.extendType("Scanner")
+module._Type = replicableInstance.ExtendType("Scanner")
 
 local function clampLevel(n: number): number
 	return math.clamp(n, 0, 3)

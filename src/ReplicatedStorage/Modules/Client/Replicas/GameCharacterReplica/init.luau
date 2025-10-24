@@ -16,7 +16,6 @@ export type ClassType = typeof(setmetatable({} :: {}, { __index = module })) & g
 
 function module.new(UID: string?): ClassType
 	local self = replicableInstance.newLinkedToAClass(module, gameCharacterSharedClass.new(UID))
-	self.HealthChanged = signal.new()
 
 	return self
 end

@@ -19,7 +19,7 @@ local itemsDirectory = require(directoryFolder.Items)
 local itemsFunctionDirectory = require(replicatedStorage.Directory.ItemsFunction)
 
 local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
-module._Type = replicableInstance.extendType("Item")
+module._Type = replicableInstance.ExtendType("Item")
 
 export type ClassType =
 	typeof(setmetatable(

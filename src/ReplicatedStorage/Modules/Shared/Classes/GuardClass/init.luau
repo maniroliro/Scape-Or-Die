@@ -20,7 +20,7 @@ local directoryFolder = replicatedStorage.Directory
 local guardDirectory = require(directoryFolder.Guards)
 
 local module = setmetatable({}, { __index = gameCharacterClass }) --:: & replicableInstance.ClassType
-module._Type = replicableInstance.extendType("Guard")
+module._Type = replicableInstance.ExtendType("Guard")
 
 export type ClassType =
 	typeof(setmetatable(

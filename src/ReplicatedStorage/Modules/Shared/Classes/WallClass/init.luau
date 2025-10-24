@@ -9,7 +9,7 @@ local directoryFolder = replicatedStorage.Directory
 local wallsDirectory = require(directoryFolder.Walls)
 
 local module = setmetatable({}, { __index = jailComponentClass })
-module._Type = replicableInstance.extendType("Wall", jailComponentClass._Type)
+module._Type = replicableInstance.ExtendType("Wall", jailComponentClass._Type)
 
 export type ClassType =
 	typeof(setmetatable(

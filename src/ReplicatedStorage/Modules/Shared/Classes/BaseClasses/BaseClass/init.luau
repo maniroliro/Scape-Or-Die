@@ -1,67 +1,61 @@
 local module = {}
 local MT = {}
-module.indexMTCallback = function(k, realClassModule, sharedClassModule)
-	--print(self, k)
-	local value1 = rawget(realClassModule, k)
-	if value1 then
-		return value1
-	end
 
-	local value2 = (sharedClassModule :: any)[k]
-	if value2 then
-		return value2
-	end
+export type ClassType<T = { any }> = typeof(setmetatable({} :: {}, { __index = MT })) & T
 
-	return nil
+module.AddInherance = function<A, B>(selfTab: A, B: B, specialFunc: ({ [any]: any }, any) -> any?): A & B
+	local self = setmetatable({}, {
+		__index = function(self, k)
+			local value = (selfTab :: any)[k] or (B :: any)[k]
+			if value then
+				return value
+			end
+
+			if specialFunc then
+				local value2 = specialFunc(self, k)
+				if value2 then
+					return value2
+				end
+			end
+			return nil
+		end,
+	})
+	return self
 end
 
-export type ClassType<T = {}> = typeof(setmetatable({} :: {} & T, { __index = MT }))
+-- module.AddInherance = function<A, B>(selfTab: A, B: B, specialFunc: ({ [any]: any }, any) -> any?): A & B
+-- 	if not B then
+-- 		return selfTab :: A & B
+-- 	end
+-- 	local self = setmetatable(B :: any, {
+-- 		__index = function(self, k)
+-- 			--print(self, k)
+-- 			local value1 = (selfTab :: any)[k]
+-- 			if value1 then
+-- 				return value1
+-- 			end
+
+-- 			if specialFunc then
+-- 				local value3 = specialFunc(self, k)
+-- 				if value3 then
+-- 					return value3
+-- 				end
+-- 			end
+
+-- 			return nil
+-- 		end,
+-- 	})
+
+-- 	return self
+-- end
 
 function module.new(): ClassType
-	local self = {}
+	local self = setmetatable({}, { __index = MT })
 	return self
 end
 
-function MT.addInherance<A, B, C, D, E, F, G>(
-	realClassModule: A,
-	B: B,
-	C: C?,
-	D: D?,
-	E: E?,
-	F: F?,
-	G: G?
-): ClassType<A & B & C & D & E & F & G>
-	local self
-
-	local inheritTable = {
-		realClassModule,
-		B,
-		C,
-		D,
-		E,
-		F,
-		G,
-	}
-
-	for i = 1, #inheritTable do
-		local nextTab = inheritTable[i + 1]
-		if not nextTab then
-			break
-		end
-		self = setmetatable(nextTab :: any, {
-			__index = function(self, k)
-				--print(self, k)
-				local value1 = (inheritTable[i] :: any)[k]
-				if value1 then
-					return value1
-				end
-
-				return nil
-			end,
-		})
-	end
-
-	return self
+function MT.AddInherance<A, B>(self: A, B: B, specialFunc: ({ [any]: any }, any) -> any?): A & B
+	return module.AddInherance(self, B, specialFunc)
 end
 
 return module

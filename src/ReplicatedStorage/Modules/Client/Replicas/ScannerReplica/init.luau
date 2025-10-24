@@ -63,9 +63,6 @@ function module.Materialize(self: ClassType, info: replicableInstance.Materializ
 	if not canMaterialize then
 		return self
 	end
-
-	-- local typeName = self:GetPrimaryType() or "Scanner"
-	-- self.Model.Name = string.format("%s _ %s", typeName, self.UID)
 	self.Model.Parent = workspace
 
 	self.DetectionArea = self.Model.DetectionArea
