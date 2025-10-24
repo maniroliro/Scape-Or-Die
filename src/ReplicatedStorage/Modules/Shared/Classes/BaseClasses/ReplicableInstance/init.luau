@@ -18,11 +18,8 @@ local destroyMethodUtil = require(sharedModules.Utils.DestroyObject)
 local baseClass = require(sharedModules.Classes.BaseClasses.BaseClass)
 local objType = require(sharedModules.Classes.BaseClasses.ObjectType)
 
-local MT = {}
-
-local module = objType.new()
-module:ExtendType("ReplicableInstance")
-setmetatable(module, { __index = MT })
+local MT = baseClass.new():AddInherance(objType.new()):ExtendType("ReplicableInstance")
+local module = setmetatable({}, { __index = MT })
 
 local directories = {}
 
