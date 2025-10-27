@@ -5,18 +5,20 @@ local signal = lib.ModuleUtils.Signal
 
 local module = {}
 
-export type ClassType<T = { any }> = typeof(setmetatable(
-	{} :: {
-		Health: number,
-		MaxHealth: number,
+export type ClassType<T = { any }> =
+	typeof(setmetatable(
+		{} :: {
+			Health: number,
+			MaxHealth: number,
 
-		HealthChanged: lib.Signal<nil, number>,
-	} & T,
-	{ __index = module }
-))
+			HealthChanged: lib.Signal<nil, number>,
+		},
+		{ __index = module }
+	))
+	& T
 
-function module.new<T>(obj: T?): ClassType<T>
-	local self = setmetatable(obj or {} :: any, { __index = module }) :: ClassType<T>
+function module.new<T>(): ClassType<T>
+	local self = setmetatable({}, { __index = module }) :: ClassType<T>
 	self.Health = 100
 	self.MaxHealth = 100
 	self.HealthChanged = signal.new()

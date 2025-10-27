@@ -13,12 +13,23 @@ local livingClass = require(sharedModules.Classes.BaseClasses.LivingClass)
 
 local directoryFolder = replicatedStorage.Directory
 
-local module
-module = setmetatable(replicableInstance:ExtendType("GameCharacter"), {
-	__index = function(_, k): livingClass.ClassType --typeof(replicableInstance)-- & livingClass.ClassType
-		return replicableInstance[k] or livingClass[k]
-	end,
-})
+local baseClass = require(sharedModules.Classes.BaseClasses.BaseClass)
+
+local module = baseClass.new():AddInheritance(replicableInstance):AddInheritance(livingClass)
+module:ExtendType("GameCharacter")
+
+module.
+
+local moduleTest = replicableInstance:newFromThis():AddInheritance(livingClass)
+moduleTest:ExtendType('GameCharacter')
+
+moduleTest.
+
+-- module = setmetatable(replicableInstance:ExtendType("GameCharacter"), {
+-- 	__index = function(_, k): livingClass.ClassType --typeof(replicableInstance)-- & livingClass.ClassType
+-- 		return replicableInstance[k] or livingClass[k]
+-- 	end,
+-- })
 
 -- export type ClassType = replicableInstance.ClassType<
 -- 	typeof(setmetatable(
@@ -53,10 +64,13 @@ export type ClassType =
 
 function module.new(UID: string?): ClassType
 	--local self = replicableInstance.new()
-	--self = self:AddInherance(module)
-	--self = self:AddInherance(livingClass.new(self))
-	local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID))
-	self = replicableInstance.newLinkedToAClass(self, livingClass.new(self))
+	--self = self:AddInheritance(module)
+	--self = self:AddInheritance(livingClass.new(self))
+
+	local self = replicableInstance.new(UID):AddInheritance(module)
+
+	-- local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID))
+	-- self = replicableInstance.newLinkedToAClass(self, livingClass.new(self))
 
 	print("asdasdasd", self.HealthChanged)
 

@@ -3,7 +3,7 @@ local MT = {}
 
 export type ClassType<T = { any }> = typeof(setmetatable({} :: {}, { __index = MT })) & T
 
-module.AddInherance = function<A, B>(selfTab: A, B: B, specialFunc: (({ [any]: any }, any) -> any)?): A & B
+module.AddInheritance = function<A, B>(selfTab: A, B: B, specialFunc: (({ [any]: any }, any) -> any)?): A & B
 	local self = setmetatable({}, {
 		__index = function(self, k)
 			local value = (B :: any)[k] or (selfTab :: any)[k]
@@ -49,11 +49,16 @@ end
 -- 	return self
 -- end
 
-function module.new(): ClassType
-	local self = setmetatable({}, { __index = MT })
+function module.new<A>(a: A?): ClassType & A & typeof({})
+	local self = setmetatable((a or {}) :: { any }, { __index = MT })
 	return self
 end
 
-MT.AddInherance = module.AddInherance
+function MT.newFromThis<T>(self: ClassType<T>): ClassType<T>
+	local new = module.new():AddInheritance(self)
+	return new
+end
+
+MT.AddInheritance = module.AddInheritance
 
 return module
