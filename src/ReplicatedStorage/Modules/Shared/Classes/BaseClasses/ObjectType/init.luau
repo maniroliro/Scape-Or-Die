@@ -9,9 +9,9 @@ function MT.IsA<Tab>(self: ClassType<Tab>, className: string): boolean
 	return self._Type[className] ~= nil
 end
 
-function MT.ExtendType<Tab>(self: Tab, typeName: string): Tab
-	(self :: any)._Type[typeName] = typeName;
-	(self :: any).ClassName = typeName
+function MT.ExtendType<Tab>(self: ClassType<Tab>, typeName: string): Tab
+	self._Type[typeName] = typeName
+	self.ClassName = typeName
 
 	return self :: Tab
 end
