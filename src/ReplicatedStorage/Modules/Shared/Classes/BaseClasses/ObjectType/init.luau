@@ -1,7 +1,7 @@
 local module = {}
 local MT = {}
 
-export type ClassType<Tab = {}> =
+export type ClassType<Tab = any> =
 	typeof(setmetatable({} :: { ClassName: string, _Type: { [string]: string } }, { __index = MT }))
 	& Tab
 
@@ -9,15 +9,11 @@ function MT.IsA<Tab>(self: ClassType<Tab>, className: string): boolean
 	return self._Type[className] ~= nil
 end
 
-function MT.ExtendType<Tab>(self: Tab & ClassType, typeName: string): ClassType -- & Tab
-	local newTypeTab = module.new()
-	newTypeTab._Type = self._Type
-	newTypeTab.ClassName = self.ClassName
+function MT.ExtendType<Tab>(self: Tab, typeName: string): Tab
+	(self :: any)._Type[typeName] = typeName;
+	(self :: any).ClassName = typeName
 
-	newTypeTab._Type[typeName] = typeName
-	newTypeTab.ClassName = typeName
-
-	return newTypeTab
+	return self :: Tab
 end
 
 function module.new(): ClassType

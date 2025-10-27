@@ -16,11 +16,17 @@ local instancesManager = require(sharedModules.Managers.InstancesManager)
 local destroyMethodUtil = require(sharedModules.Utils.DestroyObject)
 
 local baseClass = require(sharedModules.Classes.BaseClasses.BaseClass)
-local objType = require(sharedModules.Classes.BaseClasses.ObjectType)
+--local objType = require(sharedModules.Classes.BaseClasses.ObjectType)
 
-local MT = baseClass.new():AddInherance(objType.new()):ExtendType("ReplicableInstance")
-local module = setmetatable({}, { __index = MT })
+---local MT = baseClass.new({}):AddInheritance(objType.new()):ExtendType("ReplicableInstance")
 
+local base = baseClass.new()
+local MT = table.clone(base)
+setmetatable(MT, { __index = base })
+MT.
+--MT:ExtendType("ReplicableInstance")
+--local module = setmetatable({}, { __index = {}::typeof(MT)} )
+local module = baseClass.new():AddInheritance(MT)
 local directories = {}
 
 for _, dirType in dirFolder:GetChildren() do
@@ -65,39 +71,44 @@ export type ClassType<T = { any }> =
 		{ __index = MT }
 	))
 	& genericObjType
-	& T
-	& baseClass.ClassType
 
 function module.new(UID: string?): ClassType
 	local obj = instancesManager.getObj(UID :: string)
 	if obj then
 		return obj
 	end
-	local self = baseClass.new()
-	self:AddInherance(MT, function(self, k)
-		warn(k)
-		local typeName = self.ClassName
-		print(typeName)
-		if typeName then
-			local directory = directories[typeName]
-			print(directory)
-			if directory then
-				local value3 = directory:getItemInfo(self.Id)[k]
-				warn(value3)
-				if value3 then
-					return value3
+	local self = baseClass
+		.new({
+			UID = UID or getLegalUID(),
+			Trove = trove.new(),
+			Remote = remotes.UpdateObj,
+			Replicate = instancesManager.Replicate,
+			Destroying = false,
+		})
+		:AddInheritance(MT, function(self, k)
+			warn(k)
+			local typeName = self.ClassName
+			print(typeName)
+			if typeName then
+				local directory = directories[typeName]
+				print(directory)
+				if directory then
+					local value3 = directory:getItemInfo(self.Id)[k]
+					warn(value3)
+					if value3 then
+						return value3
+					end
 				end
 			end
-		end
-		return nil
-	end)
-	self = {
-		UID = UID or getLegalUID(),
-		Trove = trove.new(),
-		Remote = remotes.UpdateObj,
-		Replicate = instancesManager.Replicate,
-		Destroying = false,
-	}
+			return nil
+		end)
+	-- self = {
+	-- 	UID = UID or getLegalUID(),
+	-- 	Trove = trove.new(),
+	-- 	Remote = remotes.UpdateObj,
+	-- 	Replicate = instancesManager.Replicate,
+	-- 	Destroying = false,
+	-- }
 
 	instancesManager.addObj(self)
 	return self --:: ClassType
