@@ -10,8 +10,8 @@ local zone = lib.ModuleUtils.Zone
 local sharedModules = replicatedStorage.Modules.Shared
 local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
 
-local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
-module._Type = replicableInstance.ExtendType("JailComponent")
+local module = {}
+local moduleClass = replicableInstance:newFromThis(module):ExtendType("JailComponent")
 
 export type ClassType =
 	typeof(setmetatable(
@@ -152,4 +152,4 @@ function module.BuildModel(self: ClassType)
 	return self
 end
 
-return module
+return moduleClass

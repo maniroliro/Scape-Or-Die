@@ -20,24 +20,11 @@ local objType = require(sharedModules.Classes.BaseClasses.ObjectType)
 
 ---local MT = baseClass.new({}):AddInheritance(objType.new()):ExtendType("ReplicableInstance")
 
-local MT1 = {}
-local MT2 = setmetatable(MT1, { __index = objType.new() }):: typeof(MT1) & objType.ClassType 
-local MT = setmetatable(MT2, {__index = baseClass.new()}):: typeof(MT2) & baseClass.ClassType
-
-
---local MT3 = baseClass.new(MT):AddInheritance(objType.new())
-
---MT:ExtendType("ReplicableInstance")
---local module = setmetatable({}, { __index = {}::typeof(MT)} )
---local module2 = baseClass.new(module):AddInheritance(MT2)
---module2
+local MT = {}
+local MTClass = baseClass.new(MT):AddInheritance(objType.new()):ExtendType("ReplicableInstance")
 
 local module = {}
-local module1 = setmetatable(module, {__index = MT}) :: typeof(module) & typeof(MT)
-module1.
-
-
---local module = MT2:newFromThis().
+local moduleClass = MTClass:newFromThis(module) --:AddInheritance(module)
 
 local directories = {}
 
@@ -183,12 +170,12 @@ function module.newLinkedToAClass<A, B, C, D, E, F, G>(
 	return self
 end
 
-function MT1.Replicate<T>(self: ClassType<T>, replicate: boolean?)
+function MT.Replicate<T>(self: ClassType<T>, replicate: boolean?)
 	self:Replicate(replicate)
 	return self
 end
 
-function MT1.AttachId<T>(self: ClassType<T>, id: number)
+function MT.AttachId<T>(self: ClassType<T>, id: number)
 	local typeName = self.ClassName
 	if not typeName then
 		return self
@@ -211,7 +198,7 @@ function MT1.AttachId<T>(self: ClassType<T>, id: number)
 	return self
 end
 
-function MT1.Materialize<T>(self: ClassType<T>, info: MaterializeInfo, ...)
+function MT.Materialize<T>(self: ClassType<T>, info: MaterializeInfo, ...)
 	if type(info) ~= "table" then
 		info = module.NormalizeToMaterializeInfo(info, ...)
 	end
@@ -266,7 +253,7 @@ function MT1.Materialize<T>(self: ClassType<T>, info: MaterializeInfo, ...)
 	return self
 end
 
-function MT1.Destroy<T>(self: ClassType<T>)
+function MT.Destroy<T>(self: ClassType<T>)
 	print("1destroying", self.UID)
 	if self.Destroying then
 		return
@@ -282,4 +269,4 @@ function MT1.Destroy<T>(self: ClassType<T>)
 	destroyMethodUtil(self)
 end
 
-return module
+return moduleClass
