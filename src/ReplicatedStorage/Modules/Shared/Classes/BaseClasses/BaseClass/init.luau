@@ -27,6 +27,28 @@ module.AddInheritance = function<A, B>(
 	return self
 end
 
+-- module.AddInheritance = function<A, B>(
+-- 	selfTab: A,
+-- 	B: B,
+-- 	specialFunc: (({ [any]: any }, any) -> any)?
+-- ): A & B --B & typeof(setmetatable({} :: A, { __index = {} })) & typeof(setmetatable({} :: B, { __index = {} }))
+-- 	local self = setmetatable({}, { __index = B })
+-- 	if type(specialFunc) == "function" then
+-- 		self = setmetatable({}, {
+-- 			__index = function(tab, k)
+-- 				local value = (B :: any)[k] or specialFunc(tab, k)
+-- 				if value then
+-- 					return value
+-- 				end
+
+-- 				return nil
+-- 			end,
+-- 		})
+-- 	end
+
+-- 	return self
+-- end
+
 -- module.AddInherance = function<A, B>(selfTab: A, B: B, specialFunc: ({ [any]: any }, any) -> any?): A & B
 -- 	if not B then
 -- 		return selfTab :: A & B
@@ -53,13 +75,13 @@ end
 -- 	return self
 -- end
 
-function module.new<A>(a: A?): ClassType & A
+function module.new<A>(a: A?): ClassType<A>
 	local self = setmetatable((a or {}) :: { any }, { __index = MT })
 	return self
 end
 
-function MT.newFromThis<T>(self: ClassType<T>): ClassType<T>
-	local new = module.new():AddInheritance(self)
+function MT.newFromThis<T, A>(self: ClassType<T>, a: A?): ClassType<T & A>
+	local new = setmetatable((a or {}) :: { any }, { __index = self })
 	return new
 end
 

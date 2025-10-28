@@ -10,7 +10,8 @@ local instancesManager = require(sharedModules.Managers.InstancesManager)
 
 local gameCharacterSharedClass = require(sharedModules.Classes.BaseClasses.GameCharacterClass)
 
-local module = setmetatable({}, { __index = gameCharacterSharedClass }) --:: & replicableInstance.ClassType
+local module = {}
+local moduleClass = gameCharacterSharedClass:newFromThis(module)
 
 export type ClassType = typeof(setmetatable({} :: {}, { __index = module })) & gameCharacterSharedClass.ClassType
 
@@ -24,4 +25,4 @@ function module.KnockDown(self: ClassType)
 	return self
 end
 
-return module
+return moduleClass
