@@ -54,6 +54,8 @@ export type ClassType = typeof(moduleClass) & replicableInstance.ClassType & {
 	KnockedDown: boolean,
 	ControlledBy: (Player | string)?, -- PlayerInstance or 'AI'
 
+	ChestOpen: string?,
+
 	Outfit: "Prisoner" | "Guard" | "Undressed",
 	Fitness: number,
 	Strength: number,

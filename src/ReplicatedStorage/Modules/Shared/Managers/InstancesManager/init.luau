@@ -57,4 +57,39 @@ function module.getObj(UID: string)
 	return module.objsCreated.ToReplicate[UID] or module.objsCreated.NotToReplicate[UID]
 end
 
+local function findInTab(tab: { [any]: any }, info: { [any]: any })
+	for k, v in info do
+		if tab[k] ~= v then
+			return false
+		end
+	end
+	return true
+end
+
+function module.FindInstanceWithKeys(info: { [any]: any }, replicable: boolean?)
+	local tabToFind = (replicable == true and module.objsCreated.ToReplicate)
+		or (replicable == false and module.objsCreated.NotToReplicate)
+		or nil
+	if tabToFind then
+		for _, tab in tabToFind do
+			if findInTab(tab, info) then
+				return tab
+			end
+		end
+	else
+		for _, tab in module.objsCreated.ToReplicate do
+			if findInTab(tab, info) then
+				return tab
+			end
+		end
+		for _, tab in module.objsCreated.NotToReplicate do
+			if findInTab(tab, info) then
+				return tab
+			end
+		end
+	end
+
+	return nil
+end
+
 return module
