@@ -1,7 +1,5 @@
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local replicatedStorage = game:GetService("ReplicatedStorage")
 
-local FastCastTypes = require(ReplicatedStorage.lib.lib.ModuleUtils._FastCastRedux.FastCastTypes)
 local lib = require(replicatedStorage.lib)
 local t = lib.FunctionUtils.t
 local signal = lib.ModuleUtils.Signal
@@ -9,29 +7,26 @@ local zone = lib.ModuleUtils.Zone
 
 local sharedModules = replicatedStorage.Modules.Shared
 local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
+local livingClass = require(sharedModules.Classes.BaseClasses.LivingClass)
 
 local module = {}
-local moduleClass = replicableInstance:newFromThis(module):ExtendType("JailComponent")
+local moduleClass = replicableInstance:newFromThis(module):AddInheritance(livingClass):ExtendType("JailComponent")
 
-export type ClassType =
-	typeof(setmetatable(
-		{} :: {
-			--CanBeBroken: boolean,
-			CanBeFaked: boolean,
+export type ClassType = replicableInstance.ClassType & typeof(moduleClass) & {
+	--CanBeBroken: boolean,
+	CanBeFaked: boolean,
 
-			HealthChanged: lib.Signal<nil, number>,
-			Health: number,
-			MaxHealth: number,
+	HealthChanged: lib.Signal<nil, number>,
+	Health: number,
+	MaxHealth: number,
 
-			CFrame: CFrame,
-			Model: Model,
-		},
-		{ __index = module }
-	))
-	& replicableInstance.ClassType
+	CFrame: CFrame,
+	Model: Model,
+}
 
 function module.new(UID: string?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID)) :: ClassType
+	local self = replicableInstance.new(UID):AddInheritance(livingClass.new()):AddInheritance(moduleClass)
+	--local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID)) :: ClassType
 
 	return self
 end
@@ -60,40 +55,40 @@ function module.Materialize(self: ClassType, info: replicableInstance.Materializ
 	return self
 end
 
-function module._SetHealth(self: ClassType, health: number)
-	if health == self.Health then
-		return self
-	end
+-- function module._SetHealth(self: ClassType, health: number)
+-- 	if health == self.Health then
+-- 		return self
+-- 	end
 
-	local maxHealth = self.MaxHealth
+-- 	local maxHealth = self.MaxHealth
 
-	if health <= 0 then
-		self.Health = 0
-		self.HealthChanged:Fire(self.Health)
-		self:DestroyModel()
-		return self
-	end
+-- 	if health <= 0 then
+-- 		self.Health = 0
+-- 		self.HealthChanged:Fire(self.Health)
+-- 		self:DestroyModel()
+-- 		return self
+-- 	end
 
-	if health > maxHealth then
-		health = maxHealth
-	end
-	self.Health = health
+-- 	if health > maxHealth then
+-- 		health = maxHealth
+-- 	end
+-- 	self.Health = health
 
-	self.HealthChanged:Fire(self.Health)
-	return self
-end
+-- 	self.HealthChanged:Fire(self.Health)
+-- 	return self
+-- end
 
-function module.TakeDamage(self: ClassType, damage: number)
-	local health = self.Health
-	if health <= 0 then
-		return false
-	end
+-- function module.TakeDamage(self: ClassType, damage: number)
+-- 	local health = self.Health
+-- 	if health <= 0 then
+-- 		return false
+-- 	end
 
-	health -= damage
-	self:_SetHealth(health)
+-- 	health -= damage
+-- 	self:_SetHealth(health)
 
-	return self
-end
+-- 	return self
+-- end
 
 function module.Repair(self: ClassType, amount: number)
 	local health = self.Health

@@ -7,15 +7,15 @@ local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableI
 local guardSharedClass = require(sharedModules.Classes.GuardClass)
 local gameCharacterReplica = require(replicatedStorage.Modules.Client.Replicas.GameCharacterReplica)
 
-local module = setmetatable({}, { __index = guardSharedClass }) --:: & replicableInstance.ClassType
+local module = {}
+local moduleClass = gameCharacterReplica:newFromThis(module)
 
-export type ClassType =
-	typeof(setmetatable({} :: {}, { __index = module }))
-	& guardSharedClass.ClassType
-	& gameCharacterReplica.ClassType
+export type ClassType = guardSharedClass.ClassType & gameCharacterReplica.ClassType & typeof(moduleClass) & {}
 
 function module.new(UID: string?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, guardSharedClass.new(UID)) :: ClassType
+	local self = gameCharacterReplica.new(UID):AddInheritance(moduleClass)
 
 	return self
 end
+
+return moduleClass

@@ -1,8 +1,10 @@
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local replicatedStorage = game:GetService("ReplicatedStorage")
 local runService = game:GetService("RunService")
 
 local sharedModules = replicatedStorage.Modules.Shared
 
+local t = require(ReplicatedStorage.lib.lib.ModuleUtils._Zone.SimpleZone.Utility.t)
 local lib = require(replicatedStorage.lib)
 local t = lib.FunctionUtils.t
 
@@ -12,12 +14,14 @@ local charUtils = lib.FunctionUtils.Character
 
 local wallSharedClass = require(sharedModules.Classes.WallClass)
 
-local module = setmetatable({}, { __index = wallSharedClass })
+local module = {}
+local moduleClass = wallSharedClass:newFromThis(module)
 
-export type ClassType = typeof(setmetatable({} :: {}, { __index = module })) & wallSharedClass.ClassType
+export type ClassType = wallSharedClass.ClassType & typeof(moduleClass) & {}
 
 function module.new(id: string | number?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, wallSharedClass.new()) :: ClassType
+	-- local self = replicableInstance.newLinkedToAClass(module, wallSharedClass.new()) :: ClassType
+	local self = wallSharedClass.new():AddInheritance(moduleClass)
 	self.PlayersSearching = {}
 
 	if id then

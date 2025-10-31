@@ -9,20 +9,19 @@ local sharedModules = replicatedStorage.Modules.Shared
 local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
 local instancesManager = require(sharedModules.Managers.InstancesManager)
 
-local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
-module._Type = replicableInstance.ExtendType("Ground")
+-- local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
+-- module._Type = replicableInstance.ExtendType("Ground")
 
-export type ClassType =
-	typeof(setmetatable(
-		{} :: {
-			items: { [string]: CFrame },
-		},
-		{ __index = module }
-	))
-	& replicableInstance.ClassType
+local module = {}
+local moduleClass = replicableInstance:newFromThis(module):ExtendType("Ground")
+
+export type ClassType = replicableInstance.ClassType & typeof(moduleClass) & {
+	items: { [string]: CFrame },
+}
 
 function module.new(UID: string?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID)) :: ClassType
+	-- local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID)) :: ClassType
+	local self = replicableInstance.new(UID):AddInheritance(moduleClass)
 	self.items = {}
 
 	return self
@@ -76,4 +75,4 @@ function module.RemoveItem(self: ClassType, itemUID: string)
 	return true
 end
 
-return module
+return moduleClass

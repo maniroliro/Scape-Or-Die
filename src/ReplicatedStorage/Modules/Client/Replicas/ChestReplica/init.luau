@@ -22,27 +22,25 @@ local menuUiManager = require(clientModules.Managers.MenuUIManager)
 
 local localplayer = PlayersService.LocalPlayer
 
-local module = setmetatable({}, { __index = chestSharedClass })
+-- local module = setmetatable({}, { __index = chestSharedClass })
+local module = {}
+local moduleClass = chestSharedClass:newFromThis(module)
 
-export type ClassType =
-	typeof(setmetatable(
-		{} :: {
-			Display: Frame, -- typeof(chestDirectory.directoryFolder["00 _ Template"].Display),
-			DrawerSpring: typeof(spring.new()),
-			DrawerPivotPosition: Vector3,
-			ProximityPrompt: ProximityPrompt,
-			ChestOpenByLocalPlayer: boolean,
-			WasMenuAlreadyActivated: boolean?,
+export type ClassType = chestSharedClass.ClassType & typeof(moduleClass) & {
+	Display: Frame, -- typeof(chestDirectory.directoryFolder["00 _ Template"].Display),
+	DrawerSpring: typeof(spring.new()),
+	DrawerPivotPosition: Vector3,
+	ProximityPrompt: ProximityPrompt,
+	ChestOpenByLocalPlayer: boolean,
+	WasMenuAlreadyActivated: boolean?,
 
-			CloseDisplayButtonConnection: RBXScriptConnection?,
-			MouseBehaviorConnection: RBXScriptConnection?,
-		},
-		{ __index = module }
-	))
-	& chestSharedClass.ClassType
+	CloseDisplayButtonConnection: RBXScriptConnection?,
+	MouseBehaviorConnection: RBXScriptConnection?,
+}
 
 function module.new(UID: string)
-	local self: ClassType = replicableInstance.newLinkedToAClass(module, chestSharedClass.new(UID)) :: ClassType
+	-- local self: ClassType = replicableInstance.newLinkedToAClass(module, chestSharedClass.new(UID)) :: ClassType
+	local self = chestSharedClass.new(UID):AddInheritance(moduleClass)
 	self.ItemsInside = {
 		DeskContents = {},
 		HiddenContents = {},
@@ -135,11 +133,13 @@ function module.Materialize(self: ClassType, info: replicableInstance.Materializ
 
 	self.ProximityPrompt.MaxActivationDistance = self.MaxDistanceToInteract
 	self.ProximityPrompt.HoldDuration = self.OpenTime
-
+	print("self.prox", self.ProximityPrompt)
 	self.Trove:Add(self.ProximityPrompt.PromptButtonHoldBegan:Connect(function()
+		print(111111111111)
 		self.Remote:Fire(self.UID, "playerBeganHoldingProximityPrompt", {})
 	end))
 	self.Trove:Add(self.ProximityPrompt.PromptButtonHoldEnded:Connect(function()
+		print(222222222222)
 		self.Remote:Fire(self.UID, "playerEndedHoldingProximityPrompt", {})
 	end))
 
@@ -279,4 +279,4 @@ function module.UpdateItemsInside(self: ClassType, itemsUIDTab: { [string]: { st
 	return self
 end
 
-return module
+return moduleClass

@@ -13,8 +13,11 @@ local directoryFolder = replicatedStorage.Directory
 local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
 local scannerDirectory = require(directoryFolder.Scanners)
 
-local module = setmetatable({}, { __index = replicableInstance })
-module._Type = replicableInstance.ExtendType("Scanner")
+-- local module = setmetatable({}, { __index = replicableInstance })
+-- module._Type = replicableInstance.ExtendType("Scanner")
+
+local module = {}
+local moduleClass = replicableInstance:newFromThis(module):ExtendType("Scanner")
 
 local function clampLevel(n: number): number
 	return math.clamp(n, 0, 3)
@@ -41,25 +44,20 @@ local alertingSettings = {
 	},
 }
 
-export type ClassType =
-	typeof(setmetatable(
-		{} :: {
-			isActivated: boolean,
-			DetectionArea: Part,
-			CFrame: CFrame,
-			Model: Model,
-			AlertLevel: number,
-			PlayersAlerting: { Player },
-			AlertClientThread: thread?,
-			DetectionAreaEvent: RBXScriptConnection?,
-		},
-		{ __index = module }
-	))
-	& replicableInstance.ClassType
-	& scannerDirectory.Type
+export type ClassType = replicableInstance.ClassType & scannerDirectory.Type & typeof(moduleClass) & {
+	isActivated: boolean,
+	DetectionArea: Part,
+	CFrame: CFrame,
+	Model: Model,
+	AlertLevel: number,
+	PlayersAlerting: { Player },
+	AlertClientThread: thread?,
+	DetectionAreaEvent: RBXScriptConnection?,
+}
 
 function module.new(UID: string?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID)) :: ClassType
+	-- local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID)) :: ClassType
+	local self = replicableInstance.new(UID):AddInheritance(moduleClass)
 	self.AlertLevel = 0
 	self.PlayersAlerting = {}
 	self.isActivated = false
@@ -153,4 +151,4 @@ function module.Active(self: ClassType, active: boolean?)
 	return self
 end
 
-return module
+return moduleClass

@@ -3,7 +3,6 @@ local runService = game:GetService("RunService")
 
 local sharedModules = replicatedStorage.Modules.Shared
 
-local BaseClass = require(sharedModules.Classes.BaseClasses.BaseClass)
 local lib = require(replicatedStorage.lib)
 local t = lib.FunctionUtils.t
 local signal = lib.ModuleUtils.Signal
@@ -12,28 +11,23 @@ local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableI
 local instancesManager = require(sharedModules.Managers.InstancesManager)
 
 local gameCharacterSharedClass = require(sharedModules.Classes.BaseClasses.GameCharacterClass)
-local gameCharacterClass = runService:IsServer()
+local gameCharacterClass: gameCharacterSharedClass.ClassType = runService:IsServer()
 		and require(game.ServerStorage.Modules.Classes.BaseClasses.GameCharacter)
 	or require(replicatedStorage.Modules.Client.Replicas.GameCharacterReplica)
 
 local directoryFolder = replicatedStorage.Directory
 local guardDirectory = require(directoryFolder.Guards)
 
-local module = setmetatable({}, { __index = gameCharacterClass }) --:: & replicableInstance.ClassType
-module._Type = replicableInstance.ExtendType("Guard")
+local module = {} --:: & replicableInstance.ClassType
+local moduleClass = gameCharacterClass:newFromThis(module):ExtendType("Guard")
 
-export type ClassType =
-	typeof(setmetatable(
-		{} :: {
-			ChansingPrisoner: Player?,
-		},
-		{ __index = module }
-	))
-	& gameCharacterSharedClass.ClassType
-	& guardDirectory.Type
+export type ClassType = gameCharacterSharedClass.ClassType & guardDirectory.Type & typeof(moduleClass) & {
+	ChasingPrisoner: Player?,
+}
 
 function module.new(UID: string?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, gameCharacterClass.new(UID)) :: ClassType
+	local self = gameCharacterClass.new(UID):AddInheritance(moduleClass)
+	-- local self = replicableInstance.newLinkedToAClass(module, gameCharacterClass.new(UID)) :: ClassType
 
 	return self
 end
@@ -66,4 +60,4 @@ function module.Materialize(self: ClassType, info: replicableInstance.Materializ
 	return self
 end
 
-return module
+return moduleClass

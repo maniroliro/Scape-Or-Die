@@ -12,33 +12,18 @@ local charUtils = lib.FunctionUtils.Character
 
 local chestSharedClass = require(sharedModules.Classes.ChestClass)
 
-local module = setmetatable({}, { __index = chestSharedClass })
+-- local module = setmetatable({}, { __index = chestSharedClass })
+local module = {}
+local moduleClass = chestSharedClass:newFromThis(module)
 
-local Storages = {
-	DeskContents = {
-		Name = "DeskContents",
-		MaxAmountOfItems = 12,
-	},
-	HiddenContents = {
-		Name = "HiddenContents",
-		MaxAmountOfItems = 6,
-	},
+export type ClassType = chestSharedClass.ClassType & typeof(moduleClass) & {
+	PlayersSearching: { Player | nil },
+	SendPlayerItemsInsideThread: thread?,
 }
 
-export type Storages = "DeskContents" | "HiddenContents"
-
-export type ClassType =
-	typeof(setmetatable(
-		{} :: {
-			PlayersSearching: { Player | nil },
-			SendPlayerItemsInsideThread: thread?,
-		},
-		{ __index = module }
-	))
-	& chestSharedClass.ClassType
-
 function module.new(id: string | number?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, chestSharedClass.new()) :: ClassType
+	-- local self = replicableInstance.newLinkedToAClass(module, chestSharedClass.new()) :: ClassType
+	local self = chestSharedClass.new():AddInheritance(moduleClass)
 	self.PlayersSearching = {}
 
 	if id then
@@ -93,7 +78,7 @@ function module.UpdatePlayerSearchingItemsInside(self: ClassType)
 	return self
 end
 
-function module.AddItem(self: ClassType, itemUID: string, contentName: Storages, pos: number?)
+function module.AddItem(self: ClassType, itemUID: string, contentName: chestSharedClass.Storages, pos: number?)
 	local success = chestSharedClass.AddItem(self, itemUID, contentName, pos)
 	if not success then
 		return self
@@ -103,7 +88,7 @@ function module.AddItem(self: ClassType, itemUID: string, contentName: Storages,
 	return self
 end
 
-function module.RemoveItem(self: ClassType, itemUID: string, contentName: Storages?)
+function module.RemoveItem(self: ClassType, itemUID: string, contentName: chestSharedClass.Storages?)
 	local success = chestSharedClass.RemoveItem(self, itemUID, contentName)
 	if not success then
 		return self
@@ -243,4 +228,4 @@ function module.ReplicateTo(self: ClassType, client: Player?)
 	return self
 end
 
-return module
+return moduleClass

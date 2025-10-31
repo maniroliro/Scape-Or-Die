@@ -20,19 +20,18 @@ local wallDirectory = require(replicatedStorage.Directory.Walls)
 
 local localplayer = PlayersService.LocalPlayer
 
-local module = setmetatable({}, { __index = wallSharedClass })
+-- local module = setmetatable({}, { __index = wallSharedClass })
 
-export type ClassType =
-	typeof(setmetatable(
-		{} :: {
-			BillboardGuiInfo: BillboardGui?,
-		},
-		{ __index = module }
-	))
-	& wallSharedClass.ClassType
+local module = {}
+local moduleClass = wallSharedClass:newFromThis(module)
+
+export type ClassType = wallSharedClass.ClassType & typeof(moduleClass) & {
+	BillboardGuiInfo: BillboardGui?,
+}
 
 function module.new(UID: string)
-	local self: ClassType = replicableInstance.newLinkedToAClass(module, wallSharedClass.new(UID)) :: ClassType
+	-- local self: ClassType = replicableInstance.newLinkedToAClass(module, wallSharedClass.new(UID)) :: ClassType
+	local self = wallSharedClass.new(UID):AddInheritance(moduleClass)
 
 	return self
 end

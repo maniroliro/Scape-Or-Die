@@ -3,20 +3,21 @@ local MT = {}
 
 export type ClassType<T = { any }> = typeof(setmetatable({} :: {}, { __index = MT })) & T
 
-module.AddInheritance = function<A, B>(
+module.AddInheritance2 = function<A, B>(
 	selfTab: A,
 	B: B,
 	specialFunc: (({ [any]: any }, any) -> any)?
-): A & B --B & typeof(setmetatable({} :: A, { __index = {} })) & typeof(setmetatable({} :: B, { __index = {} }))
-	local self = setmetatable({}, {
-		__index = function(self, k)
-			local value = (B :: any)[k] or (selfTab :: any)[k]
+): ClassType<A & B> --ClassType<B>
+	local self
+	self = setmetatable({}, {
+		__index = function(tab, k)
+			local value = (B :: any)[k] or (selfTab :: any)[k] -------------------is that necessary? (selfTab :: any)[k] ----------------------------------------------------------------------------
 			if value then
 				return value
 			end
 
 			if specialFunc then
-				local value2 = specialFunc(self, k)
+				local value2 = specialFunc(tab, k)
 				if value2 then
 					return value2
 				end
@@ -24,7 +25,41 @@ module.AddInheritance = function<A, B>(
 			return nil
 		end,
 	})
+
 	return self
+end
+
+module.AddInheritance = function<A, B>(selfTab: A, B: B, specialFunc: (({ [any]: any }, any) -> any)?): ClassType<A & B>
+	local oldMT = getmetatable(selfTab :: any)
+	-- local oldIndex = oldMT.__index
+	-- local oldIndexType = type(oldIndex)
+	--print(oldMT)
+	--print(oldMT.__index)
+	selfTab = setmetatable(selfTab :: any, {
+		__index = function(tab, k)
+			local value = (B :: any)[k] ~= nil and (B :: any)[k]
+				or (
+					oldMT
+					and (
+						(type(oldMT.__index) == "function" and oldMT.__index(tab, k))
+						or (type(oldMT.__index) == "table" and oldMT.__index[k])
+					)
+				)
+			if value ~= nil then
+				return value
+			end
+
+			if specialFunc then
+				local value2 = specialFunc(tab, k)
+				if value2 ~= nil then
+					return value2
+				end
+			end
+			return nil
+		end,
+	})
+
+	return selfTab :: ClassType<A & B>
 end
 
 -- module.AddInheritance = function<A, B>(
@@ -80,8 +115,10 @@ function module.new<A>(a: A?): ClassType<A>
 	return self
 end
 
-function MT.newFromThis<T, A>(self: ClassType<T>, a: A?): ClassType<T & A>
-	local new = setmetatable((a or {}) :: { any }, { __index = self })
+function MT.newFromThis<T, A>(self: ClassType<T>, a: A?, specialFunc: (({ [any]: any }, any) -> any)?): ClassType<A & T>
+	--local new = module.new(a):AddInheritance(self, specialFunc)
+	local new = module.AddInheritance(a or {}, self, specialFunc)
+	--local new = setmetatable((a or {}) :: { any }, { __index = self })
 	return new
 end
 

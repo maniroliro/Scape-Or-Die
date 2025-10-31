@@ -1,6 +1,9 @@
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local replicatedStorage = game:GetService("ReplicatedStorage")
 local serverStorage = game:GetService("ServerStorage")
 
+local TypeHelp = require(ReplicatedStorage.Modules.Shared.Packages.Forbidden.Common.TypeHelp)
+local t = require(ReplicatedStorage.lib.lib.ModuleUtils._Zone.SimpleZone.Utility.t)
 local lib = require(replicatedStorage.lib)
 local t = lib.FunctionUtils.t
 
@@ -13,13 +16,17 @@ local replicableInstance = require(sharedClasses.BaseClasses.ReplicableInstance)
 local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
 local inventoryServerUtil = require(serverStorage.Modules.Utils.InventoryUtilServer)
 
-local module = setmetatable({}, { __index = itemSharedClass })
-module.__index = module
+-- local module = setmetatable({}, { __index = itemSharedClass })
+-- module.__index = module
 
-export type ClassType = typeof(setmetatable({} :: {}, module)) & itemSharedClass.ClassType
+local module = {}
+local moduleClass = itemSharedClass:newFromThis(module)
+
+export type ClassType = itemSharedClass.ClassType & typeof(moduleClass) & {}
 
 function module.new(id: string?): ClassType
-	local self: ClassType = replicableInstance.newLinkedToAClass(module, itemSharedClass.new()) :: ClassType
+	-- local self: ClassType = replicableInstance.newLinkedToAClass(module, itemSharedClass.new()) :: ClassType
+	local self = itemSharedClass.new():AddInheritance(moduleClass)
 
 	if id then
 		self:AttachId(id)
@@ -235,4 +242,4 @@ function module.ReplicateTo(self: ClassType, client: Player?)
 	return self
 end
 
-return module
+return moduleClass

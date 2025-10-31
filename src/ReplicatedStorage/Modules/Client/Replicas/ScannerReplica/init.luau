@@ -13,21 +13,18 @@ local scannerSharedClass = require(replicatedStorage.Modules.Shared.Classes.Scan
 
 local inventorySharedUtil = require(replicatedStorage.Modules.Shared.Utils.InventoryUtilShared)
 
-local module = setmetatable({}, { __index = scannerSharedClass })
+-- local module = setmetatable({}, { __index = scannerSharedClass })
+local module = {}
+local moduleClass = scannerSharedClass:newFromThis(module)
 
-export type ClassType =
-	typeof(setmetatable(
-		{} :: {
-			AlertLights: { Part },
+export type ClassType = scannerSharedClass.ClassType & typeof(moduleClass) & {
+	AlertLights: { Part },
 
-			AlertLevel: number, -- 0..3
-			AlertClientThread: thread?,
+	AlertLevel: number, -- 0..3
+	AlertClientThread: thread?,
 
-			LastBlinkedLight: number,
-		},
-		{ index = module }
-	))
-	& scannerSharedClass.ClassType
+	LastBlinkedLight: number,
+}
 
 local alertingSettings = {
 	[0] = {
@@ -51,7 +48,8 @@ local alertingSettings = {
 }
 
 function module.new(UID: string): ClassType
-	local self: ClassType = replicableInstance.newLinkedToAClass(module, scannerSharedClass.new(UID)) :: ClassType
+	-- local self: ClassType = replicableInstance.newLinkedToAClass(module, scannerSharedClass.new(UID)) :: ClassType
+	local self = scannerSharedClass.new(UID):AddInheritance(moduleClass)
 	self.AlertLights = {}
 	self.LastBlinkedLight = 1
 	return self
@@ -165,4 +163,4 @@ function module.Active(self: ClassType, active: boolean?)
 	return self
 end
 
-return module
+return moduleClass

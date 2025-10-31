@@ -8,27 +8,24 @@ local directoryFolder = replicatedStorage.Directory
 
 local securityCamerasDirectory = require(directoryFolder.SecurityCameras)
 
-local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
-module._Type = replicableInstance.ExtendType("SecurityCamera")
+-- local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
+-- module._Type = replicableInstance.ExtendType("SecurityCamera")
 
-export type ClassType =
-	typeof(setmetatable(
-		{} :: {
-			isActivated: boolean,
+local module = {}
+local moduleClass = replicableInstance:newFromThis(module):ExtendType("SecurityCamera")
 
-			AttachedToWall: BasePart,
-			CFrame: CFrame,
-			Model: Model,
-			CameraModel: Model,
-		},
-		{ __index = module }
-	))
-	& replicableInstance.ClassType
-	& securityCamerasDirectory.Type
+export type ClassType = replicableInstance.ClassType & securityCamerasDirectory.Type & typeof(moduleClass) & {
+	isActivated: boolean,
+
+	AttachedToWall: BasePart,
+	CFrame: CFrame,
+	Model: Model,
+	CameraModel: Model,
+}
 
 function module.new(UID: string?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID)) :: ClassType
-
+	-- local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID)) :: ClassType
+	local self = replicableInstance.new(UID):AddInheritance(moduleClass)
 	return self
 end
 
@@ -75,4 +72,4 @@ function module.Active(self: ClassType, active: boolean?)
 	return self
 end
 
-return module
+return moduleClass

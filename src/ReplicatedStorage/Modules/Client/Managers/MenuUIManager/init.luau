@@ -16,9 +16,17 @@ module.CloseDisplayButtonConnection = nil
 module.MouseBehaviorConnection = nil
 module.isMenuActivated = false
 
-module.tabSystem =
-	createTabSystem(module.Display.Frame.Menu.Frame.Tabs, module.Display.Frame.Menu.Frame.Contents, script)
-module.ObjTrove = module.tabSystem.Trove
+function module.Init()
+	return module
+end
+
+function module.Start()
+	module.tabSystem =
+		createTabSystem(module.Display.Frame.Menu.Frame.Tabs, module.Display.Frame.Menu.Frame.Contents, script)
+	module.ObjTrove = module.tabSystem.Trove
+
+	return module
+end
 
 function module.ActiveMenu()
 	module.isMenuActivated = true

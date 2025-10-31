@@ -38,23 +38,20 @@ end)
 
 local localPlayer = game.Players.LocalPlayer
 
-local module = setmetatable({}, { __index = itemSharedClass })
+-- local module = setmetatable({}, { __index = itemSharedClass })
+local module = {}
+local moduleClass = itemSharedClass:newFromThis(module)
 
-export type ClassType =
-	typeof(setmetatable(
-		{} :: {
-			Display: Frame,
+export type ClassType = itemSharedClass.ClassType & typeof(moduleClass) & {
+	Display: Frame,
 
-			animType: "KeyDown" | nil,
-			useItemConnection: RBXScriptConnection?,
-		},
-		{ __index = module }
-	))
-	& itemSharedClass.ClassType
+	animType: "KeyDown" | nil,
+	useItemConnection: RBXScriptConnection?,
+}
 
 function module.new(UID: string?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, itemSharedClass.new(UID)) :: ClassType
-
+	-- local self = replicableInstance.newLinkedToAClass(module, itemSharedClass.new(UID)) :: ClassType
+	local self = itemSharedClass.new(UID):AddInheritance(moduleClass)
 	return self
 end
 
@@ -354,4 +351,4 @@ function module.ToggleEquip(self: ClassType)
 	return self
 end
 
-return module
+return moduleClass

@@ -10,13 +10,15 @@ local instancesManager = require(sharedModules.Managers.InstancesManager)
 
 local gameCharacterSharedClass = require(sharedModules.Classes.BaseClasses.GameCharacterClass)
 
-local module = setmetatable({}, { __index = gameCharacterSharedClass }) --:: & replicableInstance.ClassType
-setmetatable(module, { __index = gameCharacterSharedClass })
+-- local module = setmetatable({}, { __index = gameCharacterSharedClass }) --:: & replicableInstance.ClassType
+-- setmetatable(module, { __index = gameCharacterSharedClass })
+local module = {}
+local moduleClass = replicableInstance:newFromThis(module):AddInheritance(gameCharacterSharedClass)
 
-export type ClassType = typeof(setmetatable({} :: {}, { __index = module })) & gameCharacterSharedClass.ClassType
+export type ClassType = gameCharacterSharedClass.ClassType & typeof(moduleClass) & {}
 
 function module.new(UID: string?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, gameCharacterSharedClass.new(UID))
+	local self = gameCharacterSharedClass.new(UID):AddInheritance(moduleClass)
 
 	return self
 end
@@ -43,4 +45,4 @@ function module.ReplicateTo(self: ClassType, client: Player?)
 	return self
 end
 
-return module
+return moduleClass

@@ -11,13 +11,8 @@ local instancesManager = require(sharedModules.Managers.InstancesManager)
 
 local livingClass = require(sharedModules.Classes.BaseClasses.LivingClass)
 
-local directoryFolder = replicatedStorage.Directory
-
-local baseClass = require(sharedModules.Classes.BaseClasses.BaseClass)
-
 local module = {}
 local moduleClass = replicableInstance:newFromThis(module):AddInheritance(livingClass):ExtendType("GameCharacter")
-
 -- module = setmetatable(replicableInstance:ExtendType("GameCharacter"), {
 -- 	__index = function(_, k): livingClass.ClassType --typeof(replicableInstance)-- & livingClass.ClassType
 -- 		return replicableInstance[k] or livingClass[k]
@@ -39,28 +34,38 @@ local moduleClass = replicableInstance:newFromThis(module):AddInheritance(living
 -- 	))
 -- >
 
-export type ClassType =
-	typeof(setmetatable(
-		{} :: {
-			Character: Model?,
-			KnockedDown: boolean,
-			ControlledBy: (Player | string)?, -- PlayerInstance or 'AI'
+-- export type ClassType =
+-- 	typeof(setmetatable(
+-- 		{} :: {
+-- 			Character: Model?,
+-- 			KnockedDown: boolean,
+-- 			ControlledBy: (Player | string)?, -- PlayerInstance or 'AI'
 
-			Outfit: "Prisoner" | "Guard" | "Undressed",
-			Fitness: number,
-			Strength: number,
-		},
-		{ __index = module }
-	))
-	& replicableInstance.ClassType
-	& livingClass.ClassType
+-- 			Outfit: "Prisoner" | "Guard" | "Undressed",
+-- 			Fitness: number,
+-- 			Strength: number,
+-- 		},
+-- 		{ __index = moduleClass }
+-- 	))
+-- 	& typeof(moduleClass)
+
+export type ClassType = typeof(moduleClass) & replicableInstance.ClassType & {
+	Character: Model?,
+	KnockedDown: boolean,
+	ControlledBy: (Player | string)?, -- PlayerInstance or 'AI'
+
+	Outfit: "Prisoner" | "Guard" | "Undressed",
+	Fitness: number,
+	Strength: number,
+}
 
 function module.new(UID: string?): ClassType
 	--local self = replicableInstance.new()
 	--self = self:AddInheritance(module)
 	--self = self:AddInheritance(livingClass.new(self))
 
-	local self = replicableInstance.new(UID):AddInheritance(module)
+	local self = replicableInstance.new(UID):AddInheritance(livingClass.new()):AddInheritance(moduleClass)
+	self.KnockedDown = false
 
 	-- local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID))
 	-- self = replicableInstance.newLinkedToAClass(self, livingClass.new(self))

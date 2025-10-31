@@ -19,27 +19,24 @@ local gameCharacterServerClass = require(serverStorage.Modules.Classes.BaseClass
 local forbiddenAi = require(sharedModules.Packages.Forbidden.AI)
 local collisionGroupUtils = require(serverStorage.Modules.Utils.CollisionGroup)
 
-local module = setmetatable({}, { __index = guardSharedClass }) --:: & replicableInstance.ClassType
+-- local module = setmetatable({}, { __index = guardSharedClass }) --:: & replicableInstance.ClassType
+local module = {}
+local moduleClass = guardSharedClass:newFromThis(module)
 
-export type ClassType =
-	typeof(setmetatable(
-		{} :: {
-			Character: Model?,
-			Head: BasePart?,
-			ChasingPrisoner: Player?,
-			LastPositionGoing: Vector3?,
-			LastTimeSawPrisoner: number,
+export type ClassType = guardSharedClass.ClassType & typeof(moduleClass) & {
+	--Character: Model?,
+	Head: BasePart?,
+	--ChasingPrisoner: Player?,
+	LastPositionGoing: Vector3?,
+	LastTimeSawPrisoner: number,
 
-			WatchingConnection: RBXScriptConnection?,
-			StopChasingThread: thread?,
-		},
-		{ __index = module }
-	))
-	& guardSharedClass.ClassType
-	& gameCharacterServerClass.ClassType
+	WatchingConnection: RBXScriptConnection?,
+	StopChasingThread: thread?,
+} -- & gameCharacterServerClass.ClassType
 
 function module.new(id: string | number?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, guardSharedClass.new()) :: ClassType
+	-- local self = replicableInstance.newLinkedToAClass(module, guardSharedClass.new()) :: ClassType
+	local self = guardSharedClass.new():AddInheritance(moduleClass)
 	self.HealthChanged = self.Trove:Add(signal.new())
 
 	if id then
