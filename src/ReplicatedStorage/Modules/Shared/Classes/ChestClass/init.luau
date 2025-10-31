@@ -54,7 +54,13 @@ function module.new(UID: string?): ClassType
 	return self
 end
 
-function module.OpenChest(self: ClassType, plr: Player)
+function module.OpenChest(self: ClassType, plr: any)
+	instancesManager.FindInstanceWithKeys({ ClassName = "Prisoner", ControlledBy = "" })
+
+	if type(plr) ~= "table" or plr.ClassName ~= "Prisoner" or t.Player(plr.ControlledBy) then
+		return false
+	end
+
 	if not t.Player(plr) then
 		return false
 	end
