@@ -8,22 +8,20 @@ local directoryFolder = replicatedStorage.Directory
 
 local wallsDirectory = require(directoryFolder.Walls)
 
-local module = setmetatable({}, { __index = jailComponentClass })
-module._Type = replicableInstance.ExtendType("Wall", jailComponentClass._Type)
+-- local module = setmetatable({}, { __index = jailComponentClass })
+-- module._Type = replicableInstance.ExtendType("Wall", jailComponentClass._Type)
 
-export type ClassType =
-	typeof(setmetatable(
-		{} :: {
-			Model: Model,
-			CFrame: CFrame,
-		},
-		{ __index = module }
-	))
-	& jailComponentClass.ClassType
-	& wallsDirectory.Type
+local module = {}
+local moduleClass = replicableInstance:newFromThis(module):AddInheritance(jailComponentClass):ExtendType("Wall")
+
+export type ClassType = jailComponentClass.ClassType & wallsDirectory.Type & typeof(moduleClass) & {
+	Model: Model,
+	CFrame: CFrame,
+}
 
 function module.new(UID: string?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, jailComponentClass.new(UID)) :: ClassType
+	-- local self = replicableInstance.newLinkedToAClass(module, jailComponentClass.new(UID)) :: ClassType
+	local self = replicableInstance.new(UID):AddInheritance(jailComponentClass.new()):AddInheritance(moduleClass)
 
 	return self
 end
@@ -48,4 +46,4 @@ function module.AttachId(self: ClassType, id: number)
 	return self
 end
 
-return module
+return moduleClass

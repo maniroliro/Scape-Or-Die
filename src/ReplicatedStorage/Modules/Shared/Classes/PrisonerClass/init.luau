@@ -1,4 +1,5 @@
 local replicatedStorage = game:GetService("ReplicatedStorage")
+local runService = game:GetService("RunService")
 
 local lib = require(replicatedStorage.lib)
 local t = lib.FunctionUtils.t
@@ -7,34 +8,32 @@ local charUtil = lib.FunctionUtils.Character
 
 local sharedModules = replicatedStorage.Modules.Shared
 
-local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
-local instancesManager = require(sharedModules.Managers.InstancesManager)
-
-local gameCharacterClass = require(sharedModules.Classes.BaseClasses.GameCharacterClass)
-
-local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
+local gameCharacterSharedClass = require(sharedModules.Classes.BaseClasses.GameCharacterClass)
+local gameCharacterClass: gameCharacterSharedClass.ClassType = runService:IsServer()
+		and require(game.ServerStorage.Modules.Classes.BaseClasses.GameCharacter)
+	or require(replicatedStorage.Modules.Client.Replicas.GameCharacterReplica)
 
 local directoryFolder = replicatedStorage.Directory
+local prisonersDirectory = require(directoryFolder.Prisoners)
 
-local module = setmetatable({}, { __index = gameCharacterClass }) --:: & replicableInstance.ClassType
-module._Type = replicableInstance.ExtendType("Prisoner")
+local module = {} --:: & replicableInstance.ClassType
+local moduleClass = gameCharacterClass:newFromThis(module):ExtendType("Prisoner")
 
-export type ClassType =
-	typeof(setmetatable(
-		{} :: {
-			Inventory: { string },
+export type ClassType = prisonersDirectory.Type & gameCharacterSharedClass.ClassType & typeof(moduleClass) & {
+	Inventory: { string },
 
-			Heat: number,
-			Stamina: number,
-			Intellect: number,
-			Money: number,
-		},
-		{ __index = module }
-	))
-	& gameCharacterClass.ClassType
+	Heat: number,
+
+	MaxStamina: number,
+	Stamina: number,
+	Intellect: number,
+	Money: number,
+}
 
 function module.new(UID: string?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, gameCharacterClass.new(UID)) :: ClassType
+	local self = gameCharacterClass.new(UID):AddInheritance(moduleClass)
 
 	return self
 end
+
+return moduleClass

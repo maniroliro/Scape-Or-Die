@@ -18,30 +18,28 @@ local directoryFolder = replicatedStorage.Directory
 local itemsDirectory = require(directoryFolder.Items)
 local itemsFunctionDirectory = require(replicatedStorage.Directory.ItemsFunction)
 
-local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
-module._Type = replicableInstance.ExtendType("Item")
+-- local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
+-- module._Type = replicableInstance.ExtendType("Item")
 
-export type ClassType =
-	typeof(setmetatable(
-		{} :: {
-			Model: Model, -- typeof(itemsDirectory.directoryFolder["00 _ Template"].Mo),
-			PlayerOwner: Player?,
-			CFrame: CFrame?,
-			equipped: boolean,
-			InstantiatedTo: string | Player,
-			InstantiatedToChanged: lib.Signal<nil, string | Player>,
-			--SlotOnInstantiatedTo: number?,
+local module = {}
+local moduleClass = replicableInstance:newFromThis(module):ExtendType("Item")
 
-			ItemFunction1: itemsFunctionDirectory.Type,
-			ItemFunction2: itemsFunctionDirectory.Type,
-		},
-		{ __index = module }
-	))
-	& itemsDirectory.Type
-	& replicableInstance.ClassType
+export type ClassType = itemsDirectory.Type & replicableInstance.ClassType & typeof(moduleClass) & {
+	Model: Model, -- typeof(itemsDirectory.directoryFolder["00 _ Template"].Mo),
+	PlayerOwner: Player?,
+	CFrame: CFrame?,
+	equipped: boolean,
+	InstantiatedTo: string | Player,
+	InstantiatedToChanged: lib.Signal<nil, string | Player>,
+	--SlotOnInstantiatedTo: number?,
+
+	ItemFunction1: itemsFunctionDirectory.Type,
+	ItemFunction2: itemsFunctionDirectory.Type,
+}
 
 function module.new(UID: string?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID)) :: ClassType
+	-- local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID)) :: ClassType
+	local self = replicableInstance.new(UID):AddInheritance(moduleClass)
 	self.equipped = false
 	self.InstantiatedToChanged = self.Trove:Construct(signal)
 
@@ -405,7 +403,7 @@ function module.CanUseItem(self: ClassType, funcN: number)
 	print()
 
 	local funcName = "ItemFunction" .. funcN
-	local func = self[funcName]
+	local func = (self :: any)[funcName]
 
 	if not func then
 		return false
@@ -428,7 +426,7 @@ function module.UseItem(self: ClassType, funcN: number)
 	end
 
 	local funcName = "ItemFunction" .. funcN
-	local func = self[funcName]
+	local func = (self :: any)[funcName]
 
 	if not func then
 		return false
@@ -448,4 +446,4 @@ function module.Destroy(self: ClassType)
 	return true
 end
 
-return module
+return moduleClass

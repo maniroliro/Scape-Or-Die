@@ -17,15 +17,15 @@ local playerInteractionsController = require(script.PlayerInteractionsController
 local viewModelController = require(script.ViewModelController)
 local playerUIController = require(script.PlayerUIController)
 
-playerDataController.Init()
 instanceHandler.Init()
+playerDataController.Init()
 viewModelController.Init()
 inventoryController.Init()
 playerInteractionsController.Init()
 playerUIController.Init()
 
-playerDataController.Start()
 instanceHandler.Start()
+playerDataController.Start()
 viewModelController.Start()
 inventoryController.Start()
 playerInteractionsController.Start()

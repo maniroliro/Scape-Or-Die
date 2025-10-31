@@ -11,8 +11,12 @@ local directoryFolder = replicatedStorage.Directory
 
 local chestDirectory = require(directoryFolder.Chests)
 
-local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
-module._Type = replicableInstance.ExtendType("Chest")
+-- local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
+-- module._Type = replicableInstance.ExtendType("Chest")
+
+local module = {}
+local moduleClass = replicableInstance:newFromThis(module)
+moduleClass:ExtendType("Chest")
 
 local Storages = {
 	DeskContents = {
@@ -32,21 +36,16 @@ export type ChestItems = {
 	HiddenContents: { string },
 }
 
-export type ClassType =
-	typeof(setmetatable(
-		{} :: {
-			PlayerOwner: Player?,
-			CFrame: CFrame,
-			Model: Model, -- typeof(replicatedStorage.Assets.Directory.Chests["00 _ Template"].Model),
-			ItemsInside: ChestItems,
-		},
-		{ __index = module }
-	))
-	& replicableInstance.ClassType
-	& chestDirectory.Type
+export type ClassType = & replicableInstance.ClassType & chestDirectory.Type & typeof(moduleClass) & {
+	PlayerOwner: Player?,
+	CFrame: CFrame,
+	Model: Model, -- typeof(replicatedStorage.Assets.Directory.Chests["00 _ Template"].Model),
+	ItemsInside: ChestItems,
+}
 
 function module.new(UID: string?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID)) :: ClassType
+	--local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID)) :: ClassType
+	local self = replicableInstance.new(UID):AddInheritance(moduleClass)
 	self.ItemsInside = {
 		DeskContents = {},
 		HiddenContents = {},
@@ -225,4 +224,4 @@ function module.RemoveItem(self: ClassType, itemUID: string, contentName: Storag
 	return false
 end
 
-return module
+return moduleClass

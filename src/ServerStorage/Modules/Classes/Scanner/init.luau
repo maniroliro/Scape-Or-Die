@@ -14,13 +14,17 @@ local scannerSharedClass = require(sharedClasses.ScannerClass)
 local replicableInstance = require(sharedClasses.BaseClasses.ReplicableInstance)
 local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
 
-local module = setmetatable({}, { __index = scannerSharedClass })
-module._Type = replicableInstance.ExtendType("Scanner", scannerSharedClass._Type)
+-- local module = setmetatable({}, { __index = scannerSharedClass })
+-- module._Type = replicableInstance.ExtendType("Scanner", scannerSharedClass._Type)
 
-export type ClassType = typeof(setmetatable({} :: {}, { __index = module })) & scannerSharedClass.ClassType
+local module = {}
+local moduleClass = scannerSharedClass:newFromThis(module)
+
+export type ClassType = scannerSharedClass.ClassType & typeof(moduleClass) & {}
 
 function module.new(id: string | number?): ClassType
-	local self: ClassType = replicableInstance.newLinkedToAClass(module, scannerSharedClass.new()) :: ClassType
+	-- local self: ClassType = replicableInstance.newLinkedToAClass(module, scannerSharedClass.new()) :: ClassType
+	local self = scannerSharedClass.new():AddInheritance(moduleClass)
 
 	if id then
 		self:AttachId(id)
@@ -104,4 +108,4 @@ function module.ReplicateTo(self: ClassType, client: Player?)
 	return self
 end
 
-return module
+return moduleClass

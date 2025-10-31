@@ -12,30 +12,29 @@ local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableI
 local securityCameraSharedClass = require(sharedModules.Classes.SecurityCameraClass)
 local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
 
-local module = setmetatable({}, { __index = securityCameraSharedClass })
+-- local module = setmetatable({}, { __index = securityCameraSharedClass })
 
-export type ClassType =
-	typeof(setmetatable(
-		{} :: {
-			CameraZone: lib.Zone,
-			PlayersInTheArea: { Player },
-			StartWatchingPlayer: lib.Signal<nil, Player>?,
-			FinishWatchingPlayer: lib.Signal<nil, Player>?,
-			CheckingPlayersInTheArea: RBXScriptConnection?,
-			RotationConnection: RBXScriptConnection?,
+local module = {}
+local moduleClass = securityCameraSharedClass:newFromThis(module)
 
-			Light: SpotLight,
-			Eye: Part,
+export type ClassType = securityCameraSharedClass.ClassType & typeof(moduleClass) & {
+	CameraZone: lib.Zone,
+	PlayersInTheArea: { Player },
+	StartWatchingPlayer: lib.Signal<nil, Player>?,
+	FinishWatchingPlayer: lib.Signal<nil, Player>?,
+	CheckingPlayersInTheArea: RBXScriptConnection?,
+	RotationConnection: RBXScriptConnection?,
 
-			AlreadyRotatedToOneSide: number,
-			RotationMultiplier: number,
-		},
-		{ __index = module }
-	))
-	& securityCameraSharedClass.ClassType
+	Light: SpotLight,
+	Eye: Part,
+
+	AlreadyRotatedToOneSide: number,
+	RotationMultiplier: number,
+}
 
 function module.new(id: string | number?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, securityCameraSharedClass.new()) :: ClassType
+	-- local self = replicableInstance.newLinkedToAClass(module, securityCameraSharedClass.new()) :: ClassType
+	local self = securityCameraSharedClass.new():AddInheritance(moduleClass)
 	self.PlayersInTheArea = {}
 	self.AlreadyRotatedToOneSide = 0
 	self.RotationMultiplier = 1
@@ -308,4 +307,4 @@ function module.ReplicateTo(self: ClassType, client: Player?)
 	return self
 end
 
-return module
+return moduleClass

@@ -13,10 +13,11 @@ local gameCharacterSharedClass = require(sharedModules.Classes.BaseClasses.GameC
 local module = {}
 local moduleClass = gameCharacterSharedClass:newFromThis(module)
 
-export type ClassType = typeof(setmetatable({} :: {}, { __index = module })) & gameCharacterSharedClass.ClassType
+export type ClassType = typeof(moduleClass) & gameCharacterSharedClass.ClassType & {}
 
 function module.new(UID: string?): ClassType
-	local self = replicableInstance.newLinkedToAClass(module, gameCharacterSharedClass.new(UID))
+	local self = replicableInstance.new(UID):AddInheritance(moduleClass)
+	--local self = replicableInstance.newLinkedToAClass(module, gameCharacterSharedClass.new(UID))
 
 	return self
 end

@@ -14,11 +14,13 @@ module.CloseDisplayButtonConnection = nil
 module.MouseBehaviorConnection = nil
 
 function module.Init()
+	menuUiManager.Init()
 	starterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack, false)
 	starterGui:SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, false)
 end
 
 function module.Start()
+	menuUiManager.Start()
 	menuUiManager.tabSystem.toggleTabActive("Profile")
 	module.Trove:Connect(userInputService.InputBegan, function(input, gameProcessed)
 		if gameProcessed then

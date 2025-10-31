@@ -44,7 +44,7 @@ local chest1 = chestClass.new(01)
 local chest2 = chestClass.new(01)
 local chest3 = chestClass.new(01)
 
-chest1:Replicate()
+chest1:Replicate(true)
 chest1:Materialize({ CFrame = workspace.bau1.CFrame })
 
 for _ = 1, math.random(3, 12) do
@@ -60,7 +60,7 @@ for _ = 1, math.random(2, 6) do
 	chest1:AddItem(newItem.UID, "HiddenContents")
 end
 
-chest2:Replicate()
+chest2:Replicate(true)
 chest2:Materialize({ CFrame = workspace.bau2.CFrame })
 
 for _ = 1, math.random(3, 12) do
@@ -76,7 +76,7 @@ for _ = 1, math.random(2, 6) do
 	chest2:AddItem(newItem.UID, "HiddenContents")
 end
 
-chest3:Replicate()
+chest3:Replicate(true)
 chest3:Materialize({ CFrame = workspace.bau3.CFrame })
 
 for _ = 1, math.random(3, 12) do

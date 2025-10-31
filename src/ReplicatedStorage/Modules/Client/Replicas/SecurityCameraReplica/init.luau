@@ -6,21 +6,19 @@ local sharedModules = replicatedStorage.Modules.Shared
 local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
 local securityCameraSharedClass = require(sharedModules.Classes.SecurityCameraClass)
 
-local module = setmetatable({}, { __index = securityCameraSharedClass })
-module.__index = module
+-- local module = setmetatable({}, { __index = securityCameraSharedClass })
+-- module.__index = module
 
-export type ClassType =
-	typeof(setmetatable(
-		{} :: {
-			--Support: typeof(module.Model.Support) & BasePart,
-		},
-		module
-	))
-	& securityCameraSharedClass.ClassType
+local module = {}
+local moduleClass = securityCameraSharedClass:newFromThis(module)
+
+export type ClassType = securityCameraSharedClass.ClassType & typeof(moduleClass) & {
+	--Support: typeof(module.Model.Support) & BasePart,
+}
 
 function module.new(UID: string): ClassType
-	local self: ClassType =
-		replicableInstance.newLinkedToAClass(module, securityCameraSharedClass.new(UID)) :: ClassType
+	-- local self: ClassType = replicableInstance.newLinkedToAClass(module, securityCameraSharedClass.new(UID)) :: ClassType
+	local self = securityCameraSharedClass.new(UID):AddInheritance(moduleClass)
 
 	return self
 end
@@ -43,4 +41,4 @@ function module.Active(self: ClassType, active: boolean?)
 	return self
 end
 
-return module
+return moduleClass

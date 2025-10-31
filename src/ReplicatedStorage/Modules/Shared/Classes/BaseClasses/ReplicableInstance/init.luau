@@ -21,11 +21,12 @@ local objType = require(sharedModules.Classes.BaseClasses.ObjectType)
 ---local MT = baseClass.new({}):AddInheritance(objType.new()):ExtendType("ReplicableInstance")
 
 local MT = {}
-local MTClass = baseClass.new(MT):AddInheritance(objType.new()):ExtendType("ReplicableInstance")
+local MTClass = baseClass.new(MT):AddInheritance(objType.new()) --:AddInheritance({a = 2}):AddInheritance({o = true})  --:AddInheritance({a = 2}) --:AddInheritance(objType.new())
+MTClass:ExtendType("ReplicableInstance")
 
 local module = {}
-local moduleClass = MTClass:newFromThis(module) --:AddInheritance(module)
-
+--local moduleClass = baseClass.new(module):AddInheritance(MTClass)
+local moduleClass = MTClass:newFromThis(module) --:AddInheritance(MTClass)
 local directories = {}
 
 for _, dirType in dirFolder:GetChildren() do
@@ -60,18 +61,28 @@ end
 
 export type genericObjType = instancesManager.genericObjType
 
-export type ClassType<T = { any }> =
+export type ClassType2 =
 	typeof(setmetatable(
 		{} :: {
 			Remote: typeof(packet("")),
 			Trove: typeof(trove.new()),
 			Replicate: typeof(instancesManager.Replicate),
 		},
-		{ __index = MT }
+		{ __index = MTClass }
 	))
 	& genericObjType
+	--& baseClass.ClassType<typeof(MT)>
+	& typeof(MTClass)
 
-function module.new(UID: string?): ClassType
+export type ClassType<T = {}> =
+	baseClass.ClassType<typeof({} :: {
+		Remote: typeof(packet("")),
+		Trove: typeof(trove.new()),
+		Replicate: typeof(instancesManager.Replicate),
+	}) & genericObjType & T>
+	& typeof(MTClass)
+
+function module.new<T>(UID: string?): ClassType<T>
 	local obj = instancesManager.getObj(UID :: string)
 	if obj then
 		return obj
@@ -84,15 +95,20 @@ function module.new(UID: string?): ClassType
 			Replicate = instancesManager.Replicate,
 			Destroying = false,
 		})
-		:AddInheritance(MT, function(self, k)
-			warn(k)
-			local typeName = self.ClassName
-			print(typeName)
+		:AddInheritance(MTClass, function(tab, k)
+			-- warn(k)
+			local typeName = tab.ClassName
+			-- print(tab._Type)
+			-- print(typeName)
 			if typeName then
 				local directory = directories[typeName]
-				print(directory)
+				-- print(directory)
 				if directory then
-					local value3 = directory:getItemInfo(self.Id)[k]
+					-- warn(k)
+					-- print(tab._Type)
+					-- print(typeName)
+					-- print(directory)
+					local value3 = directory:getItemInfo(tab.Id)[k]
 					warn(value3)
 					if value3 then
 						return value3
@@ -101,92 +117,81 @@ function module.new(UID: string?): ClassType
 			end
 			return nil
 		end)
-	-- self = {
-	-- 	UID = UID or getLegalUID(),
-	-- 	Trove = trove.new(),
-	-- 	Remote = remotes.UpdateObj,
-	-- 	Replicate = instancesManager.Replicate,
-	-- 	Destroying = false,
-	-- }
 
 	instancesManager.addObj(self)
 	return self --:: ClassType
 end
 
-function module.newLinkedToAClass<A, B, C, D, E, F, G>(
-	realClassModule: A,
-	B: B,
-	C: C?,
-	D: D?,
-	E: E?,
-	F: F?,
-	G: G?
-): ClassType<A & B & C & D & E & F & G>
-	local self
+-- function module.newLinkedToAClass<A, B, C, D, E, F, G>(
+-- 	realClassModule: A,
+-- 	B: B,
+-- 	C: C?,
+-- 	D: D?,
+-- 	E: E?,
+-- 	F: F?,
+-- 	G: G?
+-- ): ClassType<A & B & C & D & E & F & G>
+-- 	local self
 
-	local inheritTable = {
-		realClassModule,
-		B,
-		C,
-		D,
-		E,
-		F,
-		G,
-	}
+-- 	local inheritTable = {
+-- 		realClassModule,
+-- 		B,
+-- 		C,
+-- 		D,
+-- 		E,
+-- 		F,
+-- 		G,
+-- 	}
 
-	for i = 1, #inheritTable do
-		local nextTab = inheritTable[i + 1]
-		if not nextTab then
-			break
-		end
-		self = setmetatable(nextTab :: any, {
-			__index = function(self, k)
-				--print(self, k)
-				local value1 = (inheritTable[i] :: any)[k]
-				if value1 then
-					return value1
-				end
+-- 	for i = 1, #inheritTable do
+-- 		local nextTab = inheritTable[i + 1]
+-- 		if not nextTab then
+-- 			break
+-- 		end
+-- 		self = setmetatable(nextTab :: any, {
+-- 			__index = function(self, k)
+-- 				--print(self, k)
+-- 				local value1 = (inheritTable[i] :: any)[k]
+-- 				if value1 then
+-- 					return value1
+-- 				end
 
-				warn(k)
-				local typeName = self.ClassName
-				print(typeName)
-				if typeName then
-					local directory = directories[typeName]
-					print(directory)
-					if directory then
-						local value3 = directory:getItemInfo(self.Id)[k]
-						warn(value3)
-						if value3 then
-							return value3
-						end
-					end
-				end
+-- 				warn(k)
+-- 				local typeName = self.ClassName
+-- 				print(typeName)
+-- 				if typeName then
+-- 					local directory = directories[typeName]
+-- 					print(directory)
+-- 					if directory then
+-- 						local value3 = directory:getItemInfo(self.Id)[k]
+-- 						warn(value3)
+-- 						if value3 then
+-- 							return value3
+-- 						end
+-- 					end
+-- 				end
 
-				return nil
-			end,
-		})
-	end
+-- 				return nil
+-- 			end,
+-- 		})
+-- 	end
 
-	return self
-end
+-- 	return self
+-- end
 
-function MT.Replicate<T>(self: ClassType<T>, replicate: boolean?)
+function MT.Replicate<T>(self: T & ClassType<T>, replicate: boolean?): T & ClassType<T>
 	self:Replicate(replicate)
+
 	return self
 end
 
-function MT.AttachId<T>(self: ClassType<T>, id: number)
+function MT.AttachId<T>(self: ClassType<T>, id: number): ClassType<T>
 	local typeName = self.ClassName
 	if not typeName then
 		return self
 	end
-	print(debug.traceback())
-	print(self)
-	print(typeName)
 	local directory = directories[typeName]
-	print(directory)
 	local info = directory:getItemInfo(id)
-	print(info)
 
 	-- for k, v in info do
 	-- 	(self :: any)[k] = v
@@ -198,7 +203,7 @@ function MT.AttachId<T>(self: ClassType<T>, id: number)
 	return self
 end
 
-function MT.Materialize<T>(self: ClassType<T>, info: MaterializeInfo, ...)
+function MT.Materialize<T>(self: T & ClassType<T>, info: MaterializeInfo, ...): ClassType<T> | boolean
 	if type(info) ~= "table" then
 		info = module.NormalizeToMaterializeInfo(info, ...)
 	end
@@ -253,7 +258,7 @@ function MT.Materialize<T>(self: ClassType<T>, info: MaterializeInfo, ...)
 	return self
 end
 
-function MT.Destroy<T>(self: ClassType<T>)
+function MT.Destroy<T>(self: T & ClassType<T>)
 	print("1destroying", self.UID)
 	if self.Destroying then
 		return
@@ -268,5 +273,27 @@ function MT.Destroy<T>(self: ClassType<T>)
 	self.Destroy = nil
 	destroyMethodUtil(self)
 end
+
+function MT.ret<T>(self: ClassType<T>): ClassType<T>
+	return self
+end
+
+function MT.ret2<T>(self: T): T
+	return self
+end
+
+-- -- local a = module.new("asd")
+
+-- -- moduleClass.new().ret({a = 2}).
+
+-- local a = {} :: typeof(moduleClass)
+
+-- local c = a.new('21'):AttachId(2)
+
+-- --a:AddInheritance({ a = 0 }):AddInheritance({ ohafg = "" }).new(234234):AddInheritance({ c = 1 }):AttachId(2) -- aqui, new retorna ClassType, oq está correto, e AddInheritance retorna a união das 2 tables, o self e a passada a ele mas AttachId não retorna nada ma sdevia, tendo em vista q está declarado q devia retornar o argumento passado a ele, o self, no caso
+
+-- local b = module.new():AddInheritance({ d = "d" }):AddInheritance({ e = "" }):AddInheritance({ sdfg = 3 }):ret() -- aqui ocorre algo semelhante, AddInheritance retorna a união das tables, mas ret não retorna o self, sendo q explicitamente na função está declarado q ele deve retornar o msm tipo do argumento passado a ele, o self
+
+-- --a.new():AddInheritance({ ad = "" })
 
 return moduleClass
