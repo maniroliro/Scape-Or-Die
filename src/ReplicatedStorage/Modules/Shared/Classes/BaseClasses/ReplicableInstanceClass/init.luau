@@ -18,11 +18,11 @@ local destroyMethodUtil = require(sharedModules.Utils.DestroyObject)
 local baseClass = require(sharedModules.Classes.BaseClasses.BaseClass)
 local objType = require(sharedModules.Classes.BaseClasses.ObjectType)
 
----local MT = baseClass.new({}):AddInheritance(objType.new()):ExtendType("ReplicableInstance")
+---local MT = baseClass.new({}):AddInheritance(objType.new()):ExtendType("ReplicableInstanceClass")
 
 local MT = {}
 local MTClass = baseClass.new(MT):AddInheritance(objType.new()) --:AddInheritance({a = 2}):AddInheritance({o = true})  --:AddInheritance({a = 2}) --:AddInheritance(objType.new())
-MTClass:ExtendType("ReplicableInstance")
+MTClass:ExtendType("ReplicableInstanceClass")
 
 local module = {}
 --local moduleClass = baseClass.new(module):AddInheritance(MTClass)
@@ -61,24 +61,25 @@ end
 
 export type genericObjType = instancesManager.genericObjType
 
-export type ClassType2 =
-	typeof(setmetatable(
-		{} :: {
-			Remote: typeof(packet("")),
-			Trove: typeof(trove.new()),
-			Replicate: typeof(instancesManager.Replicate),
-		},
-		{ __index = MTClass }
-	))
-	& genericObjType
-	--& baseClass.ClassType<typeof(MT)>
-	& typeof(MTClass)
+-- export type ClassType2 =
+-- 	typeof(setmetatable(
+-- 		{} :: {
+-- 			Remote: typeof(packet("")),
+-- 			Trove: typeof(trove.new()),
+-- 			Replicate: typeof(instancesManager.Replicate),
+-- 		},
+-- 		{ __index = MTClass }
+-- 	))
+-- 	& genericObjType
+-- 	--& baseClass.ClassType<typeof(MT)>
+-- 	& typeof(MTClass)
 
 export type ClassType<T = {}> =
 	baseClass.ClassType<typeof({} :: {
 		Remote: typeof(packet("")),
 		Trove: typeof(trove.new()),
 		Replicate: typeof(instancesManager.Replicate),
+		Id: number?,
 	}) & genericObjType & T>
 	& typeof(MTClass)
 
@@ -94,6 +95,7 @@ function module.new<T>(UID: string?): ClassType<T>
 			Remote = remotes.UpdateObj,
 			Replicate = instancesManager.Replicate,
 			Destroying = false,
+			Id = 0,
 		})
 		:AddInheritance(MTClass, function(tab, k)
 			-- warn(k)
@@ -109,7 +111,7 @@ function module.new<T>(UID: string?): ClassType<T>
 					-- print(typeName)
 					-- print(directory)
 					local value3 = directory:getItemInfo(tab.Id)[k]
-					warn(value3)
+					warn(tab, k, value3)
 					if value3 then
 						return value3
 					end
@@ -179,11 +181,11 @@ end
 -- 	return self
 -- end
 
-function MT.Replicate<T>(self: T & ClassType<T>, replicate: boolean?): T & ClassType<T>
-	self:Replicate(replicate)
+-- function MT.Replicate<T>(self: T & ClassType<T>, replicate: boolean?): T & ClassType<T>
+-- 	self:Replicate(replicate)
 
-	return self
-end
+-- 	return self
+-- end -- HOW DOESN'T IT MAKE A CYCLE???
 
 function MT.AttachId<T>(self: ClassType<T>, id: number): ClassType<T>
 	local typeName = self.ClassName

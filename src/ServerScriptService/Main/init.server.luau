@@ -19,6 +19,7 @@ local replicableInstancesHandler = require(replicatedStorageServicesFolder.Repli
 local characterBehaviorService = require(serverServicesFolder.CharacterBehaviorService)
 local physicsService = require(serverServicesFolder.PhysicsService)
 local remoteResponse = require(serverServicesFolder.RemotesResponse)
+local gameCharacterService = require(serverServicesFolder.GameCharacterService)
 
 local directoryFolder = replicatedStorage.Directory
 local itemDirectory = require(directoryFolder.Items)

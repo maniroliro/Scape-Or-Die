@@ -13,7 +13,7 @@ local sharedModules = replicatedStorage.Modules.Shared
 local sharedClasses = sharedModules.Classes
 local itemSharedClass = require(sharedClasses.ItemClass)
 
-local replicableInstance = require(sharedClasses.BaseClasses.ReplicableInstance)
+local replicableInstanceClass = require(sharedClasses.BaseClasses.ReplicableInstanceClass)
 
 local inventoryUtil = require(sharedModules.Utils.InventoryUtilShared)
 local inventoryUtilClient = require(clientModules.Utils.InventoryUtilClient)
@@ -50,12 +50,12 @@ export type ClassType = itemSharedClass.ClassType & typeof(moduleClass) & {
 }
 
 function module.new(UID: string?): ClassType
-	-- local self = replicableInstance.newLinkedToAClass(module, itemSharedClass.new(UID)) :: ClassType
+	-- local self = replicableInstanceClass.newLinkedToAClass(module, itemSharedClass.new(UID)) :: ClassType
 	local self = itemSharedClass.new(UID):AddInheritance(moduleClass)
 	return self
 end
 
-function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
+function module.Materialize(self: ClassType, info: replicableInstanceClass.MaterializeInfo)
 	print(self.Model)
 	if self.Model then
 		return self

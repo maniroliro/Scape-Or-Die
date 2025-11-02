@@ -7,26 +7,26 @@ local t = lib.FunctionUtils.t
 local signal = lib.ModuleUtils.Signal
 local simpleZone = lib.ModuleUtils.Zone
 
-local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
+local replicableInstanceClass = require(sharedModules.Classes.BaseClasses.ReplicableInstanceClass)
 local instancesManager = require(sharedModules.Managers.InstancesManager)
 
 local directoryFolder = replicatedStorage.Directory
 
--- local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
--- module._Type = replicableInstance.ExtendType("PrisonArea")
+-- local module = setmetatable({}, { __index = replicableInstanceClass }) --:: & replicableInstanceClass.ClassType
+-- module._Type = replicableInstanceClass.ExtendType("PrisonArea")
 
 local module = {}
-local moduleClass = replicableInstance:newFromThis(module):ExtendType("PrisonArea")
+local moduleClass = replicableInstanceClass:newFromThis(module):ExtendType("PrisonArea")
 
-export type ClassType = & replicableInstance.ClassType & typeof(moduleClass) & {
+export type ClassType = & replicableInstanceClass.ClassType & typeof(moduleClass) & {
 	Areas: { BasePart }, -- typeof(replicatedStorage.Assets.Directory.Chests["00 _ Template"].Model),
 	GameCharacterEnteredArea: lib.Signal<nil, Model, BasePart>,
 	GameCharacterExitedArea: lib.Signal<nil, Model, BasePart>,
 }
 
 function module.new(UID: string?): ClassType
-	-- local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID))
-	local self = replicableInstance.new(UID):AddInheritance(moduleClass)
+	-- local self = replicableInstanceClass.newLinkedToAClass(module, replicableInstanceClass.new(UID))
+	local self = replicableInstanceClass.new(UID):AddInheritance(moduleClass)
 	self.Areas = {}
 	--self.AreasConnection = {}
 	self.GameCharacterEnteredArea = self.Trove:Construct(signal)

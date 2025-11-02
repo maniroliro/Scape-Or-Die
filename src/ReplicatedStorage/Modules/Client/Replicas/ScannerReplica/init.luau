@@ -8,7 +8,7 @@ local lib = require(replicatedStorage:WaitForChild("lib"))
 local charUtil = lib.FunctionUtils.Character
 local t = lib.FunctionUtils.t
 
-local replicableInstance = require(replicatedStorage.Modules.Shared.Classes.BaseClasses.ReplicableInstance)
+local replicableInstanceClass = require(replicatedStorage.Modules.Shared.Classes.BaseClasses.ReplicableInstanceClass)
 local scannerSharedClass = require(replicatedStorage.Modules.Shared.Classes.ScannerClass)
 
 local inventorySharedUtil = require(replicatedStorage.Modules.Shared.Utils.InventoryUtilShared)
@@ -48,15 +48,15 @@ local alertingSettings = {
 }
 
 function module.new(UID: string): ClassType
-	-- local self: ClassType = replicableInstance.newLinkedToAClass(module, scannerSharedClass.new(UID)) :: ClassType
+	-- local self: ClassType = replicableInstanceClass.newLinkedToAClass(module, scannerSharedClass.new(UID)) :: ClassType
 	local self = scannerSharedClass.new(UID):AddInheritance(moduleClass)
 	self.AlertLights = {}
 	self.LastBlinkedLight = 1
 	return self
 end
 
-function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
-	info = replicableInstance.NormalizeToMaterializeInfo(info)
+function module.Materialize(self: ClassType, info: replicableInstanceClass.MaterializeInfo)
+	info = replicableInstanceClass.NormalizeToMaterializeInfo(info)
 	local canMaterialize = scannerSharedClass.Materialize(self, info)
 	if not canMaterialize then
 		return self

@@ -14,7 +14,7 @@ local moduleClass = jailComponentClass:newFromThis(module)
 export type ClassType = jailComponentClass.ClassType & typeof(moduleClass) & {}
 
 function module.new(id: number?): ClassType
-	-- local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID)) :: ClassType
+	-- local self = replicableInstanceClass.newLinkedToAClass(module, replicableInstanceClass.new(UID)) :: ClassType
 	local self = jailComponentClass.new()
 
 	if id then

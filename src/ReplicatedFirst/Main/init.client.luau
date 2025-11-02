@@ -31,8 +31,8 @@ inventoryController.Start()
 playerInteractionsController.Start()
 playerUIController.Start()
 
---local replicableInstance = require(replicatedStorage.Modules.Shared.Classes.BaseClasses.ReplicableInstance)
---replicableInstance.Init()
---replicableInstance.Start()
+--local replicableInstanceClass = require(replicatedStorage.Modules.Shared.Classes.BaseClasses.ReplicableInstanceClass)
+--replicableInstanceClass.Init()
+--replicableInstanceClass.Start()
 
 remotes.PlayerLoaded:Fire()

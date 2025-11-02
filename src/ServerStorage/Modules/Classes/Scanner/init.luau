@@ -11,11 +11,11 @@ local sharedModules = replicatedStorage.Modules.Shared
 local sharedClasses = sharedModules.Classes
 local scannerSharedClass = require(sharedClasses.ScannerClass)
 
-local replicableInstance = require(sharedClasses.BaseClasses.ReplicableInstance)
+local replicableInstanceClass = require(sharedClasses.BaseClasses.ReplicableInstanceClass)
 local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
 
 -- local module = setmetatable({}, { __index = scannerSharedClass })
--- module._Type = replicableInstance.ExtendType("Scanner", scannerSharedClass._Type)
+-- module._Type = replicableInstanceClass.ExtendType("Scanner", scannerSharedClass._Type)
 
 local module = {}
 local moduleClass = scannerSharedClass:newFromThis(module)
@@ -23,7 +23,7 @@ local moduleClass = scannerSharedClass:newFromThis(module)
 export type ClassType = scannerSharedClass.ClassType & typeof(moduleClass) & {}
 
 function module.new(id: string | number?): ClassType
-	-- local self: ClassType = replicableInstance.newLinkedToAClass(module, scannerSharedClass.new()) :: ClassType
+	-- local self: ClassType = replicableInstanceClass.newLinkedToAClass(module, scannerSharedClass.new()) :: ClassType
 	local self = scannerSharedClass.new():AddInheritance(moduleClass)
 
 	if id then
@@ -33,7 +33,7 @@ function module.new(id: string | number?): ClassType
 end
 
 function module.AttachId(self: ClassType, id: string | number)
-	-- Chama o método shared do ReplicableInstance primeiro
+	-- Chama o método shared do ReplicableInstanceClass primeiro
 	scannerSharedClass.AttachId(self, id)
 
 	-- Lógica específica do servidor
@@ -41,7 +41,7 @@ function module.AttachId(self: ClassType, id: string | number)
 	return self
 end
 
-function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
+function module.Materialize(self: ClassType, info: replicableInstanceClass.MaterializeInfo)
 	local success = scannerSharedClass.Materialize(self, info)
 	if not success then
 		return self
@@ -87,17 +87,17 @@ function module.Active(self: ClassType, active: boolean?)
 end
 
 function module.ReplicateTo(self: ClassType, client: Player?)
-	local newScanner = lib.Remotes.instanceCreated.Scanner
+	local newScanner = lib.Remotes.instanceCreated
 
 	if client then
-		newScanner:FireClient(client, self.UID)
+		newScanner:FireClient(client, "Scanner", self.UID)
 
 		self.Remote:FireClient(client, self.UID, "AttachId", { self.Id })
 		self.Remote:FireClient(client, self.UID, "Materialize", { self.CFrame })
 
 		self.Remote:FireClient(client, self.UID, "Active", { self.isActivated })
 	else
-		newScanner:Fire(self.UID)
+		newScanner:Fire("Scanner", self.UID)
 
 		self.Remote:Fire(self.UID, "AttachId", { self.Id })
 		self.Remote:Fire(self.UID, "Materialize", { self.CFrame })

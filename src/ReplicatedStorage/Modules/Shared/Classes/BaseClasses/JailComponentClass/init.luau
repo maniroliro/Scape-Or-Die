@@ -6,13 +6,13 @@ local signal = lib.ModuleUtils.Signal
 local zone = lib.ModuleUtils.Zone
 
 local sharedModules = replicatedStorage.Modules.Shared
-local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
+local replicableInstanceClass = require(sharedModules.Classes.BaseClasses.ReplicableInstanceClass)
 local livingClass = require(sharedModules.Classes.BaseClasses.LivingClass)
 
 local module = {}
-local moduleClass = replicableInstance:newFromThis(module):AddInheritance(livingClass):ExtendType("JailComponent")
+local moduleClass = replicableInstanceClass:newFromThis(module):AddInheritance(livingClass):ExtendType("JailComponent")
 
-export type ClassType = replicableInstance.ClassType & typeof(moduleClass) & {
+export type ClassType = replicableInstanceClass.ClassType & typeof(moduleClass) & {
 	--CanBeBroken: boolean,
 	CanBeFaked: boolean,
 
@@ -25,14 +25,14 @@ export type ClassType = replicableInstance.ClassType & typeof(moduleClass) & {
 }
 
 function module.new(UID: string?): ClassType
-	local self = replicableInstance.new(UID):AddInheritance(livingClass.new()):AddInheritance(moduleClass)
-	--local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID)) :: ClassType
+	local self = replicableInstanceClass.new(UID):AddInheritance(livingClass.new()):AddInheritance(moduleClass)
+	--local self = replicableInstanceClass.newLinkedToAClass(module, replicableInstanceClass.new(UID)) :: ClassType
 
 	return self
 end
 
 function module.AttachId(self: ClassType, id: number)
-	local sucess = replicableInstance.AttachId(self, id)
+	local sucess = replicableInstanceClass.AttachId(self, id)
 	if not sucess then
 		return false
 	end
@@ -46,8 +46,8 @@ function module.AttachId(self: ClassType, id: number)
 	return self
 end
 
-function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
-	local success = replicableInstance.Materialize(self, info)
+function module.Materialize(self: ClassType, info: replicableInstanceClass.MaterializeInfo)
+	local success = replicableInstanceClass.Materialize(self, info)
 	if not success then
 		return false
 	end

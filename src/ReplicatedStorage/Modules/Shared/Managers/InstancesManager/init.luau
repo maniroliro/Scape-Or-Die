@@ -6,6 +6,8 @@ export type genericObjType = {
 	Destroying: boolean?,
 } & { [string]: any } & objectTypeUtil.ClassType
 
+export type InstanceArgsType = string | genericObjType
+
 local module = {}
 module.Trove = trove.new()
 module.objsCreated = {
@@ -53,40 +55,71 @@ function module.removeObj(UID: string)
 	module.Trove:Remove(obj)
 end
 
-function module.getObj(UID: string)
+local function _getObjByUID(UID: string): genericObjType?
 	return module.objsCreated.ToReplicate[UID] or module.objsCreated.NotToReplicate[UID]
 end
 
-local function findInTab(tab: { [any]: any }, info: { [any]: any })
-	for k, v in info do
-		if tab[k] ~= v then
-			return false
+function module.getObj(instanceOrUID: InstanceArgsType): genericObjType?
+	local typeI = type(instanceOrUID)
+	if typeI == "table" then
+		local uid = (instanceOrUID :: any).UID
+		if uid then
+			return instanceOrUID :: any
 		end
+	elseif typeI == "string" then
+		return _getObjByUID(instanceOrUID :: any)
 	end
-	return true
+	return nil
 end
 
-function module.FindInstanceWithKeys(info: { [any]: any }, replicable: boolean?)
+-- local function findInTab(tab: { [any]: any }, info: { [any]: any })
+-- 	if type(tab) ~= "table" then
+-- 		return nil
+-- 	end
+-- 	for k, v in info do
+-- 		if tab[k] ~= v then
+-- 			return nil
+-- 		end
+-- 	end
+-- 	return true
+-- end
+
+function module.isInstanceInWhich(uid: InstanceArgsType, callback: (instanceTab: { [any]: any }) -> boolean)
+	local instance = module.getObj(uid)
+	if not instance then
+		return false
+	end
+
+	return callback(instance) and instance or false
+end
+
+function module.FindFirstInstanceInWhich(callback: (instanceTab: { [any]: any }) -> boolean, replicable: boolean?)
 	local tabToFind = (replicable == true and module.objsCreated.ToReplicate)
 		or (replicable == false and module.objsCreated.NotToReplicate)
 		or nil
+	print(tabToFind)
 	if tabToFind then
 		for _, tab in tabToFind do
-			if findInTab(tab, info) then
+			if callback(tab) then
 				return tab
 			end
 		end
 	else
+		print("")
 		for _, tab in module.objsCreated.ToReplicate do
-			if findInTab(tab, info) then
+			print("bbbbbbbbbbbbbbbbbbb", tab.ControlledBy == game.Players.LocalPlayer and tab)
+			if callback(tab) then
 				return tab
 			end
 		end
+		print("")
 		for _, tab in module.objsCreated.NotToReplicate do
-			if findInTab(tab, info) then
+			print("bbbbbbbbbbbbbbbbbbb", tab.ControlledBy == game.Players.LocalPlayer and tab)
+			if callback(tab) then
 				return tab
 			end
 		end
+		print("")
 	end
 
 	return nil

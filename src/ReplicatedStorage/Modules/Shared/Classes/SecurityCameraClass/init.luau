@@ -2,19 +2,19 @@ local replicatedStorage = game:GetService("ReplicatedStorage")
 local collectionService = game:GetService("CollectionService")
 
 local sharedModules = replicatedStorage.Modules.Shared
-local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
+local replicableInstanceClass = require(sharedModules.Classes.BaseClasses.ReplicableInstanceClass)
 
 local directoryFolder = replicatedStorage.Directory
 
 local securityCamerasDirectory = require(directoryFolder.SecurityCameras)
 
--- local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
--- module._Type = replicableInstance.ExtendType("SecurityCamera")
+-- local module = setmetatable({}, { __index = replicableInstanceClass }) --:: & replicableInstanceClass.ClassType
+-- module._Type = replicableInstanceClass.ExtendType("SecurityCamera")
 
 local module = {}
-local moduleClass = replicableInstance:newFromThis(module):ExtendType("SecurityCamera")
+local moduleClass = replicableInstanceClass:newFromThis(module):ExtendType("SecurityCamera")
 
-export type ClassType = replicableInstance.ClassType & securityCamerasDirectory.Type & typeof(moduleClass) & {
+export type ClassType = replicableInstanceClass.ClassType & securityCamerasDirectory.Type & typeof(moduleClass) & {
 	isActivated: boolean,
 
 	AttachedToWall: BasePart,
@@ -24,13 +24,13 @@ export type ClassType = replicableInstance.ClassType & securityCamerasDirectory.
 }
 
 function module.new(UID: string?): ClassType
-	-- local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID)) :: ClassType
-	local self = replicableInstance.new(UID):AddInheritance(moduleClass)
+	-- local self = replicableInstanceClass.newLinkedToAClass(module, replicableInstanceClass.new(UID)) :: ClassType
+	local self = replicableInstanceClass.new(UID):AddInheritance(moduleClass)
 	return self
 end
 
 function module.Materialize(self: ClassType, wallUID: string)
-	local success = replicableInstance.Materialize(self, wallUID)
+	local success = replicableInstanceClass.Materialize(self, wallUID)
 	if not success then
 		return false
 	end

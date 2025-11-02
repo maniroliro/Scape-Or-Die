@@ -9,27 +9,15 @@ local charUtil = lib.FunctionUtils.Character
 
 local sharedModules = replicatedStorage.Modules.Shared
 
--- local gameCharacterSharedClass = require(sharedModules.Classes.BaseClasses.GameCharacterClass)
-local gameCharacterClass = require(serverStorage.Modules.Classes.BaseClasses.GameCharacter)
 local prisonerSharedClass = require(sharedModules.Classes.PrisonerClass)
 
 local module = {}
 local moduleClass = prisonerSharedClass:newFromThis(module)
 
-export type ClassType = prisonerSharedClass.ClassType & gameCharacterClass.ClassType & typeof(moduleClass) & {}
+export type ClassType = prisonerSharedClass.ClassType & typeof(moduleClass) & {}
 
 function module.new(UID: string?): ClassType
 	local self = prisonerSharedClass.new(UID):AddInheritance(moduleClass)
-
-	return self
-end
-
-function module.ReplicateTo(self: ClassType, client: Player?)
-	-- local newPrisoner = lib.Remotes.instanceCreated
-	-- if client then
-	-- else
-	-- end
-	gameCharacterClass.ReplicateTo(self, client)
 
 	return self
 end

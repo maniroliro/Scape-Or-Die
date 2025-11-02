@@ -8,7 +8,7 @@ local charUtil = lib.FunctionUtils.Character
 
 local sharedModules = replicatedStorage.Modules.Shared
 
-local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
+local replicableInstanceClass = require(sharedModules.Classes.BaseClasses.ReplicableInstanceClass)
 local instancesManager = require(sharedModules.Managers.InstancesManager)
 
 local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
@@ -18,13 +18,13 @@ local directoryFolder = replicatedStorage.Directory
 local itemsDirectory = require(directoryFolder.Items)
 local itemsFunctionDirectory = require(replicatedStorage.Directory.ItemsFunction)
 
--- local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
--- module._Type = replicableInstance.ExtendType("Item")
+-- local module = setmetatable({}, { __index = replicableInstanceClass }) --:: & replicableInstanceClass.ClassType
+-- module._Type = replicableInstanceClass.ExtendType("Item")
 
 local module = {}
-local moduleClass = replicableInstance:newFromThis(module):ExtendType("Item")
+local moduleClass = replicableInstanceClass:newFromThis(module):ExtendType("Item")
 
-export type ClassType = itemsDirectory.Type & replicableInstance.ClassType & typeof(moduleClass) & {
+export type ClassType = itemsDirectory.Type & replicableInstanceClass.ClassType & typeof(moduleClass) & {
 	Model: Model, -- typeof(itemsDirectory.directoryFolder["00 _ Template"].Mo),
 	PlayerOwner: Player?,
 	CFrame: CFrame?,
@@ -38,8 +38,8 @@ export type ClassType = itemsDirectory.Type & replicableInstance.ClassType & typ
 }
 
 function module.new(UID: string?): ClassType
-	-- local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID)) :: ClassType
-	local self = replicableInstance.new(UID):AddInheritance(moduleClass)
+	-- local self = replicableInstanceClass.newLinkedToAClass(module, replicableInstanceClass.new(UID)) :: ClassType
+	local self = replicableInstanceClass.new(UID):AddInheritance(moduleClass)
 	self.equipped = false
 	self.InstantiatedToChanged = self.Trove:Construct(signal)
 
@@ -47,7 +47,7 @@ function module.new(UID: string?): ClassType
 end
 
 function module.AttachId(self: ClassType, id: number)
-	local sucess = replicableInstance.AttachId(self, id)
+	local sucess = replicableInstanceClass.AttachId(self, id)
 	if not sucess then
 		return false
 	end
@@ -55,7 +55,7 @@ function module.AttachId(self: ClassType, id: number)
 	return self
 end
 
-function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
+function module.Materialize(self: ClassType, info: replicableInstanceClass.MaterializeInfo)
 	info = (info or {} :: any)
 	if runService:IsClient() then
 		info.Suffix = "Client"
@@ -63,7 +63,7 @@ function module.Materialize(self: ClassType, info: replicableInstance.Materializ
 		info.Suffix = "Server"
 	end
 
-	local success = replicableInstance.Materialize(self, info)
+	local success = replicableInstanceClass.Materialize(self, info)
 	if not success then
 		return false
 	end
@@ -442,7 +442,7 @@ end
 
 function module.Destroy(self: ClassType)
 	self:InstantiateTo(nil)
-	replicableInstance.Destroy(self)
+	replicableInstanceClass.Destroy(self)
 	return true
 end
 

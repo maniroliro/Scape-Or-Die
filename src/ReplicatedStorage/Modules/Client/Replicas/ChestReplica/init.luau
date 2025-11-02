@@ -7,7 +7,7 @@ local lib = require(replicatedStorage:WaitForChild("lib"))
 local clientModules = replicatedStorage.Modules.Client
 local sharedModules = replicatedStorage.Modules.Shared
 
-local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
+local replicableInstanceClass = require(sharedModules.Classes.BaseClasses.ReplicableInstanceClass)
 local instancesManager = require(sharedModules.Managers.InstancesManager)
 
 local spring = lib.ModuleUtils.Spring
@@ -31,93 +31,150 @@ export type ClassType = chestSharedClass.ClassType & typeof(moduleClass) & {
 	DrawerSpring: typeof(spring.new()),
 	DrawerPivotPosition: Vector3,
 	ProximityPrompt: ProximityPrompt,
-	ChestOpenByLocalPlayer: boolean,
 	WasMenuAlreadyActivated: boolean?,
 
+	SpringConnection: RBXScriptConnection?,
 	CloseDisplayButtonConnection: RBXScriptConnection?,
 	MouseBehaviorConnection: RBXScriptConnection?,
 }
 
 function module.new(UID: string)
-	-- local self: ClassType = replicableInstance.newLinkedToAClass(module, chestSharedClass.new(UID)) :: ClassType
+	-- local self: ClassType = replicableInstanceClass.newLinkedToAClass(module, chestSharedClass.new(UID)) :: ClassType
 	local self = chestSharedClass.new(UID):AddInheritance(moduleClass)
 	self.ItemsInside = {
 		DeskContents = {},
 		HiddenContents = {},
 	}
-	self.ChestOpenByLocalPlayer = false
 
 	return self
 end
 
-function module.OpenChest(self: ClassType)
-	if self.ChestOpenByLocalPlayer then
-		return self
+function module.OpenChest(self: ClassType, prisonerUID: string)
+	local instance = instancesManager.isInstanceInWhich(prisonerUID, function(tab)
+		return tab:IsA("GameCharacter")
+	end)
+	if not instance then
+		return false
 	end
-
-	local success = chestSharedClass.OpenChest(self, localplayer)
+	local success = chestSharedClass.OpenChest(self, prisonerUID)
 	if not success then
 		return self
 	end
-	self.ChestOpenByLocalPlayer = true
 
-	self.Display.Name = "Chest"
-	self.Display.Visible = true
-	self.ProximityPrompt.Enabled = false
+	if instance.ControlledBy == localplayer then
+		self.Display.Name = "Chest"
+		self.Display.Visible = true
+		self.ProximityPrompt.Enabled = false
 
-	--self.DisplayTab.Visible = true
+		--self.DisplayTab.Visible = true
 
-	self.WasMenuAlreadyActivated = menuUiManager.isMenuActivated
-	menuUiManager.tabSystem.toggleTabActive("Chest")
-	menuUiManager.ActiveMenu()
+		self.WasMenuAlreadyActivated = menuUiManager.isMenuActivated
+		menuUiManager.tabSystem.toggleTabActive("Chest")
+		menuUiManager.ActiveMenu()
 
-	print("unlocking mouse")
-	userInputService.MouseBehavior = Enum.MouseBehavior.Default
+		print("unlocking mouse")
+		userInputService.MouseBehavior = Enum.MouseBehavior.Default
 
-	if not self.CloseDisplayButtonConnection then
-		self.CloseDisplayButtonConnection =
-			self.Trove:Add((localplayer.PlayerGui.Menu.Frame.Modal :: GuiButton).Activated:Connect(function()
-				print("Close button clicked")
-				self:CloseChest()
-			end))
+		if not self.CloseDisplayButtonConnection then
+			self.CloseDisplayButtonConnection =
+				self.Trove:Add((localplayer.PlayerGui.Menu.Frame.Modal :: GuiButton).Activated:Connect(function()
+					print("Close button clicked")
+					self:CloseChest()
+				end))
+		end
 	end
 
+	if self.SpringConnection then
+		self.SpringConnection:Disconnect()
+		self.SpringConnection = nil
+	end
+	self.SpringConnection = self.Trove:Add(runService.RenderStepped:Connect(function()
+		print("'''''")
+		local sprPos = self.DrawerSpring.Position
+		self.DrawerSpring.Damping = 0.4
+		self.DrawerSpring.Target = 40
+		if self.DrawerSpring:IsAtRest() then
+			self.DrawerSpring:Reset(40)
+			self.SpringConnection:Disconnect()
+			return
+		end
+		self.Model.Drawer:PivotTo(CFrame.new(self.DrawerPivotPosition) * CFrame.Angles(0, 0, math.rad(-sprPos)))
+
+		for _, a: Part in self.Model:GetChildren() do
+			pcall(function()
+				a.Color = Color3.fromRGB(50 + sprPos * 3, 50 + sprPos * 3, 50 + sprPos * 3)
+			end)
+		end
+	end))
 	return self
 end
 
 function module.CloseChest(self: ClassType)
-	if not self.ChestOpenByLocalPlayer then
-		return self
+	if not self.ChestOpen then
+		return false
 	end
-
-	local success = chestSharedClass.CloseChest(self, localplayer)
+	print(self.ChestOpen)
+	local instance = instancesManager.isInstanceInWhich(self.ChestOpen, function(tab)
+		return tab:IsA("GameCharacter")
+	end)
+	print(instance)
+	if not instance then
+		return false
+	end
+	print()
+	local success = chestSharedClass.CloseChest(self, instance)
 	if not success then
 		return self
 	end
-	self.ChestOpenByLocalPlayer = false
+	print(success)
 
-	self.Display.Name = self.UID
-	self.Display.Visible = false
-	self.ProximityPrompt.Enabled = true
+	if instance.ControlledBy == localplayer then
+		self.Display.Name = self.UID
+		self.Display.Visible = false
+		self.ProximityPrompt.Enabled = true
 
-	menuUiManager.tabSystem.toggleTabActive("Profile")
+		menuUiManager.tabSystem.toggleTabActive("Profile")
 
-	if not self.WasMenuAlreadyActivated then
-		menuUiManager.DisableMenu()
+		if not self.WasMenuAlreadyActivated then
+			menuUiManager.DisableMenu()
+		end
+
+		self.WasMenuAlreadyActivated = nil
+
+		print("locking mouse")
+		if self.CloseDisplayButtonConnection then
+			self.CloseDisplayButtonConnection:Disconnect()
+			self.CloseDisplayButtonConnection = nil
+		end
 	end
 
-	self.WasMenuAlreadyActivated = nil
-
-	print("locking mouse")
-	if self.CloseDisplayButtonConnection then
-		self.CloseDisplayButtonConnection:Disconnect()
-		self.CloseDisplayButtonConnection = nil
+	if self.SpringConnection then
+		self.SpringConnection:Disconnect()
+		self.SpringConnection = nil
 	end
+	self.SpringConnection = self.Trove:Add(runService.RenderStepped:Connect(function()
+		print("")
+		local sprPos = self.DrawerSpring.Position
+		self.DrawerSpring.Damping = 0.75
+		self.DrawerSpring.Target = 0
+		if self.DrawerSpring:IsAtRest() then
+			self.DrawerSpring:Reset(0)
+			self.SpringConnection:Disconnect()
+			return
+		end
+		self.Model.Drawer:PivotTo(CFrame.new(self.DrawerPivotPosition) * CFrame.Angles(0, 0, math.rad(-sprPos)))
+
+		for _, a: Part in self.Model:GetChildren() do
+			pcall(function()
+				a.Color = Color3.fromRGB(50 + sprPos * 3, 50 + sprPos * 3, 50 + sprPos * 3)
+			end)
+		end
+	end))
 
 	return self
 end
 
-function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
+function module.Materialize(self: ClassType, info: replicableInstanceClass.MaterializeInfo)
 	local success = chestSharedClass.Materialize(self, info)
 	if not success then
 		return self
@@ -144,51 +201,27 @@ function module.Materialize(self: ClassType, info: replicableInstance.Materializ
 	end))
 
 	self.Trove:Add(self.ProximityPrompt.Triggered:Connect(function()
-		self:OpenChest()
+		local gameChar = instancesManager.FindFirstInstanceInWhich(function(tab)
+			return tab:IsA("GameCharacter") and tab.ControlledBy == localplayer
+		end) --, true)
+		print("aaaaaaaaaaaaaa", gameChar)
+		self:TryToOpenChest(gameChar and gameChar.UID or nil)
 	end))
 
 	local maxDistanceToInteract = self.MaxDistanceToInteract or 8
 
 	self.Trove:Add(runService.RenderStepped:Connect(function()
+		if not self.ChestOpen then
+			return
+		end
 		local hrp = charUtils.getAlivePlayerRootPart(localplayer)
-		local sprPos = self.DrawerSpring.Position
 
 		if not hrp then
 			return
 		end
-		if (hrp.Position - self.Model.PrimaryPart.Position).Magnitude <= maxDistanceToInteract then
-			self.DrawerSpring.Damping = 0.4
-			self.DrawerSpring.Target = 40
-			if self.DrawerSpring:IsAtRest() then
-				self.DrawerSpring:Reset(40)
-				return
-			end
-			self.Model.Drawer:PivotTo(CFrame.new(self.DrawerPivotPosition) * CFrame.Angles(0, 0, math.rad(-sprPos)))
-
-			for _, a: Part in self.Model:GetChildren() do
-				pcall(function()
-					a.Color = Color3.fromRGB(50 + sprPos * 3, 50 + sprPos * 3, 50 + sprPos * 3)
-				end)
-			end
-		else
-			if self.ChestOpenByLocalPlayer then
-				self:CloseChest()
-				return
-			end
-
-			self.DrawerSpring.Damping = 0.75
-			self.DrawerSpring.Target = 0
-			if self.DrawerSpring:IsAtRest() then
-				self.DrawerSpring:Reset(0)
-				return
-			end
-			self.Model.Drawer:PivotTo(CFrame.new(self.DrawerPivotPosition) * CFrame.Angles(0, 0, math.rad(-sprPos)))
-
-			for _, a: Part in self.Model:GetChildren() do
-				pcall(function()
-					a.Color = Color3.fromRGB(50 + sprPos * 3, 50 + sprPos * 3, 50 + sprPos * 3)
-				end)
-			end
+		if (hrp.Position - self.Model.PrimaryPart.Position).Magnitude > maxDistanceToInteract then
+			self:CloseChest()
+			return
 		end
 	end))
 

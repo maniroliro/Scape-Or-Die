@@ -8,7 +8,7 @@ local charUtil = lib.FunctionUtils.Character
 local simpleZone = lib.ModuleUtils.Zone
 
 local sharedModules = replicatedStorage.Modules.Shared
-local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
+local replicableInstanceClass = require(sharedModules.Classes.BaseClasses.ReplicableInstanceClass)
 local securityCameraSharedClass = require(sharedModules.Classes.SecurityCameraClass)
 local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
 
@@ -33,7 +33,7 @@ export type ClassType = securityCameraSharedClass.ClassType & typeof(moduleClass
 }
 
 function module.new(id: string | number?): ClassType
-	-- local self = replicableInstance.newLinkedToAClass(module, securityCameraSharedClass.new()) :: ClassType
+	-- local self = replicableInstanceClass.newLinkedToAClass(module, securityCameraSharedClass.new()) :: ClassType
 	local self = securityCameraSharedClass.new():AddInheritance(moduleClass)
 	self.PlayersInTheArea = {}
 	self.AlreadyRotatedToOneSide = 0
@@ -61,7 +61,7 @@ function module.AttachCameraZone(self: ClassType, area: Part)
 	return self
 end
 
-function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
+function module.Materialize(self: ClassType, info: replicableInstanceClass.MaterializeInfo)
 	local wallUID = info.Model:GetAttribute("UID")
 	if not wallUID then
 		return false
@@ -283,10 +283,10 @@ function module.Active(self: ClassType, active: boolean?)
 end
 
 function module.ReplicateTo(self: ClassType, client: Player?)
-	local newItem = lib.Remotes.instanceCreated.SecurityCamera
+	local newItem = lib.Remotes.instanceCreated
 
 	if client then
-		newItem:FireClient(client, self.UID)
+		newItem:FireClient(client, "SecurityCamera", self.UID)
 
 		self.Remote:FireClient(client, self.UID, "AttachId", { self.Id })
 		self.Remote:FireClient(
@@ -297,7 +297,7 @@ function module.ReplicateTo(self: ClassType, client: Player?)
 		)
 		self.Remote:FireClient(client, self.UID, "Active", { self.isActivated })
 	else
-		newItem:Fire(self.UID)
+		newItem:Fire("SecurityCamera", self.UID)
 
 		self.Remote:Fire(self.UID, "AttachId", { self.Id })
 		self.Remote:Fire(self.UID, "Materialize", { self.AttachedToWall and self.AttachedToWall:GetAttribute("UID") })

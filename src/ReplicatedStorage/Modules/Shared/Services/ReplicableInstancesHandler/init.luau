@@ -23,8 +23,6 @@ function module.Init()
 end
 
 function module.Start()
-	local modules = {}
-
 	if runService:IsServer() then
 		module.Remote.OnServerEvent:Connect(function(plr, uid, funcName, args: { any })
 			local obj = instancesManager.getObj(uid)
@@ -46,18 +44,17 @@ function module.Start()
 			end
 		end))
 	else
-		for name, remote in instanceCreatedEventList do
-			local moduleName = name .. "Replica"
-			local moduleScript = ReplicasFolder:FindFirstChild(moduleName)
-			if moduleScript then
-				modules[name] = require(moduleScript)
+		local modules = {}
+		for _, replicaModule in ReplicasFolder:GetChildren() do
+			modules[replicaModule.Name] = require(replicaModule)
+		end
+		remotesList.instanceCreated.OnClientEvent:Connect(function(instanceType: string, UID: string)
+			if instancesManager.getObj(UID) then
+				return
 			end
-
-			remote.OnClientEvent:Connect(function(UID: string, ...)
-				if instancesManager.getObj(UID) then
-					return
-				end
-				modules[name].new(UID, ...)
+			local moduleName = instanceType .. "Replica"
+			local moduleScript = modules[moduleName].new(UID)
+			if moduleScript then
 				-- Flush any pending update calls that arrived before creation
 				local obj = instancesManager.getObj(UID)
 				local queue = pendingCalls[UID]
@@ -70,9 +67,36 @@ function module.Start()
 					end
 					pendingCalls[UID] = nil
 				end
-				--return true
-			end)
-		end
+			end
+		end)
+
+		-- for name, remote in instanceCreatedEventList do
+		-- 	local moduleName = name .. "Replica"
+		-- 	local moduleScript = ReplicasFolder:FindFirstChild(moduleName)
+		-- 	if moduleScript then
+		-- 		modules[name] = require(moduleScript)
+		-- 	end
+
+		-- 	remote.OnClientEvent:Connect(function(UID: string, ...)
+		-- 		if instancesManager.getObj(UID) then
+		-- 			return
+		-- 		end
+		-- 		modules[name].new(UID, ...)
+		-- 		-- Flush any pending update calls that arrived before creation
+		-- 		local obj = instancesManager.getObj(UID)
+		-- 		local queue = pendingCalls[UID]
+		-- 		if obj and queue then
+		-- 			for _, call in queue do
+		-- 				local funcName, args = call[1], call[2]
+		-- 				if obj[funcName] then
+		-- 					obj[funcName](obj, table.unpack(args or {}))
+		-- 				end
+		-- 			end
+		-- 			pendingCalls[UID] = nil
+		-- 		end
+		-- 		--return true
+		-- 	end)
+		-- end
 
 		module.Trove:Add(module.Remote.OnClientEvent:Connect(function(uid, funcName, args: { any })
 			local obj = instancesManager.getObj(uid)

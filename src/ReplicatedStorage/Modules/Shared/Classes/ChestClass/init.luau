@@ -4,18 +4,18 @@ local sharedModules = replicatedStorage.Modules.Shared
 
 local lib = require(replicatedStorage.lib)
 local t = lib.FunctionUtils.t
-local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
+local replicableInstanceClass = require(sharedModules.Classes.BaseClasses.ReplicableInstanceClass)
 local instancesManager = require(sharedModules.Managers.InstancesManager)
 
 local directoryFolder = replicatedStorage.Directory
 
 local chestDirectory = require(directoryFolder.Chests)
 
--- local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
--- module._Type = replicableInstance.ExtendType("Chest")
+-- local module = setmetatable({}, { __index = replicableInstanceClass }) --:: & replicableInstanceClass.ClassType
+-- module._Type = replicableInstanceClass.ExtendType("Chest")
 
 local module = {}
-local moduleClass = replicableInstance:newFromThis(module)
+local moduleClass = replicableInstanceClass:newFromThis(module)
 moduleClass:ExtendType("Chest")
 
 local Storages = {
@@ -36,45 +36,82 @@ export type ChestItems = {
 	HiddenContents: { string },
 }
 
-export type ClassType = & replicableInstance.ClassType & chestDirectory.Type & typeof(moduleClass) & {
+export type ClassType = & replicableInstanceClass.ClassType & chestDirectory.Type & typeof(moduleClass) & {
 	PlayerOwner: Player?,
 	CFrame: CFrame,
 	Model: Model, -- typeof(replicatedStorage.Assets.Directory.Chests["00 _ Template"].Model),
 	ItemsInside: ChestItems,
+	ChestOpen: string | boolean,
 }
 
 function module.new(UID: string?): ClassType
-	--local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID)) :: ClassType
-	local self = replicableInstance.new(UID):AddInheritance(moduleClass)
+	--local self = replicableInstanceClass.newLinkedToAClass(module, replicableInstanceClass.new(UID)) :: ClassType
+	local self = replicableInstanceClass.new(UID):AddInheritance(moduleClass)
 	self.ItemsInside = {
 		DeskContents = {},
 		HiddenContents = {},
 	}
+	self.ChestOpen = false
 
 	return self
 end
 
-function module.OpenChest(self: ClassType, plr: any)
-	instancesManager.FindInstanceWithKeys({ ClassName = "Prisoner", ControlledBy = "" })
-
-	if type(plr) ~= "table" or plr.ClassName ~= "Prisoner" or t.Player(plr.ControlledBy) then
+function module.OpenChest(self: ClassType, gameCharacter: instancesManager.InstanceArgsType)
+	local instance = instancesManager.getObj(gameCharacter)
+	if not instance then
 		return false
 	end
-
-	if not t.Player(plr) then
+	if not instance:IsA("GameCharacter") then
 		return false
 	end
-
-	plr:SetAttribute("ChestOpen", self.UID)
+	self.ChestOpen = instance.UID
+	instance:TryToOpenChest(self)
 	return self
 end
 
-function module.CloseChest(self: ClassType, plr: Player)
-	if not t.Player(plr) then
+function module.TryToOpenChest(self: ClassType, gameCharacter: instancesManager.InstanceArgsType)
+	if self.ChestOpen then
 		return false
 	end
+	print(gameCharacter)
 
-	plr:SetAttribute("ChestOpen", nil)
+	local instance = instancesManager.getObj(gameCharacter)
+	print()
+	if not instance then
+		return false
+	end
+	print()
+	if not instance:IsA("GameCharacter") then
+		return false
+	end
+	print()
+	if instance.ChestOpen then
+		return false
+	end
+	print()
+	self:OpenChest(gameCharacter)
+	return self
+end
+
+function module.CloseChest(self: ClassType, gameCharacter: instancesManager.InstanceArgsType)
+	print()
+	if not self.ChestOpen then
+		return false
+	end
+	print()
+
+	local instance = instancesManager.getObj(gameCharacter)
+	print()
+	if not instance then
+		return false
+	end
+	print()
+	if not instance:IsA("GameCharacter") then
+		return false
+	end
+	self.ChestOpen = false
+
+	instance:CloseChest()
 	return self
 end
 

@@ -11,7 +11,7 @@ local sharedModules = replicatedStorage.Modules.Shared
 local sharedClasses = sharedModules.Classes
 local itemSharedClass = require(sharedClasses.ItemClass)
 
-local replicableInstance = require(sharedClasses.BaseClasses.ReplicableInstance)
+local replicableInstanceClass = require(sharedClasses.BaseClasses.ReplicableInstanceClass)
 
 local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
 local inventoryServerUtil = require(serverStorage.Modules.Utils.InventoryUtilServer)
@@ -25,7 +25,7 @@ local moduleClass = itemSharedClass:newFromThis(module)
 export type ClassType = itemSharedClass.ClassType & typeof(moduleClass) & {}
 
 function module.new(id: string?): ClassType
-	-- local self: ClassType = replicableInstance.newLinkedToAClass(module, itemSharedClass.new()) :: ClassType
+	-- local self: ClassType = replicableInstanceClass.newLinkedToAClass(module, itemSharedClass.new()) :: ClassType
 	local self = itemSharedClass.new():AddInheritance(moduleClass)
 
 	if id then
@@ -35,7 +35,7 @@ function module.new(id: string?): ClassType
 end
 
 function module.AttachId(self: ClassType, itemId: number)
-	-- Chama o método shared do ReplicableInstance primeiro
+	-- Chama o método shared do ReplicableInstanceClass primeiro
 	itemSharedClass.AttachId(self, itemId)
 
 	-- Lógica específica do servidor
@@ -43,7 +43,7 @@ function module.AttachId(self: ClassType, itemId: number)
 	return self
 end
 
-function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
+function module.Materialize(self: ClassType, info: replicableInstanceClass.MaterializeInfo)
 	local success = itemSharedClass.Materialize(self, info)
 	if not success then
 		return self
@@ -223,20 +223,20 @@ function module.TryToUnequip(self: ClassType, plr: Player)
 end
 
 function module.ReplicateTo(self: ClassType, client: Player?)
-	local newItem = lib.Remotes.instanceCreated.Item
+	local newItem = lib.Remotes.instanceCreated
 
 	if client then
-		newItem:FireClient(client, self.UID)
+		newItem:FireClient(client, "Item", self.UID)
 
 		self.Remote:FireClient(client, self.UID, "AttachId", { self.Id })
-		self.Remote:FireClient(client, self.UID, "Materialize", {})
 		self.Remote:FireClient(client, self.UID, "InstantiateTo", { self.InstantiatedTo })
+		self.Remote:FireClient(client, self.UID, "Materialize", {})
 	else
-		newItem:Fire(self.UID)
+		newItem:Fire("Item", self.UID)
 
 		self.Remote:Fire(self.UID, "AttachId", { self.Id })
-		self.Remote:Fire(self.UID, "Materialize", {})
 		self.Remote:Fire(self.UID, "InstantiateTo", { self.InstantiatedTo })
+		self.Remote:Fire(self.UID, "Materialize", {})
 	end
 
 	return self

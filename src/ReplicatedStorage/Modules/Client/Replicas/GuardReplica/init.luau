@@ -3,7 +3,7 @@ local replicatedStorage = game:GetService("ReplicatedStorage")
 local lib = require(replicatedStorage.lib)
 
 local sharedModules = replicatedStorage.Modules.Shared
-local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
+local replicableInstanceClass = require(sharedModules.Classes.BaseClasses.ReplicableInstanceClass)
 local guardSharedClass = require(sharedModules.Classes.GuardClass)
 local gameCharacterReplica = require(replicatedStorage.Modules.Client.Replicas.GameCharacterReplica)
 

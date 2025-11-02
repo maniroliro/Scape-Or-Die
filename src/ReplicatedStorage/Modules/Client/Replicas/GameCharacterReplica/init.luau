@@ -5,7 +5,7 @@ local sharedModules = replicatedStorage.Modules.Shared
 local lib = require(replicatedStorage.lib)
 local t = lib.FunctionUtils.t
 local signal = lib.ModuleUtils.Signal
-local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
+local replicableInstanceClass = require(sharedModules.Classes.BaseClasses.ReplicableInstanceClass)
 local instancesManager = require(sharedModules.Managers.InstancesManager)
 
 local gameCharacterSharedClass = require(sharedModules.Classes.BaseClasses.GameCharacterClass)
@@ -16,8 +16,8 @@ local moduleClass = gameCharacterSharedClass:newFromThis(module)
 export type ClassType = typeof(moduleClass) & gameCharacterSharedClass.ClassType & {}
 
 function module.new(UID: string?): ClassType
-	local self = replicableInstance.new(UID):AddInheritance(moduleClass)
-	--local self = replicableInstance.newLinkedToAClass(module, gameCharacterSharedClass.new(UID))
+	local self = replicableInstanceClass.new(UID):AddInheritance(moduleClass)
+	--local self = replicableInstanceClass.newLinkedToAClass(module, gameCharacterSharedClass.new(UID))
 
 	return self
 end

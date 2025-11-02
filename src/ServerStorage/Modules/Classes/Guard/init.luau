@@ -11,7 +11,7 @@ local charUtil = lib.FunctionUtils.Character
 local signal = lib.ModuleUtils.Signal
 local getLegalPosition = lib.Utils.GetLegalPosition
 
-local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
+local replicableInstanceClass = require(sharedModules.Classes.BaseClasses.ReplicableInstanceClass)
 local instancesManager = require(sharedModules.Managers.InstancesManager)
 local guardSharedClass = require(sharedModules.Classes.GuardClass)
 local gameCharacterServerClass = require(serverStorage.Modules.Classes.BaseClasses.GameCharacter)
@@ -19,11 +19,11 @@ local gameCharacterServerClass = require(serverStorage.Modules.Classes.BaseClass
 local forbiddenAi = require(sharedModules.Packages.Forbidden.AI)
 local collisionGroupUtils = require(serverStorage.Modules.Utils.CollisionGroup)
 
--- local module = setmetatable({}, { __index = guardSharedClass }) --:: & replicableInstance.ClassType
+-- local module = setmetatable({}, { __index = guardSharedClass }) --:: & replicableInstanceClass.ClassType
 local module = {}
 local moduleClass = guardSharedClass:newFromThis(module)
 
-export type ClassType = guardSharedClass.ClassType & typeof(moduleClass) & {
+export type ClassType = guardSharedClass.ClassType & gameCharacterServerClass.ClassType & typeof(moduleClass) & {
 	--Character: Model?,
 	Head: BasePart?,
 	--ChasingPrisoner: Player?,
@@ -35,7 +35,7 @@ export type ClassType = guardSharedClass.ClassType & typeof(moduleClass) & {
 } -- & gameCharacterServerClass.ClassType
 
 function module.new(id: string | number?): ClassType
-	-- local self = replicableInstance.newLinkedToAClass(module, guardSharedClass.new()) :: ClassType
+	-- local self = replicableInstanceClass.newLinkedToAClass(module, guardSharedClass.new()) :: ClassType
 	local self = guardSharedClass.new():AddInheritance(moduleClass)
 	self.HealthChanged = self.Trove:Add(signal.new())
 
@@ -45,7 +45,7 @@ function module.new(id: string | number?): ClassType
 	return self
 end
 
-function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
+function module.Materialize(self: ClassType, info: replicableInstanceClass.MaterializeInfo)
 	local success = guardSharedClass.Materialize(self, info)
 	if not success then
 		return false
@@ -193,5 +193,25 @@ function module.StartWorking(self: ClassType)
 end
 
 function module:Destroy() end
+
+function module.ReplicateTo(self: ClassType, client: Player?)
+	local newGuard = lib.Remotes.instanceCreated
+
+	if client then
+		newGuard:FireClient(client, "Guard", self.UID)
+
+		self.Remote:FireClient(client, self.UID, "AttachId", { self.Id })
+		self.Remote:FireClient(client, self.UID, "Materialize", {})
+		self.Remote:FireClient(client, self.UID, "StartWorking", {})
+	else
+		newGuard:Fire("Guard", self.UID)
+
+		self.Remote:Fire(self.UID, "AttachId", { self.Id })
+		self.Remote:Fire(self.UID, "Materialize", {})
+		self.Remote:Fire(self.UID, "StartWorking", {})
+	end
+
+	return self
+end
 
 return module

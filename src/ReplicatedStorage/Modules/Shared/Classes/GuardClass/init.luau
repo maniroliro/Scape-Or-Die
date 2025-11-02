@@ -7,7 +7,7 @@ local lib = require(replicatedStorage.lib)
 local t = lib.FunctionUtils.t
 local signal = lib.ModuleUtils.Signal
 
-local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
+local replicableInstanceClass = require(sharedModules.Classes.BaseClasses.ReplicableInstanceClass)
 local instancesManager = require(sharedModules.Managers.InstancesManager)
 
 local gameCharacterSharedClass = require(sharedModules.Classes.BaseClasses.GameCharacterClass)
@@ -18,7 +18,7 @@ local gameCharacterClass: gameCharacterSharedClass.ClassType = runService:IsServ
 local directoryFolder = replicatedStorage.Directory
 local guardDirectory = require(directoryFolder.Guards)
 
-local module = {} --:: & replicableInstance.ClassType
+local module = {} --:: & replicableInstanceClass.ClassType
 local moduleClass = gameCharacterClass:newFromThis(module):ExtendType("Guard")
 
 export type ClassType = gameCharacterSharedClass.ClassType & guardDirectory.Type & typeof(moduleClass) & {
@@ -27,13 +27,13 @@ export type ClassType = gameCharacterSharedClass.ClassType & guardDirectory.Type
 
 function module.new(UID: string?): ClassType
 	local self = gameCharacterClass.new(UID):AddInheritance(moduleClass)
-	-- local self = replicableInstance.newLinkedToAClass(module, gameCharacterClass.new(UID)) :: ClassType
+	-- local self = replicableInstanceClass.newLinkedToAClass(module, gameCharacterClass.new(UID)) :: ClassType
 
 	return self
 end
 
 function module.AttachId(self: ClassType, id: number)
-	local sucess = replicableInstance.AttachId(self, id)
+	local sucess = replicableInstanceClass.AttachId(self, id)
 	if not sucess then
 		return false
 	end
@@ -44,12 +44,12 @@ function module.AttachId(self: ClassType, id: number)
 	return self
 end
 
-function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
+function module.Materialize(self: ClassType, info: replicableInstanceClass.MaterializeInfo)
 	if self.Character then
 		return false
 	end
 
-	local success = replicableInstance.Materialize(self, info)
+	local success = replicableInstanceClass.Materialize(self, info)
 	if not success then
 		return false
 	end

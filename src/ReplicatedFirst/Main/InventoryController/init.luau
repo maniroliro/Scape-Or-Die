@@ -9,7 +9,7 @@ local lib = require(replicatedStorage:WaitForChild("lib"))
 local remotes = lib.Remotes
 local inventoryUtilShared = require(sharedModules.Utils.InventoryUtilShared)
 local inventoryUtilClient = require(replicatedStorage.Modules.Client.Utils.InventoryUtilClient)
-local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
+local replicableInstanceClass = require(sharedModules.Classes.BaseClasses.ReplicableInstanceClass)
 local instanceManager = require(sharedModules.Managers.InstancesManager)
 
 local playerData = require(replicatedStorage.Modules.Client.PlayerData)

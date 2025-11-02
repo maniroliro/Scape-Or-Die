@@ -6,22 +6,22 @@ local charUtil = lib.FunctionUtils.Character
 
 local sharedModules = replicatedStorage.Modules.Shared
 
-local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
+local replicableInstanceClass = require(sharedModules.Classes.BaseClasses.ReplicableInstanceClass)
 local instancesManager = require(sharedModules.Managers.InstancesManager)
 
--- local module = setmetatable({}, { __index = replicableInstance }) --:: & replicableInstance.ClassType
--- module._Type = replicableInstance.ExtendType("Ground")
+-- local module = setmetatable({}, { __index = replicableInstanceClass }) --:: & replicableInstanceClass.ClassType
+-- module._Type = replicableInstanceClass.ExtendType("Ground")
 
 local module = {}
-local moduleClass = replicableInstance:newFromThis(module):ExtendType("Ground")
+local moduleClass = replicableInstanceClass:newFromThis(module):ExtendType("Ground")
 
-export type ClassType = replicableInstance.ClassType & typeof(moduleClass) & {
+export type ClassType = replicableInstanceClass.ClassType & typeof(moduleClass) & {
 	items: { [string]: CFrame },
 }
 
 function module.new(UID: string?): ClassType
-	-- local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID)) :: ClassType
-	local self = replicableInstance.new(UID):AddInheritance(moduleClass)
+	-- local self = replicableInstanceClass.newLinkedToAClass(module, replicableInstanceClass.new(UID)) :: ClassType
+	local self = replicableInstanceClass.new(UID):AddInheritance(moduleClass)
 	self.items = {}
 
 	return self

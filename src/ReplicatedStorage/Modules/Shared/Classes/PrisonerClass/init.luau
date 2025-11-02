@@ -16,7 +16,7 @@ local gameCharacterClass: gameCharacterSharedClass.ClassType = runService:IsServ
 local directoryFolder = replicatedStorage.Directory
 local prisonersDirectory = require(directoryFolder.Prisoners)
 
-local module = {} --:: & replicableInstance.ClassType
+local module = {} --:: & replicableInstanceClass.ClassType
 local moduleClass = gameCharacterClass:newFromThis(module):ExtendType("Prisoner")
 
 export type ClassType = prisonersDirectory.Type & gameCharacterSharedClass.ClassType & typeof(moduleClass) & {

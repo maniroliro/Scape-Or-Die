@@ -10,7 +10,7 @@ local charUtils = lib.FunctionUtils.Character
 local clientModules = replicatedStorage.Modules.Client
 local sharedModules = replicatedStorage.Modules.Shared
 
-local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
+local replicableInstanceClass = require(sharedModules.Classes.BaseClasses.ReplicableInstanceClass)
 local instancesManager = require(sharedModules.Managers.InstancesManager)
 
 local highlightSelectionUtil = require(clientModules.Utils.HighlightSelection)
@@ -30,13 +30,13 @@ export type ClassType = wallSharedClass.ClassType & typeof(moduleClass) & {
 }
 
 function module.new(UID: string)
-	-- local self: ClassType = replicableInstance.newLinkedToAClass(module, wallSharedClass.new(UID)) :: ClassType
+	-- local self: ClassType = replicableInstanceClass.newLinkedToAClass(module, wallSharedClass.new(UID)) :: ClassType
 	local self = wallSharedClass.new(UID):AddInheritance(moduleClass)
 
 	return self
 end
 
-function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
+function module.Materialize(self: ClassType, info: replicableInstanceClass.MaterializeInfo)
 	local success = wallSharedClass.Materialize(self, info)
 	if not success then
 		return self

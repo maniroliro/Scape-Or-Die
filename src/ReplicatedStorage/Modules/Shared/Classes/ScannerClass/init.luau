@@ -6,18 +6,18 @@ local sharedModules = replicatedStorage.Modules.Shared
 local lib = require(replicatedStorage.lib)
 local charUtil = lib.FunctionUtils.Character
 local t = lib.FunctionUtils.t
-local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
+local replicableInstanceClass = require(sharedModules.Classes.BaseClasses.ReplicableInstanceClass)
 
 local directoryFolder = replicatedStorage.Directory
 
 local inventorySharedUtil = require(sharedModules.Utils.InventoryUtilShared)
 local scannerDirectory = require(directoryFolder.Scanners)
 
--- local module = setmetatable({}, { __index = replicableInstance })
--- module._Type = replicableInstance.ExtendType("Scanner")
+-- local module = setmetatable({}, { __index = replicableInstanceClass })
+-- module._Type = replicableInstanceClass.ExtendType("Scanner")
 
 local module = {}
-local moduleClass = replicableInstance:newFromThis(module):ExtendType("Scanner")
+local moduleClass = replicableInstanceClass:newFromThis(module):ExtendType("Scanner")
 
 local function clampLevel(n: number): number
 	return math.clamp(n, 0, 3)
@@ -44,7 +44,7 @@ local alertingSettings = {
 	},
 }
 
-export type ClassType = replicableInstance.ClassType & scannerDirectory.Type & typeof(moduleClass) & {
+export type ClassType = replicableInstanceClass.ClassType & scannerDirectory.Type & typeof(moduleClass) & {
 	isActivated: boolean,
 	DetectionArea: Part,
 	CFrame: CFrame,
@@ -56,8 +56,8 @@ export type ClassType = replicableInstance.ClassType & scannerDirectory.Type & t
 }
 
 function module.new(UID: string?): ClassType
-	-- local self = replicableInstance.newLinkedToAClass(module, replicableInstance.new(UID)) :: ClassType
-	local self = replicableInstance.new(UID):AddInheritance(moduleClass)
+	-- local self = replicableInstanceClass.newLinkedToAClass(module, replicableInstanceClass.new(UID)) :: ClassType
+	local self = replicableInstanceClass.new(UID):AddInheritance(moduleClass)
 	self.AlertLevel = 0
 	self.PlayersAlerting = {}
 	self.isActivated = false
@@ -65,8 +65,8 @@ function module.new(UID: string?): ClassType
 	return self
 end
 
-function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
-	local success = replicableInstance.Materialize(self, info)
+function module.Materialize(self: ClassType, info: replicableInstanceClass.MaterializeInfo)
+	local success = replicableInstanceClass.Materialize(self, info)
 	if not success then
 		return false
 	end

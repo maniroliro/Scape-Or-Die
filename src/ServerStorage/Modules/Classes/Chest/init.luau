@@ -1,4 +1,5 @@
 local replicatedStorage = game:GetService("ReplicatedStorage")
+local serverStorage = game:GetService("ServerStorage")
 local runService = game:GetService("RunService")
 
 local sharedModules = replicatedStorage.Modules.Shared
@@ -6,7 +7,7 @@ local sharedModules = replicatedStorage.Modules.Shared
 local lib = require(replicatedStorage.lib)
 local t = lib.FunctionUtils.t
 
-local replicableInstance = require(sharedModules.Classes.BaseClasses.ReplicableInstance)
+local replicableInstanceClass = require(replicatedStorage.Modules.Shared.Classes.BaseClasses.ReplicableInstanceClass)
 local instancesManager = require(sharedModules.Managers.InstancesManager)
 local charUtils = lib.FunctionUtils.Character
 
@@ -22,7 +23,7 @@ export type ClassType = chestSharedClass.ClassType & typeof(moduleClass) & {
 }
 
 function module.new(id: string | number?): ClassType
-	-- local self = replicableInstance.newLinkedToAClass(module, chestSharedClass.new()) :: ClassType
+	-- local self = replicableInstanceClass.newLinkedToAClass(module, chestSharedClass.new()) :: ClassType
 	local self = chestSharedClass.new():AddInheritance(moduleClass)
 	self.PlayersSearching = {}
 
@@ -33,7 +34,7 @@ function module.new(id: string | number?): ClassType
 end
 
 function module.AttachId(self: ClassType, id: string | number)
-	-- Chama o método shared do ReplicableInstance primeiro
+	-- Chama o método shared do ReplicableInstanceClass primeiro
 	chestSharedClass.AttachId(self, id)
 
 	-- Lógica específica do servidor
@@ -196,8 +197,8 @@ function module.playerEndedHoldingProximityPrompt(self: ClassType, plr: Player)
 	return self
 end
 
-function module.Materialize(self: ClassType, info: replicableInstance.MaterializeInfo)
-	-- Chama o método shared do ReplicableInstance primeiro
+function module.Materialize(self: ClassType, info: replicableInstanceClass.MaterializeInfo)
+	-- Chama o método shared do ReplicableInstanceClass primeiro
 	local success = chestSharedClass.Materialize(self, info)
 	if not success then
 		return self
@@ -211,15 +212,15 @@ function module.Materialize(self: ClassType, info: replicableInstance.Materializ
 end
 
 function module.ReplicateTo(self: ClassType, client: Player?)
-	local newchest = lib.Remotes.instanceCreated.Chest
+	local newchest = lib.Remotes.instanceCreated
 	if client then
-		newchest:FireClient(client, self.UID)
+		newchest:FireClient(client, "Chest", self.UID)
 
 		self.Remote:FireClient(client, self.UID, "AttachId", { self.Id })
 		self.Remote:FireClient(client, self.UID, "SetOwner", { self.PlayerOwner })
 		self.Remote:FireClient(client, self.UID, "Materialize", { self.CFrame })
 	else
-		newchest:Fire(self.UID)
+		newchest:Fire("Chest", self.UID)
 		self.Remote:Fire(self.UID, "AttachId", { self.Id })
 		self.Remote:Fire(self.UID, "SetOwner", { self.PlayerOwner })
 		self.Remote:Fire(self.UID, "Materialize", { self.CFrame })
